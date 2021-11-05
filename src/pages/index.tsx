@@ -18,8 +18,8 @@ const getCommits = async () => {
   return dtjs
 }
 
-const getCommitInfo = async (data) => {
-  const commits = data.map(async (commit) => {
+const getCommitInfo = async (data: any) => {
+  const commits = data.map(async (commit: any) => {
     try {
       return await fetch(
         `https://api.github.com/repos/org-roam/org-roam-ui/git/commits/${commit}`,
@@ -52,7 +52,15 @@ const Index = () => {
     return () => {}
   }, [])
 
-  //  const enumdata =
+  const enumdata = data?.commits?.map((commit: any) => {
+    return (
+      <Flex justifyContent="space-between" key={commit.sha} width="80% ">
+        <Text>{commit.commit.message}</Text>
+        <Text>{commit.commit.author.date}</Text>
+        <Text>{commit.sha}</Text>
+      </Flex>
+    )
+  })
   return (
     <Container height="100vh">
       <Hero title="Somehow a philosophy thesis" />
@@ -60,15 +68,7 @@ const Index = () => {
         <Text>Testing fetching</Text>
       </Main>
 
-      {data?.commits?.map((commit) => {
-        return (
-          <Flex justifyContent="space-between" key={commit.sha} width="80% ">
-            <Text>{commit.commit.message}</Text>
-            <Text>{commit.commit.author.date}</Text>
-            <Text>{commit.sha}</Text>
-          </Flex>
-        )
-      })}
+      {enumdata}
       <DarkModeSwitch />
       <Footer>
         <Text>Next ❤️ Chakra</Text>
