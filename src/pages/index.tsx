@@ -22,7 +22,7 @@ const getCommitInfo = async (data: any) => {
   const commits = data.map(async (commit: any) => {
     try {
       return await fetch(
-        `https://api.github.com/repos/org-roam/org-roam-ui/git/commits/${commit}`,
+        `https://api.github.com/repos/ThomasFKJorna/thesis-writings/git/commits/${commit.sha}`,
         {
           method: 'GET',
           headers: { Accept: 'application/vnd.github.v3+json' },
