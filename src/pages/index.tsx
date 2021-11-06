@@ -8,7 +8,7 @@ import {
   Flex,
   Button,
 } from '@chakra-ui/react'
-import { AxisOptions, Chart } from 'react-charts'
+import { AxisOptions, Chart, Datum } from 'react-charts'
 import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
 
 import { Hero } from '../components/Hero'
@@ -132,7 +132,7 @@ export interface CommitDatum {
 }
 
 const Index = () => {
-  const [data, setData] = useState(babyData)
+  const [data, setData] = useState<typeof babyData>()
   const [diffs, setDiffs] = useState<Diff>({ commit1: '', commit2: '' })
   const [comparison, setComparison] = useState('')
 
@@ -167,7 +167,13 @@ const Index = () => {
   }, [diffs])
 
   const commitChartData = useMemo(() => {
-    const adds = babyData.map((commit: any) => {
+    if (!data) {
+      return [
+        { label: 'Additions', data: [] },
+        { label: 'Deletions', data: [] },
+      ]
+    }
+    const adds = data.map((commit: any) => {
       return {
         message: commit.message,
         data: commit.stats.additions,
@@ -175,7 +181,7 @@ const Index = () => {
         id: commit.id,
       }
     })
-    const dels = babyData.map((commit: any) => {
+    const dels = data.map((commit: any) => {
       return {
         message: commit.message,
         data: commit.stats.deletions,
@@ -187,7 +193,7 @@ const Index = () => {
       { label: 'Additions', data: adds },
       { label: 'Deletions', data: dels },
     ]
-  }, [])
+  }, [data])
 
   const primaryAxis = useMemo(
     (): AxisOptions<CommitDatum> => ({
@@ -207,18 +213,31 @@ const Index = () => {
     [],
   )
 
-  const compareDiffs = (diff: string, commits: any) => {
+  const compareDiffs = (diff: string | undefined, commits: any) => {
     if (!diff) {
       setDiffs({ commit1: '', commit2: '' })
       return
     }
-    const commitList = commits.map((commit: any) => commit.sha)
+    const commitList = commits.map((commit: any) => commit.id)
+    // the gitlab api needs the commits to be in chronological order
+    // in order to compare the commits
     if (diffs?.commit1) {
-      setDiffs((curr: any) => ({ ...curr, commit2: diff }))
+      const compareObj =
+        commitList.indexOf(diff) > commitList.indexOf(diffs.commit1)
+          ? { commit1: diff, commit2: diffs.commit1 }
+          : { commit1: diffs.commit1, commit2: diff }
+      setDiffs(compareObj)
       return
     }
     setDiffs({ commit1: diff, commit2: '' })
     return
+  }
+  const clickDatumHandler = (
+    datum: Datum<CommitDatum> | null,
+    event: React.MouseEvent<SVGSVGElement, MouseEvent> | undefined,
+  ): void => {
+    console.log(datum)
+    compareDiffs(datum?.originalDatum?.id, datum?.originalSeries.data)
   }
 
   const enumdata = data?.map((commit: any) => {
@@ -239,7 +258,7 @@ const Index = () => {
     )
   })
   return (
-    <Container height="100vh">
+    <Container>
       <Hero title="Somehow a philosophy thesis" />
       <Main>
         <Text>Testing fetching</Text>
@@ -250,13 +269,18 @@ const Index = () => {
       <Container maxH={200} overflow="scroll" maxW="100vh">
         <Text>{comparison || 'Select some commits to see the comparison1'}</Text>
       </Container>
-      <Chart
-        options={{
-          primaryAxis: primaryAxis,
-          secondaryAxes: secondaryAxes,
-          data: commitChartData,
-        }}
-      />{' '}
+      <Container maxH="70vh">
+        {data && (
+          <Chart
+            options={{
+              primaryAxis: primaryAxis,
+              secondaryAxes: secondaryAxes,
+              data: commitChartData,
+              onClickDatum: clickDatumHandler,
+            }}
+          />
+        )}
+      </Container>
       <DarkModeSwitch />{' '}
     </Container>
   )
