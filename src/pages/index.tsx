@@ -7,6 +7,7 @@ import {
   ListItem,
   Flex,
   Button,
+  useColorMode,
 } from '@chakra-ui/react'
 import { AxisOptions, Chart, Datum } from 'react-charts'
 import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
@@ -257,6 +258,8 @@ const Index = () => {
       </Flex>
     )
   })
+
+  const { colorMode } = useColorMode()
   return (
     <Container>
       <Hero title="Somehow a philosophy thesis" />
@@ -277,11 +280,12 @@ const Index = () => {
               secondaryAxes: secondaryAxes,
               data: commitChartData,
               onClickDatum: clickDatumHandler,
+              dark: colorMode === 'dark',
             }}
           />
         )}
       </Container>
-      <DarkModeSwitch />{' '}
+      <DarkModeSwitch />
     </Container>
   )
 }
