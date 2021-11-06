@@ -11,9 +11,12 @@
     "@chakra-ui/theme-tools": "1.1.2",
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.1.5",
+    "diff": "^5.0.0",
     "framer-motion": "^4.0.3",
+    "isomorphic-git": "^1.10.1",
     "next": "latest",
     "react": "^17.0.2",
+    "react-charts": "^3.0.0-beta.33",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
