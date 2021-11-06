@@ -9,7 +9,7 @@ import {
   Button,
   useColorMode,
 } from '@chakra-ui/react'
-import { AxisOptions, Chart, Datum } from 'react-charts'
+import { AxisOptions, Chart, Datum, Series, UserSerie } from 'react-charts'
 import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
 
 import { Hero } from '../components/Hero'
@@ -89,7 +89,53 @@ const babyData = [
     },
   },
 ]
+const singleComm = {
+  id: '979651681530eb4d5381d4d6ff46b406c839a105',
+  short_id: '97965168',
+  created_at: '2021-11-04T14:51:34.000+01:00',
+  parent_ids: [],
+  title: 'Initial commit',
+  message: 'Initial commit',
+  author_name: 'Thomas F. K. Jorna',
+  author_email: 'hello@tefkah.com',
+  authored_date: '2021-11-04T14:51:34.000+01:00',
+  committer_name: 'GitHub',
+  committer_email: 'noreply@github.com',
+  committed_date: '2021-11-04T14:51:34.000+01:00',
+  trailers: {},
+  web_url:
+    'https://gitlab.com/ThomasFKJorna/thesis-writings/-/commit/979651681530eb4d5381d4d6ff46b406c839a105',
+  stats: {
+    additions: 276,
+    deletions: 0,
+    total: 276,
+  },
+}
+export interface Commit {
+  id: string
+  short_id: string
+  created_at: string
+  parent_ids: any[]
+  title: string
+  message: string
+  author_name: string
+  author_email: string
+  authored_date: string
+  committer_name: string
+  committer_email: string
+  committed_date: string
+  trailers: Trailers
+  web_url: string
+  stats: Stats
+}
 
+interface Stats {
+  additions: number
+  deletions: number
+  total: number
+}
+
+interface Trailers {}
 const getCommits = async () => {
   const dt = await fetch(
     'https://gitlab.com/api/v4/projects/thomasfkjorna%2fthesis-writings/repository/commits?with_stats=true',
@@ -98,7 +144,7 @@ const getCommits = async () => {
   return dtjs
 }
 
-const getCommitInfo = async (data: any) => {
+/* const getCommitInfo = async (data: any) => {
   const commits = data.map(async (commit: any) => {
     try {
       return await fetch(
@@ -111,14 +157,14 @@ const getCommitInfo = async (data: any) => {
   await Promise.all(commits)
   console.log(commits)
   return commits
-}
+} */
 
-const getBigData = async () => {
+/* const getBigData = async () => {
   const commits = await getCommits()
   const specificCommits = await getCommitInfo(commits)
 
   return { commits, specificCommits }
-}
+} */
 
 export interface Diff {
   commit1: string
@@ -133,7 +179,7 @@ export interface CommitDatum {
 }
 
 const Index = () => {
-  const [data, setData] = useState<typeof babyData>()
+  const [data, setData] = useState<Commit[]>()
   const [diffs, setDiffs] = useState<Diff>({ commit1: '', commit2: '' })
   const [comparison, setComparison] = useState('')
 
@@ -145,7 +191,7 @@ const Index = () => {
       })
     }
     return () => {}
-  }, [data])
+  }, [])
 
   useEffect(() => {
     if (diffs.commit1 && diffs.commit2) {
@@ -167,14 +213,14 @@ const Index = () => {
     }
   }, [diffs])
 
-  const commitChartData = useMemo(() => {
+  const commitChartData: UserSerie<CommitDatum>[] = useMemo(() => {
     if (!data) {
       return [
-        { label: 'Additions', data: [] },
-        { label: 'Deletions', data: [] },
+        { label: 'Additions', data: [], secondaryAxisId: '1' },
+        { label: 'Deletions', data: [], secondaryAxisId: '2' },
       ]
     }
-    const adds = data.map((commit: any) => {
+    const adds = data.map((commit: Commit): CommitDatum => {
       return {
         message: commit.message,
         data: commit.stats.additions,
@@ -182,17 +228,17 @@ const Index = () => {
         id: commit.id,
       }
     })
-    const dels = data.map((commit: any) => {
+    const dels = data.map((commit: Commit): CommitDatum => {
       return {
         message: commit.message,
-        data: commit.stats.deletions,
+        data: -commit.stats.deletions,
         date: commit.authored_date,
         id: commit.id,
       }
     })
     return [
       { label: 'Additions', data: adds },
-      { label: 'Deletions', data: dels },
+      { label: 'Deletions', data: dels, secondaryAxisId: '2' },
     ]
   }, [data])
 
@@ -200,6 +246,7 @@ const Index = () => {
     (): AxisOptions<CommitDatum> => ({
       getValue: (datum) => Date.parse(datum.date) as unknown as Date,
       scaleType: 'localTime',
+      showGrid: false,
     }),
     [],
   )
@@ -209,17 +256,28 @@ const Index = () => {
       {
         getValue: (datum) => datum.data,
         elementType: 'area',
+        showGrid: false,
+        show: false,
+      },
+      {
+        id: '2',
+        getValue: (datum) => datum.data,
+        elementType: 'area',
+        showGrid: false,
+        show: true,
+        scaleType: 'linear',
+        shouldNice: false,
       },
     ],
     [],
   )
 
-  const compareDiffs = (diff: string | undefined, commits: any) => {
+  const compareDiffs = (diff: string | undefined, commits: Commit[]) => {
     if (!diff) {
       setDiffs({ commit1: '', commit2: '' })
       return
     }
-    const commitList = commits.map((commit: any) => commit.id)
+    const commitList = commits.map((commit: Commit) => commit.id)
     // the gitlab api needs the commits to be in chronological order
     // in order to compare the commits
     if (diffs?.commit1) {
@@ -237,13 +295,15 @@ const Index = () => {
     datum: Datum<CommitDatum> | null,
     event: React.MouseEvent<SVGSVGElement, MouseEvent> | undefined,
   ): void => {
-    console.log(datum)
+    if (!datum) {
+      return
+    }
     compareDiffs(datum?.originalDatum?.id, datum?.originalSeries.data)
   }
 
-  const enumdata = data?.map((commit: any) => {
+  const enumdata = data?.map((commit: Commit) => {
     return (
-      <Flex h={50} justifyContent="space-between" key={commit.sha} width={500}>
+      <Flex h={50} justifyContent="space-between" key={commit.id} width={500}>
         <Text>{commit.message}</Text>
         <Text>{commit.created_at}</Text>
         <Text color="green.500">{commit.stats.additions}</Text>
@@ -261,30 +321,31 @@ const Index = () => {
 
   const { colorMode } = useColorMode()
   return (
-    <Container>
-      <Hero title="Somehow a philosophy thesis" />
+    <Container h="100vh">
+      <Hero title="My cool thesis" />
+
       <Main>
         <Text>Testing fetching</Text>
-      </Main>
-      <Container w={400} overflow="scroll">
+        {/*       <Container w={400} overflow="scroll">
         {enumdata}
-      </Container>
-      <Container maxH={200} overflow="scroll" maxW="100vh">
-        <Text>{comparison || 'Select some commits to see the comparison1'}</Text>
-      </Container>
-      <Container maxH="70vh">
-        {data && (
-          <Chart
-            options={{
-              primaryAxis: primaryAxis,
-              secondaryAxes: secondaryAxes,
-              data: commitChartData,
-              onClickDatum: clickDatumHandler,
-              dark: colorMode === 'dark',
-            }}
-          />
-        )}
-      </Container>
+      </Container> */}
+        <Container maxH={200} overflow="scroll" maxW="100vh">
+          <Text>{comparison || 'Select some commits to see the comparison1'}</Text>
+        </Container>
+        <Container h={200}>
+          {data && (
+            <Chart
+              options={{
+                primaryAxis: primaryAxis,
+                secondaryAxes: secondaryAxes,
+                data: commitChartData,
+                onClickDatum: clickDatumHandler,
+                dark: colorMode === 'dark',
+              }}
+            />
+          )}
+        </Container>
+      </Main>
       <DarkModeSwitch />
     </Container>
   )
