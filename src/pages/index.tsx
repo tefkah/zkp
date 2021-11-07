@@ -9,6 +9,7 @@ import {
   Button,
   useColorMode,
   Box,
+  Spinner,
 } from '@chakra-ui/react'
 import { ResponsiveLine } from '@nivo/line'
 import { BasicTooltip } from '@nivo/tooltip'
@@ -23,6 +24,9 @@ import { CTA } from '../components/CTA'
 import { Footer } from '../components/Footer'
 import React, { useEffect, useMemo, useState } from 'react'
 import { fetchDiff } from '../api/gitlab'
+import useSWR from 'swr'
+import useFetch from '../utils/useFetch'
+import fetcher from '../utils/fetcher'
 
 const babyData = [
   {
@@ -138,14 +142,6 @@ interface Stats {
   total: number
 }
 
-const getCommits = async () => {
-  const dt = await fetch(
-    'https://gitlab.com/api/v4/projects/thomasfkjorna%2fthesis-writing/repository/commits?with_stats=true&per_page=200',
-  )
-  const dtjs = await dt.json()
-  return dtjs
-}
-
 /* const getCommitInfo = async (data: any) => {
   const commits = data.map(async (commit: any) => {
     try {
@@ -180,20 +176,16 @@ export interface CommitDatum {
   id: string
 }
 
-const Index = () => {
-  const [data, setData] = useState<Commit[]>()
+const glCommits =
+  'https://gitlab.com/api/v4/projects/thomasfkjorna%2fthesis-writing/repository/commits?with_stats=true&per_page=200'
+
+const Index = (props: { [key: string]: string }) => {
+  //const [data, setData] = useState<Commit[]>()
   const [diffs, setDiffs] = useState<Diff>({ commit1: '', commit2: '' })
   const [comparison, setComparison] = useState('')
 
-  useEffect(() => {
-    if (!data) {
-      getCommits().then((res) => {
-        console.log(res)
-        setData(res)
-      })
-    }
-    return () => {}
-  }, [])
+  const { commits } = props
+  const { data, isLoading } = useFetch(glCommits, { fallback: commits })
 
   useEffect(() => {
     if (diffs.commit1 && diffs.commit2) {
@@ -216,7 +208,7 @@ const Index = () => {
   }, [diffs])
 
   const commitChartData = useMemo(() => {
-    if (!data) {
+    if (isLoading) {
       return [
         { id: 'Additions', data: [], secondaryAxisId: '1' },
         { id: 'Deletions', data: [], secondaryAxisId: '2' },
@@ -243,36 +235,6 @@ const Index = () => {
       { id: 'Deletions', data: dels },
     ]
   }, [data])
-
-  /*   const primaryAxis = useMemo(
-    (): AxisOptions<CommitDatum> => ({
-      getValue: (datum) => Date.parse(datum.date) as unknown as Date,
-      scaleType: 'localTime',
-      showGrid: false,
-    }),
-    [],
-  )
-
-  const secondaryAxes = useMemo(
-    (): AxisOptions<CommitDatum>[] => [
-      {
-        getValue: (datum) => datum.data,
-        elementType: 'area',
-        showGrid: false,
-        show: false,
-      },
-      {
-        id: '2',
-        getValue: (datum) => datum.data,
-        elementType: 'area',
-        showGrid: false,
-        show: false,
-        scaleType: 'linear',
-        shouldNice: false,
-      },
-    ],
-    [],
-  ) */
 
   const compareDiffs = (diff: string | undefined, commits: Commit[] | undefined = data) => {
     if (!commits || !diff) {
@@ -322,7 +284,7 @@ const Index = () => {
 
   const { colorMode } = useColorMode()
   return (
-    <Container h="100vh">
+    <Container h="100vh" overflow="scroll">
       <Hero title="My cool thesis" />
 
       <Main>
@@ -334,7 +296,9 @@ const Index = () => {
           <Text>{comparison || 'Select some commits to see the comparison1'}</Text>
         </Container>
         <Container h={200}>
-          {data && (
+          {isLoading ? (
+            <Spinner />
+          ) : (
             <ResponsiveLine
               data={commitChartData}
               //xFormat={(x) => format(x, 'MMMM dd')}
@@ -373,7 +337,6 @@ const Index = () => {
                         <Text fontSize={12} color="red.500">{`- ${Math.abs(del.y)}`}</Text>
                       </Box>
                     }
-                    // enableChip={true}
                   ></BasicTooltip>
                 )
               }}
@@ -385,4 +348,13 @@ const Index = () => {
     </Container>
   )
 }
+
 export default Index
+
+// Next.js pre-renders a page on each request if async `getServerSideProps` is exported from that page.
+// 👀 https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering
+export async function getServerSideProps() {
+  const commits = await fetcher(glCommits)
+
+  return { props: { commits } }
+}
