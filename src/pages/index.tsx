@@ -173,8 +173,8 @@ export interface Diff {
 
 export interface CommitDatum {
   message: string
-  data: number
-  date: string
+  y: number
+  x: string
   id: string
 }
 
@@ -216,8 +216,8 @@ const Index = () => {
   const commitChartData = useMemo(() => {
     if (!data) {
       return [
-        { label: 'Additions', data: [], secondaryAxisId: '1' },
-        { label: 'Deletions', data: [], secondaryAxisId: '2' },
+        { id: 'Additions', data: [], secondaryAxisId: '1' },
+        { id: 'Deletions', data: [], secondaryAxisId: '2' },
       ]
     }
     const adds = data.map((commit: Commit): CommitDatum => {
@@ -273,7 +273,7 @@ const Index = () => {
   ) */
 
   const compareDiffs = (diff: string | undefined, commits: Commit[] | undefined = data) => {
-    if (!data || !diff) {
+    if (!commits || !diff) {
       setDiffs({ commit1: '', commit2: '' })
       return
     }
@@ -291,13 +291,12 @@ const Index = () => {
     setDiffs({ commit1: diff, commit2: '' })
     return
   }
-  const clickDatumHandler = (
-    datum: Datum<CommitDatum> | null,
-    event: React.MouseEvent<SVGSVGElement, MouseEvent> | undefined,
-  ): void => {
-    if (!datum) {
+  const onClickHandler = (point: any, event: any): void => {
+    if (!point) {
       return
     }
+    const data = point?.data as unknown as CommitDatum
+    compareDiffs(data?.id!)
     // compareDiffs(datum?.originalDatum?.id, datum?.originalSeries.data)
   }
 
@@ -336,7 +335,7 @@ const Index = () => {
           {data && (
             <ResponsiveLine
               data={commitChartData}
-              xFormat={(x) => format(parseISO(x), 'MMMM dd')}
+              xFormat={(x) => format(parseISO(x as string), 'MMMM dd')}
               isInteractive
               useMesh
               curve="natural"
@@ -345,9 +344,7 @@ const Index = () => {
               enableGridY={false}
               yScale={{ min: -500, max: 'auto', type: 'linear' }}
               enableCrosshair={false}
-              onClick={(point, event) => {
-                compareDiffs(point?.data?.id)
-              }}
+              onClick={onClickHandler}
             />
           )}
         </Container>
