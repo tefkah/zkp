@@ -37,7 +37,7 @@ const babyData = [
     committed_date: '2021-11-04T15:14:35.000+01:00',
     trailers: {},
     web_url:
-      'https://gitlab.com/ThomasFKJorna/thesis-writings/-/commit/d655814be4a0c8ad5128fc6dd0c26b82be8d49f1',
+      'https://gitlab.com/ThomasFKJorna/thesis-writing/-/commit/d655814be4a0c8ad5128fc6dd0c26b82be8d49f1',
     stats: {
       additions: 15,
       deletions: 0,
@@ -59,7 +59,7 @@ const babyData = [
     committed_date: '2021-11-04T14:55:13.000+01:00',
     trailers: {},
     web_url:
-      'https://gitlab.com/ThomasFKJorna/thesis-writings/-/commit/3b01166ffed669d6c900cf5e4176a54132f05cf0',
+      'https://gitlab.com/ThomasFKJorna/thesis-writing/-/commit/3b01166ffed669d6c900cf5e4176a54132f05cf0',
     stats: {
       additions: 173,
       deletions: 0,
@@ -81,7 +81,7 @@ const babyData = [
     committed_date: '2021-11-04T14:51:34.000+01:00',
     trailers: {},
     web_url:
-      'https://gitlab.com/ThomasFKJorna/thesis-writings/-/commit/979651681530eb4d5381d4d6ff46b406c839a105',
+      'https://gitlab.com/ThomasFKJorna/thesis-writing/-/commit/979651681530eb4d5381d4d6ff46b406c839a105',
     stats: {
       additions: 276,
       deletions: 0,
@@ -104,7 +104,7 @@ const singleComm = {
   committed_date: '2021-11-04T14:51:34.000+01:00',
   trailers: {},
   web_url:
-    'https://gitlab.com/ThomasFKJorna/thesis-writings/-/commit/979651681530eb4d5381d4d6ff46b406c839a105',
+    'https://gitlab.com/ThomasFKJorna/thesis-writing/-/commit/979651681530eb4d5381d4d6ff46b406c839a105',
   stats: {
     additions: 276,
     deletions: 0,
@@ -124,7 +124,7 @@ export interface Commit {
   committer_name: string
   committer_email: string
   committed_date: string
-  trailers: Trailers
+  trailers: any
   web_url: string
   stats: Stats
 }
@@ -135,10 +135,9 @@ interface Stats {
   total: number
 }
 
-interface Trailers {}
 const getCommits = async () => {
   const dt = await fetch(
-    'https://gitlab.com/api/v4/projects/thomasfkjorna%2fthesis-writings/repository/commits?with_stats=true',
+    'https://gitlab.com/api/v4/projects/thomasfkjorna%2fthesis-writing/repository/commits?with_stats=true&per_page=200',
   )
   const dtjs = await dt.json()
   return dtjs
@@ -148,7 +147,7 @@ const getCommits = async () => {
   const commits = data.map(async (commit: any) => {
     try {
       return await fetch(
-        'https://gitlab.com/api/v4/projects/thomasfkjorna%2fthesis-writings/commits',
+        'https://gitlab.com/api/v4/projects/thomasfkjorna%2fthesis-writing/commits',
       ).then((res) => res.json())
     } catch (e) {
       return e
@@ -195,7 +194,7 @@ const Index = () => {
 
   useEffect(() => {
     if (diffs.commit1 && diffs.commit2) {
-      fetchDiff('ThomasFKJorna/thesis-writings', diffs.commit1, diffs.commit2).then((res) => {
+      fetchDiff('ThomasFKJorna/thesis-writing', diffs.commit1, diffs.commit2).then((res) => {
         console.log(res)
 
         setDiffs({ commit1: '', commit2: '' })
@@ -264,7 +263,7 @@ const Index = () => {
         getValue: (datum) => datum.data,
         elementType: 'area',
         showGrid: false,
-        show: true,
+        show: false,
         scaleType: 'linear',
         shouldNice: false,
       },
@@ -272,12 +271,12 @@ const Index = () => {
     [],
   )
 
-  const compareDiffs = (diff: string | undefined, commits: Commit[]) => {
+  const compareDiffs = (diff: string | undefined, commits: Commit[] | CommitDatum[]) => {
     if (!diff) {
       setDiffs({ commit1: '', commit2: '' })
       return
     }
-    const commitList = commits.map((commit: Commit) => commit.id)
+    const commitList = commits.map((commit: Commit | CommitDatum) => commit.id)
     // the gitlab api needs the commits to be in chronological order
     // in order to compare the commits
     if (diffs?.commit1) {
