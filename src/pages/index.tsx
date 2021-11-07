@@ -9,8 +9,9 @@ import {
   Button,
   useColorMode,
 } from '@chakra-ui/react'
-import { AxisOptions, Chart, Datum, Series, UserSerie } from 'react-charts'
+import { ResponsiveLine } from '@nivo/line'
 import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
+import { format, parseISO } from 'date-fns'
 
 import { Hero } from '../components/Hero'
 import { Container } from '../components/Container'
@@ -212,7 +213,7 @@ const Index = () => {
     }
   }, [diffs])
 
-  const commitChartData: UserSerie<CommitDatum>[] = useMemo(() => {
+  const commitChartData = useMemo(() => {
     if (!data) {
       return [
         { label: 'Additions', data: [], secondaryAxisId: '1' },
@@ -222,26 +223,26 @@ const Index = () => {
     const adds = data.map((commit: Commit): CommitDatum => {
       return {
         message: commit.message,
-        data: commit.stats.additions,
-        date: commit.authored_date,
+        y: commit.stats.additions,
+        x: commit.authored_date,
         id: commit.id,
       }
     })
     const dels = data.map((commit: Commit): CommitDatum => {
       return {
         message: commit.message,
-        data: -commit.stats.deletions,
-        date: commit.authored_date,
+        y: -commit.stats.deletions,
+        x: commit.authored_date,
         id: commit.id,
       }
     })
     return [
-      { label: 'Additions', data: adds },
-      { label: 'Deletions', data: dels, secondaryAxisId: '2' },
+      { id: 'Additions', data: adds },
+      { id: 'Deletions', data: dels },
     ]
   }, [data])
 
-  const primaryAxis = useMemo(
+  /*   const primaryAxis = useMemo(
     (): AxisOptions<CommitDatum> => ({
       getValue: (datum) => Date.parse(datum.date) as unknown as Date,
       scaleType: 'localTime',
@@ -269,15 +270,15 @@ const Index = () => {
       },
     ],
     [],
-  )
+  ) */
 
-  const compareDiffs = (diff: string | undefined, commits: Commit[] | CommitDatum[]) => {
-    if (!diff) {
+  const compareDiffs = (diff: string | undefined, commits: Commit[] | undefined = data) => {
+    if (!data || !diff) {
       setDiffs({ commit1: '', commit2: '' })
       return
     }
-    const commitList = commits.map((commit: Commit | CommitDatum) => commit.id)
-    // the gitlab api needs the commits to be in chronological order
+
+    const commitList = commits.map((commit: Commit | CommitDatum) => commit.id) // the gitlab api needs the commits to be in chronological order
     // in order to compare the commits
     if (diffs?.commit1) {
       const compareObj =
@@ -297,7 +298,7 @@ const Index = () => {
     if (!datum) {
       return
     }
-    compareDiffs(datum?.originalDatum?.id, datum?.originalSeries.data)
+    // compareDiffs(datum?.originalDatum?.id, datum?.originalSeries.data)
   }
 
   const enumdata = data?.map((commit: Commit) => {
@@ -331,15 +332,21 @@ const Index = () => {
         <Container maxH={200} overflow="scroll" maxW="100vh">
           <Text>{comparison || 'Select some commits to see the comparison1'}</Text>
         </Container>
-        <Container h={200}>
+        <Container h={500}>
           {data && (
-            <Chart
-              options={{
-                primaryAxis: primaryAxis,
-                secondaryAxes: secondaryAxes,
-                data: commitChartData,
-                onClickDatum: clickDatumHandler,
-                dark: colorMode === 'dark',
+            <ResponsiveLine
+              data={commitChartData}
+              xFormat={(x) => format(parseISO(x), 'MMMM dd')}
+              isInteractive
+              useMesh
+              curve="natural"
+              enableArea
+              enableGridX={false}
+              enableGridY={false}
+              yScale={{ min: -500, max: 'auto', type: 'linear' }}
+              enableCrosshair={false}
+              onClick={(point, event) => {
+                compareDiffs(point?.data?.id)
               }}
             />
           )}
