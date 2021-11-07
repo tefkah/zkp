@@ -8,8 +8,10 @@ import {
   Flex,
   Button,
   useColorMode,
+  Box,
 } from '@chakra-ui/react'
 import { ResponsiveLine } from '@nivo/line'
+import { BasicTooltip } from '@nivo/tooltip'
 import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
 import { format, parseISO } from 'date-fns'
 
@@ -174,7 +176,7 @@ export interface Diff {
 export interface CommitDatum {
   message: string
   y: number
-  x: string
+  x: Date
   id: string
 }
 
@@ -224,7 +226,7 @@ const Index = () => {
       return {
         message: commit.message,
         y: commit.stats.additions,
-        x: commit.authored_date,
+        x: parseISO(commit.authored_date),
         id: commit.id,
       }
     })
@@ -232,7 +234,7 @@ const Index = () => {
       return {
         message: commit.message,
         y: -commit.stats.deletions,
-        x: commit.authored_date,
+        x: parseISO(commit.authored_date),
         id: commit.id,
       }
     })
@@ -300,7 +302,7 @@ const Index = () => {
     // compareDiffs(datum?.originalDatum?.id, datum?.originalSeries.data)
   }
 
-  const enumdata = data?.map((commit: Commit) => {
+  /*   const enumdata = data?.map((commit: Commit) => {
     return (
       <Flex h={50} justifyContent="space-between" key={commit.id} width={500}>
         <Text>{commit.message}</Text>
@@ -316,7 +318,7 @@ const Index = () => {
         </Button>
       </Flex>
     )
-  })
+  }) */
 
   const { colorMode } = useColorMode()
   return (
@@ -331,20 +333,50 @@ const Index = () => {
         <Container maxH={200} overflow="scroll" maxW="100vh">
           <Text>{comparison || 'Select some commits to see the comparison1'}</Text>
         </Container>
-        <Container h={500}>
+        <Container h={200}>
           {data && (
             <ResponsiveLine
               data={commitChartData}
-              xFormat={(x) => format(parseISO(x as string), 'MMMM dd')}
+              //xFormat={(x) => format(x, 'MMMM dd')}
               isInteractive
               useMesh
-              curve="natural"
+              curve="monotoneX"
               enableArea
               enableGridX={false}
               enableGridY={false}
               yScale={{ min: -500, max: 'auto', type: 'linear' }}
+              xScale={{ type: 'time' }}
+              axisBottom={{
+                format: '%b %d',
+                tickValues: 'every 2 days',
+                legend: 'time scale',
+                legendOffset: -12,
+              }}
               enableCrosshair={false}
               onClick={onClickHandler}
+              enableSlices={'x'}
+              sliceTooltip={({ slice, axis }) => {
+                const [del, add] = slice.points.map((p) => p.data) as unknown[] as CommitDatum[]
+                return (
+                  <BasicTooltip
+                    id={
+                      <Box>
+                        <Text fontWeight="bold">
+                          {del.message.slice(0, 8) === 'Scripted' ? 'Auto-commit' : del.message}
+                        </Text>
+                        <Text color="gray.400" fontSize={9}>{`${format(
+                          del.x as Date,
+                          'MMMM dd, hh:mm',
+                        )}`}</Text>
+
+                        <Text fontSize={12} color="green.500">{`+ ${add.y}`}</Text>
+                        <Text fontSize={12} color="red.500">{`- ${Math.abs(del.y)}`}</Text>
+                      </Box>
+                    }
+                    // enableChip={true}
+                  ></BasicTooltip>
+                )
+              }}
             />
           )}
         </Container>
