@@ -32,6 +32,8 @@ const modObj = (file: string, mod: string) => ({
   file,
   type: mod,
 })
+
+// same as the other but from the isomorphic-git docs
 export async function getFileStateChangesDoc(
   commitHash1: string,
   commitHash2: string,
@@ -152,20 +154,5 @@ export async function getFileStateChanges(
     gitdir,
     trees: [TREE({ ref: commitHash1 }), TREE({ ref: commitHash2 })],
     map: fileChangeMap,
-  })
-}
-
-export async function getCommitDiff(
-  commitHash1: string,
-  commitHash2: string,
-  dir: string = '.',
-  gitdir: string = `${dir}/git`,
-) {
-  return walk({
-    fs,
-    dir,
-    gitdir,
-    trees: [TREE({ ref: commitHash1 }), TREE({ ref: commitHash2 })],
-    map: diffMap,
   })
 }
