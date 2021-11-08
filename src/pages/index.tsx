@@ -217,8 +217,8 @@ const Index = (props: { [key: string]: string }) => {
   const commitChartData = useMemo(() => {
     if (isLoading) {
       return [
-        { id: 'Additions', data: [], secondaryAxisId: '1' },
-        { id: 'Deletions', data: [], secondaryAxisId: '2' },
+        { id: 'Additions', data: [] },
+        { id: 'Deletions', data: [] },
       ]
     }
     const adds = data.map((commit: Commit): CommitDatum => {
@@ -264,10 +264,10 @@ const Index = (props: { [key: string]: string }) => {
   }
 
   const onClickHandler = (point: any, event: any): void => {
-    console.log('hhhhhhhh')
     if (!point) {
       return
     }
+    console.log(point)
     const data = point?.data as unknown as CommitDatum
     console.log(data)
     compareDiffs(data?.id!)
@@ -299,9 +299,6 @@ const Index = (props: { [key: string]: string }) => {
 
       <Main>
         <Text>Testing fetching</Text>
-        {/*       <Container w={400} overflow="scroll">
-        {enumdata}
-      </Container> */}
         <Container h={200}>
           {isLoading ? (
             <Spinner />
@@ -323,25 +320,39 @@ const Index = (props: { [key: string]: string }) => {
                 legend: 'time scale',
                 legendOffset: -12,
               }}
-              enableCrosshair={false}
+              crosshairType="x"
               onClick={onClickHandler}
               //enableSlices={'x'}
-              sliceTooltip={({ slice, axis }) => {
-                const [del, add] = slice.points.map((p) => p.data) as unknown[] as CommitDatum[]
+              tooltip={({ point }) => {
+                const node = point.data as unknown as CommitDatum
                 return (
                   <BasicTooltip
                     id={
                       <Box>
                         <Text fontWeight="bold">
-                          {del.message.slice(0, 8) === 'Scripted' ? 'Auto-commit' : del.message}
+                          {node.message.slice(0, 8) === 'Scripted' ? 'Auto-commit' : node.message}
                         </Text>
                         <Text color="gray.400" fontSize={9}>{`${format(
-                          del.x as Date,
+                          node.x as Date,
                           'MMMM dd, hh:mm',
                         )}`}</Text>
-
-                        <Text fontSize={12} color="green.500">{`+ ${add.y}`}</Text>
-                        <Text fontSize={12} color="red.500">{`- ${Math.abs(del.y)}`}</Text>
+                        {point.serieId === 'Additions' ? (
+                          <>
+                            <Text fontSize={12} color="green.500">{`+ ${node.y}`}</Text>
+                            <Text fontSize={12} color="red.500">
+                              {`- ${Math.abs(commitChartData[1]?.data?.[point?.index]?.y)}`}
+                            </Text>
+                          </>
+                        ) : (
+                          <>
+                            <Text fontSize={12} color="green.500">{`+ ${
+                              commitChartData[0].data[
+                                point.index - commitChartData[0]?.data?.length
+                              ]?.y
+                            }`}</Text>
+                            <Text fontSize={12} color="red.500">{`- ${Math.abs(node.y)}`}</Text>
+                          </>
+                        )}
                       </Box>
                     }
                   ></BasicTooltip>

@@ -32,11 +32,19 @@ export const orgProcessor = async (props: Props) => {
       visit(node, 'special-block', ({ affiliated, blockType, contentsBegin, contentsEnd }) => {
         if (blockType.toLowerCase() === 'addition') {
           // h from hastscript. or manually as { type: 'element', tagName: 'transclusion', properties: { value: keyword.value } }
-          Object.assign(blockType, { type: 'element', tagName: 'addition' })
+          Object.assign(blockType, {
+            type: 'element',
+            tagName: 'addition',
+            properties: { style: { display: 'inline' } },
+          })
         }
         if (blockType.toLowerCase() === 'deletion') {
           // h from hastscript. or manually as { type: 'element', tagName: 'transclusion', properties: { value: keyword.value } }
-          Object.assign(blockType, { type: 'element', tagName: 'deletion' })
+          Object.assign(blockType, {
+            type: 'element',
+            tagName: 'deletion',
+            properties: { style: { display: 'inline' } },
+          })
         }
       })
     })
@@ -90,13 +98,15 @@ export const OrgProcessor = async (props: Props) => {
         ...NoteStyle,
         '.block-addition': {
           color: 'green.500',
-          backgroundColor: 'green.100',
+          backgroundColor: 'green.50',
+          display: 'inline-block !important',
         },
         '.block-deletion': {
           color: 'red.500',
-          backgroundColor: 'red.100',
+          backgroundColor: 'red.50',
           fontStyle: 'italic',
           textDecoration: 'line-through',
+          display: 'inline-block !important',
         },
       }}
     >

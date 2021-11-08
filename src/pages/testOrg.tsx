@@ -12,14 +12,15 @@ export const TestOrg = (props: Props) => {
   const { commit1, commit2 } = props
   const [orgText, setOrgText] = useState<any[]>([])
   const { data: text, isLoading, isError } = useFetch(`api/compare/${commit1}/${commit2}`)
-  // console.log(isLoading ? text : text[1].diff)
+
   useEffect(() => {
     if (!isLoading) {
       text.forEach((t: any) =>
         OrgProcessor({ text: t.diff }).then((res) => {
           const a = (
-            <Container>
-              <Heading>{t.title}</Heading>
+            <Container my={10}>
+              <Text>--------------------------------</Text>
+              <Heading fontSize={20}>{t.filepath}</Heading>
               <Box>{res}</Box>
             </Container>
           )
@@ -27,9 +28,9 @@ export const TestOrg = (props: Props) => {
         }),
       )
     }
-    setOrgText([<Spinner />])
+    setOrgText([])
   }, [text])
-  const t = orgText ? <Spinner /> : orgText
+  const t = orgText ? orgText : <Spinner />
   //console.log(t)
-  return <div>{orgText}</div>
+  return <div>{t}</div>
 }

@@ -6,23 +6,32 @@ export const viewerNoteStyle = {
   '.outlineHeadingButton': {
     display: 'none',
   },
-  h1: { color: 'black', lineHeight: '1.2', fontSize: '16', fontWeight: 'bold', paddingTop: 2 },
+  p: {
+    display: 'inline-block !important',
+  },
+  h1: {
+    //color: 'black',
+    lineHeight: '1.2',
+    fontSize: '16',
+    fontWeight: 'bold',
+    paddingTop: 2,
+  },
   h2: {
     fontSize: '14',
-    color: 'black',
+    // color: 'black',
     fontWeight: 'bold',
     fontStyle: 'bold italic',
     paddingTop: 2,
   },
   h3: {
     fontSize: '13',
-    color: 'black',
+    //color: 'black',
     paddingTop: 2,
   },
   h4: {
     fontSize: '12',
     fontStyle: 'italic',
-    color: 'black',
+    //color: 'black',
     paddingTop: 2,
   },
 
@@ -97,6 +106,7 @@ export const NoteStyle = {
     pb: 2,
   },
   div: {
+    fontFamily: 'serif',
     hyphens: 'auto !important',
   },
   '.title': {
@@ -109,7 +119,7 @@ export const NoteStyle = {
     fontWeight: 'bold',
     marginTop: 0,
   },
-  '.TODO': { color: 'red.500' },
+  '.TODO': { color: 'red.500', fontFamily: 'monospace' },
   '.equationContainer': {
     display: 'table',
     textAlign: 'center',
