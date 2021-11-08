@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     })
 
-    res.end(`Post: ${JSON.stringify(inFileDiffs)} `)
+    res.status(200).json(inFileDiffs)
   } catch (e) {
     console.error(e)
   }

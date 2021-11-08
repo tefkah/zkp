@@ -20,9 +20,20 @@
     "framer-motion": "^4.0.3",
     "isomorphic-git": "^1.10.1",
     "next": "latest",
+    "orgast-util-to-string": "^0.4.5",
+    "orgast-util-visit-ids": "^0.4.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "swr": "^1.0.1"
+    "rehype-mathjax": "3",
+    "rehype-react": "6",
+    "swr": "^1.0.1",
+    "unified": "9",
+    "uniorg": "^0.4.0",
+    "uniorg-attach": "^0.4.5",
+    "uniorg-extract-keywords": "^0.4.5",
+    "uniorg-parse": "^0.4.5",
+    "uniorg-rehype": "^0.4.7",
+    "uniorg-slug": "^0.4.7"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",

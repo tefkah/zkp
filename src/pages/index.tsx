@@ -255,6 +255,7 @@ const Index = (props: { [key: string]: string }) => {
     setDiffs({ commit1: diff, commit2: '' })
     return
   }
+
   const onClickHandler = (point: any, event: any): void => {
     if (!point) {
       return
