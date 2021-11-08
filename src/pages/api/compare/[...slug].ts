@@ -18,8 +18,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         file: file.filepath,
         diff: file?.diff
           .map((diff: Change) => {
-            const type = diff.added ? '+++' : diff.removed ? '---' : ''
-            return `${type}${diff.value}${type}`
+            const begin = diff.added
+              ? '\n#+begin_addition\n'
+              : diff.removed
+              ? '\n#+begin_deletion\n'
+              : ''
+            const end = diff.added ? '\n#+end_addition\n' : diff.removed ? '\n#+end_deletion\n' : ''
+            return `${begin}${diff.value}${end}`
           })
           .join(''),
       }
