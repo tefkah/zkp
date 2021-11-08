@@ -2,8 +2,21 @@ import { TREE, walk, WalkerEntry } from 'isomorphic-git'
 import fs from 'fs'
 import * as Diff from 'diff'
 import { doSomethingAtFileStateChange } from './getFileStateChanges'
+import { Change } from 'diff'
 
-async function diffMap(filepath: string, trees: Array<WalkerEntry | null>, type?: string) {
+export type FileDiff =
+  | {
+      filepath: string
+      oid: string
+      diff: Change[]
+    }
+  | undefined
+
+async function diffMap(
+  filepath: string,
+  trees: Array<WalkerEntry | null>,
+  type?: string,
+): Promise<FileDiff> {
   if (type === 'equal') {
     return
   }
@@ -24,7 +37,7 @@ async function diffMap(filepath: string, trees: Array<WalkerEntry | null>, type?
   //  console.log(t1String)
   return {
     filepath,
-    oid: (await tree1?.oid()) || (await tree2?.oid()),
+    oid: (await tree1?.oid()) || (await tree2?.oid()) || '',
     diff: Diff.diffWords(t1String, t2String),
   }
 }

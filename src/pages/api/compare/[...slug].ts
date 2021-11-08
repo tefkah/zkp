@@ -1,14 +1,32 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getModifiedCommitDiff } from '../../../utils/getCommitDiff'
+import { FileDiff, getModifiedCommitDiff } from '../../../utils/getCommitDiff'
+import { Change } from 'diff'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug } = req.query
-  console.log(slug)
   if (slug && slug?.length < 2) {
     res.end(`Post: Error, api is like compare/commit1/commit2.`)
   }
   const [commit1, commit2] = slug as string[]
-  const x = await getModifiedCommitDiff(commit1, commit2, 'notes', 'notes/git')
+  try {
+    const diffs = await getModifiedCommitDiff(commit1, commit2, 'notes', 'notes/git')
+    const inFileDiffs = diffs.map((file: FileDiff) => {
+      if (!file) {
+        return
+      }
+      return {
+        file: file.filepath,
+        diff: file?.diff
+          .map((diff: Change) => {
+            const type = diff.added ? '+++' : diff.removed ? '---' : ''
+            return `${type}${diff.value}${type}`
+          })
+          .join(''),
+      }
+    })
 
-  res.end(`Post: ${JSON.stringify(x)} `)
+    res.end(`Post: ${JSON.stringify(inFileDiffs)} `)
+  } catch (e) {
+    console.error(e)
+  }
 }
