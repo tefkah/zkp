@@ -8,12 +8,16 @@ import attachments from 'uniorg-attach'
 // rehypeHighlight does not have any types
 // add error thing here
 // import highlight from 'rehype-highlight'
-import mathjax from 'rehype-mathjax'
+//import mathjax from 'rehype-mathjax'
 //import 'katex/dist/katex.css'
+import katex from 'rehype-katex'
+import 'katex/dist/katex.css'
 import rehype2react from 'rehype-react'
+import visit from 'unist-util-visit'
 
 import React, { useMemo } from 'react'
 import { Box, Text } from '@chakra-ui/react'
+import { NoteStyle } from './NoteStyle'
 
 interface Props {
   text: string
@@ -23,13 +27,24 @@ export const orgProcessor = async (props: Props) => {
   const { text } = props
   const processor = unified()
     .use(uniorgParse)
+    .use(() => (node) => {
+      // visit from unist-util-visit
+      visit(node, 'special-block', ({ affiliated, blockType, contentsBegin, contentsEnd }) => {
+        if (blockType.toLowerCase() === 'addition') {
+          // h from hastscript. or manually as { type: 'element', tagName: 'transclusion', properties: { value: keyword.value } }
+          Object.assign(blockType, { type: 'element', tagName: 'addition' })
+        }
+        if (blockType.toLowerCase() === 'deletion') {
+          // h from hastscript. or manually as { type: 'element', tagName: 'transclusion', properties: { value: keyword.value } }
+          Object.assign(blockType, { type: 'element', tagName: 'deletion' })
+        }
+      })
+    })
     .use(extractKeywords)
     .use(attachments)
     .use(uniorgSlug)
     .use(uniorg2rehype, { useSections: true })
-    //.data('settings', { fragment: true })
-    // .use(highlight)
-    .use(mathjax)
+    .use(katex)
     .use(rehype2react, {
       createElement: React.createElement,
       // eslint-disable-next-line react/display-name
@@ -62,14 +77,32 @@ export const orgProcessor = async (props: Props) => {
         }, */
     })
 
-  //  console.log(text)
+  console.log(text)
   return await processor.process(text)
 }
 
 export const OrgProcessor = async (props: Props) => {
   const processedText = await orgProcessor(props)
 
-  const t = <Box>{processedText.result}</Box>
+  const t = (
+    <Box
+      sx={{
+        ...NoteStyle,
+        '.block-addition': {
+          color: 'green.500',
+          backgroundColor: 'green.100',
+        },
+        '.block-deletion': {
+          color: 'red.500',
+          backgroundColor: 'red.100',
+          fontStyle: 'italic',
+          textDecoration: 'line-through',
+        },
+      }}
+    >
+      {processedText.result}
+    </Box>
+  )
   console.log(t)
   // return await processedText
   return t

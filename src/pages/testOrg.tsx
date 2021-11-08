@@ -3,19 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { OrgProcessor } from '../components/OrgProcessor'
 import useFetch from '../utils/useFetch'
 
-interface Props {}
+interface Props {
+  commit1: string
+  commit2: string
+}
 
-function testOrg(props: Props) {
+export const TestOrg = (props: Props) => {
+  const { commit1, commit2 } = props
   const [orgText, setOrgText] = useState<any[]>([])
-  const [commit1, commit2] = [
-    'dac9e2cf1d2d9964e7ddb375b692c71326776b64',
-    '23d36ae61a2ba87ad0ecd76dc90ad9ecfaa8a95f',
-  ]
   const { data: text, isLoading, isError } = useFetch(`api/compare/${commit1}/${commit2}`)
   // console.log(isLoading ? text : text[1].diff)
   useEffect(() => {
     if (!isLoading) {
-      console.log(text[1].diff)
       text.forEach((t: any) =>
         OrgProcessor({ text: t.diff }).then((res) => {
           const a = (
@@ -34,5 +33,3 @@ function testOrg(props: Props) {
   //console.log(t)
   return <div>{orgText}</div>
 }
-
-export default testOrg

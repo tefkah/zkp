@@ -27,6 +27,7 @@ import { fetchDiff } from '../api/gitlab'
 import useSWR from 'swr'
 import useFetch from '../utils/useFetch'
 import fetcher from '../utils/fetcher'
+import { TestOrg } from './testOrg'
 
 const babyData = [
   {
@@ -182,29 +183,35 @@ const glCommits =
 const Index = (props: { [key: string]: string }) => {
   //const [data, setData] = useState<Commit[]>()
   const [diffs, setDiffs] = useState<Diff>({ commit1: '', commit2: '' })
-  const [comparison, setComparison] = useState('')
+  const [comparison, setComparison] = useState<any>()
 
   const { commits } = props
   const { data, isLoading } = useFetch(glCommits, { fallback: commits })
 
   useEffect(() => {
     if (diffs.commit1 && diffs.commit2) {
-      fetchDiff('ThomasFKJorna/thesis-writing', diffs.commit1, diffs.commit2).then((res) => {
-        console.log(res)
-
-        setDiffs({ commit1: '', commit2: '' })
-        if (!res.error) {
-          const comps = res.diffs.map((diff: any, i: number) => {
-            return <Text key={i}> {diff.diff}</Text>
-          })
-          setComparison(comps)
-          return
-        }
-
-        setComparison('whoopie')
-        return
-      })
+      console.log('hi')
+      const diffBoys = <TestOrg commit1={diffs.commit1} commit2={diffs.commit2} />
+      console.log(diffBoys)
+      setComparison(diffBoys)
+      setDiffs({ commit1: '', commit2: '' })
+      return
     }
+    //setComparison(<Text>aaaa</Text>)
+    //return
+    //   fetchDiff('ThomasFKJorna/thesis-writing', diffs.commit1, diffs.commit2).then((res) => {
+    //     console.log(res)
+
+    //     if (!res.error) {
+    //       const comps = res.diffs.map((diff: any, i: number) => {
+    //         return <Text key={i}> {diff.diff}</Text>
+    //       })
+    //     }
+
+    //     setComparison('whoopie')
+    //     return
+    //   })
+    // }
   }, [diffs])
 
   const commitChartData = useMemo(() => {
@@ -257,10 +264,12 @@ const Index = (props: { [key: string]: string }) => {
   }
 
   const onClickHandler = (point: any, event: any): void => {
+    console.log('hhhhhhhh')
     if (!point) {
       return
     }
     const data = point?.data as unknown as CommitDatum
+    console.log(data)
     compareDiffs(data?.id!)
     // compareDiffs(datum?.originalDatum?.id, datum?.originalSeries.data)
   }
@@ -293,9 +302,6 @@ const Index = (props: { [key: string]: string }) => {
         {/*       <Container w={400} overflow="scroll">
         {enumdata}
       </Container> */}
-        <Container maxH={200} overflow="scroll" maxW="100vh">
-          <Text>{comparison || 'Select some commits to see the comparison1'}</Text>
-        </Container>
         <Container h={200}>
           {isLoading ? (
             <Spinner />
@@ -319,7 +325,7 @@ const Index = (props: { [key: string]: string }) => {
               }}
               enableCrosshair={false}
               onClick={onClickHandler}
-              enableSlices={'x'}
+              //enableSlices={'x'}
               sliceTooltip={({ slice, axis }) => {
                 const [del, add] = slice.points.map((p) => p.data) as unknown[] as CommitDatum[]
                 return (
@@ -343,6 +349,9 @@ const Index = (props: { [key: string]: string }) => {
               }}
             />
           )}
+        </Container>
+        <Container maxW="100vh">
+          <Text>{comparison || 'Select some commits to see the comparison!'}</Text>
         </Container>
       </Main>
       <DarkModeSwitch />

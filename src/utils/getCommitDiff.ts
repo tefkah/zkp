@@ -38,7 +38,7 @@ async function diffMap(
   return {
     filepath,
     oid: (await tree1?.oid()) || (await tree2?.oid()) || '',
-    diff: Diff.diffWords(t1String, t2String),
+    diff: Diff.diffLines(t1String, t2String),
   }
 }
 
