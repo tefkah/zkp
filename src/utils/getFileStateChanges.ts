@@ -3,42 +3,24 @@
 
 import { TREE, walk, WalkerEntry } from 'isomorphic-git'
 import fs from 'fs'
-import * as Diff from 'diff'
-
-async function diffMap(filepath: string, trees: Array<WalkerEntry | null>) {
-  const [tree1, tree2] = trees
-  if (!tree1 || !tree2) {
-    return
-  }
-  if ((await tree1.type()) === 'tree' || (await tree2.type()) === 'tree') {
-    return
-  }
-  const t1Content = (await tree1.content())!
-  const t2Content = (await tree2.content())!
-  const t1Buffer = Buffer.from(t1Content)
-  const t2Buffer = Buffer.from(t2Content)
-  const t1String = t1Buffer.toString('utf8')
-  const t2String = t2Buffer.toString('utf8')
-
-  //  console.log(t1String)
-  return {
-    filepath,
-    oid: await tree1.oid(),
-    diff: Diff.diffWords(t1String, t2String),
-  }
-}
 
 const modObj = (file: string, mod: string) => ({
   file,
   type: mod,
 })
 
+export type FileStates = 'equal' | 'modified' | 'add' | 'remove'
 // same as the other but from the isomorphic-git docs
-export async function getFileStateChangesDoc(
+export async function doSomethingAtFileStateChange(
   commitHash1: string,
   commitHash2: string,
   dir: string = 'notes',
   gitdir: string = 'notes/git',
+  fileStateFun?: (
+    filepath: string,
+    trees: Array<WalkerEntry | null>,
+    state: FileStates,
+  ) => Promise<{ [key: string]: any } | undefined>,
 ) {
   return walk({
     fs,
@@ -75,6 +57,9 @@ export async function getFileStateChangesDoc(
         console.log(B)
       }
 
+      if (fileStateFun) {
+        return await fileStateFun(filepath, [A, B], type as FileStates)
+      }
       return {
         path: `/${filepath}`,
         type: type,
@@ -83,76 +68,16 @@ export async function getFileStateChangesDoc(
   })
 }
 
-async function fileChangeMap(file: string, [A, B]: Array<WalkerEntry | null>) {
-  // ignore directories
-  let log = false
-  if (file.includes('yml')) {
-    log = true
-  }
-  if (file === '.') {
-    return
-  }
-
-  if (!A && !B) {
-    console.log('not sure what this is')
-    return
-  }
-  if (!A && B) {
-    return modObj(file, 'add')
-  }
-  if (A && !B) {
-    return modObj(file, 'remove')
-  }
-  if (!A || !B) {
-    console.log('you shouldnt see this')
-    return
-  }
-
-  if ((await A.type()) === 'tree') {
-    return
-  }
-  if ((await B.type()) === 'tree') {
-    return
-  }
-
-  // generate ids
-  const aId = await A.oid()
-  const bId = await B.oid()
-
-  // determine modification type
-  let type = 'equal'
-  if (aId !== bId) {
-    type = 'modify'
-  }
-  if (aId === undefined) {
-    type = 'add'
-  }
-  if (bId === undefined) {
-    type = 'remove'
-  }
-  if (aId === undefined && bId === undefined) {
-    console.log('Something weird happened:')
-    console.log(A)
-    console.log(B)
-  }
-
-  return {
-    path: `/${file}`,
-    type: type,
-  }
-}
-
 export async function getFileStateChanges(
   commitHash1: string,
   commitHash2: string,
-  dir: string = '.',
-  gitdir: string = `${dir}/git`,
+  dir: string = 'notes',
+  gitdir: string = 'notes/git',
+  fileStateFun?: (
+    filepath: string,
+    trees: Array<WalkerEntry | null>,
+    state: FileStates,
+  ) => Promise<{ [key: string]: any } | undefined>,
 ) {
-  return walk({
-    fs,
-    dir,
-    gitdir,
-    trees: [TREE({ ref: commitHash1 }), TREE({ ref: commitHash2 })],
-    map: fileChangeMap,
-  })
+  return doSomethingAtFileStateChange(commitHash1, commitHash2, dir, gitdir, fileStateFun)
 }

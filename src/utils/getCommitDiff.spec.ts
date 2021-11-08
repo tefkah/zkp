@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getCommitDiff } from './getCommitDiff'
+import { getCommitDiff, getModifiedCommitDiff } from './getCommitDiff'
 
 describe('diff api', () => {
   //   const [commit1, commit2] = [
@@ -11,11 +11,8 @@ describe('diff api', () => {
     '635c1974031c9ba51e275c308ac38617bd8b5b46',
   ]
   it('diffs', async () => {
-    const x = await getCommitDiff(commit1, commit2, 'notes', 'notes/git')
-    expect(x).toBeDefined()
-  })
-  it('diffs', async () => {
-    const x = await getCommitDiff(commit1, commit2, 'notes', 'notes/git')
+    const x = await getModifiedCommitDiff(commit1, commit2, 'notes', 'notes/git')
+    console.log(x)
     expect(x).toBeDefined()
   })
 })
