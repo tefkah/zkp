@@ -3,13 +3,25 @@ import parseGitRepo from './parseGitRepo'
 describe('parseGitRepo', () => {
   it('should parse repo', async () => {
     const repo = await parseGitRepo('https://github.com/ThomasFKJorna/thesis-writings', 'test')
-    repo.map((c) => {
+    expect(repo).toBeDefined()
+  })
+  it('should do something with diff', async () => {
+    const repo = await parseGitRepo('https://github.com/ThomasFKJorna/thesis-writings', 'test')
+    const diffs = repo.map((c) => {
       // console.log(c.commit)
       if (c.files.type === 'equal') {
         return
       }
-      console.log(c.files)
+      const f = c.files
+      return f.map((o: any) => {
+        return o.diff
+          .map((d: any) => {
+            const type = d.added ? '+++' : d.removed ? '---' : ''
+            return `${type}${d.value}${type}`
+          })
+          .join('')
+      })
     })
-    expect(repo).toBeDefined()
+    console.log(diffs)
   })
 })
