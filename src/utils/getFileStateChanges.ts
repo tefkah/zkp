@@ -19,7 +19,8 @@ async function diffMap(filepath: string, trees: Array<WalkerEntry | null>) {
   const t2Buffer = Buffer.from(t2Content)
   const t1String = t1Buffer.toString('utf8')
   const t2String = t2Buffer.toString('utf8')
-  //console.log(t1String)
+
+  //  console.log(t1String)
   return {
     filepath,
     oid: await tree1.oid(),
@@ -27,14 +28,84 @@ async function diffMap(filepath: string, trees: Array<WalkerEntry | null>) {
   }
 }
 
-async function fileChangeMap(file: string, [A, B]: Array<WalkerEntry>) {
+const modObj = (file: string, mod: string) => ({
+  file,
+  type: mod,
+})
+export async function getFileStateChangesDoc(
+  commitHash1: string,
+  commitHash2: string,
+  dir: string = 'notes',
+  gitdir: string = 'notes/git',
+) {
+  return walk({
+    fs,
+    dir,
+    gitdir,
+    trees: [TREE({ ref: commitHash1 }), TREE({ ref: commitHash2 })],
+    map: async function (filepath, [A, B]) {
+      // ignore directories
+      if (filepath === '.') {
+        return
+      }
+      if ((await A?.type()) === 'tree' || (await B?.type()) === 'tree') {
+        return
+      }
+
+      // generate ids
+      const Aoid = await A?.oid()
+      const Boid = await B?.oid()
+
+      // determine modification type
+      let type = 'equal'
+      if (Aoid !== Boid) {
+        type = 'modify'
+      }
+      if (Aoid === undefined) {
+        type = 'add'
+      }
+      if (Boid === undefined) {
+        type = 'remove'
+      }
+      if (Aoid === undefined && Boid === undefined) {
+        console.log('Something weird happened:')
+        console.log(A)
+        console.log(B)
+      }
+
+      return {
+        path: `/${filepath}`,
+        type: type,
+      }
+    },
+  })
+}
+
+async function fileChangeMap(file: string, [A, B]: Array<WalkerEntry | null>) {
   // ignore directories
+  let log = false
+  if (file.includes('yml')) {
+    log = true
+  }
   if (file === '.') {
     return
   }
-  if (!A || !B) {
+
+  if (!A && !B) {
+    console.log('not sure what this is')
     return
   }
+  if (!A && B) {
+    return modObj(file, 'add')
+  }
+  if (A && !B) {
+    return modObj(file, 'remove')
+  }
+  if (!A || !B) {
+    console.log('you shouldnt see this')
+    return
+  }
+
   if ((await A.type()) === 'tree') {
     return
   }
@@ -46,8 +117,6 @@ async function fileChangeMap(file: string, [A, B]: Array<WalkerEntry>) {
   const aId = await A.oid()
   const bId = await B.oid()
 
-  console.log(aId)
-  console.log(bId)
   // determine modification type
   let type = 'equal'
   if (aId !== bId) {
@@ -56,7 +125,7 @@ async function fileChangeMap(file: string, [A, B]: Array<WalkerEntry>) {
   if (aId === undefined) {
     type = 'add'
   }
-  if (aId === undefined) {
+  if (bId === undefined) {
     type = 'remove'
   }
   if (aId === undefined && bId === undefined) {
@@ -71,11 +140,26 @@ async function fileChangeMap(file: string, [A, B]: Array<WalkerEntry>) {
   }
 }
 
-export default async function getFileStateChanges(
+export async function getFileStateChanges(
   commitHash1: string,
   commitHash2: string,
   dir: string = '.',
-  gitdir: string = `${dir}/.git`,
+  gitdir: string = `${dir}/git`,
+) {
+  return walk({
+    fs,
+    dir,
+    gitdir,
+    trees: [TREE({ ref: commitHash1 }), TREE({ ref: commitHash2 })],
+    map: fileChangeMap,
+  })
+}
+
+export async function getCommitDiff(
+  commitHash1: string,
+  commitHash2: string,
+  dir: string = '.',
+  gitdir: string = `${dir}/git`,
 ) {
   return walk({
     fs,
