@@ -54,7 +54,7 @@ export const parseOrg = async (props: Props) => {
               type: 'element',
               tagName: 'span',
               properties: {
-                className: `block-${blockType.toLowerCase()}`,
+                className: `span-${blockType.toLowerCase()}`,
               },
             })
           }

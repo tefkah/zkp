@@ -1,6 +1,6 @@
 import { Box, Container, Flex, Heading, Spinner, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { OrgProcessor } from '../components/OrgProcessor'
+import { OrgProcessor } from './OrgProcessor'
 import useFetch from '../utils/useFetch'
 
 interface Props {
@@ -32,7 +32,7 @@ export const TestOrg = (props: Props) => {
                   {t.file}
                 </Heading>
               </Flex>
-              <Box width="100%">{res}</Box>
+              <Box maxWidth="100%">{res}</Box>
             </Container>
           )
           setOrgText((curr: any[]) => [...curr, a])

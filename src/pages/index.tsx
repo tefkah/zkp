@@ -28,6 +28,8 @@ import useSWR from 'swr'
 import useFetch from '../utils/useFetch'
 import fetcher from '../utils/fetcher'
 import { TestOrg } from '../components/testOrg'
+import { Commit, getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
+import { join } from 'path'
 
 const babyData = [
   {
@@ -119,7 +121,7 @@ const singleComm = {
     total: 276,
   },
 }
-export interface Commit {
+export interface Committ {
   id: string
   short_id: string
   created_at: string
@@ -180,13 +182,13 @@ export interface CommitDatum {
 const glCommits =
   'https://gitlab.com/api/v4/projects/thomasfkjorna%2fthesis-writing/repository/commits?with_stats=true&per_page=200'
 
-const Index = (props: { [key: string]: string }) => {
+const Index = (props: { [key: string]: Commit[] }) => {
   //const [data, setData] = useState<Commit[]>()
   const [diffs, setDiffs] = useState<Diff>({ commit1: '', commit2: '' })
   const [comparison, setComparison] = useState<any>()
 
   const { commits } = props
-  const { data, isLoading } = useFetch(glCommits, { fallback: commits })
+  const { data, isLoading } = { data: commits, isLoading: false } //useFetch(glCommits, { fallback: commits })
 
   useEffect(() => {
     if (diffs.commit1 && diffs.commit2) {
@@ -224,17 +226,17 @@ const Index = (props: { [key: string]: string }) => {
     const adds = data.map((commit: Commit): CommitDatum => {
       return {
         message: commit.message,
-        y: commit.stats.additions,
-        x: parseISO(commit.authored_date),
-        id: commit.id,
+        y: commit.additions,
+        x: new Date(commit.date),
+        id: commit.oid,
       }
     })
     const dels = data.map((commit: Commit): CommitDatum => {
       return {
         message: commit.message,
-        y: -commit.stats.deletions,
-        x: parseISO(commit.authored_date),
-        id: commit.id,
+        y: -commit.deletions,
+        x: new Date(commit.date),
+        id: commit.oid,
       }
     })
     return [
@@ -249,7 +251,7 @@ const Index = (props: { [key: string]: string }) => {
       return
     }
 
-    const commitList = commits.map((commit: Commit | CommitDatum) => commit.id) // the gitlab api needs the commits to be in chronological order
+    const commitList = commits.map((commit: any) => commit.id) // the gitlab api needs the commits to be in chronological order
     // in order to compare the commits
     if (diffs?.commit1) {
       const compareObj =
@@ -374,8 +376,15 @@ export default Index
 
 // Next.js pre-renders a page on each request if async `getServerSideProps` is exported from that page.
 // 👀 https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering
-export async function getServerSideProps() {
-  const commits = await fetcher(glCommits)
+export async function getStaticProps() {
+  // const commits = await fetcher(glCommits)
+  const cwd = process.cwd()
+  const commits = await getListOfCommitsWithStats(
+    '',
+    '',
+    join(cwd, 'notes'),
+    join(cwd, 'notes', 'git'),
+  )
 
   return { props: { commits } }
 }

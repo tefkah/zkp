@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { FileDiff, getModifiedCommitDiff } from '../../../utils/getCommitDiff'
+import { FileDiff, getCommitDiff, getModifiedCommitDiff } from '../../../utils/getCommitDiff'
 import { Change } from 'diff'
 import { join } from 'path'
 
@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const cwd = process.cwd()
   const [commit1, commit2] = slug as string[]
   try {
-    const diffs = await getModifiedCommitDiff(
+    const diffs = await getCommitDiff(
       commit1,
       commit2,
       join(cwd, 'notes'),
