@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "isogit clone --url=https://github.com/thomasfkjorna/thesis-writing --dir=notes --gitdir=notes/git --remote=notes && next build",
+    "build": "isogit clone --url=https://github.com/thomasfkjorna/thesis-writing --dir=public/notes --gitdir=public/notes/git --remote=notes && next build",
     "start": "next start"
   },
   "dependencies": {

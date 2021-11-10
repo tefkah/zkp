@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   const [commit1, commit2] = slug as string[]
   try {
-    const diffs = await getModifiedCommitDiff(commit1, commit2, 'notes', 'notes/git')
+    const diffs = await getModifiedCommitDiff(commit1, commit2, 'public/notes', 'public/notes/git')
     const inFileDiffs = diffs.map((file: FileDiff) => {
       if (!file) {
         return

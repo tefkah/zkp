@@ -15,6 +15,7 @@
 # production
 /build
 /notes
+/public/notes
 
 # misc
 .DS_Store
