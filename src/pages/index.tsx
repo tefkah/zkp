@@ -27,7 +27,7 @@ import { fetchDiff } from '../server/gitlab'
 import useSWR from 'swr'
 import useFetch from '../utils/useFetch'
 import fetcher from '../utils/fetcher'
-import { TestOrg } from './testOrg'
+import { TestOrg } from '../components/testOrg'
 
 const babyData = [
   {
