@@ -1,4 +1,4 @@
-import { Box, Container, Heading, Spinner, Text } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Spinner, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { OrgProcessor } from '../components/OrgProcessor'
 import useFetch from '../utils/useFetch'
@@ -18,13 +18,24 @@ export const TestOrg = (props: Props) => {
       text.forEach((t: any) =>
         OrgProcessor({ text: t.diff }).then((res) => {
           const a = (
-            <Container my={10}>
-              <Text>--------------------------------</Text>
-              <Heading fontSize={20}>{t.filepath}</Heading>
-              <Box>{res}</Box>
+            <Container w="45%" my={10} p={4} boxShadow="2xl" borderRadius="xl" borderStyle="solid">
+              <Flex justifyContent="space-between" alignItems="center">
+                <Text> File </Text>
+                <Heading
+                  color="gray.500"
+                  fontSize={12}
+                  maxW="80%"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  whiteSpace="nowrap"
+                >
+                  {t.file}
+                </Heading>
+              </Flex>
+              <Box width="100%">{res}</Box>
             </Container>
           )
-          setOrgText((curr: any[]) => [...curr, res])
+          setOrgText((curr: any[]) => [...curr, a])
         }),
       )
     }
@@ -32,5 +43,5 @@ export const TestOrg = (props: Props) => {
   }, [text])
   const t = orgText ? orgText : <Spinner />
   //console.log(t)
-  return <div>{t}</div>
+  return <Flex flexWrap="wrap">{t}</Flex>
 }

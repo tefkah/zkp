@@ -85,6 +85,7 @@ export const outlineNoteStyle = {
 
 export const NoteStyle = {
   ...viewerNoteStyle,
+  '.org-box': { my: 5 },
   '.katex': { overflowX: 'scroll' },
   ol: {
     paddingLeft: 4,
@@ -110,7 +111,7 @@ export const NoteStyle = {
     hyphens: 'auto !important',
   },
   '.title': {
-    textAlign: 'center',
+    fontSize: 20,
     marginBottom: '.2em',
   },
   '.subtitle': {

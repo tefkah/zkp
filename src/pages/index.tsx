@@ -23,7 +23,7 @@ import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { CTA } from '../components/CTA'
 import { Footer } from '../components/Footer'
 import React, { useEffect, useMemo, useState } from 'react'
-import { fetchDiff } from '../api/gitlab'
+import { fetchDiff } from '../server/gitlab'
 import useSWR from 'swr'
 import useFetch from '../utils/useFetch'
 import fetcher from '../utils/fetcher'
@@ -361,10 +361,10 @@ const Index = (props: { [key: string]: string }) => {
             />
           )}
         </Container>
-        <Container maxW="100vh">
-          <Text>{comparison || 'Select some commits to see the comparison!'}</Text>
-        </Container>
       </Main>
+      <Container maxW="80vw">
+        <Text>{comparison || 'Select some commits to see the comparison!'}</Text>
+      </Container>
       <DarkModeSwitch />
     </Container>
   )

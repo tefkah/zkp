@@ -9,6 +9,7 @@ export type FileDiff =
       filepath: string
       oid: string
       diff: Change[]
+      counts: { [key: string]: number }
     }
   | undefined
 
@@ -35,10 +36,24 @@ async function diffMap(
   const t2String = t2Buffer.toString('utf8')
 
   //  console.log(t1String)
+  const diff = Diff.diffWordsWithSpace(t1String, t2String)
+  const counts = diff.reduce<{ [key: string]: number }>(
+    (acc: { [key: string]: number }, curr: Change): { [key: string]: number } => {
+      if (curr.added) {
+        acc.additions = acc.additions + curr.value.split(' ').length
+      }
+      if (curr.removed) {
+        acc.deletions = acc.deletions + curr.value.split(' ').length
+      }
+      return acc
+    },
+    { additions: 0, deletions: 0 },
+  )
   return {
     filepath,
     oid: (await tree1?.oid()) || (await tree2?.oid()) || '',
-    diff: Diff.diffWordsWithSpace(t1String, t2String),
+    diff,
+    counts,
   }
 }
 
