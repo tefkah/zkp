@@ -76,6 +76,7 @@ async function diffMap(
   const [t1String, t2String] = treeStrings
   //  console.log(t1String)
   const diff = Diff.diffWordsWithSpace(t1String, t2String)
+  // get total additions for filecommit
   const { additions, deletions } = diff.reduce<{ [key: string]: number }>(
     (acc: { [key: string]: number }, curr: Change): { [key: string]: number } => {
       if (curr.added) {
@@ -88,6 +89,19 @@ async function diffMap(
     },
     { additions: 0, deletions: 0 },
   )
+
+  // and get rid of undefined props as Next doesnit like it
+  // TODO maybe optimize this to one loop, but prolly not a big deal
+  const cleanDiff = diff.map((curr) => {
+    if (curr.removed === undefined) {
+      return { ...curr, removed: false }
+    }
+    if (curr.added === undefined) {
+      return { ...curr, added: false }
+    }
+    return curr
+  })
+
   //console.log(diff)
   return {
     filepath,

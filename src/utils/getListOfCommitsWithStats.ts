@@ -2,6 +2,7 @@ import { FileDiff, getCommitDiff, getModifiedCommitDiff } from './getCommitDiff'
 import { commit, log } from 'isomorphic-git'
 import fs, { access } from 'fs'
 import { doSomethingAtFileStateChange, getFileStateChanges } from './getFileStateChanges'
+import { join } from 'path'
 
 export interface Commit {
   message: string
@@ -30,13 +31,16 @@ export async function getListOfCommitsWithStats(
   const commitList = await log({ fs, dir, gitdir })
   commitList.reverse()
 
+  const cwd = process.cwd()
+  const gitJS = join(cwd, 'data', 'git.json')
+  //const gitObj = JSON.parse(fs.readFileSync(), { encoding: 'utf8' }))
   let data = []
 
   for (let i = 0; i < commitList.length - 1; i++) {
     const curCommit = commitList[i]
     const nextCommit = commitList[i + 1]
 
-    const files: FileDiff[] = await getCommitDiff(curCommit.oid, nextCommit.oid, dir, gitdir, true)
+    const files: FileDiff[] = await getCommitDiff(curCommit.oid, nextCommit.oid, dir, gitdir)
     const { additions, deletions } = files.reduce(
       (acc: { [key: string]: number }, curr: FileDiff) => {
         if (!curr) return acc
@@ -56,5 +60,6 @@ export async function getListOfCommitsWithStats(
       deletions,
     })
   }
+  fs.writeFileSync(gitJS, JSON.stringify(data))
   return data
 }
