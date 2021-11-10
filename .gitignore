@@ -16,6 +16,9 @@
 /build
 /notes
 /public/notes
+/public/notes/
+
+
 
 # misc
 .DS_Store
