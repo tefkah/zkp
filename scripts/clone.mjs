@@ -6,7 +6,7 @@ await clone({
   fs,
   http,
   url: 'https://github.com/thomasfkjorna/thesis-writing',
-  dir: 'public/notes',
-  gitdir: 'public/notes/git',
+  dir: 'notes',
+  gitdir: 'notes/git',
   remote: 'notes',
 })

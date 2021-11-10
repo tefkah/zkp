@@ -1,15 +1,22 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { FileDiff, getModifiedCommitDiff } from '../../../utils/getCommitDiff'
 import { Change } from 'diff'
+import { join } from 'path'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug } = req.query
   if (slug && slug?.length < 2) {
     res.end(`Post: Error, api is like compare/commit1/commit2.`)
   }
+  const cwd = process.cwd()
   const [commit1, commit2] = slug as string[]
   try {
-    const diffs = await getModifiedCommitDiff(commit1, commit2, 'notes', 'notes/git')
+    const diffs = await getModifiedCommitDiff(
+      commit1,
+      commit2,
+      join(cwd, 'notes'),
+      join(cwd, 'notes', 'git'),
+    )
     const inFileDiffs = diffs.map((file: FileDiff) => {
       if (!file) {
         return
