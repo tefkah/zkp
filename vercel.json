@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/compare/[...slug].ts": {
+      "includeFiles": "notes/**"
+    },
+    "api/test/test.ts": {
+      "includeFiles": "notes/**"
+    }
+  }
+}
