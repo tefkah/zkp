@@ -30,13 +30,17 @@ export async function getListOfCommitsWithStats(
   console.log('hhhhhhh')
   const commitList = await log({ fs, dir, gitdir })
   commitList.reverse()
+  const commitIndexList = commitList.map((commit) => commit.oid)
 
   const cwd = process.cwd()
   const gitJS = join(cwd, 'data', 'git.json')
-  //const gitObj = JSON.parse(fs.readFileSync(), { encoding: 'utf8' }))
-  let data = []
+  const gitObj = JSON.parse(fs.readFileSync(gitJS, { encoding: 'utf8' }))
+  const lastWrittenCommit = gitObj[gitObj.length - 1].oid
+  const commitIndex = commitIndexList.indexOf(lastWrittenCommit) + 1
 
-  for (let i = 0; i < commitList.length - 1; i++) {
+  let data = gitObj
+
+  for (let i = commitIndex + 1; i < commitList.length - 1; i++) {
     const curCommit = commitList[i]
     const nextCommit = commitList[i + 1]
 
