@@ -11,10 +11,10 @@ import {
   Box,
   Spinner,
 } from '@chakra-ui/react'
-import { ResponsiveLine } from '@nivo/line'
+import { Point, ResponsiveLine } from '@nivo/line'
 import { BasicTooltip } from '@nivo/tooltip'
 import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
-import { format, parseISO } from 'date-fns'
+import { add, format, parseISO } from 'date-fns'
 
 import { Hero } from '../components/Hero'
 import { Container } from '../components/Container'
@@ -87,79 +87,89 @@ export interface CommitDatum {
   id: string
 }
 
+export type GitPerDate = {
+  [date: string]: DateCommit
+}
+
+interface DateCommit {
+  totalAdditions: number
+  totalDeletions: number
+  lastDate: number
+  lastOid: string
+  lastMessage: string
+  commits: SubDateCommit[]
+}
+
+interface SubDateCommit {
+  oid: string
+  message: string
+  date: number
+  files: any[]
+  additions: number
+  deletions: number
+}
+
 const glCommits =
   'https://gitlab.com/api/v4/projects/thomasfkjorna%2fthesis-writing/repository/commits?with_stats=true&per_page=200'
 
-const Index = (props: { [key: string]: Commit[] }) => {
+const Index = (props: { [key: string]: GitPerDate }) => {
   //const [data, setData] = useState<Commit[]>()
   const [diffs, setDiffs] = useState<Diff>({ commit1: '', commit2: '' })
   const [comparison, setComparison] = useState<any>()
 
-  const { commits } = props
-  const { data, isLoading } = { data: commits, isLoading: false } //useFetch(glCommits, { fallback: commits })
+  const { dataPerDate } = props
+  const { data, isLoading } = { data: dataPerDate, isLoading: false } //useFetch(glCommits, { fallback: commits })
 
+  console.log(data)
   useEffect(() => {
     if (diffs.commit1 && diffs.commit2) {
-      console.log('hi')
       const diffBoys = <TestOrg commit1={diffs.commit1} commit2={diffs.commit2} />
-      console.log(diffBoys)
       setComparison(diffBoys)
       setDiffs({ commit1: '', commit2: '' })
       return
     }
-    //setComparison(<Text>aaaa</Text>)
-    //return
-    //   fetchDiff('ThomasFKJorna/thesis-writing', diffs.commit1, diffs.commit2).then((res) => {
-    //     console.log(res)
-
-    //     if (!res.error) {
-    //       const comps = res.diffs.map((diff: any, i: number) => {
-    //         return <Text key={i}> {diff.diff}</Text>
-    //       })
-    //     }
-
-    //     setComparison('whoopie')
-    //     return
-    //   })
-    // }
   }, [diffs])
 
   const commitChartData = useMemo(() => {
     if (isLoading) {
+      console.log('aaaaaa no data ')
       return [
         { id: 'Additions', data: [] },
         { id: 'Deletions', data: [] },
       ]
     }
-    const adds = data.map((commit: Commit): CommitDatum => {
-      return {
-        message: commit.message,
-        y: commit.additions,
-        x: new Date(commit.date),
-        id: commit.oid,
-      }
-    })
-    const dels = data.map((commit: Commit): CommitDatum => {
-      return {
-        message: commit.message,
-        y: -commit.deletions,
-        x: new Date(commit.date),
-        id: commit.oid,
-      }
-    })
+    const [adds, dels] = ['additions', 'deletions'].map((a) =>
+      Object.entries(data).map((entry: Array<string | DateCommit>): CommitDatum => {
+        const date = entry[0] as string
+        const commit = entry[1] as DateCommit
+        return {
+          message: commit.lastMessage,
+          y: a === 'additions' ? commit.totalAdditions : -commit.totalDeletions,
+          x: parseISO(`${date}T12:00:00.000Z`),
+          id: commit.lastOid,
+        }
+      }),
+    )
+
     return [
-      { id: 'Additions', data: adds },
+      {
+        id: 'Additions',
+        data: adds,
+      },
       { id: 'Deletions', data: dels },
     ]
   }, [data])
 
-  const compareDiffs = (diff: string | undefined, commits: Commit[] | undefined = data) => {
+  const compareDiffs = (
+    diff: string | undefined,
+    commits: DateCommit[] | undefined = Object.values(data),
+  ) => {
     if (!commits || !diff) {
       setDiffs({ commit1: '', commit2: '' })
       return
     }
 
-    const commitList = commits.map((commit: any) => commit.id) // the gitlab api needs the commits to be in chronological order
+    const commitList = commits.map((commit: DateCommit) => commit.lastOid).reverse() // the gitlab api needs the commits to be in chronological order
     // in order to compare the commits
     if (diffs?.commit1) {
       const compareObj =
@@ -173,7 +183,7 @@ const Index = (props: { [key: string]: Commit[] }) => {
     return
   }
 
-  const onClickHandler = (point: any, event: any): void => {
+  const onClickHandler = (point: Point, event: any): void => {
     if (!point) {
       return
     }
@@ -215,7 +225,7 @@ const Index = (props: { [key: string]: Commit[] }) => {
           ) : (
             <ResponsiveLine
               data={commitChartData}
-              //xFormat={(x) => format(x, 'MMMM dd')}
+              // xFormat={(x) => format(x, 'MMMM dd')}
               isInteractive
               useMesh
               curve="monotoneX"
@@ -227,8 +237,6 @@ const Index = (props: { [key: string]: Commit[] }) => {
               axisBottom={{
                 format: '%b %d',
                 tickValues: 'every 2 days',
-                legend: 'time scale',
-                legendOffset: -12,
               }}
               crosshairType="x"
               onClick={onClickHandler}
@@ -265,7 +273,7 @@ const Index = (props: { [key: string]: Commit[] }) => {
                         )}
                       </Box>
                     }
-                  ></BasicTooltip>
+                  />
                 )
               }}
             />
