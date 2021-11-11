@@ -21,6 +21,23 @@ export interface File {
   deletions: number
 }
 
+const consolidateCommitsPerDay = (data: any) => {
+  return data.reduce((acc: any, curr: Commit) => {
+    const commitDate = new Date(curr.date * 1000).toISOString().slice(0, 10)
+
+    return {
+      ...acc,
+      [commitDate]: {
+        additions: (acc?.[commitDate]?.additions || 0) + curr.additions,
+        deletions: (acc?.[commitDate]?.deletions || 0) + curr.deletions,
+        date: curr.date,
+        oid: curr.oid,
+        commits: [...(acc?.[commitDate]?.commits || []), curr],
+      },
+    }
+  }, {})
+}
+
 export async function getListOfCommitsWithStats(
   commit1: string,
   commit2: string,
@@ -33,12 +50,27 @@ export async function getListOfCommitsWithStats(
   const commitIndexList = commitList.map((commit) => commit.oid)
 
   const cwd = process.cwd()
+
   const gitJS = join(cwd, 'data', 'git.json')
-  const gitObj = JSON.parse(fs.readFileSync(gitJS, { encoding: 'utf8' }))
+  const gitSlimJS = join(cwd, 'data', 'gitSlim.json')
+  const gitPerDateJS = join(cwd, 'data', 'gitPerDate.json')
+
+  const gitObj = JSON.parse(fs.readFileSync(gitJS, { encoding: 'utf8' })) || []
+  const gitSlimObj = JSON.parse(fs.readFileSync(gitSlimJS, { encoding: 'utf8' })) || []
+
   const lastWrittenCommit = gitObj[gitObj.length - 1].oid
   const commitIndex = commitIndexList.indexOf(lastWrittenCommit) + 1
 
+  if (commitIndex === gitObj.length) {
+    const gitPerDateObj =
+      JSON.parse(fs.readFileSync(gitPerDateJS, { encoding: 'utf8' })) ||
+      consolidateCommitsPerDay(gitSlimObj)
+    console.log('No new changes since last build.')
+    return { data: gitObj, dataWithoutDiffs: gitSlimObj, dataPerDate: gitPerDateObj }
+  }
+
   let data = gitObj
+  let dataWithoutDiffs = gitSlimObj
 
   for (let i = commitIndex + 1; i < commitList.length - 1; i++) {
     const curCommit = commitList[i]
@@ -55,15 +87,30 @@ export async function getListOfCommitsWithStats(
       { additions: 0, deletions: 0 },
     )
 
-    data.push({
+    const fullData = {
       oid: nextCommit.oid,
       message: nextCommit.commit.message,
       date: nextCommit.commit.author.timestamp,
       files: files,
       additions,
       deletions,
-    })
+    }
+    const compData = {
+      oid: fullData.oid,
+      message: fullData.message,
+      date: fullData.date,
+      additions: additions,
+      deletions,
+    }
+    data.push(fullData)
+    dataWithoutDiffs.push(compData)
   }
+
+  const gitPerDate = consolidateCommitsPerDay(dataWithoutDiffs)
+
   fs.writeFileSync(gitJS, JSON.stringify(data))
-  return data
+  fs.writeFileSync(gitSlimJS, JSON.stringify(dataWithoutDiffs))
+  fs.writeFileSync(gitPerDateJS, JSON.stringify(gitPerDate))
+
+  return { data, dataWithoutDiffs, dataPerDate: gitPerDate }
 }

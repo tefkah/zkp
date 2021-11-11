@@ -379,12 +379,12 @@ export default Index
 export async function getStaticProps() {
   // const commits = await fetcher(glCommits)
   const cwd = process.cwd()
-  const commits = await getListOfCommitsWithStats(
+  const { data, dataWithoutDiffs, dataPerDate } = await getListOfCommitsWithStats(
     '',
     '',
     join(cwd, 'notes'),
     join(cwd, 'notes', 'git'),
   )
 
-  return { props: { commits } }
+  return { props: { dataPerDate } }
 }
