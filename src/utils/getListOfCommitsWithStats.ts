@@ -1,9 +1,9 @@
-import { FileDiff, getCommitDiff, getModifiedCommitDiff } from './getCommitDiff'
+import { getCommitDiff, getModifiedCommitDiff } from './getCommitDiff'
 import { commit, log } from 'isomorphic-git'
 import fs, { access } from 'fs'
 import { doSomethingAtFileStateChange, getFileStateChanges } from './getFileStateChanges'
 import { join } from 'path'
-import { Commit } from '../api'
+import { FileDiff, Commit } from '../api'
 
 const consolidateCommitsPerDay = (data: any) => {
   return data.reduce((acc: any, curr: Commit) => {

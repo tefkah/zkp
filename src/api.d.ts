@@ -28,10 +28,12 @@ export interface Commit {
   oid: string
 }
 
-export interface FileDiff {
-  filepath: string
-  oid: string
-  diff: Changes[]
-  additions: number
-  deletions: number
-}
+export type FileDiff =
+  | {
+      filepath: string
+      oid: string
+      diff: Changes[]
+      additions: number
+      deletions: number
+    }
+  | undefined

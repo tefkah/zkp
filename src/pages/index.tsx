@@ -26,7 +26,8 @@ import useSWR from 'swr'
 import useFetch from '../utils/useFetch'
 import fetcher from '../utils/fetcher'
 import { TestOrg } from '../components/testOrg'
-import { Commit, getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
+import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
+import { Commit } from '../api'
 import { join } from 'path'
 
 export interface Committ {

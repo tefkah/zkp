@@ -1,11 +1,11 @@
-import { getCommits, tryReadJSON } from '../utils/getListOfCommitsWithStats'
-import { Commit } from '../api'
+import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
+import { Commit } from '../../api'
 import { Box, Container, Flex, Spinner, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import ParsedDiff from '../server/parseDiff'
-import useFetch from '../utils/useFetch'
+import ParsedDiff from '../../server/parseDiff'
+import useFetch from '../../utils/useFetch'
 import { commit } from 'isomorphic-git'
-import { DiffBox } from '../components/DiffBox'
+import { DiffBox } from '../../components/DiffBox'
 
 export async function parseCommits(commitData: Commit) {
   const parsedCommits = []
@@ -13,6 +13,7 @@ export async function parseCommits(commitData: Commit) {
   for (let i = 0; i < commitData.files.length; i++) {
     const file = commitData.files[i]
 
+    if (!file) return
     const { additions, deletions, filepath, oid } = file
     const orgText = await ParsedDiff({ diff: file, truncated: true })
     parsedCommits.push(
@@ -37,7 +38,7 @@ export default function AAAA(props: Props) {
   useEffect(() => {
     ;(async () => {
       const coms = await parsedCommits
-      if (!coms.length) {
+      if (!coms?.length) {
         setParsedText([])
         return
       }
@@ -80,8 +81,11 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({ params }) {
-  const { commit } = params
+export interface StaticProps {
+  params: { commit: string }
+}
+export async function getStaticProps(props: StaticProps) {
+  const { commit } = props.params
   const commits = await tryReadJSON('data/git.json')
 
   const commitData =
