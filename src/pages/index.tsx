@@ -219,7 +219,7 @@ const Index = (props: { [key: string]: GitPerDate }) => {
 
       <Main>
         <Text>Testing fetching</Text>
-        <Container h={200}>
+        <Container h={300} mb={100}>
           {isLoading ? (
             <Spinner />
           ) : (
@@ -230,12 +230,12 @@ const Index = (props: { [key: string]: GitPerDate }) => {
               useMesh
               curve="monotoneX"
               enableArea
-              enableGridX={false}
+              //enableGridX={false}
               enableGridY={false}
               yScale={{ min: -500, max: 'auto', type: 'linear' }}
               xScale={{ type: 'time' }}
               axisBottom={{
-                format: '%b %d',
+                format: (value: Date) => value.toISOString(),
                 tickValues: 'every 2 days',
               }}
               crosshairType="x"

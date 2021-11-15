@@ -48,6 +48,31 @@ const tryParse = (path: string, fallback?: any[]) => {
     return fallback || []
   }
 }
+export interface BasicCommit {
+  oid: string
+  commit: SubCommit
+  payload: string
+}
+
+interface SubCommit {
+  message: string
+  parent: string[]
+  tree: string
+  author: Author
+  committer: Author
+}
+
+interface Author {
+  name: string
+  email: string
+  timestamp: number
+  timezoneOffset: number
+}
+
+export const getCommits = async (dir: string = 'notes', gitdir: string = 'notes/git') => {
+  const commitList = (await log({ fs, dir, gitdir })).reverse()
+  return commitList
+}
 
 export async function getListOfCommitsWithStats(
   commit1: string,
@@ -55,10 +80,6 @@ export async function getListOfCommitsWithStats(
   dir: string = 'notes',
   gitdir: string = 'notes/git',
 ) {
-  const commitList = await log({ fs, dir, gitdir })
-  commitList.reverse()
-  const commitIndexList = commitList.map((commit) => commit.oid)
-
   const cwd = process.cwd()
 
   const gitJS = join(cwd, 'data', 'git.json')
@@ -69,6 +90,9 @@ export async function getListOfCommitsWithStats(
   const gitSlimObj = tryParse(gitSlimJS)
 
   const lastWrittenCommit = gitObj[gitObj.length - 1]?.oid || ''
+
+  const commitList = await getCommits()
+  const commitIndexList = commitList.map((commit) => commit.oid)
   const commitIndex = commitIndexList.indexOf(lastWrittenCommit) + 1
 
   if (gitObj.length && commitIndex === gitObj.length) {
