@@ -83,7 +83,44 @@ export const outlineNoteStyle = {
   },
 }
 
-export const NoteStyle = {
+export const diffStyle = {
+  'span ~ p': {
+    display: 'inline',
+  },
+  title: {
+    fontSize: 32,
+  },
+  '.block-addition': {
+    //p: 3,
+    color: 'green.500',
+    backgroundColor: 'green.50',
+    // display: 'inline-block !important',
+  },
+  '.block-deletion': {
+    // p: 3,
+    color: 'red.500',
+    backgroundColor: 'red.50',
+    fontStyle: 'italic',
+    textDecoration: 'line-through',
+    // display: 'inline-block !important',
+  },
+  '.span-addition': {
+    //p: 3,
+    color: 'green.500',
+    backgroundColor: 'green.50',
+    display: 'inline-block !important',
+  },
+  '.span-deletion': {
+    // p: 3,
+    color: 'red.500',
+    backgroundColor: 'red.50',
+    fontStyle: 'italic',
+    textDecoration: 'line-through',
+    display: 'inline-block !important',
+  },
+}
+
+export const noteStyle = {
   ...viewerNoteStyle,
   '.org-box': { my: 5 },
   '.katex': { overflowX: 'scroll' },
@@ -211,4 +248,6 @@ export const NoteStyle = {
   '.footdef': { marginBottom: '1em' },
   '.figure': { padding: '1em' },
   '.figure p': { textAlign: 'center' },
+
+  ...diffStyle,
 }

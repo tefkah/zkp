@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { FileDiff, getCommitDiff, getModifiedCommitDiff } from '../../../utils/getCommitDiff'
+import { getCommitDiff, getModifiedCommitDiff } from '../../../utils/getCommitDiff'
 import { Change } from 'diff'
 import { join } from 'path'
+import { diffToString } from '../../../server/parseDiff'
+import { FileDiff } from '../../../api'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug } = req.query
@@ -23,17 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       return {
         file: file.filepath,
-        diff: file?.diff
-          .map((diff: Change) => {
-            const begin = diff.added
-              ? '\n#+begin_addition\n'
-              : diff.removed
-              ? '\n#+begin_deletion\n'
-              : ''
-            const end = diff.added ? '\n#+end_addition\n' : diff.removed ? '\n#+end_deletion\n' : ''
-            return `${begin}${diff.value}${end}`
-          })
-          .join(''),
+        diff: diffToString(file),
       }
     })
 

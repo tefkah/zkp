@@ -3,23 +3,7 @@ import { commit, log } from 'isomorphic-git'
 import fs, { access } from 'fs'
 import { doSomethingAtFileStateChange, getFileStateChanges } from './getFileStateChanges'
 import { join } from 'path'
-
-export interface Commit {
-  message: string
-  date: number
-  files: File[]
-  additions: number
-  deletions: number
-  oid: string
-}
-
-export interface File {
-  filepath: string
-  oid: string
-  diff: any[]
-  additions: number
-  deletions: number
-}
+import { Commit } from '../api'
 
 const consolidateCommitsPerDay = (data: any) => {
   return data.reduce((acc: any, curr: Commit) => {
@@ -39,34 +23,15 @@ const consolidateCommitsPerDay = (data: any) => {
   }, {})
 }
 
-const tryParse = (path: string, fallback?: any[]) => {
+export const tryReadJSON = async (path: string, fallback?: any[]) => {
+  const cwdPath = join(process.cwd(), path)
   try {
-    return JSON.parse(fs.readFileSync(path, { encoding: 'utf8' }))
+    return JSON.parse(await fs.promises.readFile(cwdPath, { encoding: 'utf8' }))
   } catch (e) {
     console.log(e)
     console.log('Using new obj')
     return fallback || []
   }
-}
-export interface BasicCommit {
-  oid: string
-  commit: SubCommit
-  payload: string
-}
-
-interface SubCommit {
-  message: string
-  parent: string[]
-  tree: string
-  author: Author
-  committer: Author
-}
-
-interface Author {
-  name: string
-  email: string
-  timestamp: number
-  timezoneOffset: number
 }
 
 export const getCommits = async (dir: string = 'notes', gitdir: string = 'notes/git') => {
@@ -80,14 +45,12 @@ export async function getListOfCommitsWithStats(
   dir: string = 'notes',
   gitdir: string = 'notes/git',
 ) {
-  const cwd = process.cwd()
+  const gitJS = join('data', 'git.json')
+  const gitSlimJS = join('data', 'gitSlim.json')
+  const gitPerDateJS = join('data', 'gitPerDate.json')
 
-  const gitJS = join(cwd, 'data', 'git.json')
-  const gitSlimJS = join(cwd, 'data', 'gitSlim.json')
-  const gitPerDateJS = join(cwd, 'data', 'gitPerDate.json')
-
-  const gitObj = tryParse(gitJS)
-  const gitSlimObj = tryParse(gitSlimJS)
+  const gitObj = await tryReadJSON(gitJS)
+  const gitSlimObj = await tryReadJSON(gitSlimJS)
 
   const lastWrittenCommit = gitObj[gitObj.length - 1]?.oid || ''
 
@@ -96,7 +59,7 @@ export async function getListOfCommitsWithStats(
   const commitIndex = commitIndexList.indexOf(lastWrittenCommit) + 1
 
   if (gitObj.length && commitIndex === gitObj.length) {
-    const gitPerDateTest = tryParse(gitPerDateJS)
+    const gitPerDateTest = await tryReadJSON(gitPerDateJS)
     const gitPerDateObj = gitPerDateTest.length
       ? gitPerDateTest
       : consolidateCommitsPerDay(gitSlimObj)
@@ -148,9 +111,9 @@ export async function getListOfCommitsWithStats(
 
   const gitPerDate = consolidateCommitsPerDay(dataWithoutDiffs)
 
-  fs.writeFileSync(gitJS, JSON.stringify(data))
-  fs.writeFileSync(gitSlimJS, JSON.stringify(dataWithoutDiffs))
-  fs.writeFileSync(gitPerDateJS, JSON.stringify(gitPerDate))
+  await fs.promises.writeFile(gitJS, JSON.stringify(data))
+  await fs.promises.writeFile(gitSlimJS, JSON.stringify(dataWithoutDiffs))
+  await fs.promises.writeFile(gitPerDateJS, JSON.stringify(gitPerDate))
 
   return { data, dataWithoutDiffs, dataPerDate: gitPerDate }
 }

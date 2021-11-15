@@ -3,16 +3,7 @@ import fs from 'fs'
 import * as Diff from 'diff'
 import { doSomethingAtFileStateChange } from './getFileStateChanges'
 import { Change } from 'diff'
-
-export type FileDiff =
-  | {
-      filepath: string
-      oid: string
-      diff: Change[]
-      additions: number
-      deletions: number
-    }
-  | undefined
+import { FileDiff } from '../api'
 
 const bufferToString = async (tree: WalkerEntry) => {
   const content = (await tree?.content()) || []

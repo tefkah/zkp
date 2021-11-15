@@ -17,7 +17,7 @@ import visit from 'unist-util-visit'
 
 import React, { ReactNode, useMemo } from 'react'
 import { Box, Text } from '@chakra-ui/react'
-import { NoteStyle } from '../components/NoteStyle'
+import { noteStyle } from '../components/NoteStyle'
 import { Keyword, OrgData, OrgNode, Paragraph, SpecialBlock } from 'uniorg'
 
 interface Props {
@@ -26,6 +26,7 @@ interface Props {
 
 export const parseOrg = async (props: Props) => {
   const { text } = props
+  console.log(text)
   const processor = unified()
     .use(uniorgParse)
     .use(() => (node) => {
@@ -33,8 +34,8 @@ export const parseOrg = async (props: Props) => {
       visit(node, 'keyword', (keyw) => {
         const keyword = keyw as Keyword
         if (keyword.key.toLowerCase() === 'title') {
-          console.log(keyword)
-          console.log(typeof keyword.value)
+          //  console.log(keyword)
+          //  console.log(typeof keyword.value)
           // h from hastscript. or manually as { type: 'element', tagName: 'transclusion', properties: { value: keyword.value } }
           Object.assign(keyword, {
             type: 'element',
@@ -48,7 +49,7 @@ export const parseOrg = async (props: Props) => {
           block as SpecialBlock
         if (blockType.toLowerCase() === 'addition' || blockType.toLowerCase() === 'deletion') {
           if (children[0].type === 'paragraph' && children.length === 1) {
-            console.log('ppppp')
+            // console.log('ppppp')
             Object.assign(block, {
               ...children[0],
               type: 'element',
@@ -115,7 +116,5 @@ export const parseOrg = async (props: Props) => {
         }, */
     })
 
-  //  console.log(text)
-
-  return await processor.process(text)
+  return (await processor.process(text)).result
 }
