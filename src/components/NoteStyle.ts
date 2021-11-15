@@ -144,7 +144,6 @@ export const noteStyle = {
     pb: 2,
   },
   div: {
-    fontFamily: 'serif',
     hyphens: 'auto !important',
   },
   '.title': {

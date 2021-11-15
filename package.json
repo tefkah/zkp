@@ -11,6 +11,7 @@
     "@chakra-ui/theme-tools": "1.1.2",
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.1.5",
+    "@fontsource/eb-garamond": "^4.5.1",
     "@nivo/core": "^0.74.0",
     "@nivo/line": "^0.74.0",
     "@types/diff": "^5.0.1",

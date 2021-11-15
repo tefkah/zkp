@@ -48,20 +48,25 @@ export default function AAAA(props: Props) {
 
   return (
     <Container>
-      <p>this should be a static page, which shows all the files CHANGED at this commit.</p>
-      <p>
+      <Text>this should be a static page, which shows all the files CHANGED at this commit.</Text>
+      <Text>
         Each of the files at this commit should be a file which shows the differences between this
         commit and the last.
-      </p>
-      <p>
+      </Text>
+      <Text>
         There should also be an option to view ALL the files at this commit, but this should not be
         static (would be too much to keep track of, not worth it.
-      </p>
-      <Flex flexDir="column">
-        <Text>{`Commit ${oid}`}</Text>
-        <Text>{new Date(date * 1000).toLocaleString()}</Text>
+      </Text>
+      <Flex justifyContent="space-between">
+        <Flex flexDir="column">
+          <Text>{message}</Text>
+          <Text>{`Commit ${oid}`}</Text>
+          <Text>{new Date(date * 1000).toLocaleString()}</Text>
+        </Flex>
+        <Text mx={3} color="red.500">{`-${deletions}`}</Text>
+        <Text color="green.500">{`+${additions}`}</Text>
       </Flex>
-      <div>{parsedText ?? <Spinner />}</div>
+      <Box>{parsedText ?? <Spinner />}</Box>
     </Container>
   )
 }

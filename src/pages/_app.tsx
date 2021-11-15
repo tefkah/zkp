@@ -1,3 +1,5 @@
+import '@fontsource/eb-garamond/400.css'
+
 import { ChakraProvider } from '@chakra-ui/react'
 
 import theme from '../theme'

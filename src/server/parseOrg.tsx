@@ -16,9 +16,10 @@ import rehype2react from 'rehype-react'
 import visit from 'unist-util-visit'
 
 import React, { ReactNode, useMemo } from 'react'
-import { Box, Text } from '@chakra-ui/react'
+import { Box, Heading, ListItem, OrderedList, Text, UnorderedList } from '@chakra-ui/react'
 import { noteStyle } from '../components/NoteStyle'
 import { Keyword, OrgData, OrgNode, Paragraph, SpecialBlock } from 'uniorg'
+import Link from 'next/link'
 
 interface Props {
   text: string
@@ -81,10 +82,30 @@ export const parseOrg = async (props: Props) => {
         h1: (head) => {
           const { className, value, children } = head
           if (className !== 'title') {
-            return <h1>{children as ReactNode}</h1>
+            return <Heading>{children as ReactNode}</Heading>
           }
-          return <h1 className="title">{value as string}</h1>
+          return <Heading className="title">{value as string}</Heading>
         },
+        p: Text,
+        div: Box,
+        a: ({ href, children }) => (
+          <Link href={href as string}>
+            <a>{children as ReactNode}</a>
+          </Link>
+        ),
+        ul: UnorderedList,
+        ol: OrderedList,
+        li: ListItem,
+        span: ({ className, children }) => (
+          <Text as="span" className={className as string}>
+            {children as ReactNode}
+          </Text>
+        ),
+        section: ({ className, children }) => (
+          <Box className={className as string} as="section">
+            {children as ReactNode}
+          </Box>
+        ),
       },
       // eslint-disable-next-line react/display-name
       /*       components: {
