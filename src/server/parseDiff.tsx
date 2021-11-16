@@ -33,9 +33,9 @@ export const diffToString = (diff: FileDiff) => {
     .join('')
 }
 
-export default async function ParsedDiff(props: Props) {
+export default function ParsedDiff(props: Props) {
   const { diff } = props
   const diffString = diffToString(diff)
-  const parsedOrg = await parseOrg({ text: diffString })
+  const parsedOrg = parseOrg({ text: diffString })
   return <Box>{parsedOrg as ReactNode}</Box>
 }

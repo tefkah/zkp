@@ -25,7 +25,7 @@ interface Props {
   text: string
 }
 
-export const parseOrg = async (props: Props) => {
+export function parseOrg(props: Props): React.ReactElement {
   const { text } = props
   console.log(text)
   const processor = unified()
@@ -86,7 +86,11 @@ export const parseOrg = async (props: Props) => {
           }
           return <Heading className="title">{value as string}</Heading>
         },
-        p: Text,
+        p: ({ children, ...rest }) => (
+          <Text lang="en" {...{ ...rest }}>
+            {children as ReactNode}
+          </Text>
+        ),
         div: Box,
         a: ({ href, children }) => (
           <Link href={href as string}>
@@ -137,5 +141,5 @@ export const parseOrg = async (props: Props) => {
         }, */
     })
 
-  return (await processor.process(text)).result
+  return <Box> {processor.processSync(text).result as React.ReactElement}</Box>
 }

@@ -7,22 +7,17 @@ import useFetch from '../../utils/useFetch'
 import { commit } from 'isomorphic-git'
 import { DiffBox } from '../../components/DiffBox'
 
-export async function parseCommits(commitData: Commit) {
-  const parsedCommits = []
-
-  for (let i = 0; i < commitData.files.length; i++) {
-    const file = commitData.files[i]
-
+export function parseCommits(commitData: Commit) {
+  return commitData?.files?.map((file) => {
     if (!file) return
     const { additions, deletions, filepath, oid } = file
-    const orgText = await ParsedDiff({ diff: file, truncated: true })
-    parsedCommits.push(
+    const orgText = ParsedDiff({ diff: file, truncated: true })
+    return (
       <DiffBox key={file.filepath} {...{ oid, filepath, deletions, additions }}>
         {orgText}
-      </DiffBox>,
+      </DiffBox>
     )
-  }
-  return parsedCommits
+  })
 }
 
 interface Props {
@@ -31,21 +26,10 @@ interface Props {
 export default function AAAA(props: Props) {
   const { commitData } = props
   const { oid, deletions, additions, message, date } = commitData
-  const [parsedText, setParsedText] = useState<any[]>([])
+
   //const {data:parsedText, isLoading} = useFetch(e)
 
-  const parsedCommits = parseCommits(commitData)
-  useEffect(() => {
-    ;(async () => {
-      const coms = await parsedCommits
-      if (!coms?.length) {
-        setParsedText([])
-        return
-      }
-      console.log(coms)
-      setParsedText(coms)
-    })()
-  }, [])
+  const parsedText = parseCommits(commitData)
 
   return (
     <Container>

@@ -7,9 +7,9 @@ interface Props {
   text: string
 }
 
-export const OrgProcessor = async (props: Props) => {
+export const OrgProcessor = (props: Props) => {
   // try {
-  const processedText = await parseOrg(props)
+  const processedText = parseOrg(props)
 
   const t = (
     <Box
