@@ -32,6 +32,7 @@ import { join } from 'path'
 import Nav from '../components/Nav'
 import Shell from '../components/Shell'
 import Header from '../components/Header'
+import Sidebar from '../components/SideBar'
 
 export interface Committ {
   id: string
@@ -221,82 +222,97 @@ const Index = (props: { [key: string]: GitPerDate }) => {
   return (
     <>
       <Header />
-      <Shell>
-        <Container>
+      <Box
+        //     padding="5rem 0"
+        //     flex="1"
+        //     display="flex"
+        //     flexDirection="column"
+        //     justifyContent="center"
+        //     alignItems="center"
+        w="full"
+        //      w="full"
+        //pb="12"
+        // pt="3"
+        // mx="auto"
+      >
+        <Box flexDir="row" display={{ base: 'block', md: 'flex' }}>
+          <Sidebar />
           {/* <Hero title="My cool thesis" /> */}
-          <Container>
+          <Container
+            style={{ flex: 1 }}
+            display="flex"
+            flexDir="column"
+            justifyContent="space-between"
+            w="70vw"
+          >
             <Container>
+              <Text>{comparison || 'Select some commits to see the comparison!'}</Text>
+            </Container>
+            <Box bg={dark ? 'gray.600' : 'gray.100'} h={50} w="70vw">
               {isLoading ? (
                 <Spinner />
               ) : (
-                <Box bg={dark ? 'gray.600' : 'gray.100'} pos="fixed" bottom={0} h={50} w="100vw">
-                  <ResponsiveLine
-                    margin={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                    data={commitChartData}
-                    // xFormat={(x) => format(x, 'MMMM dd')}
-                    isInteractive
-                    useMesh
-                    curve="monotoneX"
-                    enableArea
-                    //enableGridX={false}
-                    enableGridY={false}
-                    yScale={{ min: -500, max: 'auto', type: 'linear' }}
-                    xScale={{ type: 'time' }}
-                    axisBottom={{
-                      format: (value: Date) => value.toISOString(),
-                      tickValues: 'every 2 days',
-                    }}
-                    crosshairType="x"
-                    onClick={onClickHandler}
-                    //enableSlices={'x'}
-                    tooltip={({ point }) => {
-                      const node = point.data as unknown as CommitDatum
-                      return (
-                        <Box
-                          p={3}
-                          borderRadius="md"
-                          boxShadow="md"
-                          bg={dark ? 'gray.600' : 'gray.100'}
-                        >
-                          <Text fontWeight="bold">
-                            {node.message.slice(0, 8) === 'Scripted' ? 'Auto-commit' : node.message}
-                          </Text>
-                          <Text color="gray.400" fontSize={9}>{`${format(
-                            node.x as Date,
-                            'MMMM dd, hh:mm',
-                          )}`}</Text>
-                          {point.serieId === 'Additions' ? (
-                            <>
-                              <Text fontSize={12} color="green.500">{`+ ${node.y}`}</Text>
-                              <Text fontSize={12} color="red.500">
-                                {`- ${Math.abs(commitChartData[1]?.data?.[point?.index]?.y)}`}
-                              </Text>
-                            </>
-                          ) : (
-                            <>
-                              <Text fontSize={12} color="green.500">{`+ ${
-                                commitChartData[0].data[
-                                  point.index - commitChartData[0]?.data?.length
-                                ]?.y
-                              }`}</Text>
-                              <Text fontSize={12} color="red.500">{`- ${Math.abs(node.y)}`}</Text>
-                            </>
-                          )}
-                        </Box>
-                      )
-                    }}
-                  />
-                </Box>
+                <ResponsiveLine
+                  margin={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  data={commitChartData}
+                  // xFormat={(x) => format(x, 'MMMM dd')}
+                  isInteractive
+                  useMesh
+                  curve="monotoneX"
+                  enableArea
+                  //enableGridX={false}
+                  enableGridY={false}
+                  yScale={{ min: -500, max: 'auto', type: 'linear' }}
+                  xScale={{ type: 'time' }}
+                  axisBottom={{
+                    format: (value: Date) => value.toISOString(),
+                    tickValues: 'every 2 days',
+                  }}
+                  crosshairType="x"
+                  onClick={onClickHandler}
+                  //enableSlices={'x'}
+                  tooltip={({ point }) => {
+                    const node = point.data as unknown as CommitDatum
+                    return (
+                      <Container
+                        p={3}
+                        borderRadius="md"
+                        boxShadow="md"
+                        bg={dark ? 'gray.600' : 'gray.100'}
+                      >
+                        <Text fontWeight="bold">
+                          {node.message.slice(0, 8) === 'Scripted' ? 'Auto-commit' : node.message}
+                        </Text>
+                        <Text color="gray.400" fontSize={9}>{`${format(
+                          node.x as Date,
+                          'MMMM dd, hh:mm',
+                        )}`}</Text>
+                        {point.serieId === 'Additions' ? (
+                          <>
+                            <Text fontSize={12} color="green.500">{`+ ${node.y}`}</Text>
+                            <Text fontSize={12} color="red.500">
+                              {`- ${Math.abs(commitChartData[1]?.data?.[point?.index]?.y)}`}
+                            </Text>
+                          </>
+                        ) : (
+                          <>
+                            <Text fontSize={12} color="green.500">{`+ ${
+                              commitChartData[0].data[
+                                point.index - commitChartData[0]?.data?.length
+                              ]?.y
+                            }`}</Text>
+                            <Text fontSize={12} color="red.500">{`- ${Math.abs(node.y)}`}</Text>
+                          </>
+                        )}
+                      </Container>
+                    )
+                  }}
+                />
               )}
-            </Container>
+            </Box>
           </Container>
-          <Box h="60vh">
-            <Container h={200} maxW="80vw">
-              <Text>{comparison || 'Select some commits to see the comparison!'}</Text>
-            </Container>
-          </Box>
-        </Container>
-      </Shell>
+        </Box>
+      </Box>
     </>
   )
 }

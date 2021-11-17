@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react'
 import { FaBell, FaClipboardCheck, FaRss } from 'react-icons/fa'
 import { AiFillGift } from 'react-icons/ai'
-import { BsGearFill } from 'react-icons/bs'
+import { BsGearFill, BsReverseLayoutSidebarInsetReverse } from 'react-icons/bs'
 import { FiMenu, FiSearch } from 'react-icons/fi'
 import { HiCode, HiCollection } from 'react-icons/hi'
 import { MdHome, MdKeyboardArrowRight } from 'react-icons/md'
@@ -86,7 +86,7 @@ export default function Shell(props: BoxProps) {
       w="60"
       {...props}
     >
-      <Flex px="4" py="5" align="center">
+      <Flex px="4" py="5" align="center" justifyContent="space-between">
         {/* <Logo /> */}
         <Text
           fontSize="2xl"
@@ -96,6 +96,13 @@ export default function Shell(props: BoxProps) {
         >
           Choc UI
         </Text>
+        <IconButton
+          aria-label="Menu"
+          display={{ base: 'inline-flex' }} //, md: 'none' }}
+          onClick={sidebar.onToggle}
+          icon={<BsReverseLayoutSidebarInsetReverse />}
+          size="sm"
+        />
       </Flex>
       <Flex direction="column" as="nav" fontSize="sm" color="gray.600" aria-label="Main Navigation">
         <NavItem icon={MdHome}>Home</NavItem>
@@ -149,17 +156,17 @@ export default function Shell(props: BoxProps) {
         >
           <IconButton
             aria-label="Menu"
-            display={{ base: 'inline-flex', md: 'none' }}
-            onClick={sidebar.onOpen}
-            icon={<FiMenu />}
+            display={sidebar.isOpen ? 'none' : 'inset'} //, md: 'none' }}
+            onClick={sidebar.onToggle}
+            icon={<BsReverseLayoutSidebarInsetReverse />}
             size="sm"
           />
-          <InputGroup w="96" display={{ base: 'none', md: 'flex' }}>
+          {/* <InputGroup w="96" display={{ base: 'none', md: 'flex' }}>
             <InputLeftElement color="gray.500" children={<FiSearch />} />
             <Input placeholder="Search for articles..." />
-          </InputGroup>
+          </InputGroup> */}
 
-          <Flex align="center">
+          {/* <Flex align="center">
             <Icon color="gray.500" as={FaBell} cursor="pointer" />
             <Avatar
               ml="4"
@@ -168,12 +175,10 @@ export default function Shell(props: BoxProps) {
               src="https://avatars.githubusercontent.com/u/30869823?v=4"
               cursor="pointer"
             />
-          </Flex>
+          </Flex> */}
         </Flex>
 
-        <Box as="main" p="4">
-          {children}
-        </Box>
+        <Box as="main">{children}</Box>
       </Box>
     </Box>
   )
