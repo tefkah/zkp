@@ -217,86 +217,57 @@ const Index = (props: { [key: string]: GitPerDate }) => {
   }) */
 
   const { colorMode } = useColorMode()
-  const dark = colorMode === 'dark'
   return (
     <>
       <Header />
-      <Shell>
-        <Container>
-          {/* <Hero title="My cool thesis" /> */}
-          <Container>
-            <Container>
-              {isLoading ? (
-                <Spinner />
-              ) : (
-                <Box bg={dark ? 'gray.600' : 'gray.100'} pos="fixed" bottom={0} h={50} w="100vw">
-                  <ResponsiveLine
-                    margin={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                    data={commitChartData}
-                    // xFormat={(x) => format(x, 'MMMM dd')}
-                    isInteractive
-                    useMesh
-                    curve="monotoneX"
-                    enableArea
-                    //enableGridX={false}
-                    enableGridY={false}
-                    yScale={{ min: -500, max: 'auto', type: 'linear' }}
-                    xScale={{ type: 'time' }}
-                    axisBottom={{
-                      format: (value: Date) => value.toISOString(),
-                      tickValues: 'every 2 days',
-                    }}
-                    crosshairType="x"
-                    onClick={onClickHandler}
-                    //enableSlices={'x'}
-                    tooltip={({ point }) => {
-                      const node = point.data as unknown as CommitDatum
-                      return (
-                        <Box
-                          p={3}
-                          borderRadius="md"
-                          boxShadow="md"
-                          bg={dark ? 'gray.600' : 'gray.100'}
-                        >
-                          <Text fontWeight="bold">
-                            {node.message.slice(0, 8) === 'Scripted' ? 'Auto-commit' : node.message}
-                          </Text>
-                          <Text color="gray.400" fontSize={9}>{`${format(
-                            node.x as Date,
-                            'MMMM dd, hh:mm',
-                          )}`}</Text>
-                          {point.serieId === 'Additions' ? (
-                            <>
-                              <Text fontSize={12} color="green.500">{`+ ${node.y}`}</Text>
-                              <Text fontSize={12} color="red.500">
-                                {`- ${Math.abs(commitChartData[1]?.data?.[point?.index]?.y)}`}
-                              </Text>
-                            </>
-                          ) : (
-                            <>
-                              <Text fontSize={12} color="green.500">{`+ ${
-                                commitChartData[0].data[
-                                  point.index - commitChartData[0]?.data?.length
-                                ]?.y
-                              }`}</Text>
-                              <Text fontSize={12} color="red.500">{`- ${Math.abs(node.y)}`}</Text>
-                            </>
-                          )}
-                        </Box>
-                      )
-                    }}
-                  />
-                </Box>
-              )}
-            </Container>
-          </Container>
-          <Box h="60vh">
-            <Container h={200} maxW="80vw">
-              <Text>{comparison || 'Select some commits to see the comparison!'}</Text>
-            </Container>
-          </Box>
-        </Container>
-      </Shell>
+      {/* <Shell /> */}
+      <Box>
+        {/* <Hero title="My cool thesis" /> */}
+        {/* <Main> */}
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+        <Text>Testing fetching</Text>
+      </Box>
     </>
   )
 }
