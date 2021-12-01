@@ -25,9 +25,8 @@ interface Props {
   text: string
 }
 
-export function parseOrg(props: Props): React.ReactElement {
+export function parseOrg(props: Props): React.ReactElement | undefined {
   const { text } = props
-  console.log(text)
   const processor = unified()
     .use(uniorgParse)
     .use(() => (node) => {
@@ -141,5 +140,9 @@ export function parseOrg(props: Props): React.ReactElement {
         }, */
     })
 
-  return <Box> {processor.processSync(text).result as React.ReactElement}</Box>
+  try {
+    return <Box>{processor.processSync(text).result as React.ReactElement}</Box>
+  } catch (e) {
+    console.log(e)
+  }
 }

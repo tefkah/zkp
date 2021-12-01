@@ -22,8 +22,8 @@ const Sidebar = () => {
         transition="width .2s ease-in-out"
         h="calc(((100vh - 1.5rem) - 64px) );"
         pb="8"
-        mt="20"
-        overflowY="auto"
+        // mt="20"
+        //  overflowY="auto"
         className="sidebar-content"
         flexShrink={0}
         display={{ base: 'none', md: 'block' }}

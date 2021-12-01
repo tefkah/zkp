@@ -25,7 +25,7 @@ import { fetchDiff } from '../server/gitlab'
 import useSWR from 'swr'
 import useFetch from '../utils/useFetch'
 import fetcher from '../utils/fetcher'
-import { TestOrg } from '../components/testOrg'
+import { TestOrg } from '../components/TestOrg'
 import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
 import { Commit } from '../api'
 import { join } from 'path'
@@ -125,10 +125,11 @@ const Index = (props: { [key: string]: GitPerDate }) => {
   const { dataPerDate } = props
   const { data, isLoading } = { data: dataPerDate, isLoading: false } //useFetch(glCommits, { fallback: commits })
 
-  console.log(data)
+  //console.log(data)
   useEffect(() => {
     if (diffs.commit1 && diffs.commit2) {
-      const diffBoys = <TestOrg commit1={diffs.commit1} commit2={diffs.commit2} />
+      const diffBoys = <TestOrg {...{ commit1: diffs.commit1, commit2: diffs.commit2 }} />
+      console.log(diffBoys)
       setComparison(diffBoys)
       setDiffs({ commit1: '', commit2: '' })
       return
@@ -220,9 +221,10 @@ const Index = (props: { [key: string]: GitPerDate }) => {
   const { colorMode } = useColorMode()
   const dark = colorMode === 'dark'
   return (
-    <>
+    <Box height="100vh">
       <Header />
       <Box
+        mt={20}
         //     padding="5rem 0"
         //     flex="1"
         //     display="flex"
@@ -236,7 +238,7 @@ const Index = (props: { [key: string]: GitPerDate }) => {
         // mx="auto"
       >
         <Box flexDir="row" display={{ base: 'block', md: 'flex' }}>
-          <Sidebar />
+          <Sidebar pos="fixed" left="0" />
           {/* <Hero title="My cool thesis" /> */}
           <Container
             style={{ flex: 1 }}
@@ -244,11 +246,16 @@ const Index = (props: { [key: string]: GitPerDate }) => {
             flexDir="column"
             justifyContent="space-between"
             w="70vw"
+            //overflow="scroll"
+            maxH="90vh"
           >
-            <Container>
-              <Text>{comparison || 'Select some commits to see the comparison!'}</Text>
+            <Container // overflow="scroll"
+              //  maxH="90vh"
+              pt={10}
+            >
+              {comparison || <Text>'Select some commits to see the comparison!'</Text>}
             </Container>
-            <Box bg={dark ? 'gray.600' : 'gray.100'} h={50} w="70vw">
+            <Box pos="fixed" bottom={0} bg={dark ? 'gray.600' : 'gray.100'} h={50} w="70vw">
               {isLoading ? (
                 <Spinner />
               ) : (
@@ -313,7 +320,7 @@ const Index = (props: { [key: string]: GitPerDate }) => {
           </Container>
         </Box>
       </Box>
-    </>
+    </Box>
   )
 }
 
