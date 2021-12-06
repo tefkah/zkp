@@ -35,7 +35,7 @@ export const diffToString = (diff: FileDiff) => {
 
 export default function ParsedDiff(props: Props) {
   const { diff } = props
-  const diffString = diffToString(diff)
+  const diffString = typeof diff === 'string' ? diff : diffToString(diff)
   const parsedOrg = parseOrg({ text: diffString })
   return <Box>{parsedOrg as ReactNode}</Box>
 }

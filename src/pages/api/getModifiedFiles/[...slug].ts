@@ -1,19 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getCommitDiff } from '../../../utils/getCommitDiff'
+import { getCommitDiffForSingleFile } from '../../../utils/getCommitDiff'
 import { Change } from 'diff'
 import { join } from 'path'
 import { diffToString } from '../../../server/parseDiff'
 import { FileDiff } from '../../../api'
+import { getFileStateChanges } from '../../../utils/getFileStateChanges'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug } = req.query
   if (slug && slug?.length < 2) {
-    res.end(`Post: Error, api is like compare/commit1/commit2.`)
+    res.end(`Post: Error, api is like compare/commit1/commit2/file.`)
   }
   const cwd = process.cwd()
   const [commit1, commit2] = slug as string[]
   try {
-    const diffs = await getCommitDiff(
+    const diffs = await getFileStateChanges(
       commit1,
       commit2,
       join(cwd, 'notes'),

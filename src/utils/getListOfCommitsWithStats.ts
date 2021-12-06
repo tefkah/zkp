@@ -1,4 +1,4 @@
-import { getCommitDiff, getModifiedCommitDiff } from './getCommitDiff'
+import { getCommitDiff } from './getCommitDiff'
 import { commit, log } from 'isomorphic-git'
 import fs, { access } from 'fs'
 import { doSomethingAtFileStateChange, getFileStateChanges } from './getFileStateChanges'
@@ -47,9 +47,11 @@ export async function getListOfCommitsWithStats(
 ) {
   const gitJS = join('data', 'git.json')
   const gitSlimJS = join('data', 'gitSlim.json')
+  const gitFilesJS = join('data', 'gitFiles.json')
   const gitPerDateJS = join('data', 'gitPerDate.json')
 
   const gitObj = await tryReadJSON(gitJS)
+  const gitFilesObj = await tryReadJSON(gitFilesJS)
   const gitSlimObj = await tryReadJSON(gitSlimJS)
 
   const lastWrittenCommit = gitObj[gitObj.length - 1]?.oid || ''
@@ -65,7 +67,12 @@ export async function getListOfCommitsWithStats(
       : consolidateCommitsPerDay(gitSlimObj)
 
     console.log('No new changes since last build.')
-    return { data: gitObj, dataWithoutDiffs: gitSlimObj, dataPerDate: gitPerDateObj }
+    return {
+      data: gitObj,
+      dataWithoutDiffs: gitSlimObj,
+      dataPerDate: gitPerDateObj,
+      dataWithJustOidAndFiles: gitFilesObj,
+    }
   }
 
   let data = gitObj
@@ -110,10 +117,16 @@ export async function getListOfCommitsWithStats(
   }
 
   const gitPerDate = consolidateCommitsPerDay(dataWithoutDiffs)
+  type Commit = { oid: string; files: string[] }
+  const gitFiles = data.map((d: any) => ({
+    oid: d.oid,
+    files: d.files.map((f: any) => f.filepath),
+  }))
 
   await fs.promises.writeFile(gitJS, JSON.stringify(data))
   await fs.promises.writeFile(gitSlimJS, JSON.stringify(dataWithoutDiffs))
+  await fs.promises.writeFile(gitFilesJS, JSON.stringify(gitFiles))
   await fs.promises.writeFile(gitPerDateJS, JSON.stringify(gitPerDate))
 
-  return { data, dataWithoutDiffs, dataPerDate: gitPerDate }
+  return { data, dataWithoutDiffs, dataPerDate: gitPerDate, dataWithJustOidAndFiles: gitFiles }
 }

@@ -10,12 +10,15 @@ const bufferToString = async (tree: WalkerEntry) => {
   return content.length ? Buffer.from(content).toString('utf8') : ''
 }
 
-async function diffMap(
-  filepath: string,
-  trees: Array<WalkerEntry | null>,
-  type?: string,
-  justStats?: boolean,
-): Promise<FileDiff> {
+export interface DiffMapProps {
+  filepath: string
+  trees: Array<WalkerEntry | null>
+  type?: string
+  justStats?: boolean
+}
+
+async function diffMap(props: DiffMapProps): Promise<FileDiff> {
+  const { filepath, trees, type, justStats } = props
   const [tree1, tree2] = trees
   if (type === 'equal') {
     return
@@ -116,15 +119,35 @@ export async function getCommitDiff(
     gitdir,
     trees: [TREE({ ref: commitHash1 }), TREE({ ref: commitHash2 })],
     map: (filename: string, trees: Array<WalkerEntry | null>) =>
-      diffMap(filename, trees, undefined, justStats),
+      diffMap({ filepath: filename, trees, justStats }),
   })
 }
 
-export async function getModifiedCommitDiff(
+export async function getCommitDiffForSingleFile(
   commitHash1: string,
   commitHash2: string,
   dir: string = 'notes',
   gitdir: string = `${dir}/git`,
-): Promise<FileDiff> {
-  return await doSomethingAtFileStateChange(commitHash1, commitHash2, dir, gitdir, diffMap)
+  file?: string,
+  justStats?: boolean,
+) {
+  return walk({
+    fs,
+    dir,
+    gitdir,
+    trees: [TREE({ ref: commitHash1 }), TREE({ ref: commitHash2 })],
+    map: (filename: string, trees: Array<WalkerEntry | null>) => {
+      if (file && filename !== file) return new Promise((resolve, reject) => resolve(undefined))
+      return diffMap({ filepath: filename, trees, justStats })
+    },
+  })
 }
+
+// export async function getModifiedCommitDiff(
+//   commitHash1: string,
+//   commitHash2: string,
+//   dir: string = 'notes',
+//   gitdir: string = `${dir}/git`,
+// ): Promise<FileDiff> {
+//   return await doSomethingAtFileStateChange(commitHash1, commitHash2, dir, gitdir, diffMap)
+// }

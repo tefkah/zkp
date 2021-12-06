@@ -42,6 +42,7 @@ export default function AAAA(props: Props) {
         There should also be an option to view ALL the files at this commit, but this should not be
         static (would be too much to keep track of, not worth it.
       </Text>
+      <Text>Actually, I don't see anyone really use that, we don't need that.</Text>
       <Flex justifyContent="space-between">
         <Flex flexDir="column">
           <Text>{message}</Text>
