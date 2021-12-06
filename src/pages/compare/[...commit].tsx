@@ -8,6 +8,7 @@ import { commit } from 'isomorphic-git'
 import { DiffBox } from '../../components/DiffBox'
 import useSWR from 'swr'
 import fetcher from '../../utils/fetcher'
+import { join } from 'path'
 
 export function ParsedCommit(props: { [key: string]: any }) {
   const { commitData } = props
@@ -91,7 +92,8 @@ export interface StaticProps {
 }
 export async function getServerSideProps(props: StaticProps) {
   const { commit } = props.params
-  const commitList = await tryReadJSON('data/gitFiles.json')
+  const cwd = process.cwd()
+  const commitList = await tryReadJSON(join(cwd, 'data', 'gitFiles.json'))
 
   let isRelevantCommit = false
   const relevantFiles = commitList.reduceRight((acc: string[], curr: FileCommit) => {
