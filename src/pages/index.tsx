@@ -232,13 +232,13 @@ const Index = (props: { [key: string]: GitPerDate }) => {
         //     justifyContent="center"
         //     alignItems="center"
         w="full"
-        //      w="full"
-        //pb="12"
-        // pt="3"
-        // mx="auto"
+      //      w="full"
+      //pb="12"
+      // pt="3"
+      // mx="auto"
       >
         <Box flexDir="row" display={{ base: 'block', md: 'flex' }}>
-          <Sidebar pos="fixed" left="0" />
+          <Sidebar />
           {/* <Hero title="My cool thesis" /> */}
           <Container
             style={{ flex: 1 }}
@@ -303,11 +303,10 @@ const Index = (props: { [key: string]: GitPerDate }) => {
                           </>
                         ) : (
                           <>
-                            <Text fontSize={12} color="green.500">{`+ ${
-                              commitChartData[0].data[
+                            <Text fontSize={12} color="green.500">{`+ ${commitChartData[0].data[
                                 point.index - commitChartData[0]?.data?.length
                               ]?.y
-                            }`}</Text>
+                              }`}</Text>
                             <Text fontSize={12} color="red.500">{`- ${Math.abs(node.y)}`}</Text>
                           </>
                         )}

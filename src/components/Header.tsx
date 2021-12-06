@@ -104,6 +104,7 @@ const ChakraUIHeader = () => {
   return (
     <Box pos="relative">
       <chakra.header
+        zIndex={1}
         ref={ref}
         pos="fixed"
         top={0}
@@ -115,7 +116,7 @@ const ChakraUIHeader = () => {
         w="full"
         overflowY="hidden"
       >
-        <chakra.div h="4.5rem" mx="auto" maxW="1200px">
+        <chakra.div h="3rem" mx="auto" maxW="1200px">
           <Flex w="full" h="full" px="6" align="center" justify="space-between">
             <Flex align="center">
               <Link href="/">
