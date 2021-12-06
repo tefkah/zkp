@@ -45,7 +45,7 @@ interface IndiviualFileDiffProps {
 const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
   const { commit, file } = props
   const [commit1, commit2] = commit
-  const { data, isLoading, isError } = useFetch(`api/diff/${commit1}/${commit2}/${file}`)
+  const { data, isLoading, isError } = useFetch(`/api/diff/${commit1}/${commit2}/${file}`)
 
   useEffect(() => {
     console.log(data)
@@ -90,8 +90,7 @@ export interface StaticProps {
 }
 export async function getServerSideProps(props: StaticProps) {
   const { commit } = props.params
-  const cwd = process.cwd()
-  const commitList = await tryReadJSON(join(cwd, 'data', 'gitFiles.json'))
+  const commitList = await tryReadJSON(join('data', 'gitFiles.json'))
 
   let isRelevantCommit = false
   const relevantFiles = commitList.reduceRight((acc: string[], curr: FileCommit) => {
