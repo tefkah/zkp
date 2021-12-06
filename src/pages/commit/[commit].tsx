@@ -6,6 +6,7 @@ import ParsedDiff from '../../server/parseDiff'
 import useFetch from '../../utils/useFetch'
 import { commit } from 'isomorphic-git'
 import { DiffBox } from '../../components/DiffBox'
+import { join } from 'path'
 
 export function parseCommits(commitData: Commit) {
   return commitData?.files?.map((file) => {
@@ -71,7 +72,10 @@ export interface StaticProps {
 }
 export async function getStaticProps(props: StaticProps) {
   const { commit } = props.params
-  const commits = await tryReadJSON('data/git.json')
+
+  const cwd = process.cwd()
+  const commits = await tryReadJSON(join(cwd, 'data', 'git.json'))
+  //const commits = await tryReadJSON('data/git.json')
 
   const commitData =
     commits.filter((c: Commit) => {
