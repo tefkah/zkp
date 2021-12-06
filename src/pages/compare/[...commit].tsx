@@ -45,9 +45,7 @@ interface IndiviualFileDiffProps {
 const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
   const { commit, file } = props
   const [commit1, commit2] = commit
-  const { data, isLoading, isError } = useFetch(
-    `http://localhost:3000/api/diff/${commit1}/${commit2}/${file}`,
-  )
+  const { data, isLoading, isError } = useFetch(`api/diff/${commit1}/${commit2}/${file}`)
 
   useEffect(() => {
     console.log(data)
