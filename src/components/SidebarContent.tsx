@@ -1,6 +1,15 @@
 import React from 'react'
 
-import { Box, Flex, Spacer, Tag, Stack, useColorModeValue, FlexProps } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Spacer,
+  Tag,
+  Stack,
+  useColorModeValue,
+  FlexProps,
+  VStack,
+} from '@chakra-ui/react'
 
 //import { useRoutes } from 'categories/parse-categories'
 import Link from 'next/link'
@@ -150,20 +159,22 @@ export const CompLink = (props: any) => {
     </MenuLink>
   )
 }
+
+export interface Routes {}
 const SidebarContent = () => {
   // const routes = useRoutes();
   return (
-    <Stack spacing={0}>
+    <VStack spacing={0} display="flex" alignItems="flex-start">
       <MenuLink isSection>Chapters</MenuLink>
       <MenuLink isSection>Notes</MenuLink>
-      {/* //  {routes.map((category, cid) => (
-     //   <Box pt={cid !== 0 && 5} key={cid}>
-//</Stack>          {category.sections.map((section: any, sid: any) => {
-//            return <SidebarSection section={section} key={`section-${sid}`} />;
-//          })}
-//        </Box>
+      {/* {routes.map((category, cid) => (
+        <Box pt={cid !== 0 ? 5 : 0} key={cid}>
+          {category.map((section: any, sid: any) => {
+            return <SidebarSection section={section} key={`section-${sid}`} />
+          })}
+        </Box>
       ))} */}
-    </Stack>
+    </VStack>
   )
 }
 export default SidebarContent

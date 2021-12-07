@@ -224,7 +224,7 @@ const Index = (props: { [key: string]: GitPerDate }) => {
     <Box height="100vh">
       <Header />
       <Box
-        mt={20}
+        //pt={20}
         //     padding="5rem 0"
         //     flex="1"
         //     display="flex"
@@ -247,11 +247,10 @@ const Index = (props: { [key: string]: GitPerDate }) => {
             justifyContent="space-between"
             w="70vw"
             //overflow="scroll"
-            maxH="90vh"
           >
             <Container // overflow="scroll"
-              //  maxH="90vh"
-              pt={10}
+            //  maxH="90vh"
+            //  pt={10}
             >
               {comparison || <Text>'Select some commits to see the comparison!'</Text>}
             </Container>

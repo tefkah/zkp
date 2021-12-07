@@ -54,7 +54,7 @@ export async function getListOfCommitsWithStats(
   const gitFilesObj = await tryReadJSON(gitFilesJS)
   const gitSlimObj = await tryReadJSON(gitSlimJS)
 
-  const lastWrittenCommit = gitObj[gitObj.length - 1]?.oid || ''
+  const lastWrittenCommit = gitObj?.[gitObj.length - 1]?.oid || ''
 
   const commitList = await getCommits()
   const commitIndexList = commitList.map((commit) => commit.oid)

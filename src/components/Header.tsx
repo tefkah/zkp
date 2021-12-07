@@ -116,19 +116,21 @@ const ChakraUIHeader = () => {
         w="full"
         overflowY="hidden"
       >
-        <chakra.div h="3rem" mx="auto" maxW="1200px">
+        <chakra.div h="3rem" mx="auto">
           <Flex w="full" h="full" px="6" align="center" justify="space-between">
             <Flex align="center">
-              <Link href="/">
-                <HStack>Hey</HStack>
-              </Link>
+              <HStack spacing="5">
+                <Link href="/thesis">Thesis</Link>
+                <Link href="/notes">Notes</Link>
+                <Link href="/history">History</Link>
+              </HStack>
             </Flex>
 
             <Flex justify="flex-end" w="full" maxW="824px" align="center" color="gray.400">
               <HStack spacing="5" display={{ base: 'none', md: 'flex' }}>
                 <Link
                   isExternal
-                  aria-label="Go to Choc UI GitHub page"
+                  aria-label="Go to this website's GitHub page"
                   href="https://github.com/ThomasFKJorna/thesis-visualization"
                 >
                   <Icon

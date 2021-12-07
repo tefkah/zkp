@@ -28,6 +28,15 @@ export interface Commit {
   oid: string
 }
 
+export interface SlimCommit {
+  oid: string
+  message: string
+  date: number
+  additions: number
+  deletions: number
+  files: any[]
+}
+
 export type FileDiff =
   | {
       filepath: string
@@ -37,3 +46,16 @@ export type FileDiff =
       deletions: number
     }
   | undefined
+
+export interface CommitPerDateLog {
+  [date: string]: DateCommit
+}
+
+interface DateCommit {
+  totalAdditions: number
+  totalDeletions: number
+  totalDate: number
+  lastMessage: string
+  lastOid: string
+  commits: SlimCommit[]
+}
