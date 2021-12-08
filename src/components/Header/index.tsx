@@ -18,6 +18,7 @@ import { useViewportScroll } from 'framer-motion'
 import { FaMoon, FaSun, FaHeart } from 'react-icons/fa'
 import { AiFillGithub, AiOutlineMenu, AiFillHome, AiOutlineInbox } from 'react-icons/ai'
 import { BsFillCameraVideoFill } from 'react-icons/bs'
+import { HiAcademicCap } from 'react-icons/hi'
 
 const ChakraUIHeader = () => {
   const mobileNav = useDisclosure()
@@ -120,6 +121,16 @@ const ChakraUIHeader = () => {
           <Flex w="full" h="full" px="6" align="center" justify="space-between">
             <Flex align="center">
               <HStack spacing="5">
+                <Link href="/">
+                  <Icon
+                    as={HiAcademicCap}
+                    display="block"
+                    transition="color 0.2s"
+                    w="5"
+                    h="5"
+                    _hover={{ color: 'gray.600' }}
+                  />
+                </Link>
                 <Link href="/thesis">Thesis</Link>
                 <Link href="/notes">Notes</Link>
                 <Link href="/history">History</Link>

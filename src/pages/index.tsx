@@ -33,6 +33,7 @@ import Nav from '../components/Nav'
 import Shell from '../components/Shell'
 import Header from '../components/Header'
 import Sidebar from '../components/SideBar'
+import { HistoryGraph } from '../components/HistoryGraph'
 
 export interface Committ {
   id: string
@@ -123,7 +124,7 @@ const Index = (props: { [key: string]: GitPerDate }) => {
   const [comparison, setComparison] = useState<any>()
 
   const { dataPerDate } = props
-  const { data, isLoading } = { data: dataPerDate, isLoading: false } //useFetch(glCommits, { fallback: commits })
+  const data = dataPerDate
 
   //console.log(data)
   useEffect(() => {
@@ -136,90 +137,9 @@ const Index = (props: { [key: string]: GitPerDate }) => {
     }
   }, [diffs])
 
-  const commitChartData = useMemo(() => {
-    if (isLoading) {
-      console.log('aaaaaa no data ')
-      return [
-        { id: 'Additions', data: [] },
-        { id: 'Deletions', data: [] },
-      ]
-    }
-    const [adds, dels] = ['additions', 'deletions'].map((a) =>
-      Object.entries(data).map((entry: Array<string | DateCommit>): CommitDatum => {
-        const date = entry[0] as string
-        const commit = entry[1] as DateCommit
-        return {
-          message: commit.lastMessage,
-          y: a === 'additions' ? commit.totalAdditions : -commit.totalDeletions,
-          x: parseISO(`${date}T12:00:00.000Z`),
-          id: commit.lastOid,
-        }
-      }),
-    )
-
-    return [
-      {
-        id: 'Additions',
-        data: adds,
-      },
-      { id: 'Deletions', data: dels },
-    ]
-  }, [data])
-
-  const compareDiffs = (
-    diff: string | undefined,
-    commits: DateCommit[] | undefined = Object.values(data),
-  ) => {
-    if (!commits || !diff) {
-      setDiffs({ commit1: '', commit2: '' })
-      return
-    }
-
-    const commitList = commits.map((commit: DateCommit) => commit.lastOid).reverse() // the gitlab api needs the commits to be in chronological order
-    // in order to compare the commits
-    if (diffs?.commit1) {
-      const compareObj =
-        commitList.indexOf(diff) > commitList.indexOf(diffs.commit1)
-          ? { commit1: diff, commit2: diffs.commit1 }
-          : { commit1: diffs.commit1, commit2: diff }
-      setDiffs(compareObj)
-      return
-    }
-    setDiffs({ commit1: diff, commit2: '' })
-    return
-  }
-
-  const onClickHandler = (point: Point, event: any): void => {
-    if (!point) {
-      return
-    }
-    console.log(point)
-    const data = point?.data as unknown as CommitDatum
-    console.log(data)
-    compareDiffs(data?.id!)
-    // compareDiffs(datum?.originalDatum?.id, datum?.originalSeries.data)
-  }
-
-  /*   const enumdata = data?.map((commit: Commit) => {
-    return (
-      <Flex h={50} justifyContent="space-between" key={commit.id} width={500}>
-        <Text>{commit.message}</Text>
-        <Text>{commit.created_at}</Text>
-        <Text color="green.500">{commit.stats.additions}</Text>
-        <Text color="red.500">{commit.stats.deletions}</Text>
-        <Button
-          onClick={() =>
-            diffs?.commit1 === commit.id ? compareDiffs('', data) : compareDiffs(commit.id, data)
-          }
-        >
-          {diffs?.commit1 === commit.id ? 'Cancel' : 'Compare'}
-        </Button>
-      </Flex>
-    )
-  }) */
-
   const { colorMode } = useColorMode()
   const dark = colorMode === 'dark'
+
   return (
     <Box height="100vh">
       <Header />
@@ -255,66 +175,7 @@ const Index = (props: { [key: string]: GitPerDate }) => {
               {comparison || <Text>'Select some commits to see the comparison!'</Text>}
             </Container>
             <Box pos="fixed" bottom={0} bg={dark ? 'gray.600' : 'gray.100'} h={50} w="70vw">
-              {isLoading ? (
-                <Spinner />
-              ) : (
-                <ResponsiveLine
-                  margin={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                  data={commitChartData}
-                  // xFormat={(x) => format(x, 'MMMM dd')}
-                  isInteractive
-                  useMesh
-                  curve="monotoneX"
-                  enableArea
-                  //enableGridX={false}
-                  enableGridY={false}
-                  yScale={{ min: -500, max: 'auto', type: 'linear' }}
-                  xScale={{ type: 'time' }}
-                  axisBottom={{
-                    format: (value: Date) => value.toISOString(),
-                    tickValues: 'every 2 days',
-                  }}
-                  crosshairType="x"
-                  onClick={onClickHandler}
-                  //enableSlices={'x'}
-                  tooltip={({ point }) => {
-                    const node = point.data as unknown as CommitDatum
-                    return (
-                      <Container
-                        p={3}
-                        borderRadius="md"
-                        boxShadow="md"
-                        bg={dark ? 'gray.600' : 'gray.100'}
-                      >
-                        <Text fontWeight="bold">
-                          {node.message.slice(0, 8) === 'Scripted' ? 'Auto-commit' : node.message}
-                        </Text>
-                        <Text color="gray.400" fontSize={9}>{`${format(
-                          node.x as Date,
-                          'MMMM dd, hh:mm',
-                        )}`}</Text>
-                        {point.serieId === 'Additions' ? (
-                          <>
-                            <Text fontSize={12} color="green.500">{`+ ${node.y}`}</Text>
-                            <Text fontSize={12} color="red.500">
-                              {`- ${Math.abs(commitChartData[1]?.data?.[point?.index]?.y)}`}
-                            </Text>
-                          </>
-                        ) : (
-                          <>
-                            <Text fontSize={12} color="green.500">{`+ ${
-                              commitChartData[0].data[
-                                point.index - commitChartData[0]?.data?.length
-                              ]?.y
-                            }`}</Text>
-                            <Text fontSize={12} color="red.500">{`- ${Math.abs(node.y)}`}</Text>
-                          </>
-                        )}
-                      </Container>
-                    )
-                  }}
-                />
-              )}
+              <HistoryGraph {...{ dark, diffs, setDiffs, data }} />
             </Box>
           </Container>
         </Box>

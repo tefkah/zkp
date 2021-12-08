@@ -1,7 +1,9 @@
-import { Text, VStack } from '@chakra-ui/react'
+import { StarIcon } from '@chakra-ui/icons'
+import { Flex, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { CommitPerDateLog, DateCommit, SlimCommit } from '../../api'
 import { CommitListByDate } from './CommitListByDate'
+import { BsRecordCircle } from 'react-icons/bs'
 
 interface CommitListProps {
   commitLog: CommitPerDateLog
@@ -29,9 +31,10 @@ export const CommitList = (props: CommitListProps) => {
             borderLeftStyle="solid"
             w="80%"
           >
-            <Text ml={4} mb={4}>
-              {date}
-            </Text>
+            <Flex ml={-12} alignItems="center" mb={4}>
+              <BsRecordCircle />
+              <Text ml={4}>{date}</Text>
+            </Flex>
             <CommitListByDate commits={commitList} />
           </VStack>
         )
