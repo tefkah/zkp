@@ -20,12 +20,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       join(cwd, 'notes', 'git'),
       file,
     )
+
     const inFileDiffs = diffs.map((file: FileDiff) => {
       if (!file) {
         return
       }
       return {
         file: file.filepath,
+        additions: file.additions,
+        deletions: file.deletions,
         diff: diffToString(file),
       }
     })

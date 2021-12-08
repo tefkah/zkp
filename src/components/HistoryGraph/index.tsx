@@ -1,6 +1,7 @@
 import { Text, Container, useColorMode } from '@chakra-ui/react'
 import { Point, ResponsiveLine } from '@nivo/line'
-import { format, parseISO } from 'date-fns'
+import { format } from 'date-fns-tz'
+import { parse } from 'date-fns'
 import React, { useMemo } from 'react'
 import { DateCommit } from '../../api'
 import { CommitDatum } from '../../pages'
@@ -51,13 +52,14 @@ export const HistoryGraph = (props: Props) => {
 
   const commitChartData = useMemo(() => {
     const [adds, dels] = ['additions', 'deletions'].map((a) =>
+      //@ts-ignore
       Object.entries(data).map((entry: Array<string | DateCommit>): CommitDatum => {
         const date = entry[0] as string
         const commit = entry[1] as DateCommit
         return {
           message: commit.lastMessage,
           y: a === 'additions' ? commit.totalAdditions : -commit.totalDeletions,
-          x: parseISO(`${date}T12:00:00.000Z`),
+          x: parse(date, 'yyyy-MM-dd', new Date()), // parseISO(`${date}T12:00:00.000Z`),
           id: commit.lastOid,
         }
       }),
@@ -76,7 +78,6 @@ export const HistoryGraph = (props: Props) => {
     <ResponsiveLine
       margin={{ top: 10, bottom: 10, left: 10, right: 10 }}
       data={commitChartData}
-      // xFormat={(x) => format(x, 'MMMM dd')}
       isInteractive
       useMesh
       curve="monotoneX"
@@ -87,7 +88,7 @@ export const HistoryGraph = (props: Props) => {
       xScale={{ type: 'time' }}
       axisBottom={{
         format: (value: Date) => value.toISOString(),
-        tickValues: 'every 2 days',
+        tickValues: 'every 10 days',
       }}
       crosshairType="x"
       onClick={onClickHandler}

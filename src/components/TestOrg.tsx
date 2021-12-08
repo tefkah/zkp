@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Heading, Spinner, Text } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Spinner, Text, VStack } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { OrgProcessor } from './OrgProcessor'
 import useFetch from '../utils/useFetch'
@@ -23,12 +23,12 @@ export const TestOrg = (props: Props) => {
     return (
       <Container
         key={t.file}
-        w="45%"
         my={10}
         p={4}
-        boxShadow="2xl"
+        boxShadow="lg"
         borderRadius="xl"
         borderStyle="solid"
+        backgroundColor="white"
       >
         <Flex justifyContent="space-between" alignItems="center">
           <Text> File </Text>
@@ -55,5 +55,5 @@ export const TestOrg = (props: Props) => {
 
   // const t = orgText ? orgText : <Spinner />
   console.log(texts)
-  return <Flex flexWrap="wrap">{texts}</Flex>
+  return <VStack spacing={2}>{texts}</VStack>
 }

@@ -6,7 +6,6 @@ describe('getListOfCommitsWithStats', () => {
   jest.setTimeout(50000)
   it('gets a list', async () => {
     const list = await getListOfCommitsWithStats(firstCommit, lastCommit)
-    console.log(list)
     expect(list).toBeDefined()
   })
 })

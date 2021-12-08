@@ -1,14 +1,37 @@
-import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
+import {
+  consolidateCommitsPerDay,
+  getCommits,
+  tryReadJSON,
+} from '../../utils/getListOfCommitsWithStats'
 import { Commit } from '../../api'
-import { Box, Container, Flex, Spinner, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Container,
+  Flex,
+  HStack,
+  Icon,
+  IconButton,
+  Link,
+  Spinner,
+  Text,
+  Tooltip,
+  useColorModeValue,
+  VStack,
+} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import ParsedDiff from '../../server/parseDiff'
 import useFetch from '../../utils/useFetch'
 import { commit } from 'isomorphic-git'
-import { DiffBox } from '../../components/DiffBox'
+import { DiffBox } from '../../components/Diff/DiffBox'
 import useSWR from 'swr'
 import fetcher from '../../utils/fetcher'
 import { join } from 'path'
+import Header from '../../components/Header'
+import { format } from 'date-fns'
+import { IoIosGitCompare } from 'react-icons/io'
+import { GoMarkGithub } from 'react-icons/go'
+
+import { CommitList } from '../../components/Commits/CommitList'
 
 export function ParsedCommit(props: { [key: string]: any }) {
   const { commitData } = props
@@ -16,11 +39,11 @@ export function ParsedCommit(props: { [key: string]: any }) {
     <>
       {commitData?.map((commit: any) => {
         if (!commit) return null
-        const { file, diff } = commit
+        const { file, diff, additions, deletions } = commit
         const orgText = ParsedDiff({ diff, truncated: true })
         console.log(orgText)
         return (
-          <DiffBox key={file.filepath} {...{ oid: '', filepath: file, deletions: 0, additions: 0 }}>
+          <DiffBox key={file.filepath} {...{ oid: '', filepath: file, deletions, additions }}>
             {orgText}
           </DiffBox>
         )
@@ -32,15 +55,20 @@ export function ParsedCommit(props: { [key: string]: any }) {
 interface FileCommit {
   oid: string
   files: string[]
+  message: string
+  date: number
 }
 interface Props {
   commit: string[]
   relevantFiles: string[]
+  commitsPerDate: any
 }
 
 interface IndiviualFileDiffProps {
   commit: string[]
   file: string
+  //messages: string[]
+  // dates: number[]
 }
 const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
   const { commit, file } = props
@@ -58,30 +86,84 @@ const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
   return <ParsedCommit commitData={data} />
 }
 
-export default function AAAA(props: Props) {
-  const { commit, relevantFiles } = props
+export default function ComparePage(props: Props) {
+  const { commit, relevantFiles, commitsPerDate } = props
 
   const [commit1, commit2] = commit
   //const {data:parsedText, isLoading} = useFetch(e)
+  const headerColor = useColorModeValue('gray.50', 'gray.700')
+  const bodyColor = useColorModeValue('white', 'gray.800')
 
   return (
-    <Container>
-      <Text>this should be a static page, which shows all the files CHANGED at this commit.</Text>
-      <Text>
-        Each of the files at this commit should be a file which shows the differences between this
-        commit and the last.
-      </Text>
-      <Text>
-        There should also be an option to view ALL the files at this commit, but this should not be
-        static (would be too much to keep track of, not worth it.
-      </Text>
-      <Text>Actually, I don't see anyone really use that, we don't need that.</Text>
-      <Box>
-        {relevantFiles.map((file: string) => (
-          <IndiviualFileDiff key={file} {...{ commit, file }} />
-        ))}
-      </Box>
-    </Container>
+    <>
+      <Header />
+
+      <VStack mx="5%" mt={20}>
+        <Flex w="full" justifyContent="space-between" flexDirection="column">
+          <Flex
+            borderTopRadius="xl"
+            borderWidth={1}
+            borderColor="grey.500"
+            backgroundColor={headerColor}
+            py={2}
+            px={4}
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Flex flexDir="column">
+              <Text fontWeight="bold">
+                {commit1} vs {commit2}
+              </Text>
+              <Text>{format(new Date(1 * 1000), "MMMM do, yyyy 'at' hh:mm")}</Text>
+            </Flex>
+            <HStack display="flex" alignItems="center">
+              <Tooltip label="Compare with another commit">
+                <IconButton
+                  icon={<IoIosGitCompare />}
+                  aria-label="Compare with another commit"
+                  variant="ghost"
+                  colorScheme="white"
+                />
+              </Tooltip>
+              <Tooltip label="View on GitHub">
+                <Link
+                  href={`https://github.com/ThomasFKJorna/thesis-writing/compare/${commit1}...${commit2}`}
+                >
+                  <Icon as={GoMarkGithub} />
+                </Link>
+              </Tooltip>
+            </HStack>
+          </Flex>
+          <HStack
+            borderBottomRadius="xl"
+            borderWidth={1}
+            borderColor="grey.500"
+            py={2}
+            px={4}
+            display="flex"
+            alignItems="flex-end"
+          >
+            <Text as="samp" variant="">{`Commit ....`}</Text>
+          </HStack>
+        </Flex>
+        <Box w="full" pl={4} pt={10}>
+          <Text>
+            Showing{' '}
+            <Text as="span" fontWeight="bold">
+              {relevantFiles.length} changed {relevantFiles.length > 1 ? 'files' : 'file'}.
+            </Text>{' '}
+          </Text>
+        </Box>
+        <Box w="100vw">
+          <CommitList commitLog={commitsPerDate} />
+        </Box>
+        <VStack w="full" spacing={6}>
+          {relevantFiles.map((file: string) => (
+            <IndiviualFileDiff key={file} {...{ commit, file }} />
+          ))}
+        </VStack>
+      </VStack>
+    </>
   )
 }
 
@@ -90,25 +172,30 @@ export interface StaticProps {
 }
 export async function getServerSideProps(props: StaticProps) {
   const { commit } = props.params
-  const commitList = await tryReadJSON(join('data', 'gitFiles.json'))
+  const commitList = await tryReadJSON(join('data', 'gitSlim.json'))
 
   let isRelevantCommit = false
-  const relevantFiles = commitList.reduceRight((acc: string[], curr: FileCommit) => {
-    if (isRelevantCommit && commit.includes(curr.oid)) {
-      isRelevantCommit = false
-      acc.push(...curr.files)
+  const { files: relevantFiles, commits } = commitList.reduceRight(
+    (acc: { [key: string]: (string | FileCommit)[] }, curr: FileCommit) => {
+      if (isRelevantCommit && commit.includes(curr.oid)) {
+        isRelevantCommit = false
+        acc.files.push(...curr.files)
+        acc.commits.push(curr)
+        return acc
+      }
+
+      if (!isRelevantCommit && commit.includes(curr.oid)) {
+        isRelevantCommit = true
+      }
+      if (!isRelevantCommit) return acc
+
+      acc.files.push(...curr.files)
+      acc.commits.push(curr)
       return acc
-    }
+    },
+    { files: [], commits: [] },
+  )
+  const commitsPerDate = consolidateCommitsPerDay(commits)
 
-    if (!isRelevantCommit && commit.includes(curr.oid)) {
-      isRelevantCommit = true
-    }
-    if (!isRelevantCommit) return acc
-
-    acc.push(...curr.files)
-    return acc
-  }, [])
-  // console.log(relevantFiles)
-
-  return { props: { commit, relevantFiles } }
+  return { props: { commit, relevantFiles, commitsPerDate } }
 }

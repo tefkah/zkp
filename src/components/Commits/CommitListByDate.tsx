@@ -5,10 +5,13 @@ import { Container, Divider, VStack } from '@chakra-ui/layout'
 
 interface Props {
   commits: SlimCommit[]
+  compair: string[]
+  setCompair: any
 }
 
 export const CommitListByDate = (props: Props) => {
-  const { commits } = props
+  const { commits, compair, setCompair } = props
+  const reversedCommits = JSON.parse(JSON.stringify(commits)).reverse()
   return (
     <VStack
       py={3}
@@ -21,8 +24,8 @@ export const CommitListByDate = (props: Props) => {
       display="flex"
       alignItems="flex-start"
     >
-      {commits.reverse().map((commit: SlimCommit) => {
-        return <Commit {...{ ...commit }} key={commit.oid} />
+      {reversedCommits.map((commit: SlimCommit) => {
+        return <Commit {...{ ...commit, compair, setCompair }} key={commit.oid} />
       })}
     </VStack>
   )
