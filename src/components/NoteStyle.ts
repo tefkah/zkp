@@ -12,27 +12,30 @@ export const viewerNoteStyle = {
   h1: {
     //color: 'black',
     lineHeight: '1.2',
-    fontSize: '16',
+    fontSize: '20',
     fontWeight: 'bold',
     paddingTop: 2,
   },
   h2: {
-    fontSize: '14',
+    fontSize: '18',
     // color: 'black',
     fontWeight: 'bold',
     fontStyle: 'bold italic',
     paddingTop: 2,
+    my: 1,
   },
   h3: {
-    fontSize: '13',
+    fontSize: '16',
     //color: 'black',
     paddingTop: 2,
+    my: 1,
   },
   h4: {
-    fontSize: '12',
+    fontSize: '14',
     fontStyle: 'italic',
     //color: 'black',
     paddingTop: 2,
+    my: 1,
   },
 
   '.sectionContent': {
@@ -122,8 +125,7 @@ export const diffStyle = {
 
 export const noteStyle = {
   ...viewerNoteStyle,
-  '.org-box': { my: 5 },
-  '.katex': { overflowX: 'scroll' },
+  '.katex-html': { overFlowY: 'hidden', height: 10 },
   ol: {
     paddingLeft: 4,
     py: 1,
@@ -147,7 +149,7 @@ export const noteStyle = {
     hyphens: 'auto !important',
   },
   '.title': {
-    fontSize: 20,
+    fontSize: 24,
     marginBottom: '.2em',
   },
   '.subtitle': {

@@ -13,7 +13,6 @@ export const OrgProcessor = (props: Props) => {
 
   const t = (
     <Box
-      my={10}
       className="org-box"
       sx={{
         ...noteStyle,

@@ -17,7 +17,7 @@ import visit from 'unist-util-visit'
 
 import React, { ReactNode, useMemo } from 'react'
 import { Box, Heading, ListItem, OrderedList, Text, UnorderedList } from '@chakra-ui/react'
-import { noteStyle } from '../components/NoteStyle'
+//import { noteStyle } from '../components/NoteStyle'
 import { Keyword, OrgData, OrgNode, Paragraph, SpecialBlock } from 'uniorg'
 import Link from 'next/link'
 
@@ -109,6 +109,9 @@ export function parseOrg(props: Props): React.ReactElement | undefined {
             {children as ReactNode}
           </Box>
         ),
+        img: ({ src }) => {
+          return <img src={(src as string).replace(/\.\/media\//g, '/media/')} />
+        },
       },
       // eslint-disable-next-line react/display-name
       /*       components: {
@@ -126,9 +129,6 @@ export function parseOrg(props: Props): React.ReactElement | undefined {
               {children}
             </PreviewLink>
           )
-        },
-        img: ({ src }) => {
-          return <OrgImage src={src as string} file={previewNode?.file} />
         },
         section: ({ children, className }) => (
           <Section {...{ outline, collapse }} className={className as string}>

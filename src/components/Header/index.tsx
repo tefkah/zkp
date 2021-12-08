@@ -164,7 +164,7 @@ const ChakraUIHeader = () => {
                 onClick={toggleMode}
                 icon={<SwitchIcon />}
               />
-              {SponsorButton}
+              {/* {SponsorButton} */}
               <IconButton
                 display={{ base: 'flex', md: 'none' }}
                 aria-label="Open menu"

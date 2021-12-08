@@ -136,7 +136,15 @@ export default function CommitPage(props: Props) {
 
 export async function getStaticPaths() {
   const commitList = await getCommits()
-  const commitIndexList = commitList.map((commit) => ({ params: { commit: commit.oid } }))
+  const commitIndexList = commitList
+    .filter(
+      (commit) =>
+        ![
+          '72031577baf73d00536f369657a4bc9c8c5518f0',
+          '8a8d96b1a6ae75dd17f7462c31695823189f6f14',
+        ].includes(commit.oid),
+    )
+    .map((commit) => ({ params: { commit: commit.oid } }))
   return {
     paths: commitIndexList,
     fallback: false,
@@ -149,11 +157,9 @@ export interface StaticProps {
 export async function getStaticProps(props: StaticProps) {
   const { commit } = props.params
 
-  const cwd = process.cwd()
   const commits = await tryReadJSON(join('data', 'git.json'))
   //const commits = await tryReadJSON('data/git.json')
 
-  console.log(commits)
   const commitData =
     commits.filter((c: Commit) => {
       return c.oid === commit
