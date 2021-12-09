@@ -17,7 +17,7 @@ import React from 'react'
 import { Resizable } from 're-resizable'
 import Link from 'next/link'
 import { File, Files } from '../../pages/[...file]'
-import { slugify } from '../../utils/slug.ts'
+import { slugify } from '../../utils/slug'
 import { BsFileEarmarkText } from 'react-icons/bs'
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 

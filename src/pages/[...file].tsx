@@ -8,6 +8,7 @@ import {
   Tag,
   useDisclosure,
   VStack,
+  HStack,
 } from '@chakra-ui/react'
 import { join } from 'path'
 import React from 'react'
@@ -53,10 +54,12 @@ export default function FilePage(props: Props) {
           />
         )}
         <Container mt={4}>
-          <Heading>{title}</Heading>
-          {tags.map((tag: string) => (
-            <Tag>{tag}</Tag>
-          ))}
+          <Heading>{slug}</Heading>
+          <HStack spacing={2}>
+            {tags.map((tag: string) => (
+              <Tag>{tag}</Tag>
+            ))}{' '}
+          </HStack>
           <Text>Created at {ctime}</Text>
           <Text>Last modified {mtime}</Text>
           <OrgProcessor text={page} data={data} />
@@ -98,7 +101,8 @@ export async function getStaticProps(props: StaticProps) {
   const fs = require('fs')
   //const { file } = props.params
   const data = await getFilesData()
-  const file = data[deslugify(props.params.file.join(''))]
+  const slug = deslugify(props.params.file.join(''))
+  const file = data[slug]
   const concatFile = file.path
 
   const cwd = process.cwd()
@@ -126,7 +130,7 @@ export async function getStaticProps(props: StaticProps) {
     props: {
       items: fileList,
       page: fileString,
-      slug: concatFile,
+      slug: slug,
       history: {},
       fileData: file,
       data,
