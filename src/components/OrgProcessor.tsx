@@ -11,7 +11,7 @@ export const OrgProcessor = (props: Props) => {
   // try {
   const processedText = parseOrg(props)
 
-  const t = (
+  return (
     <Box
       className="org-box"
       sx={{
@@ -21,10 +21,4 @@ export const OrgProcessor = (props: Props) => {
       {(processedText as ReactNode) || null}
     </Box>
   )
-  //console.log(t)
-  // return await processedText
-  return t
-  //  } catch (e) {
-  //    console.log(e)
-  //  }
 }

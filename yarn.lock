@@ -5641,10 +5641,10 @@ uniorg-parse@^0.4.5:
     vfile "^4.2.1"
     vfile-location "^3.2.0"
 
-uniorg-rehype@^0.4.7:
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/uniorg-rehype/-/uniorg-rehype-0.4.7.tgz#e5c816e2fad64791d1aef137602d9b6a0a4898c4"
-  integrity sha512-Pmtv4KpRIQM9/QwH6ligtuTXCNEBIw3xxQ38doEUdoYYUdFD+FKMwRfWm5Gwj3xABQqd/eDXgvdyilllbZAjIA==
+uniorg-rehype@^0.4.8:
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/uniorg-rehype/-/uniorg-rehype-0.4.8.tgz#217b61c6d60bd71ee7d065df3b77dea14a11c2a5"
+  integrity sha512-DXOdP8LjdhI0NPIzu3N7qPO7MlIK/Oxr4HVL+tPsCjN6rLNHMNEVx8c9ehUQMxZFnN0scK7GXU0MneHz4r8wiQ==
   dependencies:
     hastscript "^6.0.0"
     unist-builder "^2.0.3"

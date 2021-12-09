@@ -40,7 +40,7 @@
     "uniorg-attach": "^0.4.5",
     "uniorg-extract-keywords": "^0.4.5",
     "uniorg-parse": "^0.4.5",
-    "uniorg-rehype": "^0.4.7",
+    "uniorg-rehype": "^0.4.8",
     "uniorg-slug": "^0.4.7"
   },
   "devDependencies": {

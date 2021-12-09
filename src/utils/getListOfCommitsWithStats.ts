@@ -2,7 +2,7 @@ import { getCommitDiff } from './getCommitDiff'
 import { commit, log } from 'isomorphic-git'
 import fs, { access } from 'fs'
 import { doSomethingAtFileStateChange, getFileStateChanges } from './getFileStateChanges'
-import { join } from 'path'
+import { join, resolve } from 'path'
 import { FileDiff, Commit } from '../api'
 
 export const consolidateCommitsPerDay = (data: any) => {
@@ -24,7 +24,7 @@ export const consolidateCommitsPerDay = (data: any) => {
 }
 
 export const tryReadJSON = async (path: string, fallback?: any[]) => {
-  const cwdPath = join(process.cwd(), path)
+  const cwdPath = resolve(process.cwd(), path)
   try {
     return JSON.parse(await fs.promises.readFile(cwdPath, { encoding: 'utf8' }))
   } catch (e) {

@@ -171,8 +171,14 @@ export interface StaticProps {
   params: { commit: string }
 }
 export async function getServerSideProps(props: StaticProps) {
+  const { readFile } = require('fs').promises
+  const { resolve, join } = require('path')
   const { commit } = props.params
-  const commitList = await tryReadJSON(join('data', 'gitSlim.json'))
+  const dataDir = resolve(process.cwd(), 'data')
+  const slimJSONLocation = join(dataDir, 'gitSlim.json')
+
+  const commitList = JSON.parse(await readFile(slimJSONLocation, { encoding: 'utf8' }))
+  console.log(commitList)
 
   let isRelevantCommit = false
   const { files: relevantFiles, commits } = commitList.reduceRight(

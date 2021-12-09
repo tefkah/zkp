@@ -74,7 +74,15 @@ export function parseOrg(props: Props): React.ReactElement | undefined {
     .use(attachments)
     .use(uniorgSlug)
     .use(uniorg2rehype, { useSections: true })
-    .use(katex)
+    .use(katex, {
+      trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
+      macros: {
+        '\\eqref': '\\href{###1}{(\\text{#1})}',
+        '\\ref': '\\href{###1}{\\text{#1}}',
+        '\\label': '\\htmlId{#1}{}',
+        '\\ocircle': '\\ocirc',
+      },
+    })
     .use(rehype2react, {
       createElement: React.createElement,
       components: {
