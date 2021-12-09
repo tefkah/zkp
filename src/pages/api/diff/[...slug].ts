@@ -11,7 +11,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.end(`Post: Error, api is like compare/commit1/commit2/file.`)
   }
   const cwd = process.cwd()
-  const [commit1, commit2, file] = slug as string[]
+  const [commit1, commit2, encodedFile] = slug as string[]
+  const file = decodeURIComponent(encodedFile)
   try {
     const diffs = await getCommitDiffForSingleFile(
       commit1,

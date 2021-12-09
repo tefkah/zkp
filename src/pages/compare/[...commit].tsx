@@ -73,7 +73,9 @@ interface IndiviualFileDiffProps {
 const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
   const { commit, file } = props
   const [commit1, commit2] = commit
-  const { data, isLoading, isError } = useFetch(`/api/diff/${commit1}/${commit2}/${file}`)
+  const { data, isLoading, isError } = useFetch(
+    `/api/diff/${commit1}/${commit2}/${encodeURIComponent(file)}`,
+  )
 
   useEffect(() => {
     console.log(data)
@@ -178,7 +180,6 @@ export async function getServerSideProps(props: StaticProps) {
   const slimJSONLocation = join(dataDir, 'gitSlim.json')
 
   const commitList = JSON.parse(await readFile(slimJSONLocation, { encoding: 'utf8' }))
-  console.log(commitList)
 
   let isRelevantCommit = false
   const { files: relevantFiles, commits } = commitList.reduceRight(
