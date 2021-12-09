@@ -4,7 +4,7 @@ import { format } from 'date-fns-tz'
 import { parse } from 'date-fns'
 import React, { useMemo } from 'react'
 import { DateCommit } from '../../api'
-import { CommitDatum } from '../../pages'
+import { CommitDatum } from '../../pages/badindex'
 
 interface Props {
   data: any
