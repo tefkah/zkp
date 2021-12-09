@@ -17,6 +17,7 @@ import React from 'react'
 import { Resizable } from 're-resizable'
 import Link from 'next/link'
 import { File, Files } from '../../pages/[...file]'
+import { slugify } from '../../utils/slug.ts'
 import { BsFileEarmarkText } from 'react-icons/bs'
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
@@ -88,10 +89,7 @@ export const SubMenu = (props: SubMenuProps) => {
               <HStack alignItems="baseline">
                 <Icon as={BsFileEarmarkText} color="gray.600" size="sm" />
                 <Text fontWeight="400" fontSize={14} textTransform="capitalize">
-                  <Link
-                    href={`/${folder === 'Notes' ? '' : `${folder}/`}${item.path}`}
-                    key={item.path}
-                  >
+                  <Link href={`/${slugify(item.path)}`} key={item.path}>
                     {item.path
                       .replace(/\d{14}-/g, '')
                       .replace(/\.org/g, '')

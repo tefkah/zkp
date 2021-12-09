@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react'
 import { Change } from 'diff'
 import React, { ReactNode } from 'react'
 import { FileDiff } from '../api.d'
-import { parseOrg } from './parseOrg'
+import { ParsedOrg } from './parseOrg'
 
 interface Props {
   diff: FileDiff
@@ -36,6 +36,9 @@ export const diffToString = (diff: FileDiff) => {
 export default function ParsedDiff(props: Props) {
   const { diff } = props
   const diffString = typeof diff === 'string' ? diff : diffToString(diff)
-  const parsedOrg = parseOrg({ text: diffString })
-  return <Box>{parsedOrg as ReactNode}</Box>
+  return (
+    <Box>
+      <ParsedOrg text={diffString} />
+    </Box>
+  )
 }

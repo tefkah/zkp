@@ -1248,6 +1248,14 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
+"@jsdevtools/rehype-url-inspector@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@jsdevtools/rehype-url-inspector/-/rehype-url-inspector-2.0.2.tgz#c3c08f5adf6865c802615f5412cb40ab5680fe29"
+  integrity sha512-iQL2lb+nOoT+5jFz1nfOa3oBJPF2JyBtPQgGmrRhxLT3QZAGIMLz/mh/9mUmk7FfKF5NB8xq0KoLn5F4/QHpyA==
+  dependencies:
+    url-regex "^5.0.0"
+    vfile "^4.1.1"
+
 "@mapbox/hast-util-table-cell-style@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@mapbox/hast-util-table-cell-style/-/hast-util-table-cell-style-0.2.0.tgz#1003f59d54fae6f638cb5646f52110fb3da95b4d"
@@ -3386,6 +3394,11 @@ invariant@^2.2.4:
   dependencies:
     loose-envify "^1.0.0"
 
+ip-regex@^4.1.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-4.3.0.tgz#687275ab0f57fa76978ff8f4dddc8a23d5990db5"
+  integrity sha512-B9ZWJxHHOHUhUjCPrMpLD4xEq35bUTClHM1S6CBU5ixQnkZmwipwgc96vAd7AAGM9TGHvJR+Uss+/Ak6UphK+Q==
+
 is-arguments@^1.0.4:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/is-arguments/-/is-arguments-1.1.1.tgz#15b3f88fda01f2a97fec84ca761a560f123efa9b"
@@ -4967,6 +4980,13 @@ readable-stream@^3.4.0, readable-stream@^3.5.0, readable-stream@^3.6.0:
     string_decoder "^1.1.1"
     util-deprecate "^1.0.1"
 
+readdirp@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-3.6.0.tgz#74a370bd857116e245b29cc97340cd431a02a6c7"
+  integrity sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==
+  dependencies:
+    picomatch "^2.2.1"
+
 readdirp@~3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-3.5.0.tgz#9ba74c019b15d365278d2e91bb8c48d7b4d42c9e"
@@ -5023,6 +5043,13 @@ rehype-react@6:
   dependencies:
     "@mapbox/hast-util-table-cell-style" "^0.2.0"
     hast-to-hyperscript "^9.0.0"
+
+rehype-url-inspector@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/rehype-url-inspector/-/rehype-url-inspector-2.0.2.tgz#cf7866dc158cbf42cb51af7dad89c5c19ec0f0a7"
+  integrity sha512-mMbllcH41iweCClditEVD+dCntCdItKJh+ajh8XdjhdaPPvHOy0RW0Fa1Il4+Zq0yvAaqG/dGCrlDyW79X/rhA==
+  dependencies:
+    "@jsdevtools/rehype-url-inspector" "2.0.2"
 
 repeat-string@^1.0.0:
   version "1.6.1"
@@ -5478,6 +5505,11 @@ tinycolor2@1.4.2:
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
   integrity sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==
 
+tlds@^1.203.0:
+  version "1.227.0"
+  resolved "https://registry.yarnpkg.com/tlds/-/tlds-1.227.0.tgz#6352577d74c4b7f6f80ebdeebafdf28c10aee8c0"
+  integrity sha512-H6KXre7PSkfZyPiGzHvdG/p42LCfPmmyH3MhmZnULiVGEGXKBe8vzyLrw6q0UAtXOL0eNScA9vC4DcfhrcaPlg==
+
 tmpl@1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.5.tgz#8683e0b902bb9c20c4f726e3c0b69f36518c07cc"
@@ -5733,6 +5765,14 @@ unpipe@1.0.0:
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
   integrity sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=
 
+url-regex@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/url-regex/-/url-regex-5.0.0.tgz#8f5456ab83d898d18b2f91753a702649b873273a"
+  integrity sha512-O08GjTiAFNsSlrUWfqF1jH0H1W3m35ZyadHrGv5krdnmPPoxP27oDTqux/579PtaroiSGm5yma6KT1mHFH6Y/g==
+  dependencies:
+    ip-regex "^4.1.0"
+    tlds "^1.203.0"
+
 use-callback-ref@^1.2.1, use-callback-ref@^1.2.3:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.5.tgz#6115ed242cfbaed5915499c0a9842ca2912f38a5"
@@ -5792,7 +5832,7 @@ vfile-message@^2.0.0:
     "@types/unist" "^2.0.0"
     unist-util-stringify-position "^2.0.0"
 
-vfile@^4.0.0, vfile@^4.2.1:
+vfile@^4.0.0, vfile@^4.1.1, vfile@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/vfile/-/vfile-4.2.1.tgz#03f1dce28fc625c625bc6514350fbdb00fa9e624"
   integrity sha512-O6AE4OskCG5S1emQ/4gl8zK586RqA3srz3nfK/Viy0UPToBc5Trp9BVFb1u0CjsKrAWwnpr4ifM/KBXPWwJbCA==

@@ -20,13 +20,17 @@ import { Box, Heading, ListItem, OrderedList, Text, UnorderedList } from '@chakr
 //import { noteStyle } from '../components/NoteStyle'
 import { Keyword, OrgData, OrgNode, Paragraph, SpecialBlock } from 'uniorg'
 import Link from 'next/link'
+import { FilesData } from '../utils/IDIndex/getFilesData'
+import { slugify } from '../utils/slug'
 
 interface Props {
   text: string
+  // if we have a diff we don't want to process links etc, because that will fuck up
+  data?: FilesData
 }
 
-export function parseOrg(props: Props): React.ReactElement | undefined {
-  const { text } = props
+export function ParsedOrg(props: Props): React.ReactElement | null {
+  const { text, data } = props
   const processor = unified()
     .use(uniorgParse)
     .use(() => (node) => {
@@ -99,11 +103,32 @@ export function parseOrg(props: Props): React.ReactElement | undefined {
           </Text>
         ),
         div: Box,
-        a: ({ href, children }) => (
-          <Link href={href as string}>
-            <a>{children as ReactNode}</a>
-          </Link>
-        ),
+        a: ({ href, children }) => {
+          if (!data) {
+            return (
+              <Link href={href as string}>
+                <a>{children as ReactNode}</a>
+              </Link>
+            )
+          }
+          console.log('Heyyyyyyyyyyy')
+          const id = (href as string).replace(/id:/g, '')
+          const idIndex = Object.values(data).findIndex((obj) => obj.id === id)
+          const correctLink = Object.keys(data)[idIndex] || null
+
+          console.log(correctLink)
+          return (
+            <Text as="span" color="red.500">
+              {correctLink ? (
+                <Link href={`/${slugify(correctLink)}`}>
+                  <a>{children as ReactNode}</a>
+                </Link>
+              ) : (
+                <span> {children as ReactNode}</span>
+              )}
+            </Text>
+          )
+        },
         ul: UnorderedList,
         ol: OrderedList,
         li: ListItem,
@@ -152,5 +177,6 @@ export function parseOrg(props: Props): React.ReactElement | undefined {
     return <Box>{processor.processSync(text).result as React.ReactElement}</Box>
   } catch (e) {
     console.log(e)
+    return null
   }
 }

@@ -77,9 +77,6 @@ const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
     `/api/diff/${commit1}/${commit2}/${encodeURIComponent(file)}`,
   )
 
-  useEffect(() => {
-    console.log(data)
-  }, [data, isError])
   if (isLoading) return <Spinner />
 
   if (isError) return <Text>Oopsie whoopsie! We did a fucky wucky!</Text>
