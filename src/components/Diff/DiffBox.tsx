@@ -56,7 +56,7 @@ export const DiffBox = (props: Props) => {
             onClick={onToggle}
           />
           <Heading fontWeight="600" isTruncated size="sm">
-            {<Link href={`/file/${filepath}`}>{filepath}</Link>}
+            {<Link href={`/${filepath}`}>{filepath}</Link>}
           </Heading>
         </HStack>
         <HStack>

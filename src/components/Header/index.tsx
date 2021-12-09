@@ -131,8 +131,8 @@ const ChakraUIHeader = () => {
                     _hover={{ color: 'gray.600' }}
                   />
                 </Link>
-                <Link href="/thesis">Thesis</Link>
-                <Link href="/notes">Notes</Link>
+                <Link href="/Chapters/outline-anyons.org">Thesis</Link>
+                <Link href="/20210403182645-topological_space.org">Notes</Link>
                 <Link href="/history">History</Link>
               </HStack>
             </Flex>
