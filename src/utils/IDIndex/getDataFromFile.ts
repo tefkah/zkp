@@ -11,14 +11,14 @@ export interface DataProps {}
 export interface OrgFileData {
   path: string
   id: string
-  tags: any
+  tags: string[]
   ctime: string
   mtime: string
   citation: string
   forwardLinks: string[]
   backLinks: string[]
   citations: string[]
-  title: any
+  title: string
 }
 
 export const getDataFromFile = async (text: string, props?: DataProps) => {

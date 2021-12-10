@@ -103,83 +103,81 @@ const ChakraUIHeader = () => {
     </VStack>
   )
   return (
-    <Box pos="relative">
-      <chakra.header
-        zIndex={1}
-        ref={ref}
-        pos="fixed"
-        top={0}
-        shadow={y > height ? 'sm' : undefined}
-        transition="box-shadow 0.2s"
-        bg={bg}
-        //borderTop="6px solid"
-        //borderTopColor="brand.400"
-        w="full"
-        overflowY="hidden"
-      >
-        <chakra.div h="3rem" mx="auto">
-          <Flex w="full" h="full" px="6" align="center" justify="space-between">
-            <Flex align="center">
-              <HStack spacing="5">
-                <Link href="/">
-                  <Icon
-                    as={HiAcademicCap}
-                    display="block"
-                    transition="color 0.2s"
-                    w="5"
-                    h="5"
-                    _hover={{ color: 'gray.600' }}
-                  />
-                </Link>
-                <Link href="/Outline-Anyons">Thesis</Link>
-                <Link href="/Topological-space">Notes</Link>
-                <Link href="/history">History</Link>
-              </HStack>
-            </Flex>
-
-            <Flex justify="flex-end" w="full" maxW="824px" align="center" color="gray.400">
-              <HStack spacing="5" display={{ base: 'none', md: 'flex' }}>
-                <Link
-                  isExternal
-                  aria-label="Go to this website's GitHub page"
-                  href="https://github.com/ThomasFKJorna/thesis-visualization"
-                >
-                  <Icon
-                    as={AiFillGithub}
-                    display="block"
-                    transition="color 0.2s"
-                    w="5"
-                    h="5"
-                    _hover={{ color: 'gray.600' }}
-                  />
-                </Link>
-              </HStack>
-              <IconButton
-                size="md"
-                fontSize="lg"
-                aria-label={`Switch to ${text} mode`}
-                variant="ghost"
-                color="current"
-                ml={{ base: '0', md: '3' }}
-                onClick={toggleMode}
-                icon={<SwitchIcon />}
-              />
-              {/* {SponsorButton} */}
-              <IconButton
-                display={{ base: 'flex', md: 'none' }}
-                aria-label="Open menu"
-                fontSize="20px"
-                color={useColorModeValue('gray.800', 'inherit')}
-                variant="ghost"
-                icon={<AiOutlineMenu />}
-                onClick={mobileNav.onOpen}
-              />
-            </Flex>
+    <chakra.header
+      zIndex={1}
+      ref={ref}
+      pos="sticky"
+      top={0}
+      shadow={y > height ? 'sm' : undefined}
+      transition="box-shadow 0.2s"
+      bg={bg}
+      //borderTop="6px solid"
+      //borderTopColor="brand.400"
+      w="full"
+      overflowY="hidden"
+    >
+      <chakra.div h="3rem" mx="auto">
+        <Flex w="full" h="full" px="6" align="center" justify="space-between">
+          <Flex align="center">
+            <HStack spacing="5">
+              <Link href="/">
+                <Icon
+                  as={HiAcademicCap}
+                  display="block"
+                  transition="color 0.2s"
+                  w="5"
+                  h="5"
+                  _hover={{ color: 'gray.600' }}
+                />
+              </Link>
+              <Link href="/Outline-Anyons">Thesis</Link>
+              <Link href="/Topological-space">Notes</Link>
+              <Link href="/history">History</Link>
+            </HStack>
           </Flex>
-          {MobileNavContent}
-        </chakra.div>
-      </chakra.header>
-    </Box>
+
+          <Flex justify="flex-end" w="full" maxW="824px" align="center" color="gray.400">
+            <HStack spacing="5" display={{ base: 'none', md: 'flex' }}>
+              <Link
+                isExternal
+                aria-label="Go to this website's GitHub page"
+                href="https://github.com/ThomasFKJorna/thesis-visualization"
+              >
+                <Icon
+                  as={AiFillGithub}
+                  display="block"
+                  transition="color 0.2s"
+                  w="5"
+                  h="5"
+                  _hover={{ color: 'gray.600' }}
+                />
+              </Link>
+            </HStack>
+            <IconButton
+              size="md"
+              fontSize="lg"
+              aria-label={`Switch to ${text} mode`}
+              variant="ghost"
+              color="current"
+              ml={{ base: '0', md: '3' }}
+              onClick={toggleMode}
+              icon={<SwitchIcon />}
+            />
+            {/* {SponsorButton} */}
+            <IconButton
+              display={{ base: 'flex', md: 'none' }}
+              aria-label="Open menu"
+              fontSize="20px"
+              color={useColorModeValue('gray.800', 'inherit')}
+              variant="ghost"
+              icon={<AiOutlineMenu />}
+              onClick={mobileNav.onOpen}
+            />
+          </Flex>
+        </Flex>
+        {MobileNavContent}
+      </chakra.div>
+    </chakra.header>
   )
 }
 

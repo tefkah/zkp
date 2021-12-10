@@ -96,11 +96,15 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
       createElement: React.createElement,
       components: {
         h1: (head) => {
-          const { className, value, children } = head
+          const { id, className, value, children } = head
           if (className === 'title') {
             return null
           }
-          return <Heading>{children as ReactNode}</Heading>
+          return (
+            <Heading {...{ className: className as string, id: id as string }}>
+              {children as ReactNode}
+            </Heading>
+          )
           //return <Heading className="title">{value as string}</Heading>
         },
         p: ({ children, ...rest }) => (

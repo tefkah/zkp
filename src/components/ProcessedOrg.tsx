@@ -16,6 +16,7 @@ export const ProcessedOrg = (props: Props) => {
   return (
     <Box
       className="org-box"
+      h="full"
       sx={{
         ...noteStyle,
       }}

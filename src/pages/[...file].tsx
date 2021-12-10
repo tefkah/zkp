@@ -27,6 +27,10 @@ import { Backlinks } from '../components/FileViewer/Backlinks'
 import { ProcessedOrg } from '../components/ProcessedOrg'
 import Header from '../components/Header'
 import Head from 'next/head'
+import Footer from '../components/Footer'
+import { useRouter } from 'next/router'
+import TableOfContent from '../components/TableOfContents'
+import { getTableOfContents } from '../utils/getTableOfContents'
 
 interface Props {
   page: string
@@ -36,54 +40,83 @@ interface Props {
   data: FilesData
   slug: string
   orgTexts: { [id: string]: string }
+  toc: Heading[]
+}
+function useHeadingFocusOnRouteChange() {
+  const router = useRouter()
+
+  React.useEffect(() => {
+    const onRouteChange = () => {
+      const [heading] = Array.from(document.getElementsByTagName('h1'))
+      heading?.focus()
+    }
+    router.events.on('routeChangeComplete', onRouteChange)
+    return () => {
+      router.events.off('routeChangeComplete', onRouteChange)
+    }
+  }, [router.events])
 }
 
+export interface Heading {
+  level: 'h2' | 'h3'
+  text: string
+  id: string
+}
 export default function FilePage(props: Props) {
-  const { fileData, page, items, data, slug, orgTexts } = props
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { toc, fileData, page, items, data, slug, orgTexts } = props
+  const { isOpen, onOpen, onClose, onToggle } = useDisclosure()
   const { title, tags, ctime, mtime, backLinks } = fileData
   const parseTime = (time: string) => {
     const firstTime = parse(time.split(' ')[0], 'yyyyMMddHHmmss', new Date())
     return format(firstTime, "MMMM do, yyyy, 'at' HH:mm")
   }
+  useHeadingFocusOnRouteChange()
+  const headings = toc
   return (
     <>
       <Head>
         <title>{`${title} | Thomas Thesis`}</title>
       </Head>
-      <Flex mt={12} h="100vh" width="100vw">
-        <Header />
-        {isOpen ? (
+      <Box w="100vw" h="100vh">
+        <Flex width="full">
           <CustomSideBar {...{ onClose, isOpen }} items={items} />
-        ) : (
-          <IconButton
-            left={3}
-            top={14}
-            position="fixed"
-            variant="ghost"
-            icon={<HamburgerIcon />}
-            aria-label="open sidebar"
-            onClick={onOpen}
-          />
-        )}
-        <Box width="full" overflowY="scroll">
-          <Container mt={4} h="full">
-            <Heading mb={4}>{slug}</Heading>
-            <HStack my={2} spacing={2}>
-              {tags.map((tag: string) => (
-                <Tag>{tag}</Tag>
-              ))}{' '}
-              n
-            </HStack>
-            <VStack mb={4} alignItems="flex-start">
-              {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}
-              {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
-            </VStack>
-            <ProcessedOrg text={page} data={{ data, orgTexts }} />
-            {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
-          </Container>
-        </Box>
-      </Flex>
+          {!isOpen && (
+            <IconButton
+              left={3}
+              top={14}
+              position="fixed"
+              variant="ghost"
+              icon={<HamburgerIcon />}
+              aria-label="open sidebar"
+              onClick={onToggle}
+            />
+          )}
+          <Box w="full" id="mainContent">
+            <Header />
+            <Flex>
+              <Container mt={6}>
+                <Heading mb={4}>{slug}</Heading>
+                <HStack my={2} spacing={2}>
+                  {tags.map((tag: string) => (
+                    <Tag variant="outline">{tag}</Tag>
+                  ))}
+                </HStack>
+                <VStack mb={4} alignItems="flex-start">
+                  {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}
+                  {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
+                </VStack>
+                <ProcessedOrg text={page} data={{ data, orgTexts }} />
+                {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
+              </Container>
+              <TableOfContent
+                visibility={headings.length === 0 ? 'hidden' : 'initial'}
+                headings={headings}
+              />
+            </Flex>
+          </Box>
+        </Flex>
+        <Footer />
+      </Box>
     </>
   )
 }
@@ -128,15 +161,29 @@ export async function getStaticProps(props: StaticProps) {
 
   const cwd = process.cwd()
   const fileList = Object.entries(data).reduce(
-    (acc: Files, curr: any) => {
+    (acc: Files, curr: [id: string, entry: OrgFileData]) => {
       const [id, entry] = curr
-      const { path: rawPath, title } = entry
+      const { path: rawPath, title, tags } = entry
       const path = rawPath.split('/')
-      if (path.length === 1) {
-        acc.files.push({ type: 'file', path: title })
+      if (path.length !== 1) {
+        acc.folders[path[0]] = [...(acc.folders[path[0]] || []), { type: 'file', path: title }]
         return acc
       }
-      acc.folders[path[0]] = [...(acc.folders[path[0]] || []), { type: 'file', path: title }]
+      if (tags?.includes('definition')) {
+        acc.folders.Definitions = [
+          ...(acc.folders.Definitions || []),
+          { type: 'file', path: title },
+        ]
+        return acc
+      }
+      if (tags?.includes('reference')) {
+        acc.folders['Literature Notes'] = [
+          ...(acc.folders['Literature Notes'] || []),
+          { type: 'file', path: title },
+        ]
+        return acc
+      }
+      acc.files.push({ type: 'file', path: title })
       return acc
     },
     { files: [], folders: {} },
@@ -163,6 +210,7 @@ export async function getStaticProps(props: StaticProps) {
   }
 
   //const commits = await tryReadJSON('data/git.json')
+  const toc = getTableOfContents(fileString)
 
   return {
     props: {
@@ -173,6 +221,7 @@ export async function getStaticProps(props: StaticProps) {
       fileData: file,
       data,
       orgTexts,
+      toc,
     },
   }
 }

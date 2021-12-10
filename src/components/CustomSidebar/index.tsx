@@ -11,15 +11,19 @@ import {
   useDisclosure,
   IconButton,
   useColorModeValue,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  Slide,
 } from '@chakra-ui/react'
 import { Collapse } from './Collapse'
-import React from 'react'
+import React, { useState } from 'react'
 import { Resizable } from 're-resizable'
 import Link from 'next/link'
 import { File, Files } from '../../pages/[...file]'
 import { slugify } from '../../utils/slug'
 import { BsFileEarmarkText } from 'react-icons/bs'
-import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
+import { ChevronDownIcon, ChevronRightIcon, HamburgerIcon } from '@chakra-ui/icons'
 
 interface Props {
   items: Files
@@ -29,35 +33,53 @@ interface Props {
 
 const CustomSideBar = (props: Props) => {
   const { items, isOpen, onClose } = props
-  const bg = useColorModeValue('gray.50', 'gray.700')
+  const [hideContent, setHideContent] = useState(true)
+  const bg = useColorModeValue('gray.50', 'gray.800')
+  const unemph = useColorModeValue('gray.700', 'gray.300')
   return (
     <Collapse
       animateOpacity={false}
       dimension="width"
       in={isOpen}
-      //style={{ position: 'relative' }}
-      unmountOnExit
+      style={{ position: 'sticky', top: 0 }}
+      // startingSize={0}
+      // endingSize="25vw"
+      //  unmountOnExit
     >
       <VStack
+        borderRightWidth={1}
         pl={1}
         pr="3%"
         display="flex"
         backgroundColor={bg}
-        pt="1%"
+        // pt="1%"
         alignItems="flex-start"
         w="25vw"
         overflowX="auto"
         overflowY="scroll"
-        h="full"
+        h="100vh"
+        style={{ position: 'sticky', top: 0 }}
         //  position="fixed"
       >
-        <HStack pos="absolute" top={2} display="flex" flexDir="row-reverse" w="24vw">
-          <CloseButton onClick={onClose} variant="ghost" />
+        <HStack ml={4} mt={3} alignItems="center" pos="sticky" top={0}>
+          <IconButton
+            aria-label="close sidebar"
+            icon={<HamburgerIcon />}
+            onClick={onClose}
+            variant="ghost"
+            color={unemph}
+          />
+
+          <Text color={unemph}>Files</Text>
         </HStack>
-        {Object.entries(items.folders).map(([folder, files]) => (
-          <SubMenu {...{ folder, files }} />
-        ))}
-        <SubMenu folder="Notes" files={items.files} />
+        <Box>
+          {Object.entries(items.folders)
+            .reverse()
+            .map(([folder, files]) => (
+              <SubMenu {...{ folder, files }} defaultIsOpen={['Chapters'].includes(folder)} />
+            ))}
+          <SubMenu folder="Notes" files={items.files} defaultIsOpen />
+        </Box>
       </VStack>
     </Collapse>
   )
@@ -66,11 +88,12 @@ const CustomSideBar = (props: Props) => {
 export interface SubMenuProps {
   folder: string
   files: File[]
+  defaultIsOpen?: boolean
 }
 export const SubMenu = (props: SubMenuProps) => {
-  const { folder, files } = props
+  const { folder, files, defaultIsOpen } = props
 
-  const { onToggle, isOpen } = useDisclosure({ defaultIsOpen: true })
+  const { onToggle, isOpen } = useDisclosure({ defaultIsOpen: defaultIsOpen && true })
   const iconColor = useColorModeValue('gray.600', 'gray.300')
   return (
     <Box>
