@@ -25,10 +25,11 @@ import Link from 'next/link'
 interface CommitProps extends SlimCommit {
   compair: string[]
   setCompair: any
+  slim?: boolean
 }
 
 export const Commit = (props: CommitProps) => {
-  const { oid, message, date, additions, deletions, compair, setCompair } = props
+  const { oid, slim, message, date, additions, deletions, compair, setCompair } = props
 
   const dateThing = new Date(date * 1000)
   const dateObj = utcToZonedTime(dateThing, 'Europe/Amsterdam')
@@ -36,16 +37,15 @@ export const Commit = (props: CommitProps) => {
   const timeDistance = formatDistance(dateObj, new Date(), { addSuffix: true })
   const formattedDate = `${timeDistance}, at ${time}`
   return (
-    <Box px={4} w="100%" display="flex" justifyContent="space-between">
+    <Box px={slim ? 0 : 4} w="100%" display="flex" justifyContent="space-between">
       <VStack display="flex" alignItems="flex-start">
         <Heading size="small">
           <Link href={`/commit/${oid}`}>{message}</Link>
         </Heading>
 
         <HStack spacing={2}>
-          {' '}
           <Text color="gray.500">{formattedDate}</Text>
-          <CompareButton {...{ oid, compair, setCompair }} />
+          {!slim && <CompareButton {...{ oid, compair, setCompair }} />}
         </HStack>
       </VStack>
       <VStack display="flex" alignItems="flex-end">

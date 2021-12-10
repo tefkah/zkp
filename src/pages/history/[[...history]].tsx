@@ -8,6 +8,7 @@ import { CommitList } from '../../components/Commits/CommitList'
 import { CommitPerDateLog, DateCommit } from '../../api'
 import { HistoryGraph } from '../../components/HistoryGraph'
 import Link from 'next/link'
+import Footer from '../../components/Footer'
 
 export interface SlimCommit {
   oid: string
@@ -64,6 +65,7 @@ export default function HistoryPage(props: HistoryPageProps) {
         </Box>
       </VStack>
       <CommitList commitLog={log} />
+      <Footer />
     </>
   )
 }

@@ -1,5 +1,6 @@
 import { Text, Container, Heading, VStack, Link } from '@chakra-ui/layout'
 import React, { ReactElement } from 'react'
+import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { Hero } from '../components/Hero'
 import { Main } from '../components/Main'
@@ -30,7 +31,7 @@ export default function Index({}: Props): ReactElement {
                   to see what I have been up to.
                 </Text>
                 <Text>
-                  <Link color="blue.500" href="/Chapters/outline-anyons.org">
+                  <Link color="blue.500" href="/Outline-Anyons">
                     The most recent chapter I'm working on
                   </Link>
                 </Text>
@@ -42,6 +43,7 @@ export default function Index({}: Props): ReactElement {
             </VStack>
           </Container>
         </Main>
+        <Footer />
       </VStack>
     </div>
   )

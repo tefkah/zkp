@@ -7,17 +7,18 @@ interface Props {
   commits: SlimCommit[]
   compair: string[]
   setCompair: any
+  slim?: boolean
 }
 
 export const CommitListByDate = (props: Props) => {
-  const { commits, compair, setCompair } = props
+  const { commits, compair, setCompair, slim } = props
   const reversedCommits = JSON.parse(JSON.stringify(commits)).reverse()
   return (
     <VStack
-      py={3}
-      borderRadius="lg"
+      py={slim ? 0 : 3}
+      borderRadius={slim ? 0 : 'lg'}
       borderColor="grey.700"
-      borderWidth={1}
+      borderWidth={slim ? 0 : 1}
       divider={<Divider color="gray.500" />}
       spacing={2}
       w="100%"
@@ -25,7 +26,7 @@ export const CommitListByDate = (props: Props) => {
       alignItems="flex-start"
     >
       {reversedCommits.map((commit: SlimCommit) => {
-        return <Commit {...{ ...commit, compair, setCompair }} key={commit.oid} />
+        return <Commit {...{ ...commit, slim, compair, setCompair }} key={commit.oid} />
       })}
     </VStack>
   )

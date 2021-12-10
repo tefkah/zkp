@@ -55,6 +55,7 @@ const SocialButton = ({
 export function SmallWithSocial() {
   return (
     <Box
+      w="full"
       borderTopWidth={1}
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}

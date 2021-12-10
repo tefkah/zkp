@@ -77,7 +77,7 @@ export const getDataFromFile = async (text: string, props?: DataProps) => {
             data.title = value.replace(/\//g, ' or ').replace(/\"/g, "'").replace(/_/g, '-')
             return
           case 'filetags':
-            data.tags = value.split(' ')
+            data.tags = value.split(':').join(' ').trim().split(' ')
             return
           default:
             return

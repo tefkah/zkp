@@ -30,6 +30,7 @@ import Header from '../../components/Header'
 import { GoMarkGithub } from 'react-icons/go'
 import { IoIosGitCompare } from 'react-icons/io'
 import { format } from 'date-fns'
+import Footer from '../../components/Footer'
 
 export function parseCommits(commitData: Commit) {
   return commitData?.files?.map((file) => {
@@ -130,6 +131,7 @@ export default function CommitPage(props: Props) {
           {parsedText}
         </VStack>
       </VStack>
+      <Footer />
     </>
   )
 }

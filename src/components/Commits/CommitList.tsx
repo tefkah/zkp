@@ -8,10 +8,11 @@ import { format, parse } from 'date-fns'
 
 interface CommitListProps {
   commitLog: CommitPerDateLog
+  slim?: boolean
 }
 
 export const CommitList = (props: CommitListProps) => {
-  const { commitLog } = props
+  const { commitLog, slim } = props
   const [compair, setCompair] = useState<string[]>([])
   const commits = Object.entries(commitLog).reverse()
 
@@ -25,25 +26,27 @@ export const CommitList = (props: CommitListProps) => {
         const niceDate = format(parse(date, 'yyyy-MM-dd', new Date()), 'MMMM do, yyyy')
         return (
           <VStack
-            pb={10}
-            pl={10}
+            pb={slim ? 4 : 10}
+            pl={slim ? 0 : 10}
             display="flex"
             alignItems="flex-start"
             borderLeftColor="grey.600"
-            borderLeftWidth={1}
+            borderLeftWidth={slim ? 0 : 1}
             borderLeftStyle="solid"
-            w="80%"
+            w={slim ? 'full' : '80%'}
             key={niceDate}
           >
-            <Flex ml={-12} alignItems="center" mb={2}>
-              <Box backgroundColor={backgroundC} pt={1} pb={2}>
-                <Icon as={BsRecordCircle} color="gray.500" />
-              </Box>
-              <Text fontWeight="semibold" size="xs" color="gray.400" ml={12}>
+            <Flex ml={slim ? 0 : -12} alignItems="center" mb={2}>
+              {!slim && (
+                <Box backgroundColor={backgroundC} pt={1} pb={2}>
+                  <Icon as={BsRecordCircle} color="gray.500" />
+                </Box>
+              )}
+              <Text fontWeight="semibold" size="xs" color="gray.400" ml={slim ? 0 : 12}>
                 {niceDate}
               </Text>
             </Flex>
-            <CommitListByDate commits={commitList} {...{ compair, setCompair }} />
+            <CommitListByDate commits={commitList} {...{ slim, compair, setCompair }} />
           </VStack>
         )
       })}

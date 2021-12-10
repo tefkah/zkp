@@ -31,6 +31,9 @@ import Footer from '../components/Footer'
 import { useRouter } from 'next/router'
 import TableOfContent from '../components/TableOfContents'
 import { getTableOfContents } from '../utils/getTableOfContents'
+import { OutlineBox } from '../components/OutlineBox/OutlineBox'
+import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
+import getHistoryForFile from '../utils/getHistoryForFile'
 
 interface Props {
   page: string
@@ -41,6 +44,7 @@ interface Props {
   slug: string
   orgTexts: { [id: string]: string }
   toc: Heading[]
+  commits: CommitPerDateLog
 }
 function useHeadingFocusOnRouteChange() {
   const router = useRouter()
@@ -63,7 +67,7 @@ export interface Heading {
   id: string
 }
 export default function FilePage(props: Props) {
-  const { toc, fileData, page, items, data, slug, orgTexts } = props
+  const { toc, fileData, page, items, data, slug, orgTexts, commits } = props
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure()
   const { title, tags, ctime, mtime, backLinks } = fileData
   const parseTime = (time: string) => {
@@ -108,10 +112,8 @@ export default function FilePage(props: Props) {
                 <ProcessedOrg text={page} data={{ data, orgTexts }} />
                 {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
               </Container>
-              <TableOfContent
-                visibility={headings.length === 0 ? 'hidden' : 'initial'}
-                headings={headings}
-              />
+
+              <OutlineBox {...{ headings, commits }} />
             </Flex>
           </Box>
         </Flex>
@@ -153,13 +155,18 @@ export interface StaticProps {
 export async function getStaticProps(props: StaticProps) {
   const fs = require('fs')
   //const { file } = props.params
+  const cwd = process.cwd()
+  const { dataWithoutDiffs } = await getListOfCommitsWithStats(
+    '',
+    '',
+    join(cwd, 'notes'),
+    join(cwd, 'notes', 'git'),
+  )
   const data = await getFilesData()
   const slug = deslugify(props.params.file.join(''))
-  console.log(slug)
   const file = Object.values(data).find((entry) => entry.title === slug)
   const concatFile = file?.path || ''
 
-  const cwd = process.cwd()
   const fileList = Object.entries(data).reduce(
     (acc: Files, curr: [id: string, entry: OrgFileData]) => {
       const [id, entry] = curr
@@ -211,6 +218,7 @@ export async function getStaticProps(props: StaticProps) {
 
   //const commits = await tryReadJSON('data/git.json')
   const toc = getTableOfContents(fileString)
+  const commits = getHistoryForFile({ file: concatFile, commits: dataWithoutDiffs })
 
   return {
     props: {
@@ -222,6 +230,7 @@ export async function getStaticProps(props: StaticProps) {
       data,
       orgTexts,
       toc,
+      commits,
     },
   }
 }

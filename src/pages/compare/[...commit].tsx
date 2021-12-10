@@ -32,6 +32,7 @@ import { IoIosGitCompare } from 'react-icons/io'
 import { GoMarkGithub } from 'react-icons/go'
 
 import { CommitList } from '../../components/Commits/CommitList'
+import Footer from '../../components/Footer'
 
 export function ParsedCommit(props: { [key: string]: any }) {
   const { commitData } = props
@@ -162,6 +163,7 @@ export default function ComparePage(props: Props) {
           ))}
         </VStack>
       </VStack>
+      <Footer />
     </>
   )
 }
