@@ -13,7 +13,6 @@ import {
 import { join } from 'path'
 import React from 'react'
 import { CommitPerDateLog } from '../api'
-import Header from '../components/Header'
 import Sidebar from '../components/SideBar'
 //import { OrgProcessor } from '../components/OrgProcessor'
 import CustomSideBar from '../components/CustomSidebar'
@@ -26,6 +25,8 @@ import { format, parse } from 'date-fns'
 import Link from 'next/link'
 import { Backlinks } from '../components/FileViewer/Backlinks'
 import { ProcessedOrg } from '../components/ProcessedOrg'
+import Header from '../components/Header'
+import Head from 'next/head'
 
 interface Props {
   page: string
@@ -47,6 +48,9 @@ export default function FilePage(props: Props) {
   }
   return (
     <>
+      <Head>
+        <title>{`${title} | Thomas Thesis`}</title>
+      </Head>
       <Flex mt={12} h="100vh" width="100vw">
         <Header />
         {isOpen ? (
@@ -72,8 +76,8 @@ export default function FilePage(props: Props) {
               n
             </HStack>
             <VStack mb={4} alignItems="flex-start">
-              <Text fontSize={12}>Created on {parseTime(ctime)}</Text>
-              <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>
+              {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}
+              {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
             </VStack>
             <ProcessedOrg text={page} data={{ data, orgTexts }} />
             {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
@@ -148,11 +152,13 @@ export async function getStaticProps(props: StaticProps) {
   let orgTexts: { [key: string]: string } = {}
   for (const link of linkFilePaths) {
     const [id, linkFilePath] = link
-    const file = linkFilePath
-      ? await fs.promises.readFile(join(cwd, 'notes', `${linkFilePath}`), {
-          encoding: 'utf8',
-        })
-      : ''
+    const filepath = join(cwd, 'notes', `${linkFilePath}`)
+    const file =
+      linkFilePath && (await fs.promises.lstat(filepath)).isFile()
+        ? await fs.promises.readFile(filepath, {
+            encoding: 'utf8',
+          })
+        : ''
     orgTexts[id] = file
   }
 
