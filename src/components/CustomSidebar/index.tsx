@@ -93,7 +93,7 @@ export const SubMenu = (props: SubMenuProps) => {
               <HStack alignItems="baseline">
                 {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
                 <Text fontWeight="500" fontSize={14} textTransform="capitalize">
-                  <Link href={`/${slugify(item.path)}`} key={item.path}>
+                  <Link prefetch={false} href={`/${slugify(item.path)}`} key={item.path}>
                     {item.path
                       .replace(/\d{14}-/g, '')
                       .replace(/\.org/g, '')
