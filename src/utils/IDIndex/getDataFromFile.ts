@@ -2,7 +2,7 @@ import unified from 'unified'
 import uniorgParse from 'uniorg-parse'
 import { readOrgFile } from './readOrgFile'
 import { visitIds } from 'orgast-util-visit-ids'
-import { Keyword, NodeProperty, OrgData, PropertyDrawer } from 'uniorg'
+import { Keyword, Link, NodeProperty, OrgData, PropertyDrawer } from 'uniorg'
 import visit from 'unist-util-visit'
 import { extractKeywords } from 'uniorg-extract-keywords'
 import { AiOutlineConsoleSql } from 'react-icons/ai'
@@ -15,6 +15,9 @@ export interface OrgFileData {
   ctime: string
   mtime: string
   citation: string
+  forwardLinks: string[]
+  backLinks: string[]
+  citations: string[]
   title: any
 }
 
@@ -23,6 +26,22 @@ export const getDataFromFile = async (text: string, props?: DataProps) => {
   const processor = unified()
     .use(uniorgParse)
     .use(extractKeywords, { name: 'keywords' })
+    .use(
+      () => (node) =>
+        visit(node, 'link', (link: Link) => {
+          const type = link.linkType
+          switch (type) {
+            case 'id':
+              data.forwardLinks = [...(data.forwardLinks ?? []), link.path]
+              return
+            case 'cite':
+              data.citations = [...(data.citations ?? []), link.path]
+              return
+            default:
+              return
+          }
+        }),
+    )
     .use(
       () => (tree) =>
         visitIds(tree as OrgData, (id, node) => {
@@ -68,6 +87,5 @@ export const getDataFromFile = async (text: string, props?: DataProps) => {
 
   const tree = processor.parse(text)
   await processor.run(tree)
-  const { title, ...rest } = data
-  return [title, rest]
+  return data
 }

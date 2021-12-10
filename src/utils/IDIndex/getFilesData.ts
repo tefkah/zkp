@@ -11,7 +11,10 @@ export interface FilesData {
 export default async function getFilesData() {
   const cwd = process.cwd()
   const dataDir = resolve(cwd, 'notes')
-  const files = await readdirp.promise(dataDir, { type: 'files', fileFilter: '*.org' })
+  const files = await readdirp.promise(dataDir, {
+    type: 'files',
+    fileFilter: ['!README.org', '*.org'],
+  })
 
   const fileData = {} as FilesData
   for (const entry of files) {
@@ -21,9 +24,18 @@ export default async function getFilesData() {
 
     const data = await getDataFromFile(file)
 
-    const [title, restData] = data
-    fileData[title] = { ...restData, path }
+    fileData[data.id] = { ...data, path }
   }
+
+  Object.entries(fileData).forEach((entry) => {
+    const [id, obj] = entry
+
+    const links = [...(obj.forwardLinks ?? []), ...(obj.citations ?? [])]
+    links.forEach(
+      (link) =>
+        fileData[link] && (fileData[link].backLinks = [...(fileData[link].backLinks ?? []), id]),
+    )
+  })
 
   return fileData
 }

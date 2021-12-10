@@ -22,11 +22,16 @@ import { Keyword, OrgData, OrgNode, Paragraph, SpecialBlock } from 'uniorg'
 import Link from 'next/link'
 import { FilesData } from '../utils/IDIndex/getFilesData'
 import { slugify } from '../utils/slug'
+import { PreviewLink } from '../components/FileViewer/Link'
 
+export interface Data {
+  data: FilesData
+  orgTexts: { [id: string]: string }
+}
 interface Props {
   text: string
   // if we have a diff we don't want to process links etc, because that will fuck up
-  data?: FilesData
+  data?: Data
 }
 
 export function ParsedOrg(props: Props): React.ReactElement | null {
@@ -92,10 +97,11 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
       components: {
         h1: (head) => {
           const { className, value, children } = head
-          if (className !== 'title') {
-            return <Heading>{children as ReactNode}</Heading>
+          if (className === 'title') {
+            return null
           }
-          return <Heading className="title">{value as string}</Heading>
+          return <Heading>{children as ReactNode}</Heading>
+          //return <Heading className="title">{value as string}</Heading>
         },
         p: ({ children, ...rest }) => (
           <Text lang="en" {...{ ...rest }}>
@@ -111,22 +117,25 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
               </Link>
             )
           }
-          console.log('Heyyyyyyyyyyy')
           const id = (href as string).replace(/id:/g, '')
-          const idIndex = Object.values(data).findIndex((obj) => obj.id === id)
-          const correctLink = Object.keys(data)[idIndex] || null
+          const correctLink = data.data[id]?.title || ''
 
-          console.log(correctLink)
+          const text = data.orgTexts[id] ?? ''
           return (
-            <Text as="span" color="red.500">
+            <>
               {correctLink ? (
-                <Link href={`/${slugify(correctLink)}`}>
-                  <a>{children as ReactNode}</a>
-                </Link>
+                <PreviewLink
+                  title={correctLink}
+                  orgText={text}
+                  data={data.data}
+                  href={`/${slugify(correctLink)}`}
+                >
+                  {children}
+                </PreviewLink>
               ) : (
                 <span> {children as ReactNode}</span>
               )}
-            </Text>
+            </>
           )
         },
         ul: UnorderedList,
