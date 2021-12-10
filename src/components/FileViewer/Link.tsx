@@ -13,6 +13,7 @@ import {
   PopoverTrigger,
   Portal,
   Text,
+  useColorModeValue,
   useTheme,
 } from '@chakra-ui/react'
 import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react'
@@ -176,7 +177,7 @@ export const PreviewLink = (props: LinkProps) => {
             >
               <Box
                 w="100%"
-                color="black"
+                // color="black"
                 px={3}
                 sx={noteStyle}
                 //overflowY="scroll"

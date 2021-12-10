@@ -74,7 +74,7 @@ export const getDataFromFile = async (text: string, props?: DataProps) => {
         const { key, value } = keyword
         switch (key.toLowerCase()) {
           case 'title':
-            data.title = value
+            data.title = value.replace(/\//g, ' or ').replace(/\"/g, "'")
             return
           case 'filetags':
             data.tags = value.split(' ')

@@ -5,12 +5,12 @@ import {
   CloseButton,
   HStack,
   Heading,
-  useColorModeValue,
   Box,
   Container,
   Icon,
   useDisclosure,
   IconButton,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { Collapse } from './Collapse'
 import React from 'react'
@@ -39,17 +39,19 @@ const CustomSideBar = (props: Props) => {
       unmountOnExit
     >
       <VStack
-        px="3%"
+        pl={1}
+        pr="3%"
         display="flex"
         backgroundColor={bg}
-        pt={6}
+        pt="1%"
         alignItems="flex-start"
-        w="30vw"
+        w="25vw"
         overflowX="auto"
         overflowY="scroll"
-        h="100vh"
+        h="full"
+        //  position="fixed"
       >
-        <HStack px="8%" mb={4} justifyContent="space-between" w="full">
+        <HStack pos="absolute" top={2} display="flex" flexDir="row-reverse" w="24vw">
           <CloseButton onClick={onClose} variant="ghost" />
         </HStack>
         {Object.entries(items.folders).map(([folder, files]) => (
@@ -68,14 +70,16 @@ export interface SubMenuProps {
 export const SubMenu = (props: SubMenuProps) => {
   const { folder, files } = props
 
-  const { onToggle, isOpen } = useDisclosure()
+  const { onToggle, isOpen } = useDisclosure({ defaultIsOpen: true })
+  const iconColor = useColorModeValue('gray.600', 'gray.300')
   return (
     <Box>
-      <Container ml={4} my={4}>
-        <HStack>
+      <Container ml={2} mt={4} mb={2}>
+        <HStack alignItems="center">
           <Heading size="sm">{folder}</Heading>
           <IconButton
             variant="ghost"
+            size="sm"
             aria-label="Close section"
             icon={isOpen ? <ChevronDownIcon /> : <ChevronRightIcon />}
             onClick={onToggle}
@@ -83,12 +87,12 @@ export const SubMenu = (props: SubMenuProps) => {
         </HStack>
       </Container>
       {isOpen && (
-        <VStack px="5%" display="flex" w="full" alignItems="flex-start" spacing={4}>
+        <VStack pl={2} pr="5%" display="flex" w="full" alignItems="flex-start" spacing={4}>
           {files.map((item: File) => (
             <Container>
               <HStack alignItems="baseline">
-                <Icon as={BsFileEarmarkText} color="gray.600" size="sm" />
-                <Text fontWeight="400" fontSize={14} textTransform="capitalize">
+                {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
+                <Text fontWeight="500" fontSize={14} textTransform="capitalize">
                   <Link href={`/${slugify(item.path)}`} key={item.path}>
                     {item.path
                       .replace(/\d{14}-/g, '')

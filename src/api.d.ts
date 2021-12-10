@@ -59,3 +59,37 @@ interface DateCommit {
   lastOid: string
   commits: SlimCommit[]
 }
+
+export interface Diff {
+  commit1: string
+  commit2: string
+}
+
+export interface CommitDatum {
+  message: string
+  y: number
+  x: Date
+  id: string
+}
+
+export type GitPerDate = {
+  [date: string]: DateCommit
+}
+
+interface DateCommit {
+  totalAdditions: number
+  totalDeletions: number
+  lastDate: number
+  lastOid: string
+  lastMessage: string
+  commits: SubDateCommit[]
+}
+
+interface SubDateCommit {
+  oid: string
+  message: string
+  date: number
+  files: any[]
+  additions: number
+  deletions: number
+}

@@ -47,13 +47,13 @@ export default function FilePage(props: Props) {
   }
   return (
     <>
-      <Header />
-      <Flex mt={12} width="full">
+      <Flex mt={12} h="100vh" width="100vw">
+        <Header />
         {isOpen ? (
           <CustomSideBar {...{ onClose, isOpen }} items={items} />
         ) : (
           <IconButton
-            left={5}
+            left={3}
             top={14}
             position="fixed"
             variant="ghost"
@@ -62,19 +62,23 @@ export default function FilePage(props: Props) {
             onClick={onOpen}
           />
         )}
-        <Container mt={4}>
-          <Heading>{slug}</Heading>
-          <HStack spacing={2}>
-            {tags.map((tag: string) => (
-              <Tag>{tag}</Tag>
-            ))}{' '}
-            n
-          </HStack>
-          <Text>Created on {parseTime(ctime)}</Text>
-          <Text>Last modified {parseTime(mtime)}</Text>
-          <ProcessedOrg text={page} data={{ data, orgTexts }} />
-          {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
-        </Container>
+        <Box width="full" overflowY="scroll">
+          <Container mt={4} h="full">
+            <Heading mb={4}>{slug}</Heading>
+            <HStack my={2} spacing={2}>
+              {tags.map((tag: string) => (
+                <Tag>{tag}</Tag>
+              ))}{' '}
+              n
+            </HStack>
+            <VStack mb={4} alignItems="flex-start">
+              <Text fontSize={12}>Created on {parseTime(ctime)}</Text>
+              <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>
+            </VStack>
+            <ProcessedOrg text={page} data={{ data, orgTexts }} />
+            {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
+          </Container>
+        </Box>
       </Flex>
     </>
   )
@@ -82,10 +86,12 @@ export default function FilePage(props: Props) {
 
 export async function getStaticPaths() {
   const data = await getFilesData()
-  Object.values(data).forEach((entry) => !entry.path && console.log(entry))
-  const fileList = Object.entries(data).map((entry) => ({
+  Object.values(data).forEach(
+    (entry) => entry.title.includes('FQHE') && console.log(deslugify(slugify(entry.title))),
+  )
+  const fileList = Object.values(data).map((entry) => ({
     params: {
-      file: [slugify(entry[1].title)],
+      file: [slugify(entry.title)],
     },
   }))
   //console.dir(fileList, { depth: null })
@@ -112,9 +118,9 @@ export async function getStaticProps(props: StaticProps) {
   //const { file } = props.params
   const data = await getFilesData()
   const slug = deslugify(props.params.file.join(''))
+  console.log(slug)
   const file = Object.values(data).find((entry) => entry.title === slug)
-  console.log(file)
-  const concatFile = file.path
+  const concatFile = file?.path || ''
 
   const cwd = process.cwd()
   const fileList = Object.entries(data).reduce(
@@ -134,7 +140,7 @@ export async function getStaticProps(props: StaticProps) {
   const fileString = await fs.promises.readFile(join(cwd, 'notes', `${concatFile}`), {
     encoding: 'utf8',
   })
-  const linkFilePaths = [...(file.backLinks || []), ...(file.forwardLinks || [])].map((link) => [
+  const linkFilePaths = [...(file?.backLinks || []), ...(file?.forwardLinks || [])].map((link) => [
     link,
     data[link]?.path ?? '',
   ])

@@ -77,7 +77,7 @@ export const CompareButton = (props: CompareButtonProps) => {
     compair?.[0] === oid ? (
       <CloseButton variant="ghost" onClick={() => setCompair([])} />
     ) : (
-      <Link href={`/compare/${compair[0]}/${oid}`}>
+      <Link prefetch={false} href={`/compare/${compair[0]}/${oid}`}>
         <Icon as={ArrowRightIcon} aria-label="Let's goo" />
       </Link>
     )

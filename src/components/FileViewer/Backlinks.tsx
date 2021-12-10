@@ -15,8 +15,8 @@ export const Backlinks = (props: Props) => {
   const { data, backLinks } = props
 
   return (
-    <Box mt={4}>
-      <Heading size="md">Backlinks</Heading>
+    <Box my={8}>
+      <Heading size="md">References to this note</Heading>
       <VStack mt={4} spacing={2} alignItems="flex-start">
         {backLinks.map((link) => {
           const title = data.data?.[link]?.title ?? ''
