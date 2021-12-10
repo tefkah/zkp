@@ -10,6 +10,7 @@ import {
   IconButton,
   CloseButton,
   Icon,
+  HStack,
 } from '@chakra-ui/react'
 
 import { format, utcToZonedTime } from 'date-fns-tz'
@@ -41,9 +42,12 @@ export const Commit = (props: CommitProps) => {
           <Link href={`/commit/${oid}`}>{message}</Link>
         </Heading>
 
-        <Text color="gray.500">{formattedDate}</Text>
+        <HStack spacing={2}>
+          {' '}
+          <Text color="gray.500">{formattedDate}</Text>
+          <CompareButton {...{ oid, compair, setCompair }} />
+        </HStack>
       </VStack>
-      <CompareButton {...{ oid, compair, setCompair }} />
       <VStack display="flex" alignItems="flex-end">
         <Text whiteSpace="nowrap" color="green.500">
           + {additions}
@@ -66,6 +70,7 @@ export const CompareButton = (props: CompareButtonProps) => {
 
   const InitialButton = () => (
     <IconButton
+      size="sm"
       variant="ghost"
       icon={<IoIosGitCompare />}
       aria-label="Compare commit with another commit"
@@ -77,9 +82,11 @@ export const CompareButton = (props: CompareButtonProps) => {
     compair?.[0] === oid ? (
       <CloseButton variant="ghost" onClick={() => setCompair([])} />
     ) : (
-      <Link prefetch={false} href={`/compare/${compair[0]}/${oid}`}>
-        <Icon as={ArrowRightIcon} aria-label="Let's goo" />
-      </Link>
+      <Text _hover={{ cursor: 'pointer' }}>
+        <Link prefetch={false} href={`/compare/${compair[0]}/${oid}`}>
+          <ArrowRightIcon h={6} p={1} />
+        </Link>
+      </Text>
     )
 
   return compair.length === 1 ? <GoButton /> : <InitialButton />
