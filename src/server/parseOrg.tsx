@@ -89,7 +89,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
         '\\eqref': '\\href{###1}{(\\text{#1})}',
         '\\ref': '\\href{###1}{\\text{#1}}',
         '\\label': '\\htmlId{#1}{}',
-        '\\ocircle': '\\ocirc',
+        '\\ocircle': '\\circ',
       },
     })
     .use(rehype2react, {
