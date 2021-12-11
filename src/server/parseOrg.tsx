@@ -23,6 +23,7 @@ import Link from 'next/link'
 import { FilesData } from '../utils/IDIndex/getFilesData'
 import { slugify } from '../utils/slug'
 import { PreviewLink } from '../components/FileViewer/Link'
+import { findCiteId, findCiteTitle } from '../utils/findCiteData'
 
 export interface Data {
   data: FilesData
@@ -121,8 +122,45 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
               </Link>
             )
           }
+
           const id = (href as string).replace(/id:/g, '')
           const correctLink = data.data[id]?.title || ''
+
+          if (!correctLink && (href as string).replace(/.*?(cite:).*/g, '$1')) {
+            const cleanCite = (href as string)
+              .replace(/.*?cite:(.*)/g, '$1')
+              .replace(/ /g, '')
+              .split(',')
+            const prettyNames = cleanCite.map(
+              (cite) => `${cite.replace(/[0-9]\w*/g, '')}, ${cite.replace(/.*?([0-9])/g, '$1')}`,
+            )
+
+            return (
+              <Text as="span">
+                (
+                {prettyNames.map((name, index) => {
+                  const title = findCiteTitle(`cite:${cleanCite[index]}`, data.data)
+                  const id = findCiteId(`cite:${cleanCite[index]}`, data.data)
+                  const text = data.orgTexts[id] ?? ''
+                  if (!title || !id) return <Text as="span">{name}</Text>
+                  return (
+                    <>
+                      {index > 0 && <Text as="span">; </Text>}
+                      <PreviewLink
+                        title={title}
+                        orgText={text}
+                        data={data.data}
+                        href={`/${slugify(title)}`}
+                      >
+                        {name}
+                      </PreviewLink>
+                    </>
+                  )
+                })}
+                )
+              </Text>
+            )
+          }
 
           const text = data.orgTexts[id] ?? ''
           return (
@@ -137,7 +175,9 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                   {children}
                 </PreviewLink>
               ) : (
-                <span> {children as ReactNode}</span>
+                <Text as="span" _hover={{ cursor: 'not-allowed' }}>
+                  {children as ReactNode}
+                </Text>
               )}
             </>
           )
