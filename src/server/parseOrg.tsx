@@ -145,11 +145,18 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
         ul: UnorderedList,
         ol: OrderedList,
         li: ListItem,
-        span: ({ className, children }) => (
-          <Text as="span" className={className as string}>
-            {children as ReactNode}
-          </Text>
-        ),
+        span: ({ className, children, ...rest }) => {
+          if (['span-addition', 'span-deletion'].includes(className as string)) {
+            return (
+              <Text as="span" className={className as string}>
+                {children as ReactNode}
+              </Text>
+            )
+          }
+          return (
+            <span {...{ className: className as string, ...rest }}>{children as ReactNode}</span>
+          )
+        },
         section: ({ className, children }) => (
           <Box className={className as string} as="section">
             {children as ReactNode}

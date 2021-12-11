@@ -69,7 +69,7 @@ export function SmallWithSocial() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <VStack alignItems="flex-start">
+        <VStack alignItems={{ base: 'center', md: 'flex-start' }}>
           <Text>© 2021 Thomas F. K. Jorna</Text>
           <HStack>
             <FaCreativeCommons />

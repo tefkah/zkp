@@ -87,7 +87,7 @@ export const outlineNoteStyle = {
 }
 
 export const diffStyle = {
-  'span ~ p': {
+  '.span-deletion ~ p, .span-addition ~ p': {
     display: 'inline',
   },
   title: {
