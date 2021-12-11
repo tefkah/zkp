@@ -98,7 +98,9 @@ export default function FilePage(props: Props) {
                   {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
                 </VStack>
                 <ProcessedOrg text={page} data={{ data, orgTexts }} />
-                {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
+                <Box>
+                  {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
+                </Box>
               </Container>
 
               <OutlineBox {...{ headings, commits }} />
