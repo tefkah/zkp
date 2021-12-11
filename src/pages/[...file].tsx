@@ -115,9 +115,6 @@ export default function FilePage(props: Props) {
 
 export async function getStaticPaths() {
   const data = await getFilesData()
-  Object.values(data).forEach(
-    (entry) => entry.title.includes('FQHE') && console.log(deslugify(slugify(entry.title))),
-  )
   const fileList = Object.values(data).map((entry) => ({
     params: {
       file: [slugify(entry.title)],

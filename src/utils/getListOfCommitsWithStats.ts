@@ -2,7 +2,7 @@ import { getCommitDiff } from './getCommitDiff'
 import { commit, log } from 'isomorphic-git'
 import fs, { access } from 'fs'
 import { doSomethingAtFileStateChange, getFileStateChanges } from './getFileStateChanges'
-import { join, resolve } from 'path'
+import path, { join, resolve } from 'path'
 import { FileDiff, Commit } from '../api'
 
 export const consolidateCommitsPerDay = (data: any) => {
@@ -45,6 +45,8 @@ export async function getListOfCommitsWithStats(
   dir: string = 'notes',
   gitdir: string = 'notes/git',
 ) {
+  const cwd = process.cwd()
+  !fs.existsSync(join(cwd, 'data')) && (await fs.promises.mkdir(join(cwd, 'data')))
   const gitJS = join('data', 'git.json')
   const gitSlimJS = join('data', 'gitSlim.json')
   const gitPerDateJS = join('data', 'gitPerDate.json')
@@ -91,7 +93,6 @@ export async function getListOfCommitsWithStats(
       { additions: 0, deletions: 0 },
     )
 
-    console.log(data)
     const fullData = {
       oid: nextCommit.oid,
       message: nextCommit.commit.message,

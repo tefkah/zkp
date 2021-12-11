@@ -42,7 +42,6 @@ export function ParsedCommit(props: { [key: string]: any }) {
         if (!commit) return null
         const { file, diff, additions, deletions } = commit
         const orgText = ParsedDiff({ diff, truncated: true })
-        console.log(orgText)
         return (
           <DiffBox key={file.filepath} {...{ oid: '', filepath: file, deletions, additions }}>
             {orgText}
@@ -81,7 +80,6 @@ const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
   if (isLoading) return <Spinner />
 
   if (isError) return <Text>Oopsie whoopsie! We did a fucky wucky!</Text>
-  console.log(data)
 
   return <ParsedCommit commitData={data} />
 }

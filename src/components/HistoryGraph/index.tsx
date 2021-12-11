@@ -19,9 +19,7 @@ export const HistoryGraph = (props: Props) => {
     if (!point) {
       return
     }
-    console.log(point)
     const data = point?.data as unknown as CommitDatum
-    console.log(data)
     compareDiffs(data?.id!)
     // compareDiffs(datum?.originalDatum?.id, datum?.originalSeries.data)
   }
