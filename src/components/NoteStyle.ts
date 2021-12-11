@@ -200,7 +200,6 @@ export const noteStyle = {
   '.DONE': { color: 'green' },
   '.priority': { fontFamily: 'monospace', color: 'orange' },
   '.tag': {
-    backgroundColor: 'white',
     fontFamily: 'monospace',
     padding: '2px',
     fontSize: '80%',

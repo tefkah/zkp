@@ -16,7 +16,7 @@ import rehype2react from 'rehype-react'
 import visit from 'unist-util-visit'
 
 import React, { ReactNode, useMemo } from 'react'
-import { Box, Heading, ListItem, OrderedList, Text, UnorderedList } from '@chakra-ui/react'
+import { Box, Heading, ListItem, OrderedList, Tag, Text, UnorderedList } from '@chakra-ui/react'
 //import { noteStyle } from '../components/NoteStyle'
 import { Keyword, OrgData, OrgNode, Paragraph, SpecialBlock } from 'uniorg'
 import Link from 'next/link'
@@ -153,6 +153,9 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
               </Text>
             )
           }
+          // if (className === 'tag') {
+          //   return <Tag>{children as ReactNode}</Tag>
+          // }
           return (
             <span {...{ className: className as string, ...rest }}>{children as ReactNode}</span>
           )
