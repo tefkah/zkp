@@ -80,8 +80,8 @@ export default function FilePage(props: Props) {
       <Head>
         <title>{`${title} | Thomas Thesis`}</title>
       </Head>
-      <Box w="100vw" h="100vh">
-        <Flex width="full" minH="full">
+      <Box w="100vw" h="100vh" overflowX="hidden">
+        <Flex minH="full">
           <CustomSideBar items={items} />
           <Box w="full" id="mainContent">
             <Header />

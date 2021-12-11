@@ -68,7 +68,7 @@ const CustomSideBar = (props: Props) => {
           backgroundColor={bg}
           // pt="1%"
           alignItems="flex-start"
-          //overflowX="auto"
+          overflowX="hidden"
           overflowY="scroll"
           w={{ base: '100vw', md: 'auto' }}
           h="100vh"
