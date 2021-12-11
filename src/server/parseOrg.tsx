@@ -114,12 +114,22 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
           </Text>
         ),
         div: Box,
-        a: ({ href, children }) => {
+        a: ({ href, className, children, ...rest }) => {
           if (!data) {
             return (
               <Link href={href as string}>
                 <a>{children as ReactNode}</a>
               </Link>
+            )
+          }
+
+          if (['footnum', 'footref'].includes(className as string)) {
+            return (
+              <Text {...{ ...rest }} as="span" fontWeight="bold" color="red.500">
+                <Link href={href as string}>
+                  <a>{children as ReactNode}</a>
+                </Link>
+              </Text>
             )
           }
 
