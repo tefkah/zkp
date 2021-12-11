@@ -68,7 +68,6 @@ export interface Heading {
 }
 export default function FilePage(props: Props) {
   const { toc, fileData, page, items, data, slug, orgTexts, commits } = props
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure()
   const { title, tags, ctime, mtime, backLinks } = fileData
   const parseTime = (time: string) => {
     const firstTime = parse(time.split(' ')[0], 'yyyyMMddHHmmss', new Date())
@@ -83,18 +82,7 @@ export default function FilePage(props: Props) {
       </Head>
       <Box w="100vw" h="100vh">
         <Flex width="full">
-          <CustomSideBar {...{ onClose, isOpen }} items={items} />
-          {!isOpen && (
-            <IconButton
-              left={3}
-              top={14}
-              position="fixed"
-              variant="ghost"
-              icon={<HamburgerIcon />}
-              aria-label="open sidebar"
-              onClick={onToggle}
-            />
-          )}
+          <CustomSideBar items={items} />
           <Box w="full" id="mainContent">
             <Header />
             <Flex>

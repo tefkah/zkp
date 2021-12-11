@@ -37,7 +37,7 @@ function TableOfContent(props: TableOfContentProps) {
             <HStack spacing="2px" alignItems="center">
               {id === activeId && <Icon as={FaRegDotCircle} h={2} ml={-4} />}
               <chakra.a
-                py="1"
+                py="2px"
                 display="block"
                 fontWeight={id === activeId ? 'bold' : 'medium'}
                 href={`#${id}`}
