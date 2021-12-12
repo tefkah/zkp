@@ -29,7 +29,7 @@ import Header from '../components/Header'
 import Head from 'next/head'
 import Footer from '../components/Footer'
 import { useRouter } from 'next/router'
-import TableOfContent from '../components/TableOfContents'
+import TableOfContent from '../components/OutlineBox/TableOfContents'
 import { getTableOfContents } from '../utils/getTableOfContents'
 import { OutlineBox } from '../components/OutlineBox/OutlineBox'
 import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
@@ -213,7 +213,7 @@ export async function getStaticProps(props: StaticProps) {
     await fs.promises.readFile(join(cwd, 'notes', 'bibliography', 'Academic.json'), {
       encoding: 'utf8',
     }),
-  ).filter((entry: CSLCitation) => file!.citations.includes(entry.id))
+  ).filter((entry: CSLCitation) => file?.citations?.includes(entry.id))
 
   return {
     props: {

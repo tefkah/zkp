@@ -1,9 +1,25 @@
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Heading as ChakraHeading,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  VStack,
+  Text,
+  Center,
+  HStack,
+} from '@chakra-ui/react'
 import React from 'react'
+import { AiFillFilePdf } from 'react-icons/ai'
+import { FaCreativeCommons, FaCreativeCommonsBy, FaCreativeCommonsSa } from 'react-icons/fa'
 import { Commit, CommitPerDateLog } from '../../api'
 import { Heading } from '../../pages/[...file]'
 import { CommitList } from '../Commits/CommitList'
-import TableOfContent from '../TableOfContents'
+import TableOfContent from './TableOfContents'
+import { ItemPanel } from './ItemPanel'
 
 interface Props {
   commits: CommitPerDateLog
@@ -42,6 +58,12 @@ export const OutlineBox = (props: Props) => {
           >
             History
           </Tab>
+          <Tab
+            _focus={{ borderBottomWidth: 1, borderBottomColor: 'red.500' }}
+            _selected={{ borderBottomWidth: 1, borderBottomColor: 'red.500' }}
+          >
+            Info
+          </Tab>
         </TabList>
         <TabPanels
           maxHeight="calc(100vh - 3rem)"
@@ -53,6 +75,9 @@ export const OutlineBox = (props: Props) => {
           </TabPanel>
           <TabPanel>
             <CommitList slim commitLog={commits} />
+          </TabPanel>
+          <TabPanel>
+            <ItemPanel title={''} pdfLocation={''} />
           </TabPanel>
         </TabPanels>
       </Tabs>
