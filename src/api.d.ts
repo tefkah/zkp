@@ -93,3 +93,65 @@ interface SubDateCommit {
   additions: number
   deletions: number
 }
+
+export interface CSLCitation {
+  id: string
+  abstract?: string
+  accessed?: Accessed
+  ISBN?: string
+  issued?: Issued
+  language?: string
+  note?: string
+  publisher?: string
+  source?: string
+  title: string
+  'title-short'?: string
+  type: string
+  URL?: string
+  author?: Author[]
+  'container-title'?: string
+  DOI?: string
+  ISSN?: string
+  issue?: string
+  page?: string
+  volume?: string
+  archive?: string
+  'container-title-short'?: string
+  genre?: string
+  number?: string
+  editor?: Editor[]
+  'event-place'?: string
+  'publisher-place'?: string
+  'collection-title'?: string
+  'call-number'?: string
+  'number-of-pages'?: string
+  section?: string
+  edition?: string
+  translator?: Editor[]
+  'collection-number'?: string
+  PMID?: string
+  'reviewed-author'?: Editor[]
+  medium?: string
+  'collection-editor'?: Editor[]
+}
+
+interface Editor {
+  family: string
+  given: string
+}
+
+interface Author {
+  family?: string
+  given?: string
+  literal?: string
+  'non-dropping-particle'?: string
+}
+
+interface Issued {
+  'date-parts'?: number[][]
+  literal?: string
+}
+
+interface Accessed {
+  'date-parts': number[][]
+}

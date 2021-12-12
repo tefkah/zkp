@@ -4,6 +4,7 @@ import * as Diff from 'diff'
 import { doSomethingAtFileStateChange } from './getFileStateChanges'
 import { Change } from 'diff'
 import { FileDiff } from '../api'
+import { extname } from 'path'
 
 const bufferToString = async (tree: WalkerEntry) => {
   const content = (await tree?.content()) || []
@@ -28,6 +29,12 @@ async function diffMap(props: DiffMapProps): Promise<FileDiff> {
   if (filepath === '.') {
     return
   }
+
+  //ignore other some extensions
+  if (!process?.env?.INCLUDED_EXTENSIONS?.includes(extname(filepath))) {
+    return
+  }
+
   if ((await tree1?.type()) === 'tree' || (await tree2?.type()) === 'tree') {
     return
   }

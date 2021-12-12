@@ -17,6 +17,7 @@
     "@types/diff": "^5.0.1",
     "@types/react-scroll": "^1.8.3",
     "axios": "^0.24.0",
+    "citation-js": "^0.5.4",
     "date-fns": "^2.25.0",
     "date-fns-tz": "^1.1.6",
     "diff": "^5.0.0",

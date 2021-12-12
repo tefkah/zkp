@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { join } from 'path'
 import React from 'react'
-import { CommitPerDateLog } from '../api'
+import { CommitPerDateLog, CSLCitation } from '../api'
 import Sidebar from '../components/SideBar'
 //import { OrgProcessor } from '../components/OrgProcessor'
 import CustomSideBar from '../components/CustomSidebar'
@@ -34,6 +34,8 @@ import { getTableOfContents } from '../utils/getTableOfContents'
 import { OutlineBox } from '../components/OutlineBox/OutlineBox'
 import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
 import getHistoryForFile from '../utils/getHistoryForFile'
+import { parseTime } from '../utils/parseTime'
+import { Citations } from '../components/FileViewer/Citations'
 
 interface Props {
   page: string
@@ -45,7 +47,9 @@ interface Props {
   orgTexts: { [id: string]: string }
   toc: Heading[]
   commits: CommitPerDateLog
+  csl: CSLCitation[]
 }
+
 function useHeadingFocusOnRouteChange() {
   const router = useRouter()
 
@@ -66,15 +70,15 @@ export interface Heading {
   text: string
   id: string
 }
+
 export default function FilePage(props: Props) {
-  const { toc, fileData, page, items, data, slug, orgTexts, commits } = props
-  const { title, tags, ctime, mtime, backLinks } = fileData
-  const parseTime = (time: string) => {
-    const firstTime = parse(time.split(' ')[0], 'yyyyMMddHHmmss', new Date())
-    return format(firstTime, "MMMM do, yyyy, 'at' HH:mm")
-  }
+  const { toc, fileData, page, items, data, slug, orgTexts, commits, csl } = props
+  const { title, tags, ctime, mtime, backLinks, citations, citation } = fileData
+
   useHeadingFocusOnRouteChange()
+
   const headings = toc
+
   return (
     <>
       <Head>
@@ -98,9 +102,8 @@ export default function FilePage(props: Props) {
                   {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
                 </VStack>
                 <ProcessedOrg text={page} data={{ data, orgTexts }} />
-                <Box>
-                  {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
-                </Box>
+                {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
+                {citations?.length && <Citations {...{ citations, csl }} />}
               </Container>
 
               <OutlineBox {...{ headings, commits }} />
@@ -206,6 +209,11 @@ export async function getStaticProps(props: StaticProps) {
   //const commits = await tryReadJSON('data/git.json')
   const toc = getTableOfContents(fileString)
   const commits = getHistoryForFile({ file: concatFile, commits: dataWithoutDiffs })
+  const csl = JSON.parse(
+    await fs.promises.readFile(join(cwd, 'notes', 'bibliography', 'Academic.json'), {
+      encoding: 'utf8',
+    }),
+  )
 
   return {
     props: {
@@ -218,6 +226,7 @@ export async function getStaticProps(props: StaticProps) {
       orgTexts,
       toc,
       commits,
+      csl,
     },
   }
 }
