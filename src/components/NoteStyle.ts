@@ -125,6 +125,28 @@ export const diffStyle = {
 
 export const noteStyle = {
   ...viewerNoteStyle,
+  '.footnote-definition': {
+    justifyContent: 'flex-end',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    ml: -10,
+  },
+  '.footnote-definition ~ h2': { display: 'none' },
+  '.footnote-definition > sup': {
+    top: -0.5,
+    fontSize: '90%',
+    display: 'inline-block !important',
+    fontFamily: 'monospace',
+  },
+  '.footnote-definition > sup > span::before': {
+    content: '"["',
+  },
+  '.footnote-definition > sup > span::after': {
+    content: '"]"',
+  },
+  'div .footdef': { display: 'inline-block !important', w: '95%', pl: 2 },
+  a: 'red.500',
   '.katex-html': { overFlowY: 'hidden', height: 10 },
   ol: {
     paddingLeft: 4,

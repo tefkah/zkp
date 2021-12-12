@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
+import visit from 'unist-util-visit'
 //@ts-expect-error
 import Citation from 'citation-js'
 import { CSLCitation } from '../../api'
@@ -15,42 +16,72 @@ import {
   Heading,
   VStack,
 } from '@chakra-ui/react'
+import { noteStyle } from '../NoteStyle'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
 
 interface CitationProps {
-  citations: string[]
   csl: CSLCitation[]
 }
 
 const HTMLtoReact = (html: string) => {
+  const htmlWithLinks = html.replace(/(https?:\/\/([^\<]*))/g, '<a href="$1">$1</a>')
   const processor = unified()
     .use(rehypeParse)
     .use(rehype2react, {
       createElement: React.createElement,
       Fragment: React.Fragment,
       components: {
-        a: Link,
+        html: ({ children }) => children as React.ReactElement,
+        body: ({ children }) => children as React.ReactElement,
+        head: () => <></>,
+        a: ({ href, children }) => (
+          <Link color="red.500" style={{ alignItems: 'center' }} href={href as string} isExternal>
+            {children as string}
+            <ExternalLinkIcon mb="2px" ml="2px" />
+          </Link>
+        ),
         p: Text,
-        div: Box,
+        div: ({ className, children, ...props }) => {
+          if ((className as string).includes('csl-bib-body')) return <>{children as ReactNode}</>
+          if (!(className as string).includes('csl-entry')) {
+            return (
+              <Box {...{ className: className as string, ...props }}>
+                {children as React.ReactNode}
+              </Box>
+            )
+          }
+          return <Text {...props}>{children as React.ReactNode}</Text>
+        },
         li: ListItem,
         ol: OrderedList,
         ul: UnorderedList,
         h: Heading,
+        i: ({ children, ...props }) => (
+          <Text as="i" {...props}>
+            {children as React.ReactNode}
+          </Text>
+        ),
       },
     })
 
-  return <>{processor.processSync(html).result as React.ReactNode}</>
+  return <>{processor.processSync(htmlWithLinks).result as React.ReactNode}</>
 }
 
 const generateBibliography = (props: CitationProps) => {
-  const { citations, csl } = props
+  const { csl } = props
 
-  const filteredCsl = csl.filter((entry) => citations.includes(entry.id))
-
-  const bibliography = new Citation(filteredCsl)
+  const bibliography = new Citation(csl)
   const bibHTML = bibliography.format('bibliography', { format: 'html', style: 'apa' })
   return HTMLtoReact(bibHTML)
 }
 
 export const Citations = (props: CitationProps) => {
-  return <VStack alignItems="flex-start">{generateBibliography(props)}</VStack>
+  return (
+    <>
+      <Heading size="md">References</Heading>
+      <VStack sx={{ ...noteStyle }} alignItems="flex-start">
+        {generateBibliography(props)}
+      </VStack>
+    </>
+  )
 }

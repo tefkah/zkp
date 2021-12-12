@@ -90,7 +90,7 @@ export default function FilePage(props: Props) {
           <Box w="full" id="mainContent">
             <Header />
             <Flex>
-              <Container mt={6}>
+              <Container my={6}>
                 <Heading mb={4}>{slug}</Heading>
                 <HStack my={2} spacing={2}>
                   {tags.map((tag: string) => (
@@ -103,7 +103,7 @@ export default function FilePage(props: Props) {
                 </VStack>
                 <ProcessedOrg text={page} data={{ data, orgTexts }} />
                 {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
-                {citations?.length && <Citations {...{ citations, csl }} />}
+                {citations?.length && <Citations {...{ csl }} />}
               </Container>
 
               <OutlineBox {...{ headings, commits }} />
@@ -209,11 +209,11 @@ export async function getStaticProps(props: StaticProps) {
   //const commits = await tryReadJSON('data/git.json')
   const toc = getTableOfContents(fileString)
   const commits = getHistoryForFile({ file: concatFile, commits: dataWithoutDiffs })
-  const csl = JSON.parse(
+  const csl: CSLCitation[] = JSON.parse(
     await fs.promises.readFile(join(cwd, 'notes', 'bibliography', 'Academic.json'), {
       encoding: 'utf8',
     }),
-  )
+  ).filter((entry: CSLCitation) => file!.citations.includes(entry.id))
 
   return {
     props: {

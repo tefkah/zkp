@@ -101,6 +101,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
           if (className === 'title') {
             return null
           }
+          if ((children as string)[0] === 'Footnotes:') return null
           return (
             <Heading {...{ className: className as string, id: id as string }}>
               {children as ReactNode}

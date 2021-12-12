@@ -28,7 +28,7 @@ export const OutlineBox = (props: Props) => {
       alignSelf="start"
       {...rest}
     >
-      <Tabs size="md" variant="unstyled" colorScheme="red" align="end">
+      <Tabs size="sm" variant="unstyled" colorScheme="red" align="end">
         <TabList>
           <Tab
             _selected={{ borderBottomWidth: 1, borderBottomColor: 'red.500' }}
