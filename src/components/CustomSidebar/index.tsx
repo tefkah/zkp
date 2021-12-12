@@ -15,6 +15,7 @@ import {
   DrawerOverlay,
   DrawerContent,
   Slide,
+  transition,
 } from '@chakra-ui/react'
 import { Collapse } from './Collapse'
 import React, { useState } from 'react'
@@ -70,7 +71,7 @@ const CustomSideBar = (props: Props) => {
           alignItems="flex-start"
           overflowX="hidden"
           overflowY="scroll"
-          w={{ base: '100vw', md: 'auto' }}
+          w={{ base: '100vw', md: 'sm' }}
           h="100vh"
           //  position="fixed"
         >
@@ -111,9 +112,11 @@ export const SubMenu = (props: SubMenuProps) => {
   const iconColor = useColorModeValue('gray.600', 'gray.300')
   return (
     <Box>
-      <Container ml={2} mt={4} mb={2}>
+      <Container ml={2} mt={4} mb={4}>
         <HStack alignItems="center">
-          <Heading size="sm">{folder}</Heading>
+          <Heading size="sm" fontWeight="600">
+            {folder}
+          </Heading>
           <IconButton
             variant="ghost"
             size="sm"
@@ -124,12 +127,18 @@ export const SubMenu = (props: SubMenuProps) => {
         </HStack>
       </Container>
       {isOpen && (
-        <VStack pl={2} pr="5%" display="flex" w="full" alignItems="flex-start" spacing={4}>
+        <VStack pl={6} pr="5%" display="flex" w="full" alignItems="flex-start" spacing={4}>
           {files.map((item: File) => (
             <Container>
               <HStack alignItems="baseline">
                 {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
-                <Text fontWeight="500" fontSize={14} textTransform="capitalize">
+                <Text
+                  fontWeight="500"
+                  transition="color 0.2s"
+                  _hover={{ color: 'red.500', transition: 'color 0.2s' }}
+                  fontSize={14}
+                  textTransform="capitalize"
+                >
                   <Link prefetch={false} href={`/${slugify(item.path)}`} key={item.path}>
                     {item.path
                       .replace(/\d{14}-/g, '')

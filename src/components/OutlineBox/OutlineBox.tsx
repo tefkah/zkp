@@ -32,7 +32,7 @@ export const OutlineBox = (props: Props) => {
     <Box
       as="nav"
       aria-labelledby="toc-title"
-      width="16rem"
+      width={60}
       flexShrink={0}
       display={{ base: 'none', xl: 'block' }}
       position="sticky"
@@ -44,7 +44,7 @@ export const OutlineBox = (props: Props) => {
       alignSelf="start"
       {...rest}
     >
-      <Tabs size="sm" variant="unstyled" colorScheme="red" align="end">
+      <Tabs isFitted size="sm" variant="unstyled" colorScheme="red" align="end">
         <TabList>
           <Tab
             _selected={{ borderBottomWidth: 1, borderBottomColor: 'red.500' }}

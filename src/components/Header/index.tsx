@@ -19,6 +19,8 @@ import { FaMoon, FaSun, FaHeart } from 'react-icons/fa'
 import { AiFillGithub, AiOutlineMenu, AiFillHome, AiOutlineInbox } from 'react-icons/ai'
 import { BsFillCameraVideoFill } from 'react-icons/bs'
 import { HiAcademicCap } from 'react-icons/hi'
+import { VscCircleOutline } from 'react-icons/vsc'
+import { HeaderLink } from './HeaderLink'
 
 const ChakraUIHeader = () => {
   const mobileNav = useDisclosure()
@@ -117,26 +119,26 @@ const ChakraUIHeader = () => {
       overflowY="hidden"
     >
       <chakra.div h="3rem" mx="auto">
-        <Flex w="full" h="full" px="6" align="center" justify="space-between">
-          <Flex align="center">
-            <HStack spacing="5">
-              <Link href="/">
-                <Icon
-                  as={HiAcademicCap}
-                  display="block"
-                  transition="color 0.2s"
-                  w="5"
-                  h="5"
-                  _hover={{ color: 'gray.600' }}
-                />
-              </Link>
-              <Link href="/Outline-Anyons">Thesis</Link>
-              <Link href="/Topological-space">Notes</Link>
-              <Link href="/history">History</Link>
+        <HStack h="full" mx={6} align="center" justify="space-between">
+          <HStack spacing={1}>
+            <Link href="/">
+              <Icon
+                as={HiAcademicCap}
+                display="block"
+                transition="color 0.2s"
+                w="5"
+                h="5"
+                _hover={{ color: 'gray.600' }}
+              />
+            </Link>
+            <HStack spacing={1} px={4}>
+              <HeaderLink href="/Outline-Anyons">Thesis</HeaderLink>
+              <HeaderLink href="/Topological-space">Notes</HeaderLink>
+              <HeaderLink href="/history">History</HeaderLink>
             </HStack>
-          </Flex>
+          </HStack>
 
-          <Flex justify="flex-end" w="full" maxW="824px" align="center" color="gray.400">
+          <Flex justify="flex-end" maxW="824px" align="center" color="gray.400">
             <HStack spacing="5" display={{ base: 'none', md: 'flex' }}>
               <Link
                 isExternal
@@ -174,7 +176,7 @@ const ChakraUIHeader = () => {
               onClick={mobileNav.onOpen}
             />
           </Flex>
-        </Flex>
+        </HStack>
         {MobileNavContent}
       </chakra.div>
     </chakra.header>
