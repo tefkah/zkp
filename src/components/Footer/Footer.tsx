@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   chakra,
   Container,
   HStack,
@@ -20,6 +21,7 @@ import {
   FaYoutube,
 } from 'react-icons/fa'
 import React, { ReactNode } from 'react'
+import { signIn } from 'next-auth/react'
 
 const SocialButton = ({
   children,
@@ -87,6 +89,19 @@ export function SmallWithSocial() {
             <FaGithub />
           </SocialButton>
         </Stack>
+      </Container>
+      <Container
+        as={Stack}
+        maxW={'6xl'}
+        py={4}
+        direction={{ base: 'column', md: 'row' }}
+        spacing={4}
+        justify={{ base: 'center', md: 'space-between' }}
+        align={{ base: 'center', md: 'center' }}
+      >
+        <Button size="sm" variant="link" leftIcon={<FaGithub />} onClick={() => signIn()}>
+          Supervisor login
+        </Button>
       </Container>
     </Box>
   )

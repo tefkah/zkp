@@ -1,6 +1,7 @@
 import '@fontsource/eb-garamond/400.css'
 
 import { ChakraProvider } from '@chakra-ui/react'
+import { SessionProvider } from 'next-auth/react'
 
 import theme from '../theme'
 import { AppProps } from 'next/app'
@@ -10,11 +11,13 @@ import fetcher from '../utils/fetcher'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SWRConfig value={{ fetcher }}>
-      <ChakraProvider resetCSS theme={theme}>
-        <Component {...pageProps} />
-      </ChakraProvider>
-    </SWRConfig>
+    <SessionProvider session={pageProps.session}>
+      <SWRConfig value={{ fetcher }}>
+        <ChakraProvider resetCSS theme={theme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </SWRConfig>
+    </SessionProvider>
   )
 }
 
