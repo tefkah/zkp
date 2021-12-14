@@ -31,6 +31,8 @@ import { GoMarkGithub } from 'react-icons/go'
 import { IoIosGitCompare } from 'react-icons/io'
 import { format } from 'date-fns'
 import Footer from '../../components/Footer'
+import { Giscus } from '@giscus/react'
+import Head from 'next/head'
 
 export function parseCommits(commitData: Commit) {
   return commitData?.files?.map((file) => {
@@ -51,6 +53,7 @@ interface Props {
 export default function CommitPage(props: Props) {
   const { commitData } = props
   const { oid, deletions, additions, message, date } = commitData
+  const [messageTitle, ...messageBody] = message.split('\n')
 
   //const {data:parsedText, isLoading} = useFetch(e)
 
@@ -58,10 +61,15 @@ export default function CommitPage(props: Props) {
   const bodyColor = useColorModeValue('white', 'gray.800')
   const parsedText = parseCommits(commitData)
 
+  const formattedDate = format(new Date(date * 1000), "MMMM do, yyyy 'at' hh:mm")
   return (
     <>
+      <Head>
+        <title>{messageTitle}</title>
+        <meta name="description" content={`Commit ${oid} at ${formattedDate}`} />
+      </Head>
       <Header />
-      <VStack mx="5%" marginTop={20}>
+      <VStack mx={{ base: '5%', md: '20%' }} my={20}>
         <Flex w="full" justifyContent="space-between" flexDirection="column">
           <Flex
             borderTopRadius="xl"
@@ -74,8 +82,8 @@ export default function CommitPage(props: Props) {
             alignItems="center"
           >
             <Flex flexDir="column">
-              <Text fontWeight="bold">{message}</Text>
-              <Text>{format(new Date(date * 1000), "MMMM do, yyyy 'at' hh:mm")}</Text>
+              <Text fontWeight="bold">{messageTitle}</Text>
+              <Text>{formattedDate}</Text>
             </Flex>
             <HStack spacing={2} display="flex" alignItems="top">
               <Menu>
@@ -95,24 +103,19 @@ export default function CommitPage(props: Props) {
               </Tooltip>
             </HStack>
           </Flex>
-          <HStack
-            borderBottomRadius="xl"
-            borderWidth={1}
-            borderColor="grey.500"
-            py={2}
-            px={4}
-            display="flex"
-            alignItems="flex-end"
-          >
-            <Text as="samp" variant="">{`Commit ${oid}`}</Text>
-          </HStack>
+          <Box borderBottomRadius="xl" borderWidth={1} borderColor="grey.500" py={2} px={4}>
+            {messageBody && <Text>{messageBody}</Text>}
+            <HStack display="flex" alignItems="flex-end">
+              <Text as="samp" variant="">{`Commit ${oid}`}</Text>
+            </HStack>
+          </Box>
         </Flex>
         <Box w="full" pl={4} pt={10}>
           <Text>
-            Showing{' '}
+            Showing
             <Text as="span" fontWeight="bold">
               {parsedText.length} changed {parsedText.length > 1 ? 'files' : 'file'}
-            </Text>{' '}
+            </Text>
             with
             <Text
               as="span"
@@ -130,6 +133,20 @@ export default function CommitPage(props: Props) {
         <VStack spacing={6} w="full">
           {parsedText}
         </VStack>
+
+        <Container>
+          <Giscus
+            repo="ThomasFKJorna/thesis-writing"
+            repoId="R_kgDOGVpQ7Q"
+            category="General"
+            category-id="DIC_kwDOGVpQ7c4CAQYS"
+            mapping="title"
+            // term="..."
+            reactionsEnabled="1"
+            emitMetadata="1"
+            theme={useColorModeValue('light', 'dark')}
+          />
+        </Container>
       </VStack>
       <Footer />
     </>

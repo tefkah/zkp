@@ -64,7 +64,9 @@ export default function HistoryPage(props: HistoryPageProps) {
           <HistoryGraph data={log} dark={dark} diffs={diffs} setDiffs={setDiffs} />
         </Box>
       </VStack>
-      <CommitList commitLog={log} />
+      <Box mx={{ base: '5%', md: '15%' }} my={20}>
+        <CommitList commitLog={log} />
+      </Box>
       <Footer />
     </>
   )

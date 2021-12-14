@@ -36,17 +36,18 @@ export const Commit = (props: CommitProps) => {
   const time = format(dateObj, 'HH:mm', { timeZone: 'Europe/Amsterdam', locale: nl })
   const timeDistance = formatDistance(dateObj, new Date(), { addSuffix: true })
   const formattedDate = `${timeDistance}, at ${time}`
+  const [messageText, ...messageBody] = message.split('\n')
   return (
     <Box px={slim ? 0 : 4} w="100%" display="flex" justifyContent="space-between">
-      <VStack display="flex" alignItems="flex-start">
+      <VStack alignItems="flex-start">
         <Heading size="small">
-          <Link href={`/commit/${oid}`}>{message}</Link>
+          <Link href={`/commit/${oid}`}>{messageText}</Link>
         </Heading>
-
         <HStack spacing={2}>
           <Text color="gray.500">{formattedDate}</Text>
           {!slim && <CompareButton {...{ oid, compair, setCompair }} />}
         </HStack>
+        {messageBody && <Text>{messageBody}</Text>}
       </VStack>
       <VStack display="flex" alignItems="flex-end">
         <Text whiteSpace="nowrap" color="green.500">

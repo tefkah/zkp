@@ -6,6 +6,7 @@ import {
 import { Commit } from '../../api'
 import {
   Box,
+  Button,
   Container,
   Flex,
   HStack,
@@ -35,16 +36,23 @@ import { CommitList } from '../../components/Commits/CommitList'
 import Footer from '../../components/Footer'
 
 export function ParsedCommit(props: { [key: string]: any }) {
-  const { commitData } = props
+  const { commitData, isLoading } = props
   return (
     <>
       {commitData?.map((commit: any) => {
         if (!commit) return null
-        const { file, diff, additions, deletions } = commit
-        const orgText = ParsedDiff({ diff, truncated: true })
+        const { file, diff, additions, deletions } = commit || {
+          file: '',
+          diff: '',
+          additions: 0,
+          deletions: 0,
+        }
         return (
-          <DiffBox key={file.filepath} {...{ oid: '', filepath: file, deletions, additions }}>
-            {orgText}
+          <DiffBox
+            key={file.filepath}
+            {...{ isLoaded: !isLoading, oid: '', filepath: file, deletions, additions }}
+          >
+            {!isLoading ? <ParsedDiff {...{ diff, truncated: true }} /> : ' '}
           </DiffBox>
         )
       })}
@@ -70,18 +78,16 @@ interface IndiviualFileDiffProps {
   //messages: string[]
   // dates: number[]
 }
-const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
+export const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
   const { commit, file } = props
   const [commit1, commit2] = commit
   const { data, isLoading, isError } = useFetch(
     `/api/diff/${commit1}/${commit2}/${encodeURIComponent(file)}`,
   )
 
-  if (isLoading) return <Spinner />
-
   if (isError) return <Text>Oopsie whoopsie! We did a fucky wucky!</Text>
 
-  return <ParsedCommit commitData={data} />
+  return <ParsedCommit isLoading={isLoading} commitData={data} />
 }
 
 export default function ComparePage(props: Props) {
@@ -96,7 +102,7 @@ export default function ComparePage(props: Props) {
     <>
       <Header />
 
-      <VStack mx="5%" mt={20}>
+      <VStack mt={20} mx={{ base: '5%', md: '15%' }} my={20}>
         <Flex w="full" justifyContent="space-between" flexDirection="column">
           <Flex
             borderTopRadius="xl"
@@ -146,23 +152,51 @@ export default function ComparePage(props: Props) {
         </Flex>
         <Box w="full" pl={4} pt={10}>
           <Text>
-            Showing{' '}
+            Showing
             <Text as="span" fontWeight="bold">
               {relevantFiles.length} changed {relevantFiles.length > 1 ? 'files' : 'file'}.
-            </Text>{' '}
+            </Text>
           </Text>
         </Box>
-        <Box w="100vw">
+        <Box>
           <CommitList commitLog={commitsPerDate} />
         </Box>
-        <VStack w="full" spacing={6}>
-          {relevantFiles.map((file: string) => (
-            <IndiviualFileDiff key={file} {...{ commit, file }} />
-          ))}
-        </VStack>
+        <DiffList {...{ relevantFiles, commit }} />
       </VStack>
       <Footer />
     </>
+  )
+}
+
+interface DiffListProps {
+  relevantFiles: string[]
+  commit: any
+}
+
+export const DiffList = (props: DiffListProps) => {
+  const { relevantFiles, commit } = props
+  const [diffs, setDiffs] = useState<any[]>([])
+  const [diffsToLoad, setDiffsToLoad] = useState([0, 5])
+
+  useEffect(() => {
+    setDiffs((curr: any) => [
+      ...curr,
+      relevantFiles
+        .slice(diffsToLoad[0], diffsToLoad[1])
+        .map((file: string) => <IndiviualFileDiff key={file} {...{ commit, file }} />),
+    ])
+  }, [diffsToLoad])
+  return (
+    <VStack w="full" spacing={6}>
+      {diffs}
+      <Button
+        onClick={() =>
+          setDiffsToLoad((curr: number[]) => [curr[1], Math.min(relevantFiles.length, curr[1] + 5)])
+        }
+      >
+        Load More
+      </Button>
+    </VStack>
   )
 }
 

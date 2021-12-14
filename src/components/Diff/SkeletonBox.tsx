@@ -1,38 +1,8 @@
-import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import {
-  Text,
-  Box,
-  Container,
-  Flex,
-  HStack,
-  Link,
-  useDisclosure,
-  IconButton,
-  Heading,
-  useColorModeValue,
-  ButtonGroup,
-  Button,
-  Skeleton,
-} from '@chakra-ui/react'
-import React, { useState } from 'react'
-import { MdSubdirectoryArrowRight } from 'react-icons/md'
-import { noteStyle } from '../NoteStyle'
+import React from 'react'
 
-interface Props {
-  oid: string
-  additions: number
-  deletions: number
-  filepath: string
-  children: React.ReactFragment
-  isLoaded?: boolean
-}
+interface Props {}
 
-export const DiffBox = (props: Props) => {
-  const { oid, isLoaded, additions, deletions, filepath, children } = props
-  const { onToggle, isOpen } = useDisclosure()
-  const [raw, setRaw] = useState(false)
-  const headerColor = useColorModeValue('gray.50', 'gray.700')
-  const bodyColor = useColorModeValue('white', 'gray.800')
+export const SkeletonBox = (props: Props) => {
   return (
     <Box
       w="full"
@@ -62,9 +32,7 @@ export const DiffBox = (props: Props) => {
             onClick={onToggle}
           />
           <Heading fontWeight="600" isTruncated size="sm">
-            <Skeleton {...{ isLoaded }}>
-              <Link href={`/${filepath}`}>{filepath}</Link>
-            </Skeleton>
+            {<Link href={`/${filepath}`}>{filepath}</Link>}
           </Heading>
         </HStack>
         <HStack spacing={4}>
@@ -81,17 +49,15 @@ export const DiffBox = (props: Props) => {
               Raw
             </Button>
           </ButtonGroup>
-          <Skeleton {...{ isLoaded }}>
-            <HStack>
-              <Text mx={3} color="red.500">{`-${deletions}`}</Text>
-              <Text color="green.500">{`+${additions}`}</Text>
-            </HStack>
-          </Skeleton>
+          <HStack>
+            <Text mx={3} color="red.500">{`-${deletions}`}</Text>
+            <Text color="green.500">{`+${additions}`}</Text>
+          </HStack>
         </HStack>
       </Flex>
       {!isOpen && (
         <Container my={4} sx={{ ...noteStyle }}>
-          <Skeleton {...{ isLoaded }}>{children}</Skeleton>
+          {children}
         </Container>
       )}
     </Box>

@@ -33,7 +33,7 @@ export const CommitList = (props: CommitListProps) => {
             borderLeftColor="grey.600"
             borderLeftWidth={slim ? 0 : 1}
             borderLeftStyle="solid"
-            w={slim ? 'full' : '80%'}
+            w={slim ? 'full' : 'full'}
             key={niceDate}
           >
             <Flex ml={slim ? 0 : -12} alignItems="center" mb={2}>

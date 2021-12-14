@@ -9,6 +9,7 @@ import {
   useDisclosure,
   VStack,
   HStack,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { join } from 'path'
 import React from 'react'
@@ -36,6 +37,7 @@ import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
 import getHistoryForFile from '../utils/getHistoryForFile'
 import { parseTime } from '../utils/parseTime'
 import { Citations } from '../components/FileViewer/Citations'
+import { Giscus } from '@giscus/react'
 
 interface Props {
   page: string
@@ -104,6 +106,18 @@ export default function FilePage(props: Props) {
                 <ProcessedOrg text={page} data={{ data, orgTexts }} />
                 {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
                 {citations?.length && <Citations {...{ csl }} />}
+
+                <Giscus
+                  repo="ThomasFKJorna/thesis-writing"
+                  repoId="R_kgDOGVpQ7Q"
+                  category="General"
+                  category-id="DIC_kwDOGVpQ7c4CAQYS"
+                  mapping="pathname"
+                  // term="..."
+                  reactionsEnabled="1"
+                  emitMetadata="1"
+                  theme={useColorModeValue('light', 'dark')}
+                />
               </Container>
 
               <OutlineBox {...{ headings, commits }} />
