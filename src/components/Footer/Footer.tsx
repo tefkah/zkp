@@ -3,6 +3,7 @@ import {
   chakra,
   Container,
   HStack,
+  Link,
   Stack,
   Text,
   useColorModeValue,
@@ -71,10 +72,12 @@ export function SmallWithSocial() {
       >
         <VStack alignItems={{ base: 'center', md: 'flex-start' }}>
           <Text>© 2021 Thomas F. K. Jorna</Text>
-          <HStack>
-            <FaCreativeCommons />
-            <FaCreativeCommonsBy /> <FaCreativeCommonsSa />
-          </HStack>
+          <Link href="https://creativecommons.org/licenses/by-sa/4.0">
+            <HStack>
+              <FaCreativeCommons />
+              <FaCreativeCommonsBy /> <FaCreativeCommonsSa />
+            </HStack>
+          </Link>
         </VStack>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'Twitter'} href={'https://twitter.com/BewitchedLang'}>

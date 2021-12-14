@@ -9,6 +9,7 @@ import { CommitPerDateLog, DateCommit } from '../../api'
 import { HistoryGraph } from '../../components/HistoryGraph'
 import Link from 'next/link'
 import Footer from '../../components/Footer'
+import Head from 'next/head'
 
 export interface SlimCommit {
   oid: string
@@ -40,6 +41,9 @@ export default function HistoryPage(props: HistoryPageProps) {
   const reverseLogValues = Object.values(log).reverse()
   return (
     <>
+      <Head>
+        <title>Activity | Thomas' Thesis</title>
+      </Head>
       <Header />
       <VStack justifyContents="center" spacing={6} mt={20}>
         <HStack spacing={2}>
@@ -73,7 +77,7 @@ export default function HistoryPage(props: HistoryPageProps) {
 }
 
 export async function getStaticPaths() {
-  return { paths: ['/history'], fallback: false }
+  return { paths: ['/activity'], fallback: false }
 }
 export async function getStaticProps() {
   const cwd = process.cwd()
