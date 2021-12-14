@@ -189,13 +189,18 @@ export const DiffList = (props: DiffListProps) => {
   return (
     <VStack w="full" spacing={6}>
       {diffs}
-      <Button
-        onClick={() =>
-          setDiffsToLoad((curr: number[]) => [curr[1], Math.min(relevantFiles.length, curr[1] + 5)])
-        }
-      >
-        Load More
-      </Button>
+      {diffsToLoad[1] < relevantFiles.length && (
+        <Button
+          onClick={() =>
+            setDiffsToLoad((curr: number[]) => [
+              curr[1],
+              Math.min(relevantFiles.length, curr[1] + 5),
+            ])
+          }
+        >
+          Load More
+        </Button>
+      )}
     </VStack>
   )
 }

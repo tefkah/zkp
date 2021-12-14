@@ -123,11 +123,6 @@ export const NormalLink = (props: NormalLinkProps) => {
 
 export const PreviewLink = (props: LinkProps) => {
   const { href, data, title, orgText, children } = props
-  // TODO figure out how to properly type this
-  // see https://github.com/rehypejs/rehype-react/issues/25
-  const [hover, setHover] = useState(false)
-
-  // const file = encodeURIComponent(encodeURIComponent(data[id]?.file as string))
 
   if (!href) {
     return (
@@ -139,13 +134,9 @@ export const PreviewLink = (props: LinkProps) => {
 
   return (
     <>
-      <Popover gutter={12} trigger="hover" placement="top-start">
+      <Popover closeOnEsc gutter={12} openDelay={300} trigger="hover" placement="bottom-start">
         <PopoverTrigger>
-          <Box
-            display="inline"
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-          >
+          <Text as="span">
             <NodeLink
               key={title}
               {...{
@@ -154,45 +145,29 @@ export const PreviewLink = (props: LinkProps) => {
                 data,
               }}
             />
-          </Box>
+          </Text>
         </PopoverTrigger>
-        <Portal>
-          <PopoverContent
-            transform="scale(1)"
-            key={title}
-            boxShadow="xl"
-            position="relative"
-            zIndex="tooltip"
+        <PopoverContent
+          key={title}
+          boxShadow="sm"
+          position="relative" // zIndex="tooltip"
+        >
+          <PopoverArrow />
+          <PopoverBody
+            pb={5}
+            fontSize="xs"
+            //zIndex="tooltip"
+            borderRadius="xs"
+            width="100%"
+            maxHeight={300}
+            overflowY="scroll"
           >
-            <PopoverArrow />
-            <PopoverBody
-              pb={5}
-              fontSize="xs"
-              position="relative"
-              zIndex="tooltip"
-              transform="scale(1)"
-              width="100%"
-              maxHeight={300}
-              overflowY="scroll"
-            >
-              <Box
-                w="100%"
-                // color="black"
-                px={3}
-                sx={noteStyle}
-                //overflowY="scroll"
-              >
-                <Heading size="sm">{title}</Heading>
-                <ParsedOrg
-                  text={orgText}
-                  //previewText={orgText}
-                  // previewNode={nodeById[id]!}
-                  //collapse={false}
-                />
-              </Box>
-            </PopoverBody>
-          </PopoverContent>
-        </Portal>
+            <Box w="100%" px={3} sx={noteStyle}>
+              <Heading size="sm">{title}</Heading>
+              <ParsedOrg text={orgText} />
+            </Box>
+          </PopoverBody>
+        </PopoverContent>
       </Popover>
     </>
   )
