@@ -22,7 +22,13 @@ export const Backlinks = (props: Props) => {
           const title = data.data?.[link]?.title ?? ''
           const text = data.orgTexts[link]
           return (
-            <PreviewLink data={data.data} title={title} orgText={text} href={`/${slugify(title)}`}>
+            <PreviewLink
+              key={title}
+              data={data.data}
+              title={title}
+              orgText={text}
+              href={`/${slugify(title)}`}
+            >
               {title}
             </PreviewLink>
           )

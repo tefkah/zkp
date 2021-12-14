@@ -1,9 +1,9 @@
 /* eslint-disable react/display-name */
 import {
+  Link as ChakraLink,
   Box,
   Button,
   Heading,
-  Link,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -16,6 +16,7 @@ import {
   useColorModeValue,
   useTheme,
 } from '@chakra-ui/react'
+import Link from 'next/link'
 import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react'
 
 import unified from 'unified'
@@ -84,7 +85,7 @@ export const NodeLink = (props: NodeLinkProps) => {
   //const linkText = isWiki ? `[[${children}]]` : children
   return (
     <Text
-      as="a"
+      as="span"
       tabIndex={0}
       display="inline"
       overflow="hidden"
@@ -105,7 +106,9 @@ export const NodeLink = (props: NodeLinkProps) => {
       }}
       //  _focus={{ outlineColor: highlightColor }}
     >
-      <Link href={href}>{children}</Link>
+      <Link href={href}>
+        <a>{children}</a>
+      </Link>
     </Text>
   )
 }
@@ -114,10 +117,10 @@ export const NormalLink = (props: NormalLinkProps) => {
   const { href, children } = props
   //const { highlightColor } = useContext(ThemeContext)
   return (
-    <Link isExternal href={href}>
+    <ChakraLink isExternal href={href}>
       {children}
       <ExternalLinkIcon mx="1px" pb="2px" />
-    </Link>
+    </ChakraLink>
   )
 }
 
