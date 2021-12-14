@@ -13,6 +13,7 @@ import {
   Icon,
   IconButton,
   Link,
+  Skeleton,
   Spinner,
   Text,
   Tooltip,
@@ -48,12 +49,18 @@ export function ParsedCommit(props: { [key: string]: any }) {
           deletions: 0,
         }
         return (
-          <DiffBox
-            key={file.filepath}
-            {...{ isLoaded: !isLoading, oid: '', filepath: file, deletions, additions }}
-          >
-            {!isLoading ? <ParsedDiff {...{ diff, truncated: true }} /> : ' '}
-          </DiffBox>
+          <>
+            {isLoading ? (
+              <Skeleton />
+            ) : (
+              <DiffBox
+                key={file.filepath}
+                {...{ isLoaded: !isLoading, oid: '', filepath: file, deletions, additions }}
+              >
+                <ParsedDiff {...{ diff, truncated: true }} />
+              </DiffBox>
+            )}
+          </>
         )
       })}
     </>
@@ -102,7 +109,7 @@ export default function ComparePage(props: Props) {
     <>
       <Header />
 
-      <VStack mt={20} mx={{ base: '5%', md: '15%' }} my={20}>
+      <VStack mx={{ base: '5%', md: '15%' }} my={20}>
         <Flex w="full" justifyContent="space-between" flexDirection="column">
           <Flex
             borderTopRadius="xl"
@@ -152,13 +159,15 @@ export default function ComparePage(props: Props) {
         </Flex>
         <Box w="full" pl={4} pt={10}>
           <Text>
-            Showing
+            Showing{' '}
             <Text as="span" fontWeight="bold">
-              {relevantFiles.length} changed {relevantFiles.length > 1 ? 'files' : 'file'}.
+              {relevantFiles.length}
+              {' changed '}
+              {relevantFiles.length > 1 ? 'files' : 'file'}.
             </Text>
           </Text>
         </Box>
-        <Box>
+        <Box w="full">
           <CommitList commitLog={commitsPerDate} />
         </Box>
         <DiffList {...{ relevantFiles, commit }} />
