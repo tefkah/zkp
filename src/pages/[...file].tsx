@@ -95,9 +95,8 @@ export default function FilePage(props: Props) {
               <Container my={6}>
                 <Heading mb={4}>{slug}</Heading>
                 <HStack my={2} spacing={2}>
-                  {tags.map((tag: string) => (
-                    <Tag variant="outline">{tag}</Tag>
-                  ))}
+                  {!tags.includes('chapter') &&
+                    tags.map((tag: string) => <Tag variant="outline">{tag}</Tag>)}
                 </HStack>
                 <VStack mb={4} alignItems="flex-start">
                   {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}

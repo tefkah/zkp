@@ -128,27 +128,30 @@ export const SubMenu = (props: SubMenuProps) => {
       </Container>
       {isOpen && (
         <VStack pl={6} pr="5%" display="flex" w="full" alignItems="flex-start" spacing={4}>
-          {files.map((item: File) => (
-            <Container>
-              <HStack alignItems="baseline">
-                {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
-                <Text
-                  fontWeight="500"
-                  transition="color 0.2s"
-                  _hover={{ color: 'red.500', transition: 'color 0.2s' }}
-                  fontSize={14}
-                  textTransform="capitalize"
-                >
-                  <Link prefetch={false} href={`/${slugify(item.path)}`} key={item.path}>
-                    {item.path
-                      .replace(/\d{14}-/g, '')
-                      .replace(/\.org/g, '')
-                      .replace(/_/g, ' ')}
-                  </Link>
-                </Text>
-              </HStack>
-            </Container>
-          ))}
+          {files.map((item: File) => {
+            console.log(slugify(item.path))
+            return (
+              <Container key={item.path}>
+                <HStack alignItems="baseline">
+                  {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
+                  <Text
+                    fontWeight="500"
+                    transition="color 0.2s"
+                    _hover={{ color: 'red.500', transition: 'color 0.2s' }}
+                    fontSize={14}
+                    textTransform="capitalize"
+                  >
+                    <Link prefetch={false} href={`/${slugify(item.path)}`} key={item.path}>
+                      {item.path
+                        .replace(/\d{14}-/g, '')
+                        .replace(/\.org/g, '')
+                        .replace(/_/g, ' ')}
+                    </Link>
+                  </Text>
+                </HStack>
+              </Container>
+            )
+          })}
         </VStack>
       )}
     </Box>
