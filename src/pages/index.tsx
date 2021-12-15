@@ -4,6 +4,7 @@ import React, { ReactElement } from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { Hero } from '../components/Hero'
+import BasicLayout from '../components/Layouts/BasicLayout'
 import { Main } from '../components/Main'
 
 interface Props {}
@@ -19,7 +20,6 @@ export default function Index({}: Props): ReactElement {
         />
       </Head>
       <div>
-        <Header />
         <VStack>
           <Hero title="Thomas' Personal Panopticon" />
           <Main>
@@ -53,9 +53,12 @@ export default function Index({}: Props): ReactElement {
               </VStack>
             </Container>
           </Main>
-          <Footer />
         </VStack>
       </div>
     </>
   )
+}
+
+Index.getLayout = function getLayout(page: ReactElement) {
+  return <BasicLayout>{page}</BasicLayout>
 }

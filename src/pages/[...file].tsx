@@ -12,7 +12,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { join } from 'path'
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { CommitPerDateLog, CSLCitation } from '../api'
 import Sidebar from '../components/SideBar'
 //import { OrgProcessor } from '../components/OrgProcessor'
@@ -39,6 +39,7 @@ import { parseTime } from '../utils/parseTime'
 import { Citations } from '../components/FileViewer/Citations'
 import { Giscus } from '@giscus/react'
 import { CommentBox } from '../components/Comments/CommentBox'
+import BasicLayout from '../components/Layouts/BasicLayout'
 
 interface Props {
   page: string
@@ -88,35 +89,31 @@ export default function FilePage(props: Props) {
       <Head>
         <title>{`${title} | Thomas Thesis`}</title>
       </Head>
-      <Box w="100vw" h="100vh" overflowX="hidden">
-        <Flex minH="full">
-          <CustomSideBar items={items} />
-          <Box w="full" id="mainContent">
-            <Header />
-            <Flex>
-              <Container my={6}>
-                <Heading mb={4}>{slug}</Heading>
-                <HStack my={2} spacing={2}>
-                  {!tags.includes('chapter') &&
-                    tags.map((tag: string) => <Tag variant="outline">{tag}</Tag>)}
-                </HStack>
-                <VStack mb={4} alignItems="flex-start">
-                  {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}
-                  {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
-                </VStack>
-                <ProcessedOrg text={page} data={{ data, orgTexts }} />
-                {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
-                {citations?.length && <Citations {...{ csl }} />}
+      <Flex minH="full">
+        <CustomSideBar items={items} />
+        <Box w="full" id="mainContent">
+          <Flex>
+            <Container my={6}>
+              <Heading mb={4}>{slug}</Heading>
+              <HStack my={2} spacing={2}>
+                {!tags.includes('chapter') &&
+                  tags.map((tag: string) => <Tag variant="outline">{tag}</Tag>)}
+              </HStack>
+              <VStack mb={4} alignItems="flex-start">
+                {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}
+                {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
+              </VStack>
+              <ProcessedOrg text={page} data={{ data, orgTexts }} />
+              {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
+              {citations?.length && <Citations {...{ csl }} />}
 
-                <CommentBox {...{ allowedEmails }} />
-              </Container>
+              <CommentBox {...{ allowedEmails }} />
+            </Container>
 
-              <OutlineBox {...{ headings, commits }} />
-            </Flex>
-          </Box>
-        </Flex>
-        <Footer {...{ allowedEmails }} />
-      </Box>
+            <OutlineBox {...{ headings, commits }} />
+          </Flex>
+        </Box>
+      </Flex>
     </>
   )
 }
@@ -235,4 +232,8 @@ export async function getStaticProps(props: StaticProps) {
       allowedEmails: process.env.ALLOWED_EMAILS?.split(','),
     },
   }
+}
+
+FilePage.getLayout = function getLayout(page: ReactElement) {
+  return <BasicLayout>{page}</BasicLayout>
 }

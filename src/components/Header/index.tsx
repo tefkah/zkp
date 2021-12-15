@@ -22,7 +22,11 @@ import { HiAcademicCap } from 'react-icons/hi'
 import { VscCircleOutline } from 'react-icons/vsc'
 import { HeaderLink } from './HeaderLink'
 
-const ChakraUIHeader = () => {
+export interface HeaderProps {
+  user: string
+}
+const ChakraUIHeader = (props: HeaderProps) => {
+  const { user } = props
   const mobileNav = useDisclosure()
 
   const { toggleColorMode: toggleMode } = useColorMode()

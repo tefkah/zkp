@@ -57,9 +57,10 @@ const SocialButton = ({
 
 interface FooterProps {
   allowedEmails?: string[]
+  user: string
 }
 export function Footer(props: FooterProps) {
-  const { allowedEmails } = props
+  const { user, allowedEmails } = props
   return (
     <Box
       w="full"
@@ -103,7 +104,7 @@ export function Footer(props: FooterProps) {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        {allowedEmails?.length && <SignInButton {...{ allowedEmails }} />}
+        {allowedEmails?.length && <SignInButton {...{ user, allowedEmails }} />}
       </Container>
     </Box>
   )

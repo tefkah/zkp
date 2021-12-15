@@ -20,7 +20,7 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import ParsedDiff from '../../server/parseDiff'
 import useFetch from '../../utils/useFetch'
 import { commit } from 'isomorphic-git'
@@ -33,6 +33,7 @@ import { format } from 'date-fns'
 import Footer from '../../components/Footer'
 import { Giscus } from '@giscus/react'
 import Head from 'next/head'
+import BasicLayout from '../../components/Layouts/BasicLayout'
 
 export function parseCommits(commitData: Commit) {
   return commitData?.files?.map((file) => {
@@ -68,7 +69,6 @@ export default function CommitPage(props: Props) {
         <title>{messageTitle}</title>
         <meta name="description" content={`Commit ${oid} at ${formattedDate}`} />
       </Head>
-      <Header />
       <VStack mx={{ base: '5%', md: '20%' }} my={20}>
         <Flex w="full" justifyContent="space-between" flexDirection="column">
           <Flex
@@ -148,7 +148,6 @@ export default function CommitPage(props: Props) {
           />
         </Container>
       </VStack>
-      <Footer />
     </>
   )
 }
@@ -185,4 +184,8 @@ export async function getStaticProps(props: StaticProps) {
     })?.[0] || {}
 
   return { props: { commitData } }
+}
+
+CommitPage.getLayout = function getLayout(page: ReactElement) {
+  return <BasicLayout>{page}</BasicLayout>
 }

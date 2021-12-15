@@ -1,6 +1,6 @@
 import { Text, Box, Container, useColorMode, Flex, VStack, HStack, Button } from '@chakra-ui/react'
 import { join } from 'path'
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import Header from '../../components/Header'
 import { readFileSync } from 'fs'
 import { getListOfCommitsWithStats } from '../../utils/getListOfCommitsWithStats'
@@ -10,6 +10,7 @@ import { HistoryGraph } from '../../components/HistoryGraph'
 import Link from 'next/link'
 import Footer from '../../components/Footer'
 import Head from 'next/head'
+import BasicLayout from '../../components/Layouts/BasicLayout'
 
 export interface SlimCommit {
   oid: string
@@ -20,7 +21,7 @@ export interface SlimCommit {
   files: any[]
 }
 
-interface HistoryPageProps {
+interface ActivityPageProps {
   log: CommitPerDateLog
 }
 const findCommitXDaysAgo = (log: DateCommit[], days: number): string => {
@@ -33,7 +34,7 @@ const findCommitXDaysAgo = (log: DateCommit[], days: number): string => {
   return commit?.lastOid || ''
 }
 
-export default function HistoryPage(props: HistoryPageProps) {
+export default function ActivityPage(props: ActivityPageProps) {
   const { log } = props
   const [diffs, setDiffs] = useState()
   const theme = useColorMode()
@@ -44,7 +45,6 @@ export default function HistoryPage(props: HistoryPageProps) {
       <Head>
         <title>Activity | Thomas' Thesis</title>
       </Head>
-      <Header />
       <VStack justifyContents="center" spacing={6} mt={20}>
         <HStack spacing={2}>
           <Link
@@ -71,7 +71,6 @@ export default function HistoryPage(props: HistoryPageProps) {
       <Box mx={{ base: '5%', md: '15%' }} my={20}>
         <CommitList commitLog={log} />
       </Box>
-      <Footer />
     </>
   )
 }
@@ -89,4 +88,8 @@ export async function getStaticProps() {
   )
 
   return { props: { log: dataPerDate } }
+}
+
+ActivityPage.getLayout = function getLayout(page: ReactElement) {
+  return <BasicLayout>{page}</BasicLayout>
 }

@@ -8,17 +8,28 @@ import { AppProps } from 'next/app'
 import React from 'react'
 import { SWRConfig } from 'swr'
 import fetcher from '../utils/fetcher'
+import type { ReactElement, ReactNode } from 'react'
+import type { NextPage } from 'next'
 
-function MyApp({ Component, pageProps }: AppProps) {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page)
+
   return (
     <SessionProvider session={pageProps.session}>
       <SWRConfig value={{ fetcher }}>
         <ChakraProvider resetCSS theme={theme}>
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
         </ChakraProvider>
       </SWRConfig>
     </SessionProvider>
   )
 }
-
-export default MyApp

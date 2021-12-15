@@ -20,7 +20,7 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import ParsedDiff from '../../server/parseDiff'
 import useFetch from '../../utils/useFetch'
 import { commit } from 'isomorphic-git'
@@ -35,6 +35,7 @@ import { GoMarkGithub } from 'react-icons/go'
 
 import { CommitList } from '../../components/Commits/CommitList'
 import Footer from '../../components/Footer'
+import BasicLayout from '../../components/Layouts/BasicLayout'
 
 export function ParsedCommit(props: { [key: string]: any }) {
   const { commitData, isLoading } = props
@@ -107,8 +108,6 @@ export default function ComparePage(props: Props) {
 
   return (
     <>
-      <Header />
-
       <VStack mx={{ base: '5%', md: '15%' }} my={20}>
         <Flex w="full" justifyContent="space-between" flexDirection="column">
           <Flex
@@ -172,7 +171,6 @@ export default function ComparePage(props: Props) {
         </Box>
         <DiffList {...{ relevantFiles, commit }} />
       </VStack>
-      <Footer />
     </>
   )
 }
@@ -250,4 +248,8 @@ export async function getServerSideProps(props: StaticProps) {
   const commitsPerDate = consolidateCommitsPerDay(commits)
 
   return { props: { commit, relevantFiles, commitsPerDate } }
+}
+
+ComparePage.getLayout = function getLayout(page: ReactElement) {
+  return <BasicLayout>{page}</BasicLayout>
 }

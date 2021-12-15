@@ -12,20 +12,20 @@ import {
   AlertDialogOverlay,
 } from '@chakra-ui/react'
 interface Props {
+  user: string
   allowedEmails: string[]
 }
 
 export const SignInButton = (props: Props) => {
-  const { allowedEmails } = props
-  const { data: session } = useSession()
-  if (!session) {
+  const { user, allowedEmails } = props
+  if (!user) {
     return (
       <Button size="sm" variant="link" leftIcon={<FaGithub />} onClick={() => signIn()}>
         Supervisor login
       </Button>
     )
   }
-  if (allowedEmails?.includes(session?.user?.email as string)) {
+  if (allowedEmails?.includes(user as string)) {
     return (
       <Button size="sm" variant="link" leftIcon={<FaGithub />} onClick={() => signOut()}>
         Sign out
