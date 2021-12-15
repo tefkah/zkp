@@ -21,7 +21,7 @@ import {
   FaYoutube,
 } from 'react-icons/fa'
 import React, { ReactNode } from 'react'
-import { signIn } from 'next-auth/react'
+import { SignInButton } from './SignInButton'
 
 const SocialButton = ({
   children,
@@ -55,7 +55,11 @@ const SocialButton = ({
   )
 }
 
-export function SmallWithSocial() {
+interface FooterProps {
+  allowedEmails?: string[]
+}
+export function Footer(props: FooterProps) {
+  const { allowedEmails } = props
   return (
     <Box
       w="full"
@@ -99,9 +103,7 @@ export function SmallWithSocial() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <Button size="sm" variant="link" leftIcon={<FaGithub />} onClick={() => signIn()}>
-          Supervisor login
-        </Button>
+        {allowedEmails?.length && <SignInButton {...{ allowedEmails }} />}
       </Container>
     </Box>
   )

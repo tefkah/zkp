@@ -1,3 +1,3 @@
-import { SmallWithSocial } from './Footer'
+import { Footer } from './Footer'
 
-export default SmallWithSocial
+export default Footer

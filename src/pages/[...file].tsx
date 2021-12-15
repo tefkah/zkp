@@ -38,6 +38,7 @@ import getHistoryForFile from '../utils/getHistoryForFile'
 import { parseTime } from '../utils/parseTime'
 import { Citations } from '../components/FileViewer/Citations'
 import { Giscus } from '@giscus/react'
+import { CommentBox } from '../components/Comments/CommentBox'
 
 interface Props {
   page: string
@@ -50,6 +51,7 @@ interface Props {
   toc: Heading[]
   commits: CommitPerDateLog
   csl: CSLCitation[]
+  allowedEmails: string[]
 }
 
 function useHeadingFocusOnRouteChange() {
@@ -74,7 +76,7 @@ export interface Heading {
 }
 
 export default function FilePage(props: Props) {
-  const { toc, fileData, page, items, data, slug, orgTexts, commits, csl } = props
+  const { allowedEmails, toc, fileData, page, items, data, slug, orgTexts, commits, csl } = props
   const { title, tags, ctime, mtime, backLinks, citations, citation } = fileData
 
   useHeadingFocusOnRouteChange()
@@ -106,24 +108,14 @@ export default function FilePage(props: Props) {
                 {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
                 {citations?.length && <Citations {...{ csl }} />}
 
-                <Giscus
-                  repo="ThomasFKJorna/thesis-writing"
-                  repoId="R_kgDOGVpQ7Q"
-                  category="General"
-                  category-id="DIC_kwDOGVpQ7c4CAQYS"
-                  mapping="pathname"
-                  // term="..."
-                  reactionsEnabled="1"
-                  emitMetadata="1"
-                  theme={useColorModeValue('light', 'dark')}
-                />
+                <CommentBox {...{ allowedEmails }} />
               </Container>
 
               <OutlineBox {...{ headings, commits }} />
             </Flex>
           </Box>
         </Flex>
-        <Footer />
+        <Footer {...{ allowedEmails }} />
       </Box>
     </>
   )
@@ -240,6 +232,7 @@ export async function getStaticProps(props: StaticProps) {
       toc,
       commits,
       csl,
+      allowedEmails: process.env.ALLOWED_EMAILS?.split(','),
     },
   }
 }
