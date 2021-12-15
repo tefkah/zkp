@@ -33,7 +33,11 @@ function TableOfContent(props: TableOfContentProps) {
     <>
       <OrderedList spacing={1} ml="0" styleType="none">
         {headings.map(({ id, text, level }) => (
-          <ListItem key={id} title={text} ml={level === 'h3' ? '4' : undefined}>
+          <ListItem
+            key={id}
+            title={text}
+            ml={level === 'h3' ? '4' : level === 'h4' ? '8' : undefined}
+          >
             <HStack justifyContent="flex-start" spacing="2px" alignItems="baseline">
               {id === activeId && (
                 <Box backgroundColor="red.500" h={3} mb={-2} w="2px" mr={1} ml={-2} />

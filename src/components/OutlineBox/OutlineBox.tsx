@@ -36,9 +36,8 @@ export const OutlineBox = (props: Props) => {
       flexShrink={0}
       display={{ base: 'none', xl: 'block' }}
       position="sticky"
-      py="6"
       pr="4"
-      top="3rem"
+      top="2rem"
       right="0"
       fontSize="sm"
       alignSelf="start"
@@ -66,7 +65,7 @@ export const OutlineBox = (props: Props) => {
           </Tab>
         </TabList>
         <TabPanels
-          maxHeight="calc(100vh - 3rem)"
+          maxHeight="calc(100vh - 7rem)"
           overflowY="auto"
           sx={{ overscrollBehavior: 'contain' }}
         >

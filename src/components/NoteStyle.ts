@@ -9,34 +9,34 @@ export const viewerNoteStyle = {
   p: {
     display: 'inline-block !important',
   },
-  h1: {
-    //color: 'black',
-    lineHeight: '1.2',
-    fontSize: '20',
-    fontWeight: 'bold',
-    paddingTop: 2,
-  },
-  h2: {
-    fontSize: '18',
-    // color: 'black',
-    fontWeight: 'bold',
-    fontStyle: 'bold italic',
-    paddingTop: 2,
-    my: 1,
-  },
-  h3: {
-    fontSize: '16',
-    //color: 'black',
-    paddingTop: 2,
-    my: 1,
-  },
-  h4: {
-    fontSize: '14',
-    fontStyle: 'italic',
-    //color: 'black',
-    paddingTop: 2,
-    my: 1,
-  },
+  // h1: {
+  //   //color: 'black',
+  //   lineHeight: '1.2',
+  //   fontSize: '20',
+  //   fontWeight: 'bold',
+  //   paddingTop: 2,
+  // },
+  // h2: {
+  //   fontSize: '18',
+  //   // color: 'black',
+  //   fontWeight: 'bold',
+  //   fontStyle: 'bold italic',
+  //   paddingTop: 2,
+  //   my: 1,
+  // },
+  // h3: {
+  //   fontSize: '16',
+  //   //color: 'black',
+  //   paddingTop: 2,
+  //   my: 1,
+  // },
+  // h4: {
+  //   fontSize: '14',
+  //   fontStyle: 'italic',
+  //   //color: 'black',
+  //   paddingTop: 2,
+  //   my: 1,
+  // },
 
   '.sectionContent': {
     paddingTop: 2,
@@ -58,20 +58,6 @@ export const outlineNoteStyle = {
     ml: '11px',
     borderLeftWidth: '1px',
     borderLeftColor: 'gray.500',
-  },
-  '.preHeadingContent': {
-    //paddingTop: 2,
-    //paddingLeft: 4,
-    // ml: 3,
-    //borderLeftWidth: '1px',
-    //borderLeftColor: 'gray.600',
-  },
-  'h1,h2,h3,h4,h5,h6,h7,h8': {
-    pl: 1,
-    lineHeight: '1.25',
-    color: 'black',
-    fontSize: 15,
-    fontWeight: 700,
   },
   '.sec': {
     pt: 1,

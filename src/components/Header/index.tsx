@@ -43,6 +43,8 @@ const ChakraUIHeader = (props: HeaderProps) => {
     return scrollY.onChange(() => setY(scrollY.get()))
   }, [scrollY])
 
+  const authenticated = user
+
   const SponsorButton = (
     <Box
       display={{ base: 'none', md: 'flex' }}
@@ -80,34 +82,6 @@ const ChakraUIHeader = (props: HeaderProps) => {
       </Box>
     </Box>
   )
-  const MobileNavContent = (
-    <VStack
-      pos="absolute"
-      top={0}
-      left={0}
-      right={0}
-      display={mobileNav.isOpen ? 'flex' : 'none'}
-      flexDirection="column"
-      p={2}
-      pb={4}
-      m={2}
-      bg={bg}
-      spacing={3}
-      rounded="sm"
-      shadow="sm"
-    >
-      <CloseButton aria-label="Close menu" justifySelf="self-start" onClick={mobileNav.onClose} />
-      <Button w="full" variant="ghost" leftIcon={<AiFillHome />}>
-        Dashboard
-      </Button>
-      <Button w="full" variant="solid" colorScheme="brand" leftIcon={<AiOutlineInbox />}>
-        Inbox
-      </Button>
-      <Button w="full" variant="ghost" leftIcon={<BsFillCameraVideoFill />}>
-        Videos
-      </Button>
-    </VStack>
-  )
   return (
     <chakra.header
       zIndex={1}
@@ -139,6 +113,7 @@ const ChakraUIHeader = (props: HeaderProps) => {
               <HeaderLink href="/Outline-Anyons">Thesis</HeaderLink>
               <HeaderLink href="/Topological-space">Notes</HeaderLink>
               <HeaderLink href="/activity">Activity</HeaderLink>
+              {authenticated && <HeaderLink href="/discussions">Discussions</HeaderLink>}
             </HStack>
           </HStack>
 
@@ -169,7 +144,6 @@ const ChakraUIHeader = (props: HeaderProps) => {
               onClick={toggleMode}
               icon={<SwitchIcon />}
             />
-            {/* {SponsorButton} */}
             <IconButton
               display={{ base: 'flex', md: 'none' }}
               aria-label="Open menu"
@@ -181,10 +155,47 @@ const ChakraUIHeader = (props: HeaderProps) => {
             />
           </Flex>
         </HStack>
-        {MobileNavContent}
+        {<MobileNavContent isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} bg={bg} />}
       </chakra.div>
     </chakra.header>
   )
 }
 
+export interface MobileNavProps {
+  onClose: any
+  isOpen: any
+  bg: string
+}
+
+export const MobileNavContent = (props: MobileNavProps) => {
+  const { onClose, isOpen, bg } = props
+  return (
+    <VStack
+      pos="absolute"
+      top={0}
+      left={0}
+      right={0}
+      display={isOpen ? 'flex' : 'none'}
+      flexDirection="column"
+      p={2}
+      pb={4}
+      m={2}
+      bg={bg}
+      spacing={3}
+      rounded="sm"
+      shadow="sm"
+    >
+      <CloseButton aria-label="Close menu" justifySelf="self-start" onClick={onClose} />
+      <Button w="full" variant="ghost" leftIcon={<AiFillHome />}>
+        Dashboard
+      </Button>
+      <Button w="full" variant="solid" colorScheme="brand" leftIcon={<AiOutlineInbox />}>
+        Inbox
+      </Button>
+      <Button w="full" variant="ghost" leftIcon={<BsFillCameraVideoFill />}>
+        Videos
+      </Button>
+    </VStack>
+  )
+}
 export default ChakraUIHeader

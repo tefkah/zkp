@@ -78,7 +78,9 @@ const generateBibliography = (props: CitationProps) => {
 export const Citations = (props: CitationProps) => {
   return (
     <>
-      <Heading size="md">References</Heading>
+      <Heading id="references" style={{ scrollMarginTop: '100px' }} size="md">
+        References
+      </Heading>
       <VStack sx={{ ...noteStyle }} alignItems="flex-start">
         {generateBibliography(props)}
       </VStack>

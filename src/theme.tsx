@@ -18,6 +18,14 @@ const theme = extendTheme({
   },
   fonts,
   breakpoints,
+  components: {
+    Heading: {
+      baseStyle: {
+        scrollMarginTop: '100px',
+        my: 1,
+      },
+    },
+  },
 })
 
 export default theme

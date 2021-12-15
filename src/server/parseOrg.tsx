@@ -103,12 +103,15 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
           }
           if ((children as string)[0] === 'Footnotes:') return null
           return (
-            <Heading {...{ className: className as string, id: id as string }}>
+            <Heading size="lg" {...head}>
               {children as ReactNode}
             </Heading>
           )
           //return <Heading className="title">{value as string}</Heading>
         },
+        h2: (props) => <Heading {...props} as="h3" size="md" />,
+        h3: (props) => <Heading {...props} as="h4" size="sm" />,
+        h4: (props) => <Heading {...props} as="h5" size="xs" />,
         p: ({ children, ...rest }) => (
           <Text lang="en" {...{ ...rest }}>
             {children as ReactNode}

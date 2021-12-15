@@ -71,7 +71,7 @@ function useHeadingFocusOnRouteChange() {
 }
 
 export interface Heading {
-  level: 'h2' | 'h3'
+  level: string
   text: string
   id: string
 }
@@ -209,7 +209,18 @@ export async function getStaticProps(props: StaticProps) {
   }
 
   //const commits = await tryReadJSON('data/git.json')
-  const toc = getTableOfContents(fileString)
+  const toc = [
+    ...getTableOfContents(fileString),
+    ...(file?.citations?.length
+      ? [
+          {
+            text: 'References',
+            id: 'references',
+            level: 1,
+          },
+        ]
+      : []),
+  ]
   const commits = getHistoryForFile({ file: concatFile, commits: dataWithoutDiffs })
   const csl: CSLCitation[] = JSON.parse(
     await fs.promises.readFile(join(cwd, 'notes', 'bibliography', 'Academic.json'), {

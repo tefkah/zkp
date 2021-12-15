@@ -11,7 +11,9 @@ export function getTableOfContents(orgContent: string) {
   if (headings.length) {
     tableOfContents = headings.map((heading) => {
       const headingText = heading[2].trim().replace(/\[\[\.*?\]\]/g, '')
-      const headingType = heading[1].trim() === '*' ? 'h2' : 'h3'
+      console.log(heading[2])
+      console.log(heading[1])
+      const headingType: string = `h${heading[1].trim().length + 1}`
       const headingLink = slugger.slug(headingText, false)
 
       return {
