@@ -155,3 +155,15 @@ interface Issued {
 interface Accessed {
   'date-parts': number[][]
 }
+
+export interface DataProps {
+  message: string
+  y: number
+  x: Date
+  id: string
+}
+export interface AddsDels {
+  id: string
+  data: DataProps[]
+}
+export type CommitChartData = AddsDels[]
