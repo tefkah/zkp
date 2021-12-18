@@ -8,9 +8,11 @@ import {
   Container,
   LinkOverlay,
   IconButton,
+  Link as ChakraLink,
   CloseButton,
   Icon,
   HStack,
+  Button,
 } from '@chakra-ui/react'
 
 import { format, utcToZonedTime } from 'date-fns-tz'
@@ -19,8 +21,9 @@ import { nl } from 'date-fns/locale'
 import React from 'react'
 import { SlimCommit } from '../../api'
 import { IoIosGitCompare } from 'react-icons/io'
-import { ArrowRightIcon } from '@chakra-ui/icons'
+import { ArrowRightIcon, CloseIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
+import { FaGithub } from 'react-icons/fa'
 
 interface CommitProps extends SlimCommit {
   compair: string[]
@@ -36,17 +39,32 @@ export const Commit = (props: CommitProps) => {
   const time = format(dateObj, 'HH:mm', { timeZone: 'Europe/Amsterdam', locale: nl })
   const timeDistance = formatDistance(dateObj, new Date(), { addSuffix: true })
   const formattedDate = `${timeDistance}, at ${time}`
-  const [messageText, ...messageBody] = message.split('\n')
+  const [messageText, ...messageBodyRest] = message.split('\n')
+  const messageBody = messageBodyRest.join(' ')
   return (
     <Box px={slim ? 0 : 4} w="100%" display="flex" justifyContent="space-between">
       <VStack alignItems="flex-start">
-        <Heading size="small">
-          <Link href={`/commit/${oid}`}>{messageText}</Link>
-        </Heading>
-        <HStack spacing={2}>
-          <Text color="gray.500">{formattedDate}</Text>
-          {!slim && <CompareButton {...{ oid, compair, setCompair }} />}
-        </HStack>
+        <VStack alignItems="flex-start" spacing={0}>
+          <Heading size="small">
+            <Link href={`/commit/${oid}`}>{messageText}</Link>
+          </Heading>
+          <HStack spacing={2} alignItems="center">
+            <Text color="gray.500">{formattedDate}</Text>
+            {!slim && (
+              <HStack alignItems="center">
+                <CompareButton {...{ oid, compair, setCompair }} />
+                <ChakraLink
+                  isExternal
+                  href={`https://github.com/ThomasFKJorna/thesis-writing/commit/${oid}`}
+                  _hover={{ color: 'gray.400' }}
+                  transition="color 0.2s"
+                >
+                  <FaGithub />
+                </ChakraLink>
+              </HStack>
+            )}
+          </HStack>
+        </VStack>
         {messageBody && <Text>{messageBody}</Text>}
       </VStack>
       <VStack display="flex" alignItems="flex-end">
@@ -71,7 +89,7 @@ export const CompareButton = (props: CompareButtonProps) => {
 
   const InitialButton = () => (
     <IconButton
-      size="sm"
+      size="xs"
       variant="ghost"
       icon={<IoIosGitCompare />}
       aria-label="Compare commit with another commit"
@@ -81,13 +99,19 @@ export const CompareButton = (props: CompareButtonProps) => {
 
   const GoButton = () =>
     compair?.[0] === oid ? (
-      <CloseButton variant="ghost" onClick={() => setCompair([])} />
+      <IconButton
+        icon={<CloseIcon />}
+        aria-label="Stop comparing"
+        size="xs"
+        variant="ghost"
+        onClick={() => setCompair([])}
+      />
     ) : (
-      <Text _hover={{ cursor: 'pointer' }}>
-        <Link prefetch={false} href={`/compare/${compair[0]}/${oid}`}>
+      <Link prefetch={false} href={`/compare/${compair[0]}/${oid}`}>
+        <IconButton icon={<ArrowRightIcon />} aria-label="Compare" size="xs">
           <ArrowRightIcon h={6} p={1} />
-        </Link>
-      </Text>
+        </IconButton>
+      </Link>
     )
 
   return compair.length === 1 ? <GoButton /> : <InitialButton />

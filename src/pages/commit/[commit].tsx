@@ -112,10 +112,10 @@ export default function CommitPage(props: Props) {
         </Flex>
         <Box w="full" pl={4} pt={10}>
           <Text>
-            Showing
+            Showing{' '}
             <Text as="span" fontWeight="bold">
               {parsedText.length} changed {parsedText.length > 1 ? 'files' : 'file'}
-            </Text>
+            </Text>{' '}
             with
             <Text
               as="span"
@@ -141,7 +141,6 @@ export default function CommitPage(props: Props) {
             category="General"
             category-id="DIC_kwDOGVpQ7c4CAQYS"
             mapping="title"
-            // term="..."
             reactionsEnabled="1"
             emitMetadata="1"
             theme={useColorModeValue('light', 'dark')}

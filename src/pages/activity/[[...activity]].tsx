@@ -1,4 +1,14 @@
-import { Text, Box, Container, useColorMode, Flex, VStack, HStack, Button } from '@chakra-ui/react'
+import {
+  Link as ChakraLink,
+  Text,
+  Box,
+  Container,
+  useColorMode,
+  Flex,
+  VStack,
+  HStack,
+  Button,
+} from '@chakra-ui/react'
 import { join } from 'path'
 import React, { ReactElement, useState } from 'react'
 import Header from '../../components/Header'
@@ -46,14 +56,19 @@ export default function ActivityPage(props: ActivityPageProps) {
         <title>Activity | Thomas' Thesis</title>
       </Head>
       <VStack justifyContents="center" spacing={6} mt={20}>
-        <HStack spacing={2}>
+        <Box w="80%" height={100} backgroundColor={dark ? 'gray.800' : 'gray.50'}>
+          <HistoryGraph data={log} dark={dark} diffs={diffs} setDiffs={setDiffs} />
+        </Box>
+        <HStack spacing={5}>
           <Link
             prefetch={false}
             href={`/compare/${findCommitXDaysAgo(reverseLogValues, 7)}/${
               reverseLogValues[0].lastOid
             }`}
           >
-            Last week
+            <ChakraLink transition="color 0.2s" _hover={{ color: 'red.500' }}>
+              Last week
+            </ChakraLink>
           </Link>
           <Link
             href={`/compare/${findCommitXDaysAgo(reverseLogValues, 30)}/${
@@ -61,12 +76,11 @@ export default function ActivityPage(props: ActivityPageProps) {
             }`}
             prefetch={false}
           >
-            Last month
+            <ChakraLink transition="color 0.2s" _hover={{ color: 'red.500' }}>
+              Last month
+            </ChakraLink>
           </Link>
         </HStack>
-        <Box w="80%" height={100} backgroundColor={dark ? 'gray.800' : 'gray.50'}>
-          <HistoryGraph data={log} dark={dark} diffs={diffs} setDiffs={setDiffs} />
-        </Box>
       </VStack>
       <Box mx={{ base: '5%', md: '15%' }} my={20}>
         <CommitList commitLog={log} />

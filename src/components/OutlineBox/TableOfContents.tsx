@@ -40,7 +40,7 @@ function TableOfContent(props: TableOfContentProps) {
           >
             <HStack justifyContent="flex-start" spacing="2px" alignItems="baseline">
               {id === activeId && (
-                <Box backgroundColor="red.500" h={3} mb={-2} w="2px" mr={1} ml={-2} />
+                <Box backgroundColor="primary" h={3} mb={-2} w="2px" mr={1} ml={-2} />
               )}
               <chakra.a
                 textAlign="left"

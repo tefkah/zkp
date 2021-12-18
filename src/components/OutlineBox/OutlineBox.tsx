@@ -37,7 +37,7 @@ export const OutlineBox = (props: Props) => {
       display={{ base: 'none', xl: 'block' }}
       position="sticky"
       pr="4"
-      top="2rem"
+      top="3rem"
       right="0"
       fontSize="sm"
       alignSelf="start"
