@@ -23,7 +23,7 @@ import { Giscus } from '@giscus/react'
 import BasicLayout from '../../components/Layouts/BasicLayout'
 import { getSession } from 'next-auth/react'
 import { Discussions } from '.'
-import { ViewGithub } from '../../Buttons/ViewGithub'
+import { ViewGithub } from '../../components/Buttons/ViewGithub'
 
 interface Props {
   number: string

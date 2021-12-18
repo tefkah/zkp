@@ -62,9 +62,7 @@ export const DiffBox = (props: Props) => {
             onClick={onToggle}
           />
           <Heading fontWeight="600" isTruncated size="sm">
-            <Skeleton isLoaded={isLoaded}>
-              <Link href={`/${filepath}`}>{filepath}</Link>
-            </Skeleton>
+            <Link href={`/${filepath}`}>{filepath}</Link>
           </Heading>
         </HStack>
         <HStack spacing={4}>
@@ -81,17 +79,15 @@ export const DiffBox = (props: Props) => {
               Raw
             </Button>
           </ButtonGroup>
-          <Skeleton isLoaded={isLoaded}>
-            <HStack>
-              <Text mx={3} color="red.500">{`-${deletions}`}</Text>
-              <Text color="green.500">{`+${additions}`}</Text>
-            </HStack>
-          </Skeleton>
+          <HStack>
+            <Text mx={3} color="red.500">{`-${deletions}`}</Text>
+            <Text color="green.500">{`+${additions}`}</Text>
+          </HStack>
         </HStack>
       </Flex>
       {!isOpen && (
         <Container my={4} sx={{ ...noteStyle }}>
-          <Skeleton isLoaded={isLoaded}>{children}</Skeleton>
+          {children}
         </Container>
       )}
     </Box>

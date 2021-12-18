@@ -58,10 +58,10 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
         const { affiliated, children, blockType, contentsBegin, contentsEnd } =
           block as SpecialBlock
         if (blockType.toLowerCase() === 'addition' || blockType.toLowerCase() === 'deletion') {
-          if (children[0].type === 'paragraph' && children.length === 1) {
+          if (children?.[0].type === 'paragraph' && children.length === 1) {
             // console.log('ppppp')
             Object.assign(block, {
-              ...children[0],
+              ...children?.[0],
               type: 'element',
               tagName: 'span',
               properties: {
@@ -101,7 +101,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
           if (className === 'title') {
             return null
           }
-          if ((children as string)[0] === 'Footnotes:') return null
+          if ((children as string)?.[0] === 'Footnotes:') return null
           return (
             <Heading size="lg" {...head}>
               {children as ReactNode}

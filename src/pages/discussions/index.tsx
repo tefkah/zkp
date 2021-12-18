@@ -14,7 +14,7 @@ import Link from 'next/link'
 import { join } from 'path'
 import React from 'react'
 import { FaGithub } from 'react-icons/fa'
-import { ViewGithub } from '../../Buttons/ViewGithub'
+import { ViewGithub } from '../../components/Buttons/ViewGithub'
 import BasicLayout from '../../components/Layouts/BasicLayout'
 
 export interface Discussions {
