@@ -109,7 +109,7 @@ const ChakraUIHeader = (props: HeaderProps) => {
               />
             </Link>
             <HStack spacing={1} px={4}>
-              <HeaderLink href="/Outline-Anyons">Thesis</HeaderLink>
+              <HeaderLink href="/III.-Anyons">Thesis</HeaderLink>
               <HeaderLink href="/Topological-space">Notes</HeaderLink>
               <HeaderLink href="/activity">Activity</HeaderLink>
               {user && <HeaderLink href="/discussions">Discussions</HeaderLink>}

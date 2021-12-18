@@ -54,7 +54,7 @@ export const HistoryGraph = (props: Props) => {
         const date = entry[0] as string
         const commit = entry[1] as DateCommit
         return {
-          message: commit.lastMessage,
+          message: commit.lastMessage.split('\n')?.[0],
           y: a === 'additions' ? commit.totalAdditions : -commit.totalDeletions,
           x: parse(date, 'yyyy-MM-dd', new Date()), // parseISO(`${date}T12:00:00.000Z`),
           id: commit.lastOid,

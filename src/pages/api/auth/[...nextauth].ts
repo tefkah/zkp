@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth'
+import { decode } from 'next-auth/jwt'
 import GitHubProvider from 'next-auth/providers/github'
 
 export default NextAuth({
@@ -12,7 +13,15 @@ export default NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async session({ session, token, user }) {
+    async jwt({ token, account }) {
+      // Persist the OAuth access_token to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token
+      }
+      return token
+    },
+    async session(sesh) {
+      const { session, user, token } = sesh
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken
       return session

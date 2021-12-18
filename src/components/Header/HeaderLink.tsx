@@ -14,15 +14,18 @@ const isActive = (slug: string, children: string, href: string) => {
     slug.replace(/\/(.+?)(\/|\b).*/g, '$1'),
   )
   const isDiscussions = slug.startsWith('/discussions')
+  const isThesis = slug.slice(0, 5).match(/(I+V?\.|V+I*\.)/g)
   switch (children) {
     case 'Thesis':
-      return slug.slice(0, 5).match(/(I+V?\.|V+I*\.)/g)
+      return isThesis
     case 'Activity':
       return isActivity
     case 'Discussions':
       return isDiscussions
     case 'Notes':
-      return !slug.slice(1).match(/\//g)
+      return (
+        !slug.slice(1).match(/\//g) && !isDiscussions && !isActivity && !isThesis && slug !== '/'
+      )
     default:
       return false
   }

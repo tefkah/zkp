@@ -30,8 +30,9 @@ async function diffMap(props: DiffMapProps): Promise<FileDiff> {
     return
   }
 
-  //ignore other some extensions
-  if (!process?.env?.INCLUDED_EXTENSIONS?.includes(extname(filepath))) {
+  // just show .org diffs
+  // TODO make this an env var
+  if ('.org' !== extname(filepath)) {
     return
   }
 
