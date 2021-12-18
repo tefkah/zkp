@@ -3,9 +3,7 @@ import { Giscus } from '@giscus/react'
 import { signOut, useSession } from 'next-auth/react'
 import React from 'react'
 
-interface Props {
-  allowedEmails: string[]
-}
+interface Props {}
 
 export const CommentBox = (props: Props) => {
   const { data: session } = useSession()

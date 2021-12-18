@@ -52,7 +52,6 @@ interface Props {
   toc: Heading[]
   commits: CommitPerDateLog
   csl: CSLCitation[]
-  allowedEmails: string[]
 }
 
 function useHeadingFocusOnRouteChange() {
@@ -77,7 +76,7 @@ export interface Heading {
 }
 
 export default function FilePage(props: Props) {
-  const { allowedEmails, toc, fileData, page, items, data, slug, orgTexts, commits, csl } = props
+  const { toc, fileData, page, items, data, slug, orgTexts, commits, csl } = props
   const { title, tags, ctime, mtime, backLinks, citations, citation } = fileData
 
   useHeadingFocusOnRouteChange()
@@ -113,7 +112,7 @@ export default function FilePage(props: Props) {
                 {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
                 {citations?.length && <Citations {...{ csl }} />}
 
-                <CommentBox {...{ allowedEmails }} />
+                <CommentBox />
               </Container>
               <OutlineBox {...{ headings, commits }} />
             </Flex>
@@ -287,7 +286,6 @@ export async function getStaticProps(props: StaticProps) {
       toc,
       commits,
       csl,
-      allowedEmails: process.env.ALLOWED_EMAILS?.split(','),
     },
   }
 }

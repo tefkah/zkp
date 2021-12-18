@@ -1,4 +1,5 @@
 import {
+  Link as ChakraLink,
   Text,
   Box,
   Container,
@@ -22,29 +23,45 @@ import { Giscus } from '@giscus/react'
 import BasicLayout from '../../components/Layouts/BasicLayout'
 import { getSession } from 'next-auth/react'
 import { Discussions } from '.'
+import { ViewGithub } from '../../Buttons/ViewGithub'
 
 interface Props {
-  allowedEmails: string[]
   number: string
   title: string
+  comment: string
+  link?: string
 }
 
 export default function FilePage(props: Props) {
-  const { title, number } = props
+  const { title, number, comment, link } = props
 
   return (
     <>
       <Head>
         <title>{`Discussions | Thomas Thesis`}</title>
       </Head>
-      <VStack minH="full">
-        <Heading>{title}</Heading>
+      <VStack minH="100vh" spacing={32} my={5}>
+        <Container>
+          <Heading>{title}</Heading>
+          <ViewGithub
+            repo="thesis-discussions"
+            slug={`discussions/${number}`}
+            text="View discussion on GitHub"
+          />
+          <Text mt={5}>{comment}</Text>
+          {link && (
+            <Link href={link} passHref>
+              <ChakraLink>Link to Chapter</ChakraLink>
+            </Link>
+          )}
+        </Container>
         <Container>
           <Giscus
             repo={'ThomasFKJorna/thesis-discussions'}
             repoId="R_kgDOGiFakw"
             mapping="number"
             term={number}
+            theme={useColorModeValue('light', 'dark')}
           />
         </Container>
       </VStack>
@@ -63,16 +80,15 @@ export async function getServerSideProps(props: ServerSideProps) {
     await fs.promises.readFile(join(cwd, 'notes', 'discussions.json'), { encoding: 'utf8' }),
   )
   const number = props.params.discussions.join('')
-  const title = discussions.find((discussion) => discussion.number === parseInt(number))?.title
+  const disc = discussions.find((discussion) => discussion.number === parseInt(number))
+  const { title, comment, link } = disc!
 
-  const session = await getSession()
-
-  console.log(session)
   return {
     props: {
-      allowedEmails: process.env.ALLOWED_EMAILS?.split(','),
       number,
       title,
+      comment,
+      link: link || null,
     },
   }
 }
