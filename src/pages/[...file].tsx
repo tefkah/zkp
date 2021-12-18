@@ -89,34 +89,81 @@ export default function FilePage(props: Props) {
       <Head>
         <title>{`${title} | Thomas Thesis`}</title>
       </Head>
-      <Flex minH="full">
-        <CustomSideBar items={items} />
-        <Box w="full" id="mainContent">
-          <Flex>
-            <Container my={6}>
-              <Heading mb={4}>{slug}</Heading>
-              <HStack my={2} spacing={2}>
-                {!tags.includes('chapter') &&
-                  tags.map((tag: string) => <Tag variant="outline">{tag}</Tag>)}
-              </HStack>
-              <VStack mb={4} alignItems="flex-start">
-                {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}
-                {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
-              </VStack>
-              <ProcessedOrg text={page} data={{ data, orgTexts }} />
-              {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
-              {citations?.length && <Citations {...{ csl }} />}
+      <Box w="100vw" h="100vh" overflowX="hidden">
+        <Flex minH="full">
+          <CustomSideBar items={items} />
+          <Box w="full">
+            <Header />
+            <Flex style={{ scrollBehavior: 'smooth' }}>
+              <Container my={6}>
+                <Heading mb={4}>{slug}</Heading>
+                <HStack my={2} spacing={2}>
+                  {!tags.includes('chapter') &&
+                    tags.map((tag: string) => (
+                      <Tag key={tag} variant="outline">
+                        {tag}
+                      </Tag>
+                    ))}
+                </HStack>
+                <VStack mb={4} alignItems="flex-start">
+                  {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}
+                  {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
+                </VStack>
+                <ProcessedOrg text={page} data={{ data, orgTexts }} />
+                {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
+                {citations?.length && <Citations {...{ csl }} />}
 
-              <CommentBox {...{ allowedEmails }} />
-            </Container>
-
-            <OutlineBox {...{ headings, commits }} />
-          </Flex>
-        </Box>
-      </Flex>
+                <CommentBox {...{ allowedEmails }} />
+              </Container>
+              <OutlineBox {...{ headings, commits }} />
+            </Flex>
+          </Box>
+        </Flex>
+        <Footer />
+      </Box>
     </>
   )
 }
+
+// ;<Box w="100vw" h="100vh" overflowX="hidden">
+//   <Flex minH="full">
+//     <CustomSideBar items={items} />
+//     <Box w="full" id="mainContent">
+//       <Header />
+//       <Flex>
+//         <Container my={6}>
+//           <Heading mb={4}>{slug}</Heading>
+//           <HStack my={2} spacing={2}>
+//             {!tags.includes('chapter') &&
+//               tags.map((tag: string) => <Tag variant="outline">{tag}</Tag>)}
+//           </HStack>
+//           <VStack mb={4} alignItems="flex-start">
+//             {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}
+//             {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
+//           </VStack>
+//           <ProcessedOrg text={page} data={{ data, orgTexts }} />
+//           {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
+//           {citations?.length && <Citations {...{ csl }} />}
+
+//           <Giscus
+//             repo="ThomasFKJorna/thesis-writing"
+//             repoId="R_kgDOGVpQ7Q"
+//             category="General"
+//             category-id="DIC_kwDOGVpQ7c4CAQYS"
+//             mapping="pathname"
+//             // term="..."
+//             reactionsEnabled="1"
+//             emitMetadata="1"
+//             theme={useColorModeValue('light', 'dark')}
+//           />
+//         </Container>
+
+//         <OutlineBox {...{ headings, commits }} />
+//       </Flex>
+//     </Box>
+//   </Flex>
+//   <Footer />
+// </Box>
 
 export async function getStaticPaths() {
   const data = await getFilesData()
@@ -243,8 +290,4 @@ export async function getStaticProps(props: StaticProps) {
       allowedEmails: process.env.ALLOWED_EMAILS?.split(','),
     },
   }
-}
-
-FilePage.getLayout = function getLayout(page: ReactElement) {
-  return <BasicLayout>{page}</BasicLayout>
 }

@@ -18,3 +18,5 @@ export default function Component() {
     </>
   )
 }
+
+Component.Auth = true

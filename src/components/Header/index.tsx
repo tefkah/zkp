@@ -21,14 +21,13 @@ import { BsFillCameraVideoFill } from 'react-icons/bs'
 import { HiAcademicCap } from 'react-icons/hi'
 import { VscCircleOutline } from 'react-icons/vsc'
 import { HeaderLink } from './HeaderLink'
+import { useSession } from 'next-auth/react'
 
-export interface HeaderProps {
-  user: string
-}
+export interface HeaderProps {}
 const ChakraUIHeader = (props: HeaderProps) => {
-  const { user } = props
   const mobileNav = useDisclosure()
 
+  const { data: session } = useSession()
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
   const SwitchIcon = useColorModeValue(FaMoon, FaSun)
@@ -43,7 +42,7 @@ const ChakraUIHeader = (props: HeaderProps) => {
     return scrollY.onChange(() => setY(scrollY.get()))
   }, [scrollY])
 
-  const authenticated = user
+  const user = session
 
   const SponsorButton = (
     <Box
@@ -113,7 +112,7 @@ const ChakraUIHeader = (props: HeaderProps) => {
               <HeaderLink href="/Outline-Anyons">Thesis</HeaderLink>
               <HeaderLink href="/Topological-space">Notes</HeaderLink>
               <HeaderLink href="/activity">Activity</HeaderLink>
-              {authenticated && <HeaderLink href="/discussions">Discussions</HeaderLink>}
+              {user && <HeaderLink href="/discussions">Discussions</HeaderLink>}
             </HStack>
           </HStack>
 

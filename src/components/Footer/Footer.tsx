@@ -22,6 +22,7 @@ import {
 } from 'react-icons/fa'
 import React, { ReactNode } from 'react'
 import { SignInButton } from './SignInButton'
+import { useSession } from 'next-auth/react'
 
 const SocialButton = ({
   children,
@@ -57,10 +58,8 @@ const SocialButton = ({
 
 interface FooterProps {
   allowedEmails?: string[]
-  user: string
 }
 export function Footer(props: FooterProps) {
-  const { user, allowedEmails } = props
   return (
     <Box
       w="full"
@@ -104,7 +103,7 @@ export function Footer(props: FooterProps) {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        {allowedEmails?.length && <SignInButton {...{ user, allowedEmails }} />}
+        <SignInButton />
       </Container>
     </Box>
   )

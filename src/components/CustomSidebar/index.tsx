@@ -129,7 +129,6 @@ export const SubMenu = (props: SubMenuProps) => {
       {isOpen && (
         <VStack pl={6} pr="5%" display="flex" w="full" alignItems="flex-start" spacing={4}>
           {files.map((item: File) => {
-            console.log(slugify(item.path))
             return (
               <Container key={item.path}>
                 <HStack alignItems="baseline">

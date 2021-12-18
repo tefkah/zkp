@@ -11,13 +11,11 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
 } from '@chakra-ui/react'
-interface Props {
-  user: string
-  allowedEmails: string[]
-}
+interface Props {}
 
 export const SignInButton = (props: Props) => {
-  const { user, allowedEmails } = props
+  const { data: user } = useSession()
+  console.log(user)
   if (!user) {
     return (
       <Button size="sm" variant="link" leftIcon={<FaGithub />} onClick={() => signIn()}>
@@ -25,13 +23,12 @@ export const SignInButton = (props: Props) => {
       </Button>
     )
   }
-  if (allowedEmails?.includes(user as string)) {
-    return (
-      <Button size="sm" variant="link" leftIcon={<FaGithub />} onClick={() => signOut()}>
-        Sign out
-      </Button>
-    )
-  }
+  return (
+    <Button size="sm" variant="link" leftIcon={<FaGithub />} onClick={() => signOut()}>
+      Sign out
+    </Button>
+  )
+  // }
 
   return (
     <AlertDialog isOpen={true} leastDestructiveRef={undefined} onClose={() => null}>

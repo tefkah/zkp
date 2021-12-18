@@ -28,6 +28,7 @@
     "isomorphic-git": "^1.10.1",
     "next": "latest",
     "next-auth": "^4.0.5",
+    "octokit": "^1.7.1",
     "orgast-util-to-string": "^0.4.5",
     "orgast-util-visit-ids": "^0.4.5",
     "re-resizable": "^6.9.1",

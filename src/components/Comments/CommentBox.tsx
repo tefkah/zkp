@@ -8,9 +8,8 @@ interface Props {
 }
 
 export const CommentBox = (props: Props) => {
-  const { allowedEmails } = props
   const { data: session } = useSession()
-  if (session && allowedEmails?.includes(session?.user?.email as string)) {
+  if (session) {
     return (
       <Box mt={20}>
         <Alert my={10} status="info">
@@ -33,16 +32,18 @@ export const CommentBox = (props: Props) => {
     )
   }
   return (
-    <Giscus
-      repo="ThomasFKJorna/thesis-writing"
-      repoId="R_kgDOGVpQ7Q"
-      category="General"
-      category-id="DIC_kwDOGVpQ7c4CAQYS"
-      mapping="pathname"
-      // term="..."
-      reactionsEnabled="1"
-      emitMetadata="1"
-      theme={useColorModeValue('light', 'dark')}
-    />
+    <Box mt={20}>
+      <Giscus
+        repo="ThomasFKJorna/thesis-writing"
+        repoId="R_kgDOGVpQ7Q"
+        category="General"
+        category-id="DIC_kwDOGVpQ7c4CAQYS"
+        mapping="pathname"
+        // term="..."
+        reactionsEnabled="1"
+        emitMetadata="1"
+        theme={useColorModeValue('light', 'dark')}
+      />
+    </Box>
   )
 }
