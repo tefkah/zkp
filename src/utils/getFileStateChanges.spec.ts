@@ -53,7 +53,6 @@ describe('doSomethingAtFileStateChange', () => {
         //    return
         //  }
         if ((await tree1?.type()) === 'tree' || (await tree2?.type()) === 'tree') {
-          console.log('poggies')
           return
         }
 
@@ -63,7 +62,6 @@ describe('doSomethingAtFileStateChange', () => {
         const t2Buffer = Buffer.from(t2Content)
         const t1String = t1Buffer.toString('utf8')
         const t2String = t2Buffer.toString('utf8')
-        console.log(filepath)
         return { aaa: 9 }
       },
     )

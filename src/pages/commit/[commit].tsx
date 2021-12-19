@@ -1,5 +1,5 @@
 import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
-import { Commit } from '../../api'
+import { Commit } from '../../lib/api'
 import {
   Box,
   Button,

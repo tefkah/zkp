@@ -1,4 +1,4 @@
-import { SlimCommit } from '../api'
+import { SlimCommit } from '../lib/api'
 import { consolidateCommitsPerDay } from './getListOfCommitsWithStats'
 
 export interface FileHistory {

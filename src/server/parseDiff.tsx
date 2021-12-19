@@ -3,7 +3,7 @@
 import { Box } from '@chakra-ui/react'
 import { Change } from 'diff'
 import React, { ReactNode } from 'react'
-import { FileDiff } from '../api.d'
+import { FileDiff } from '../lib/api'
 import { ParsedOrg } from './parseOrg'
 
 interface Props {

@@ -3,7 +3,7 @@ import fs from 'fs'
 import * as Diff from 'diff'
 import { doSomethingAtFileStateChange } from './getFileStateChanges'
 import { Change } from 'diff'
-import { FileDiff } from '../api'
+import { FileDiff } from '../lib/api'
 import { extname } from 'path'
 
 const bufferToString = async (tree: WalkerEntry) => {

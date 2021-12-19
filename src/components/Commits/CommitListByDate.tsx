@@ -1,6 +1,6 @@
 import React from 'react'
 import { Commit } from './Commit'
-import { SlimCommit } from '../../api'
+import { SlimCommit } from '../../lib/api'
 import { Container, Divider, VStack } from '@chakra-ui/layout'
 
 interface Props {

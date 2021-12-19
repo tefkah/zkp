@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { join } from 'path'
 import React, { ReactElement } from 'react'
-import { CommitPerDateLog, CSLCitation } from '../api'
+import { CommitPerDateLog, CSLCitation } from '../lib/api'
 import Sidebar from '../components/SideBar'
 //import { OrgProcessor } from '../components/OrgProcessor'
 import CustomSideBar from '../components/CustomSidebar'

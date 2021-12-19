@@ -1,7 +1,7 @@
 import { StarIcon } from '@chakra-ui/icons'
 import { Box, Flex, Icon, Text, useColorModeValue, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import { CommitPerDateLog, DateCommit, SlimCommit } from '../../api'
+import { CommitPerDateLog, DateCommit, SlimCommit } from '../../lib/api'
 import { CommitListByDate } from './CommitListByDate'
 import { BsRecordCircle } from 'react-icons/bs'
 import { format, parse } from 'date-fns'

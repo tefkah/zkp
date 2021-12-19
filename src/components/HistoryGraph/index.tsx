@@ -3,7 +3,7 @@ import { Point, ResponsiveLine } from '@nivo/line'
 import { format } from 'date-fns-tz'
 import { parse } from 'date-fns'
 import React, { useMemo } from 'react'
-import { DateCommit, CommitDatum } from '../../api'
+import { DateCommit, CommitDatum } from '../../lib/api'
 import { Tooltip } from './Tooltip'
 
 interface Props {

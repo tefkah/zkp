@@ -3,7 +3,7 @@ import { commit, log } from 'isomorphic-git'
 import fs, { access } from 'fs'
 import { doSomethingAtFileStateChange, getFileStateChanges } from './getFileStateChanges'
 import path, { join, resolve } from 'path'
-import { FileDiff, Commit } from '../api'
+import { FileDiff, Commit } from '../lib/api'
 
 export const consolidateCommitsPerDay = (data: any) => {
   return data.reduce((acc: any, curr: Commit) => {

@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import visit from 'unist-util-visit'
 //@ts-expect-error
 import Citation from 'citation-js'
-import { CSLCitation } from '../../api'
+import { CSLCitation } from '../../lib/api'
 import unified from 'unified'
 import rehype2react from 'rehype-react'
 import rehypeParse from 'rehype-parse'
