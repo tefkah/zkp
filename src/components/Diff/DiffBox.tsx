@@ -80,7 +80,7 @@ export const DiffBox = (props: Props) => {
             </Button>
           </ButtonGroup>
           <HStack>
-            <Text mx={3} color="red.500">{`-${deletions}`}</Text>
+            <Text mx={3} color="primary">{`-${deletions}`}</Text>
             <Text color="green.500">{`+${additions}`}</Text>
           </HStack>
         </HStack>

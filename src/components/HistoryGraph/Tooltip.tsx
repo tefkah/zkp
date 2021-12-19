@@ -20,7 +20,7 @@ export const Tooltip = (props: TooltipProps) => {
       {point.serieId === 'Additions' ? (
         <>
           <Text fontSize={12} color="green.500">{`+ ${node.y}`}</Text>
-          <Text fontSize={12} color="red.500">
+          <Text fontSize={12} color="primary">
             {`- ${Math.abs(commitChartData[1]?.data?.[point?.index]?.y)}`}
           </Text>
         </>
@@ -29,7 +29,7 @@ export const Tooltip = (props: TooltipProps) => {
           <Text fontSize={12} color="green.500">{`+ ${
             commitChartData[0].data[point.index - commitChartData[0]?.data?.length]?.y
           }`}</Text>
-          <Text fontSize={12} color="red.500">{`- ${Math.abs(node.y)}`}</Text>
+          <Text fontSize={12} color="primary">{`- ${Math.abs(node.y)}`}</Text>
         </>
       )}
     </Container>

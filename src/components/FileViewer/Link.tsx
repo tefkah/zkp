@@ -90,7 +90,7 @@ export const NodeLink = (props: NodeLinkProps) => {
       display="inline"
       overflow="hidden"
       fontWeight={600}
-      color="red.500"
+      color="primary"
       //   color={highlightColor}
       //textDecoration={noUnderline ? undefined : 'underline'}
       // onContextMenu={(e) => {
@@ -137,7 +137,12 @@ export const PreviewLink = (props: LinkProps) => {
 
   return (
     <>
-      <Popover closeOnEsc gutter={12} openDelay={300} trigger="hover" placement="bottom-start">
+      <Popover
+        closeOnEsc
+        gutter={12} //openDelay={300}
+        trigger="hover"
+        placement="bottom-start"
+      >
         <PopoverTrigger>
           <Text as="span">
             <NodeLink
@@ -153,7 +158,7 @@ export const PreviewLink = (props: LinkProps) => {
         <PopoverContent
           key={title}
           boxShadow="sm"
-          position="relative" // zIndex="tooltip"
+          // position="relative" // zIndex="tooltip"
         >
           <PopoverArrow />
           <PopoverBody

@@ -44,7 +44,7 @@ export const HeaderLink = (props: Props) => {
           position: 'absolute',
           bottom: 0,
           left: 0,
-          backgroundColor: 'red.500',
+          backgroundColor: 'primary',
           width: active ? '100%' : 0,
           height: '3px',
           transition: 'all 0.4s',

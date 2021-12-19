@@ -35,7 +35,7 @@ const HTMLtoReact = (html: string) => {
         body: ({ children }) => children as React.ReactElement,
         head: () => <></>,
         a: ({ href, children }) => (
-          <Link color="red.500" style={{ alignItems: 'center' }} href={href as string} isExternal>
+          <Link color="primary" style={{ alignItems: 'center' }} href={href as string} isExternal>
             {children as string}
             <ExternalLinkIcon mb="2px" ml="2px" />
           </Link>

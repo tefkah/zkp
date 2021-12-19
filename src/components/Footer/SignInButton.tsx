@@ -15,7 +15,6 @@ interface Props {}
 
 export const SignInButton = (props: Props) => {
   const { data: user } = useSession()
-  console.log(user)
   if (!user) {
     return (
       <Button size="sm" variant="link" leftIcon={<FaGithub />} onClick={() => signIn()}>

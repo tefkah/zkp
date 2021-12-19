@@ -66,7 +66,7 @@ export default function ActivityPage(props: ActivityPageProps) {
               reverseLogValues[0].lastOid
             }`}
           >
-            <ChakraLink transition="color 0.2s" _hover={{ color: 'red.500' }}>
+            <ChakraLink transition="color 0.2s" _hover={{ color: 'primary' }}>
               Last week
             </ChakraLink>
           </Link>
@@ -76,7 +76,7 @@ export default function ActivityPage(props: ActivityPageProps) {
             }`}
             prefetch={false}
           >
-            <ChakraLink transition="color 0.2s" _hover={{ color: 'red.500' }}>
+            <ChakraLink transition="color 0.2s" _hover={{ color: 'primary' }}>
               Last month
             </ChakraLink>
           </Link>

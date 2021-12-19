@@ -136,7 +136,7 @@ export const SubMenu = (props: SubMenuProps) => {
                   <Text
                     fontWeight="500"
                     transition="color 0.2s"
-                    _hover={{ color: 'red.500', transition: 'color 0.2s' }}
+                    _hover={{ color: 'primary', transition: 'color 0.2s' }}
                     fontSize={14}
                     textTransform="capitalize"
                   >

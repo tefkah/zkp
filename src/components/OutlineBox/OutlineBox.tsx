@@ -46,20 +46,20 @@ export const OutlineBox = (props: Props) => {
       <Tabs isFitted size="sm" variant="unstyled" colorScheme="red" align="end">
         <TabList>
           <Tab
-            _selected={{ borderBottomWidth: 1, borderBottomColor: 'red.500' }}
-            _focus={{ borderBottomWidth: 1, borderBottomColor: 'red.500' }}
+            _selected={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
+            _focus={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
           >
             TOC
           </Tab>
           <Tab
-            _focus={{ borderBottomWidth: 1, borderBottomColor: 'red.500' }}
-            _selected={{ borderBottomWidth: 1, borderBottomColor: 'red.500' }}
+            _focus={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
+            _selected={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
           >
             History
           </Tab>
           <Tab
-            _focus={{ borderBottomWidth: 1, borderBottomColor: 'red.500' }}
-            _selected={{ borderBottomWidth: 1, borderBottomColor: 'red.500' }}
+            _focus={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
+            _selected={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
           >
             Info
           </Tab>

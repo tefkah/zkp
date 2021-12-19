@@ -71,7 +71,7 @@ export const Commit = (props: CommitProps) => {
         <Text whiteSpace="nowrap" color="green.500">
           + {additions}
         </Text>
-        <Text color="red.500" whiteSpace="nowrap">
+        <Text color="primary" whiteSpace="nowrap">
           - {deletions}
         </Text>
       </VStack>

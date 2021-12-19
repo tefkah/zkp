@@ -12,7 +12,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   //     privateKey: process.env.PRIVATE_KEY
   //   })
 
-  console.log(session)
   req.statusCode = 200
   res.status(200).json(token)
 }

@@ -75,7 +75,7 @@ const ChakraUIHeader = (props: HeaderProps) => {
       }}
       ml={5}
     >
-      <Icon as={FaHeart} w="4" h="4" color="red.500" mr="2" />
+      <Icon as={FaHeart} w="4" h="4" color="primary" mr="2" />
       <Box as="strong" lineHeight="inherit" fontWeight="semibold">
         Sponsor
       </Box>

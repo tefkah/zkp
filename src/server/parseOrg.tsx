@@ -129,7 +129,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
 
           if (['footnum', 'footref'].includes(className as string)) {
             return (
-              <Text {...{ ...rest }} as="span" fontWeight="bold" color="red.500">
+              <Text {...{ ...rest }} as="span" fontWeight="bold" color="primary">
                 <Link href={href as string}>
                   <a>{children as ReactNode}</a>
                 </Link>

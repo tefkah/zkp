@@ -87,7 +87,7 @@ export const diffStyle = {
   },
   '.block-deletion': {
     // p: 3,
-    color: 'red.500',
+    color: 'primary',
     backgroundColor: 'red.50',
     fontStyle: 'italic',
     textDecoration: 'line-through',
@@ -101,7 +101,7 @@ export const diffStyle = {
   },
   '.span-deletion': {
     // p: 3,
-    color: 'red.500',
+    color: 'primary',
     backgroundColor: 'red.50',
     fontStyle: 'italic',
     textDecoration: 'line-through',
@@ -132,7 +132,7 @@ export const noteStyle = {
     content: '"]"',
   },
   'div .footdef': { display: 'inline-block !important', w: '95%', pl: 2 },
-  a: 'red.500',
+  a: 'primary',
   '.katex-html': { overFlowY: 'hidden', height: 10 },
   ol: {
     paddingLeft: 4,
@@ -166,7 +166,7 @@ export const noteStyle = {
     fontWeight: 'bold',
     marginTop: 0,
   },
-  '.TODO': { color: 'red.500', fontFamily: 'monospace' },
+  '.TODO': { color: 'primary', fontFamily: 'monospace' },
   '.equationContainer': {
     display: 'table',
     textAlign: 'center',

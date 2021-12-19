@@ -53,7 +53,6 @@ export default function DiscussionsPage(props: Props) {
         }),
       }).then((res) => res.json()),
   )
-  data && console.log(data)
   return (
     <>
       <Head>
@@ -83,7 +82,7 @@ export default function DiscussionsPage(props: Props) {
                     as={Container}
                     py={2}
                     transition="color 0.2s"
-                    _hover={{ color: 'red.500' }}
+                    _hover={{ color: 'primary' }}
                   >
                     <Heading size="md" fontWeight="600">
                       <Link passHref href={`/discussions/${number}`}>

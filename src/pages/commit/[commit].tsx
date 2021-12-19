@@ -126,7 +126,7 @@ export default function CommitPage(props: Props) {
             <Text
               as="span"
               fontWeight="bold"
-              color="red.500"
+              color="primary"
             >{` ${deletions} removed words.`}</Text>
           </Text>
         </Box>
