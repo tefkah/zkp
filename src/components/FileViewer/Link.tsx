@@ -15,6 +15,7 @@ import {
   Text,
   useColorModeValue,
   useTheme,
+  Container,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react'
@@ -56,7 +57,7 @@ export interface NormalLinkProps {
   children: string
 }
 
-import { noteStyle, outlineNoteStyle } from '../NoteStyle'
+import { noteStyle } from '../NoteStyle'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 //import { Section } from './Section'
 //import { OrgRoamLink } from '../../api'
@@ -158,20 +159,24 @@ export const PreviewLink = (props: LinkProps) => {
         <PopoverContent
           key={title}
           boxShadow="sm"
+          w="container.sm"
+          borderRadius="xs"
           // position="relative" // zIndex="tooltip"
         >
           <PopoverArrow />
           <PopoverBody
+            as={Container}
             pb={5}
             fontSize="xs"
+            maxW="container.sm"
             //zIndex="tooltip"
-            borderRadius="xs"
-            width="100%"
             maxHeight={300}
             overflowY="scroll"
           >
             <Box w="100%" px={3} sx={noteStyle}>
-              <Heading size="sm">{title}</Heading>
+              <Heading size="md" variant="org">
+                {title}
+              </Heading>
               <ParsedOrg text={orgText} />
             </Box>
           </PopoverBody>

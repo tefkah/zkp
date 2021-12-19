@@ -103,17 +103,17 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
           }
           if ((children as string)?.[0] === 'Footnotes:') return null
           return (
-            <Heading size="lg" {...head}>
+            <Heading variant="org" size="lg" {...head}>
               {children as ReactNode}
             </Heading>
           )
           //return <Heading className="title">{value as string}</Heading>
         },
-        h2: (props) => <Heading {...props} as="h3" size="md" />,
-        h3: (props) => <Heading {...props} as="h4" size="sm" />,
-        h4: (props) => <Heading {...props} as="h5" size="xs" />,
+        h2: (props) => <Heading {...props} variant="org" as="h3" size="md" />,
+        h3: (props) => <Heading {...props} variant="org" as="h4" size="sm" />,
+        h4: (props) => <Heading {...props} variant="org" as="h5" size="xs" />,
         p: ({ children, ...rest }) => (
-          <Text lang="en" {...{ ...rest }}>
+          <Text lang="en" variant="org" {...{ ...rest }}>
             {children as ReactNode}
           </Text>
         ),
@@ -129,7 +129,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
 
           if (['footnum', 'footref'].includes(className as string)) {
             return (
-              <Text {...{ ...rest }} as="span" fontWeight="bold" color="primary">
+              <Text {...{ ...rest }} variant="org" as="span" fontWeight="bold" color="primary">
                 <Link href={href as string}>
                   <a>{children as ReactNode}</a>
                 </Link>
@@ -150,7 +150,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
             )
 
             return (
-              <Text as="span">
+              <Text as="span" variant="org">
                 (
                 {prettyNames.map((name, index) => {
                   const title = findCiteTitle(`cite:${cleanCite[index]}`, data.data)
@@ -189,7 +189,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                   {children}
                 </PreviewLink>
               ) : (
-                <Text as="span" _hover={{ cursor: 'not-allowed' }}>
+                <Text as="span" variant="org" _hover={{ cursor: 'not-allowed' }}>
                   {children as ReactNode}
                 </Text>
               )}
@@ -202,7 +202,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
         span: ({ className, children, ...rest }) => {
           if (['span-addition', 'span-deletion'].includes(className as string)) {
             return (
-              <Text as="span" className={className as string}>
+              <Text as="span" variant="org" className={className as string}>
                 {children as ReactNode}
               </Text>
             )
@@ -211,14 +211,34 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
           //   return <Tag>{children as ReactNode}</Tag>
           // }
           return (
-            <span {...{ className: className as string, ...rest }}>{children as ReactNode}</span>
+            <Text as="span" {...{ className: className as string, ...rest }}>
+              {children as ReactNode}
+            </Text>
           )
         },
-        section: ({ className, children }) => (
-          <Box className={className as string} as="section">
-            {children as ReactNode}
-          </Box>
-        ),
+        section: ({ className, children }) => {
+          const kids = children as React.ReactElement[]
+          if (kids?.[0]?.type === 'h15') {
+            if (kids?.[0]?.props?.id?.startsWith('end')) {
+              return <>{kids?.slice(1) as ReactNode}</>
+            }
+            return (
+              <details>
+                <summary>
+                  <Tag bg="primary" color="white" fontWeight="bold" _hover={{ cursor: 'pointer' }}>
+                    TODO
+                  </Tag>
+                </summary>
+                {kids}
+              </details>
+            )
+          }
+          return (
+            <Box className={className as string} as="section">
+              {kids}
+            </Box>
+          )
+        },
         img: ({ src }) => {
           return <img src={(src as string).replace(/\.\/media\//g, '/media/')} />
         },

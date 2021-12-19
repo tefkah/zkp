@@ -94,8 +94,10 @@ export default function FilePage(props: Props) {
           <Box w="full">
             <Header />
             <Flex style={{ scrollBehavior: 'smooth' }}>
-              <Container my={6}>
-                <Heading mb={4}>{slug}</Heading>
+              <Container maxW="75ch" my={6}>
+                <Heading variant="org" mb={4}>
+                  {slug}
+                </Heading>
                 <HStack my={2} spacing={2}>
                   {!tags.includes('chapter') &&
                     tags.map((tag: string) => (
@@ -171,7 +173,6 @@ export async function getStaticPaths() {
       file: [slugify(entry.title)],
     },
   }))
-  //console.dir(fileList, { depth: null })
   return {
     paths: fileList,
     fallback: false,

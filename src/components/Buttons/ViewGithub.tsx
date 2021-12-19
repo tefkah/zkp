@@ -6,6 +6,7 @@ interface Props {
   text?: string
   slug: string
   repo?: string
+  full?: boolean
 }
 
 export const ViewGithub = (props: Props) => {
@@ -23,7 +24,7 @@ export const ViewGithub = (props: Props) => {
             : `https://github.com/ThomasFKJorna/thesis-writing/${slug}`
         }
       >
-        <HStack as="a">
+        <HStack as="span">
           <FaGithub />
           {text && (
             <Text size="xs" fontWeight="bold" as="span">

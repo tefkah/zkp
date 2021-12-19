@@ -26,6 +26,7 @@
     "github-slugger": "^1.4.0",
     "image-size": "^1.0.0",
     "isomorphic-git": "^1.10.1",
+    "jsonwebtoken": "^8.5.1",
     "next": "latest",
     "next-auth": "^4.0.5",
     "octokit": "^1.7.1",

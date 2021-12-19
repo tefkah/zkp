@@ -6,9 +6,6 @@ export const viewerNoteStyle = {
   '.outlineHeadingButton': {
     display: 'none',
   },
-  p: {
-    display: 'inline-block !important',
-  },
   // h1: {
   //   //color: 'black',
   //   lineHeight: '1.2',
@@ -37,39 +34,6 @@ export const viewerNoteStyle = {
   //   paddingTop: 2,
   //   my: 1,
   // },
-
-  '.sectionContent': {
-    paddingTop: 2,
-  },
-}
-
-export const outlineNoteStyle = {
-  '.headingFlex': {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  '.viewerHeadingButton': {
-    display: 'none',
-  },
-  '.sectionContent': {
-    //pt: 2,
-    mt: 3,
-    paddingLeft: 4,
-    ml: '11px',
-    borderLeftWidth: '1px',
-    borderLeftColor: 'gray.500',
-  },
-  '.sec': {
-    pt: 1,
-  },
-  '.wrapClass > div > p': {
-    mb: 2,
-  },
-  p: {
-    fontWeight: 500,
-    fontSize: 14,
-    pb: 2,
-  },
 }
 
 export const diffStyle = {
@@ -147,11 +111,6 @@ export const noteStyle = {
   },
   ul: {
     paddingLeft: '5',
-  },
-  p: {
-    fontSize: '14',
-    fontWeight: '500 !important',
-    pb: 2,
   },
   div: {
     hyphens: 'auto !important',

@@ -35,6 +35,7 @@ export default function DiscussionsPage(props: Props) {
   // const { discussions } = props
   const { data: sesh } = useSession()
   const { accessToken } = sesh!
+  console.log(accessToken)
 
   const { data, error } = useSWR(
     'https://api.github.com/graphql',
@@ -90,7 +91,7 @@ export default function DiscussionsPage(props: Props) {
                       </Link>
                     </Heading>
                     <Text>{body}</Text>
-                    <Text size="xs" color="gray.500">
+                    <Text size="2xs" color="gray.500">
                       Updated {formatDistance(parseISO(updatedAt), new Date(), { addSuffix: true })}
                     </Text>
                   </LinkBox>

@@ -50,14 +50,18 @@ const HTMLtoReact = (html: string) => {
               </Box>
             )
           }
-          return <Text {...props}>{children as React.ReactNode}</Text>
+          return (
+            <Text variant="org" {...props}>
+              {children as React.ReactNode}
+            </Text>
+          )
         },
         li: ListItem,
         ol: OrderedList,
         ul: UnorderedList,
         h: Heading,
         i: ({ children, ...props }) => (
-          <Text as="i" {...props}>
+          <Text as="i" variant="org" {...props}>
             {children as React.ReactNode}
           </Text>
         ),

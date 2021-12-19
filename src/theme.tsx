@@ -3,6 +3,13 @@ import { createBreakpoints } from '@chakra-ui/theme-tools'
 
 const fonts = {
   //body: 'EB Garamond', heading: 'EB Garamond', mono: `'Menlo', monospace`
+  // body: 'PT Serif',
+  // body: 'Source Serif Pro',
+  // body: 'Libre Baskerville',
+  body: 'Source Sans Pro',
+  heading: 'Source Sans Pro',
+  orgBody: 'Source Serif Pro',
+  orgHeading: 'Source Serif Pro',
 }
 
 const breakpoints = createBreakpoints({
@@ -15,7 +22,7 @@ const breakpoints = createBreakpoints({
 const theme = extendTheme({
   colors: {
     black: '#16161D',
-    primary: '#ef8354',
+    primary: '#EF476F',
   },
   fonts,
   breakpoints,
@@ -24,6 +31,21 @@ const theme = extendTheme({
       baseStyle: {
         scrollMarginTop: '100px',
         my: 1,
+      },
+      variants: {
+        org: {
+          fontFamily: 'orgHeading',
+          mt: 4,
+        },
+      },
+    },
+    Text: {
+      variants: {
+        org: {
+          fontFamily: 'orgBody',
+          fontSize: 'md',
+          my: 2,
+        },
       },
     },
   },
