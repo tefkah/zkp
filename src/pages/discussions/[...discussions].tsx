@@ -1,29 +1,8 @@
-import {
-  Link as ChakraLink,
-  Text,
-  Box,
-  Container,
-  Flex,
-  Heading,
-  IconButton,
-  Tag,
-  useDisclosure,
-  VStack,
-  HStack,
-  useColorModeValue,
-} from '@chakra-ui/react'
-import { join } from 'path'
+import { Link as ChakraLink, Box, Container, Heading, VStack } from '@chakra-ui/react'
 import React, { ReactElement } from 'react'
 import process from 'process'
-import { format, parse } from 'date-fns'
-import Link from 'next/link'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import BasicLayout from '../../components/Layouts/BasicLayout'
-import { Discussions } from '.'
-import { ViewGithub } from '../../components/Buttons/ViewGithub'
-import Discussion from '../../components/Discussions'
-import { Giscus } from '../../components/Discussions/Giscus'
 import Widget from '../../components/discs/Widget'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'

@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getCommitDiffForSingleFile } from '../../../utils/getCommitDiff'
 import { Change } from 'diff'
 import { join } from 'path'
-import { diffToString } from '../../../server/parseDiff'
+import { diffToString } from '../../../services/thesis/parseDiff'
 import { FileDiff } from '../../../lib/api'
 import { getFileStateChanges } from '../../../utils/getFileStateChanges'
 

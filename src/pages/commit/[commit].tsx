@@ -21,7 +21,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import React, { ReactElement, useEffect, useState } from 'react'
-import ParsedDiff from '../../server/parseDiff'
+import ParsedDiff from '../../services/thesis/parseDiff'
 import useFetch from '../../utils/useFetch'
 import { commit } from 'isomorphic-git'
 import { DiffBox } from '../../components/Diff/DiffBox'

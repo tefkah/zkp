@@ -31,11 +31,13 @@ export default function Giscus({
   const { updateReactions, increaseSize, backMutators, frontMutators, ...data } =
     useFrontBackDiscussion(query, token)
 
-  useEffect(() => {
-    if (data.error && onError) {
-      onError(data.error?.message)
-    }
-  }, [data.error, onError])
+  // useEffect(() => {
+  //   console.log(data)
+  //   if (data.error && onError) {
+  //     console.log(data)
+  //     onError(data?.error?.message as string)
+  //   }
+  // }, [data.error, onError])
 
   const handleDiscussionCreateRequest = async () => {
     const id = onDiscussionCreateRequest ? await onDiscussionCreateRequest() : ''
