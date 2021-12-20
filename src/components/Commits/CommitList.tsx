@@ -26,8 +26,8 @@ export const CommitList = (props: CommitListProps) => {
         const niceDate = format(parse(date, 'yyyy-MM-dd', new Date()), 'MMMM do, yyyy')
         return (
           <VStack
-            pb={slim ? 4 : 10}
-            pl={slim ? 0 : 10}
+            pb={{ base: slim ? 1 : 4, md: slim ? 4 : 10 }}
+            pl={{ base: slim ? 0 : 4, md: slim ? 0 : 10 }}
             display="flex"
             alignItems="flex-start"
             borderLeftColor="grey.600"
@@ -36,13 +36,18 @@ export const CommitList = (props: CommitListProps) => {
             w={slim ? 'full' : 'full'}
             key={niceDate}
           >
-            <Flex ml={slim ? 0 : -12} alignItems="center" mb={2}>
+            <Flex ml={{ base: slim ? 0 : -6, md: slim ? 0 : -12 }} alignItems="center" mb={2}>
               {!slim && (
                 <Box backgroundColor={backgroundC} pt={1} pb={2}>
                   <Icon as={BsRecordCircle} color="gray.500" />
                 </Box>
               )}
-              <Text fontWeight="semibold" size="xs" color="gray.400" ml={slim ? 0 : 12}>
+              <Text
+                fontWeight="semibold"
+                size="xs"
+                color="gray.400"
+                ml={{ base: slim ? 0 : 6, md: slim ? 0 : 12 }}
+              >
                 {niceDate}
               </Text>
             </Flex>

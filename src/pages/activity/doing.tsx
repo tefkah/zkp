@@ -3,6 +3,8 @@ import Head from 'next/head'
 import React, { ReactElement } from 'react'
 import BasicLayout from '../../components/Layouts/BasicLayout'
 import Milestone from '../../components/Doing/Milestone'
+import IssueList from '../../components/Doing/IssueList'
+import ActivityLayout from '../../components/Layouts/ActivityLayout'
 
 interface Props {}
 
@@ -12,13 +14,9 @@ export default function Doing({}: Props): ReactElement {
       <Head>
         <title>Activity | Thomas' Thesis</title>
       </Head>
-      <Box minH="100vh">
-        <VStack my={10}>
-          <Milestone />
-        </VStack>
-      </Box>
+      <IssueList />
     </>
   )
 }
 
-Doing.getLayout = (page: React.ReactElement) => <BasicLayout>{page}</BasicLayout>
+Doing.getLayout = (page: React.ReactElement) => <ActivityLayout>{page}</ActivityLayout>

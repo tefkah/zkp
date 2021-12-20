@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const ViewGithub = (props: Props) => {
-  const { text, slug, repo } = props
+  const { text, full, slug, repo } = props
   return (
     <Text
       color={useColorModeValue('gray.500', 'gray.400')}
@@ -18,8 +18,11 @@ export const ViewGithub = (props: Props) => {
       transition="color 0.1s"
     >
       <Link
+        isExternal
         href={
-          repo
+          full
+            ? slug
+            : repo
             ? `https://github.com/ThomasFKJorna/${repo}/${slug}`
             : `https://github.com/ThomasFKJorna/thesis-writing/${slug}`
         }

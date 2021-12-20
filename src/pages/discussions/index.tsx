@@ -9,17 +9,20 @@ import {
   LinkBox,
   LinkOverlay,
   Skeleton,
+  Tooltip,
 } from '@chakra-ui/react'
 import { format, formatDistance, parse, parseISO } from 'date-fns'
-import { useSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { join } from 'path'
 import React from 'react'
-import { FaGithub } from 'react-icons/fa'
-import useSWR from 'swr'
 import { ViewGithub } from '../../components/Buttons/ViewGithub'
+import { NewDiscussion } from '../../components/discs/NewDiscussion'
 import BasicLayout from '../../components/Layouts/BasicLayout'
+import { useDiscussion } from '../../hooks/useDiscussion'
+import { CategoryData, CATEGORY_LIST_QUERY } from '../../queries/getDiscussion'
+import makeGenericGraphQlRequest from '../../queries/makeGenericGraphQLRequest'
 
 export interface Discussions {
   title: string
@@ -28,79 +31,102 @@ export interface Discussions {
   link?: string
 }
 interface Props {
-  discussions: Discussions[]
+  access: boolean
+  discussionCategories?: CategoryData
 }
 
 export default function DiscussionsPage(props: Props) {
   // const { discussions } = props
-  const { data: sesh } = useSession()
-  const { accessToken } = sesh!
-  console.log(accessToken)
+  const { access, discussionCategories } = props
 
-  const { data, error } = useSWR(
-    'https://api.github.com/graphql',
-    async () =>
-      await fetch('https://api.github.com/graphql', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          variables: {
-            repo: 'ThomasFKJorna/thesis-discussions',
-          },
-          query:
-            '# Type queries into this side of the screen, and you will \n# see intelligent typeaheads aware of the current GraphQL type schema, \n# live syntax, and validation errors highlighted within the text.\n\n# We\'ll get you started with a simple query showing your username!\nquery {\n repository(owner: "ThomasFKJorna", name: "thesis-discussions") {\n discussions(first: 10) {\n # type: DiscussionConnection\n totalCount # Int!\n\n pageInfo {\n # type: PageInfo (from the public schema)\n startCursor\n endCursor\n hasNextPage\n hasPreviousPage\n }\n\n edges {\n # type: DiscussionEdge\n cursor\n node {\n # type: Discussion\n title\n updatedAt\n id\n \n number\n body }\n }\n\n }\n }\n}',
-        }),
-      }).then((res) => res.json()),
-  )
+  const { data, isLoading, error } = useDiscussion({
+    first: 10,
+    repo: 'thomasfkjorna/thesis-discussions',
+    term: '',
+    category: '',
+    list: true,
+  })
+  !access && window.location.replace('/')
+
   return (
     <>
-      <Head>
-        <title>Discussions | Thomas' Thesis</title>
-      </Head>
-      <Box minH="100vh" mt={20} mb={10}>
-        <VStack spacing={10}>
-          <Container>
-            <Heading>Discussions</Heading>
-            <ViewGithub
-              text="View discussions on GitHub"
-              repo="thesis-discussions"
-              slug="discussions"
-            />
-          </Container>
-          <VStack w="full" spacing={5}>
-            {!data || error ? (
-              <Skeleton />
-            ) : (
-              data.data.repository.discussions.edges.map((discussion: any) => {
-                const { title, updatedAt, category, body, number } = discussion.node
-                return (
-                  <LinkBox
-                    borderWidth={1}
-                    key={title}
-                    borderRadius="sm"
-                    as={Container}
-                    py={2}
-                    transition="color 0.2s"
-                    _hover={{ color: 'primary' }}
-                  >
-                    <Heading size="md" fontWeight="600">
-                      <Link passHref href={`/discussions/${number}`}>
-                        <LinkOverlay>{title}</LinkOverlay>
-                      </Link>
-                    </Heading>
-                    <Text>{body}</Text>
-                    <Text size="2xs" color="gray.500">
-                      Updated {formatDistance(parseISO(updatedAt), new Date(), { addSuffix: true })}
-                    </Text>
-                  </LinkBox>
-                )
-              })
-            )}
-          </VStack>
-        </VStack>
-      </Box>
+      {access && (
+        <>
+          <Head>
+            <title>Discussions | Thomas' Thesis</title>
+          </Head>
+          <Box minH="100vh" mt={{ base: 4, md: 16 }} mb={10}>
+            <VStack px={{ base: '4%', md: '10%' }} w="full" alignItems="flex-start" spacing={10}>
+              <Box w="full">
+                <HStack justifyContent="space-between" w="full">
+                  <Box>
+                    <Heading>Discussions</Heading>
+                    <ViewGithub
+                      text="View discussions on GitHub"
+                      repo="thesis-discussions"
+                      slug="discussions"
+                    />
+                  </Box>
+                  <NewDiscussion {...{ discussionCategories }} />
+                </HStack>
+              </Box>
+              <Box>
+                <VStack w="full" alignItems="flex-start" spacing={5}>
+                  {isLoading && !data ? (
+                    <Skeleton />
+                  ) : (
+                    data?.data?.repository.discussions.edges.map((discussion: any) => {
+                      const {
+                        title,
+                        updatedAt,
+                        body,
+                        number,
+                        category: { emojiHTML, description, name },
+                      } = discussion.node
+                      return (
+                        <LinkBox
+                          borderWidth={1}
+                          key={title}
+                          borderRadius="md"
+                          as={Container}
+                          maxW="container.md"
+                          py={2}
+                          transition="color 0.2s"
+                          _hover={{
+                            color: 'primary',
+                            backgroundColor: useColorModeValue('gray.50', 'gray.600'),
+                          }}
+                        >
+                          <HStack w="full" alignItems="center" justifyContent="space-between">
+                            <Heading size="md" fontWeight="600">
+                              <Link passHref href={`/discussions/${number}`}>
+                                <LinkOverlay>{title}</LinkOverlay>
+                              </Link>
+                            </Heading>
+                            <Box>
+                              <Tooltip label={description}>
+                                <HStack borderRadius="xl" bg="gray.100" p={1}>
+                                  <Box dangerouslySetInnerHTML={{ __html: emojiHTML }}></Box>
+                                  <Text>{name}</Text>
+                                </HStack>
+                              </Tooltip>
+                            </Box>
+                          </HStack>
+                          <Text>{body}</Text>
+                          <Text size="2xs" color="gray.500">
+                            Updated{' '}
+                            {formatDistance(parseISO(updatedAt), new Date(), { addSuffix: true })}
+                          </Text>
+                        </LinkBox>
+                      )
+                    })
+                  )}
+                </VStack>
+              </Box>
+            </VStack>
+          </Box>
+        </>
+      )}
     </>
   )
 }
@@ -111,12 +137,19 @@ DiscussionsPage.getLayout = function (page: React.ReactElement) {
 
 DiscussionsPage.auth = true
 
-export async function getServerSideProps() {
-  const fs = require('fs')
-  const cwd = process.cwd()
-  const discussions = JSON.parse(
-    await fs.promises.readFile(join(cwd, 'notes', 'discussions.json'), { encoding: 'utf8' }),
-  )
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+  const token = (session?.accessToken as string) || ''
+  if (!token) return { props: { access: false } }
+  if (!process.env.ALLOWED_EMAILS?.includes(session?.user?.email as string))
+    return { props: { access: false } }
 
-  return { props: { discussions } }
+  const discussionCategories = await makeGenericGraphQlRequest({
+    post: true,
+    request: CATEGORY_LIST_QUERY,
+    token,
+  })
+  console.log(discussionCategories)
+
+  return { props: { access: true, discussionCategories } }
 }

@@ -1,4 +1,11 @@
-import { extendTheme } from '@chakra-ui/react'
+import {
+  ChakraProps,
+  ComponentSingleStyleConfig,
+  extendTheme,
+  StyleProps,
+  ThemeComponentProps,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { createBreakpoints } from '@chakra-ui/theme-tools'
 
 const fonts = {
@@ -46,6 +53,16 @@ const theme = extendTheme({
           fontSize: 'md',
           my: 2,
         },
+      },
+    },
+    Tooltip: {
+      baseStyle: (props: ThemeComponentProps) => ({
+        borderRadius: 'md',
+        bgColor: props.colorMode !== 'dark' ? 'gray.50' : 'gray.600',
+        color: props.colorMode !== 'dark' ? 'gray.800' : 'gray.100',
+      }),
+      defaultProps: {
+        hasArrow: true,
       },
     },
   },

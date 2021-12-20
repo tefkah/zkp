@@ -94,6 +94,7 @@ const ChakraUIHeader = (props: HeaderProps) => {
       //borderTopColor="brand.400"
       w="full"
       overflowY="hidden"
+      borderBottomWidth={1}
     >
       <chakra.div h="3rem" mx="auto">
         <HStack h="full" mx={6} align="center" justify="space-between">

@@ -64,7 +64,7 @@ import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { FilesData } from '../../utils/IDIndex/getFilesData'
 import { ProcessedOrg } from '../ProcessedOrg'
 import { slugify } from '../../utils/slug'
-import { ParsedOrg } from '../../server/parseOrg'
+import { ParsedOrg } from '../../services/thesis/parseOrg'
 
 export const NodeLink = (props: NodeLinkProps) => {
   const {

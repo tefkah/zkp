@@ -22,5 +22,3 @@ export default function BasicLayout(props: BasicLayoutProps) {
     </>
   )
 }
-
-BasicLayout.Auth = true

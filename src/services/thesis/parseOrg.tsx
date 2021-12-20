@@ -20,10 +20,10 @@ import { Box, Heading, ListItem, OrderedList, Tag, Text, UnorderedList } from '@
 //import { noteStyle } from '../components/NoteStyle'
 import { Keyword, OrgData, OrgNode, Paragraph, SpecialBlock } from 'uniorg'
 import Link from 'next/link'
-import { FilesData } from '../utils/IDIndex/getFilesData'
-import { slugify } from '../utils/slug'
-import { PreviewLink } from '../components/FileViewer/Link'
-import { findCiteId, findCiteTitle } from '../utils/findCiteData'
+import { FilesData } from '../../utils/IDIndex/getFilesData'
+import { findCiteId, findCiteTitle } from '../../utils/findCiteData'
+import { PreviewLink } from '../../components/FileViewer/Link'
+import { slugify } from '../../utils/slug'
 
 export interface Data {
   data: FilesData

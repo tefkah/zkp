@@ -1,7 +1,7 @@
 import { Text, Box, Heading, VStack } from '@chakra-ui/react'
 import Link from 'next/link'
 import React from 'react'
-import { Data } from '../../server/parseOrg'
+import { Data } from '../../services/thesis/parseOrg'
 import { FilesData } from '../../utils/IDIndex/getFilesData'
 import { slugify } from '../../utils/slug'
 import { PreviewLink } from './Link'

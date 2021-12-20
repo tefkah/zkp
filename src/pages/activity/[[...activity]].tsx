@@ -21,6 +21,7 @@ import Link from 'next/link'
 import Footer from '../../components/Footer'
 import Head from 'next/head'
 import BasicLayout from '../../components/Layouts/BasicLayout'
+import ActivityLayout from '../../components/Layouts/ActivityLayout'
 
 export interface SlimCommit {
   oid: string
@@ -82,7 +83,7 @@ export default function ActivityPage(props: ActivityPageProps) {
           </Link>
         </HStack>
       </VStack>
-      <Box mx={{ base: '5%', md: '15%' }} my={20}>
+      <Box mx={{ base: '5%', md: '15%' }} my={{ base: 5, md: 20 }}>
         <CommitList commitLog={log} />
       </Box>
     </>
@@ -105,5 +106,5 @@ export async function getStaticProps() {
 }
 
 ActivityPage.getLayout = function getLayout(page: ReactElement) {
-  return <BasicLayout>{page}</BasicLayout>
+  return <ActivityLayout>{page}</ActivityLayout>
 }

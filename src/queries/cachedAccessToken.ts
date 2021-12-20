@@ -1,4 +1,5 @@
 import { InstallationAccessToken } from '../lib/supabase'
+export const SUPABASE_INSTALLATION_ACCESS_TOKENS_URL = `${process.env.SUPABASE_URL}/rest/v1/${process.env.SUPABASE_INSTALLATION_ACCESS_TOKENS_TABLE}`
 
 export async function getCachedAccessToken(installationId: number) {
   if (!process.env.SUPABASE_KEY) return ''
@@ -7,7 +8,7 @@ export async function getCachedAccessToken(installationId: number) {
     select: '*',
     installation_id: `eq.${installationId}`,
   })
-  const url = `${process.env.SUPABASE_INSTALLATION_ACCESS_TOKENS_URL}?${params}`
+  const url = `${SUPABASE_INSTALLATION_ACCESS_TOKENS_URL}?${params}`
 
   const response = await fetch(url, {
     headers: {
@@ -41,7 +42,7 @@ export async function setCachedAccessToken({
   const params = new URLSearchParams({
     installation_id: `eq.${installation_id}`,
   })
-  const url = `${process.env.SUPABASE_INSTALLATION_ACCESS_TOKENS_URL}?${params}`
+  const url = `${SUPABASE_INSTALLATION_ACCESS_TOKENS_URL}?${params}`
 
   const body: InstallationAccessToken = {
     installation_id,
