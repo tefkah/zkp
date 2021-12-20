@@ -3,11 +3,6 @@ import { IReply } from '../../lib/adapter'
 import { useCallback } from 'react'
 import { Reaction, updateCommentReaction } from '../../utils/giscus/reactions'
 import { handleCommentClick, processCommentBody } from '../../utils/giscus/adapter'
-import {
-  useDateFormatter,
-  useGiscusTranslation,
-  useRelativeTimeFormatter,
-} from '../../utils/giscus/i18n'
 import { markdownToReact } from './md'
 import Image from 'next/image'
 import {
@@ -21,6 +16,10 @@ import {
   Tag,
   HStack,
 } from '@chakra-ui/react'
+import {
+  isoToDate as formatDate,
+  isoToDateDistance as formatDateDistance,
+} from '../../utils/parseTime'
 
 interface IReplyProps {
   reply: IReply
@@ -28,10 +27,6 @@ interface IReplyProps {
 }
 
 export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
-  const { t } = useGiscusTranslation()
-  const formatDate = useDateFormatter()
-  const formatDateDistance = useRelativeTimeFormatter()
-
   const updateReactions = useCallback(
     (content: Reaction, promise: Promise<unknown>) =>
       onReplyUpdate(updateCommentReaction(reply, content), promise),
@@ -122,7 +117,7 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
                 {reply.lastEditedAt ? (
                   <Button
                     className="color-text-secondary gsc-reply-edited"
-                    title={t('lastEditedAt', { date: reply.lastEditedAt })}
+                    title={'Last edited at' + formatDate(reply.lastEditedAt)}
                   >
                     Edited
                   </Button>

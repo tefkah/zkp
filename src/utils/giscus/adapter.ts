@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { MouseEvent as ReactMouseEvent } from 'react'
 import { IComment, IGiscussion, IReactionGroups, IReply } from '../../lib/adapter'
 import { GComment, GReactionGroup, GReply, GRepositoryDiscussion, GUser } from '../../lib/github'

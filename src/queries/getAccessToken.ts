@@ -37,7 +37,6 @@ export async function getAppAccessToken(repoWithOwner: string): Promise<string> 
         'https://docs.github.com/en/rest/reference/apps#get-a-repository-installation-for-the-authenticated-app',
     }
 
-  console.log('aaaaa')
   const cachedToken = await getCachedAccessToken(installationId)
   if (cachedToken) return cachedToken
 

@@ -19,23 +19,40 @@ import {
   HStack,
   Box,
   Tooltip,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { PlusIcon } from '@primer/octicons-react'
 import React, { useState } from 'react'
 import { CategoryData } from '../../queries/getDiscussion'
+import { createDiscussion } from '../../services/github/createDiscussion'
 
 interface Props {
   discussionCategories: CategoryData
+  token: string
 }
 
 export const NewDiscussion = (props: Props) => {
-  const { discussionCategories } = props
+  const { discussionCategories, token } = props
   const nodes = discussionCategories.data.repository.discussionCategories.nodes
-  const [category, setCategory] = useState('')
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [category, setCategory] = useState<{ id: string; emoji: any; name: string }>({
+    id: '',
+    emoji: '',
+    name: '',
+  })
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
+
+  const handleSubmit = () => {
+    if (!title || !category) return
+    createDiscussion(token, {
+      input: { repositoryId: 'R_kgDOGiFakw', categoryId: category.id, title, body },
+    })
+    onClose()
+  }
+
   return (
-    <Popover>
+    <Popover {...{ isOpen, onOpen, onClose }} closeOnBlur={false}>
       <PopoverTrigger>
         <Button leftIcon={<PlusIcon />}>New Discussion</Button>
       </PopoverTrigger>
@@ -44,26 +61,35 @@ export const NewDiscussion = (props: Props) => {
         <PopoverHeader>New discussion</PopoverHeader>
         <PopoverBody>
           <VStack spacing={2} alignItems="flex-start">
-            <Heading size="sm">Title</Heading>
+            <Heading size="sm">Title*</Heading>
             <Input value={title} onChange={(v) => setTitle(v.target.value)} />
-            <Heading size="sm">Description*</Heading>
+            <Heading size="sm">Description</Heading>
             <Textarea value={body} onChange={(v) => setBody(v.target.value)} />
-            <Heading size="sm">Category</Heading>
+            <Heading size="sm">Category*</Heading>
             <Menu>
               <MenuButton rightIcon={<ChevronDownIcon />} as={Button}>
-                Category
+                {category.id ? (
+                  <HStack>
+                    <Box dangerouslySetInnerHTML={{ __html: category.emoji }} />
+                    {category.name}
+                  </HStack>
+                ) : (
+                  'Category'
+                )}
               </MenuButton>
               <MenuList>
                 {nodes.map((node) => {
                   const { emojiHTML, id, name, description } = node
                   return (
-                    <MenuItem
-                      onClick={() => setCategory(id)}
-                      icon={<Box dangerouslySetInnerHTML={{ __html: emojiHTML }} />}
-                      key={id}
-                    >
-                      <Tooltip label={description}>{name}</Tooltip>
-                    </MenuItem>
+                    <Tooltip label={description}>
+                      <MenuItem
+                        onClick={() => setCategory({ id, name, emoji: emojiHTML })}
+                        icon={<Box dangerouslySetInnerHTML={{ __html: emojiHTML }} />}
+                        key={id}
+                      >
+                        {name}
+                      </MenuItem>
+                    </Tooltip>
                   )
                 })}
               </MenuList>
@@ -73,8 +99,10 @@ export const NewDiscussion = (props: Props) => {
 
         <PopoverFooter>
           <HStack w="full" spacing={2} justifyContent="flex-end">
-            <Button>Cancel</Button>
-            <Button colorScheme="green">Create</Button>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={handleSubmit} colorScheme="green">
+              Create
+            </Button>
           </HStack>
         </PopoverFooter>
       </PopoverContent>

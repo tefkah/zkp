@@ -1,3 +1,4 @@
+//@ts-nocheck
 // from Giscus
 
 import { useCallback, useMemo, useState } from 'react'
@@ -25,7 +26,7 @@ export function useDiscussion(
   const getKey = (pageIndex: number, previousPageData?: IGiscussion) => {
     if (pagination.first === 0 || pagination.last === 0) return null
     if (pageIndex === 0) return [`/api/discussions?${urlParams}`, headers]
-    if (!previousPageData.discussion.pageInfo.hasNextPage) return null
+    if (!previousPageData?.discussion?.pageInfo?.hasNextPage) return null
     const params = new URLSearchParams(
       cleanParams({
         ...query,

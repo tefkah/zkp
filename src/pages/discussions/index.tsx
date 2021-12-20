@@ -12,6 +12,7 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 import { format, formatDistance, parse, parseISO } from 'date-fns'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -33,11 +34,12 @@ export interface Discussions {
 interface Props {
   access: boolean
   discussionCategories?: CategoryData
+  token?: string
 }
 
 export default function DiscussionsPage(props: Props) {
   // const { discussions } = props
-  const { access, discussionCategories } = props
+  const { access, token, discussionCategories } = props
 
   const { data, isLoading, error } = useDiscussion({
     first: 10,
@@ -67,7 +69,9 @@ export default function DiscussionsPage(props: Props) {
                       slug="discussions"
                     />
                   </Box>
-                  <NewDiscussion {...{ discussionCategories }} />
+                  {discussionCategories && token && (
+                    <NewDiscussion {...{ token, discussionCategories }} />
+                  )}
                 </HStack>
               </Box>
               <Box>
@@ -75,6 +79,7 @@ export default function DiscussionsPage(props: Props) {
                   {isLoading && !data ? (
                     <Skeleton />
                   ) : (
+                    // @ts-expect-error
                     data?.data?.repository.discussions.edges.map((discussion: any) => {
                       const {
                         title,
@@ -99,7 +104,7 @@ export default function DiscussionsPage(props: Props) {
                         >
                           <HStack w="full" alignItems="center" justifyContent="space-between">
                             <Heading size="md" fontWeight="600">
-                              <Link passHref href={`/discussions/${number}`}>
+                              <Link passHref href={`/discussions/${title}`}>
                                 <LinkOverlay>{title}</LinkOverlay>
                               </Link>
                             </Heading>
@@ -137,8 +142,8 @@ DiscussionsPage.getLayout = function (page: React.ReactElement) {
 
 DiscussionsPage.auth = true
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context)
+export async function getServerSideProps(props: { req: NextApiRequest; res: NextApiResponse }) {
+  const session = await getSession({ req: props.req })
   const token = (session?.accessToken as string) || ''
   if (!token) return { props: { access: false } }
   if (!process.env.ALLOWED_EMAILS?.includes(session?.user?.email as string))
@@ -149,7 +154,6 @@ export async function getServerSideProps(context) {
     request: CATEGORY_LIST_QUERY,
     token,
   })
-  console.log(discussionCategories)
 
-  return { props: { access: true, discussionCategories } }
+  return { props: { access: true, token, discussionCategories } }
 }

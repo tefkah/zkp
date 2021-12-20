@@ -2,7 +2,6 @@ import { SmileyIcon } from '@primer/octicons-react'
 import { useCallback, useContext, useState } from 'react'
 import { IReactionGroups } from '../../lib/adapter'
 import { Reaction, Reactions } from '../../utils/giscus/reactions'
-import { Trans, useGiscusTranslation } from '../../utils/giscus/i18n'
 import { toggleReaction } from '../../services/github/toggleReaction'
 import { signIn, useSession } from 'next-auth/react'
 import {
@@ -18,7 +17,7 @@ import {
 } from '@chakra-ui/react'
 
 interface IReactButtonsProps {
-  reactionGroups?: IReactionGroups
+  reactionGroups: IReactionGroups
   subjectId?: string
   onReact: (content: Reaction, promise: Promise<unknown>) => void
   variant?: 'groupsOnly' | 'popoverOnly' | 'all'
@@ -46,7 +45,6 @@ export default function ReactButtons({
   variant = 'all',
   onDiscussionCreateRequest,
 }: IReactButtonsProps) {
-  const { t } = useGiscusTranslation()
   const [current, setCurrent] = useState<Reaction | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { isOpen, onOpen, onToggle } = useDisclosure()
@@ -93,13 +91,14 @@ export default function ReactButtons({
         </Text>
       </Button>
     ),
-    [react, token, t],
+    [react, token],
   )
 
   const directReactionButtons =
     variant !== 'popoverOnly'
       ? Object.entries(reactionGroups || {})
           .filter(([, { count }]) => count > 0)
+          //@ts-expect-error
           .map(createReactionButton)
       : []
 
@@ -143,7 +142,7 @@ export default function ReactButtons({
               {Object.entries(Reactions).map(([key, emoji]) => (
                 <Button
                   variant="ghost"
-                  aria-label={t('addTheReaction', { reaction: t(key as Reaction) })}
+                  aria-label={'addTheReaction' + (key as Reaction)}
                   key={key}
                   type="button"
                   w={8}

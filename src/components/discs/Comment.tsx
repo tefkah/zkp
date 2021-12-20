@@ -7,13 +7,12 @@ import { toggleUpvote } from '../../services/github/toggleUpvote'
 import CommentBox from './CommentBox'
 import ReactButtons from './ReactButtons'
 import Reply from './Reply'
-import {
-  useDateFormatter,
-  useGiscusTranslation,
-  useRelativeTimeFormatter,
-} from '../../utils/giscus/i18n'
 import { useSession } from 'next-auth/react'
 import { markdownToReact } from './md'
+import {
+  isoToDate as formatDate,
+  isoToDateDistance as formatDateDistance,
+} from '../../utils/parseTime'
 import {
   Text,
   Tag,
@@ -42,9 +41,6 @@ export default function Comment({
   onCommentUpdate,
   onReplyUpdate,
 }: ICommentProps) {
-  const { t } = useGiscusTranslation()
-  const formatDate = useDateFormatter()
-  const formatDateDistance = useRelativeTimeFormatter()
   const [backPage, setBackPage] = useState(0)
 
   const replies = comment.replies.slice(-5 - backPage * 50)

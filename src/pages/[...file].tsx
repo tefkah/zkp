@@ -114,7 +114,7 @@ export default function FilePage(props: Props) {
                 {backLinks?.length && <Backlinks {...{ data: { data, orgTexts }, backLinks }} />}
                 {citations?.length && <Citations {...{ csl }} />}
 
-                <CommentBox />
+                <CommentBox {...{ title }} />
               </Container>
               <OutlineBox {...{ headings, commits }} />
             </Flex>

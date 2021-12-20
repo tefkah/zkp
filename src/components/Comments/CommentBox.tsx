@@ -1,13 +1,18 @@
 import { Alert, AlertIcon, Box, Text, useColorModeValue, VStack } from '@chakra-ui/react'
-import { Giscus } from '@giscus/react'
 import { signOut, useSession } from 'next-auth/react'
 import React from 'react'
+import useSWR from 'swr'
+import Widget from '../discs/Widget'
 
-interface Props {}
+interface Props {
+  title: string
+}
 
 export const CommentBox = (props: Props) => {
+  const { title } = props
   const { data: session } = useSession()
-  if (session) {
+  const { data, error } = useSWR('/api/auth/goodemail')
+  if (data && data.access) {
     return (
       <Box mt={20}>
         <Alert my={10} status="info">
@@ -16,31 +21,29 @@ export const CommentBox = (props: Props) => {
             If you see this, this means you are my supervisor. No one else is able to see this.
           </Text>
         </Alert>
-        <Giscus
+        <Widget
           repo="ThomasFKJorna/thesis-discussions"
           repoId="R_kgDOGiFakw"
           category="Feedback"
           categoryId="DIC_kwDOGiFak84CASa-"
-          mapping="pathname"
-          reactionsEnabled="1"
-          emitMetadata="1"
-          theme={useColorModeValue('light', 'dark')}
+          term={title}
+          origin={''}
+          description={''}
         />
       </Box>
     )
   }
   return (
     <Box mt={20}>
-      <Giscus
+      <Widget
         repo="ThomasFKJorna/thesis-writing"
         repoId="R_kgDOGVpQ7Q"
         category="General"
         category-id="DIC_kwDOGVpQ7c4CAQYS"
-        mapping="pathname"
-        // term="..."
-        reactionsEnabled="1"
-        emitMetadata="1"
-        theme={useColorModeValue('light', 'dark')}
+        term={title}
+        origin={''}
+        categoryId={''}
+        description={''}
       />
     </Box>
   )

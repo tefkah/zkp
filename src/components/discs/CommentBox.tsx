@@ -12,7 +12,6 @@ import { addDiscussionComment } from '../../services/github/addDiscussionComment
 import { addDiscussionReply } from '../../services/github/addDiscussionReply'
 import { renderMarkdown } from '../../services/github/markdown'
 import { signIn, useSession } from 'next-auth/react'
-import { useGiscusTranslation } from '../../utils/giscus/i18n'
 import {
   useColorModeValue,
   Text,

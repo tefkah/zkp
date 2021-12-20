@@ -139,6 +139,7 @@ export default function Giscus({
                       <CommentBox
                         discussionId={data.discussion.id}
                         context={repo}
+                        //@ts-expect-error
                         onSubmit={frontMutators.addNewReply}
                         replyToId={comment.id}
                         viewer={data.viewer}
@@ -189,6 +190,7 @@ export default function Giscus({
                       <CommentBox
                         discussionId={data.discussion.id}
                         context={repo}
+                        //@ts-expect-error
                         onSubmit={backMutators.addNewReply}
                         replyToId={comment.id}
                         viewer={data.viewer}
@@ -215,6 +217,7 @@ export default function Giscus({
               viewer={data.viewer}
               discussionId={data.discussion.id}
               context={repo}
+              //@ts-expect-error
               onSubmit={backMutators.addNewComment}
               onDiscussionCreateRequest={handleDiscussionCreateRequest}
             />
