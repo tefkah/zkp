@@ -32,13 +32,13 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
       onReplyUpdate(updateCommentReaction(reply, content), promise),
     [reply, onReplyUpdate],
   )
-
+  const bg = useColorModeValue('gray.200', 'gray.700')
   const hidden = reply.deletedAt || reply.isMinimized
 
   return (
     <Box className="gsc-reply" pos="relative" bgColor="gray.50">
       <Box
-        backgroundColor={useColorModeValue('gray.200', 'gray.700')}
+        backgroundColor={bg}
         w="2px"
         flexShrink={0}
         pos="absolute"

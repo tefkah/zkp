@@ -111,7 +111,7 @@ export default function ReactButtons({
               aria-label={'Add Reactions'}
               px="5px"
               py="3px"
-              mr={2}
+              er={2}
               leading="inherit"
               borderRadius="full"
               size="sm"

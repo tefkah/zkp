@@ -4,6 +4,7 @@ import { parseRepoWithOwner } from '../../utils/giscus/utils'
 const GITHUB_GRAPHQL_API_URL = 'https://api.github.com/graphql'
 
 const DISCUSSION_QUERY = `
+  body
   id
   url
   locked

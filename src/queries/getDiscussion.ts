@@ -30,6 +30,22 @@ interface Node {
   updatedAt: string
   category: Category
   author: Author
+  comments: Comments
+}
+interface Comments {
+  totalCount: number
+  edges: CommentEdge[]
+}
+
+export interface CommentEdge {
+  node: CommentNode
+}
+
+interface CommentNode {
+  replies: Replies
+}
+interface Replies {
+  totalCount: number
 }
 
 interface Author {
@@ -87,6 +103,16 @@ const PLAIN_DISCUSSION_QUERY = `
          body
           title
           updatedAt
+          comments(first: 100) {
+            totalCount
+            edges {
+              node {
+                replies(first: 100) {
+                  totalCount
+                }
+              }
+            }
+          }
           category {
             description
             emojiHTML
@@ -101,6 +127,7 @@ const PLAIN_DISCUSSION_QUERY = `
 
 const DISCUSSION_QUERY = `
   id
+  body
   url
   locked
   repository {

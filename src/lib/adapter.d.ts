@@ -55,6 +55,7 @@ export interface IGiscussion {
   discussion: {
     id: string
     url: string
+    body: string
     locked: boolean
     totalCommentCount: number
     totalReplyCount: number

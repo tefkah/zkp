@@ -5,7 +5,9 @@ import Head from 'next/head'
 import BasicLayout from '../../components/Layouts/BasicLayout'
 import Widget from '../../components/discs/Widget'
 import { NextApiRequest, NextApiResponse } from 'next'
+
 import { getSession } from 'next-auth/react'
+import { useCookies } from 'react-cookie'
 
 interface Props {
   access: boolean
@@ -23,26 +25,12 @@ export default function FilePage(props: Props) {
           <Head>
             <title>{`${title} | Thomas Thesis`}</title>
           </Head>
-          <VStack minH="100vh" px={{ base: 4, md: 16 }} alignItems="start" spacing={32} my={5}>
-            <Box>
-              <Container>
-                <Heading>{title}</Heading>
-                {/* <ViewGithub
-              repo="thesis-discussions"
-              //slug={`discussions/${number}`}
-              text="View discussion on GitHub"
-            /> */}
-                {/* <Text mt={5}>{comment}</Text>
-            {link && (
-              <Link href={link} passHref>
-                <ChakraLink>Link to Chapter</ChakraLink>
-              </Link> */}
-              </Container>
-            </Box>
+          <VStack minH="100vh" px={{ base: 4, md: 16 }} alignItems="start" spacing={12} my={5}>
+            <Heading>{title}</Heading>
             <Widget
+              full
               repo={'ThomasFKJorna/thesis-discussions'}
               term={title as string}
-              //number={0}
               category={''}
               repoId={'R_kgDOGiFakw'}
               origin={''}

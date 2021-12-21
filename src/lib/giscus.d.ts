@@ -1,57 +1,58 @@
-import { AvailableLanguage } from '../i18n';
-import { Theme } from '../variables';
-import { IReactionGroups, IUser } from './adapter';
+import { AvailableLanguage } from '../i18n'
+import { Theme } from '../variables'
+import { IReactionGroups, IUser } from './adapter'
 
 export interface ITokenRequest {
-  session: string;
+  session: string
 }
 
 export interface ITokenResponse {
-  token: string;
+  token: string
 }
 
 export interface IRepoConfig {
-  origins?: string[];
-  originsRegex?: string[];
+  origins?: string[]
+  originsRegex?: string[]
 }
 
 export interface IDiscussionData {
-  id: string;
-  url: string;
-  locked: boolean;
+  body: string
+  id: string
+  url: string
+  locked: boolean
   repository: {
-    nameWithOwner: string;
-  };
-  reactionCount: number;
-  totalCommentCount: number;
-  totalReplyCount: number;
-  reactions: IReactionGroups;
+    nameWithOwner: string
+  }
+  reactionCount: number
+  totalCommentCount: number
+  totalReplyCount: number
+  reactions: IReactionGroups
 }
 
 export interface IMessage<T> {
-  giscus: T;
+  giscus: T
 }
 
 // giscus-to-parent messages
 export interface IErrorMessage {
-  error: string;
+  error: string
 }
 
 export interface IMetadataMessage {
-  discussion: IDiscussionData;
-  viewer: IUser;
+  discussion: IDiscussionData
+  viewer: IUser
 }
 
 // parent-to-giscus messages
 export interface ISetConfigMessage {
   setConfig: {
-    theme?: Theme;
-    repo?: string;
-    term?: string;
-    number?: number;
-    category?: string;
-    reactionsEnabled?: boolean;
-    emitMetadata?: boolean;
-    lang?: AvailableLanguage;
-  };
+    theme?: Theme
+    repo?: string
+    term?: string
+    number?: number
+    category?: string
+    reactionsEnabled?: boolean
+    emitMetadata?: boolean
+    lang?: AvailableLanguage
+  }
 }

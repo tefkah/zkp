@@ -108,6 +108,10 @@ export default function CommentBox({
     if (isReplyOpen) textarea.current.focus()
   }, [isReplyOpen])
 
+  const light = useColorModeValue('gray.50', 'gray.700')
+  const dark = useColorModeValue('white', 'black')
+  const med = useColorModeValue('gray.300', 'gray.600')
+
   return !isReply || isReplyOpen ? (
     <form
       className={`color-bg-primary color-border-primary gsc-comment-box${
@@ -119,13 +123,13 @@ export default function CommentBox({
       }}
     >
       <Tabs borderWidth={1} borderRadius="md" variant="enclosed">
-        <TabList pt={2} px={4} backgroundColor={useColorModeValue('gray.50', 'gray.700')}>
+        <TabList pt={2} px={4} backgroundColor={light}>
           <Tab
             _selected={{
               borderWidth: 2,
               borderBottomWidth: 0,
               borderColor: 'gray.200',
-              backgroundColor: useColorModeValue('white', 'black'),
+              backgroundColor: { dark },
             }}
           >
             Write
@@ -135,7 +139,7 @@ export default function CommentBox({
               borderWidth: 2,
               borderBottomWidth: 0,
               borderColor: 'gray.200',
-              backgroundColor: useColorModeValue('white', 'black'),
+              backgroundColor: dark,
             }}
           >
             Preview
@@ -153,11 +157,7 @@ export default function CommentBox({
               value={input}
             />
             <HStack items="center" justifyContent="space-between" m={2}>
-              <Text
-                fontWeight="semibold"
-                fontSize="sm"
-                color={useColorModeValue('gray.600', 'gray.400')}
-              >
+              <Text fontWeight="semibold" fontSize="sm" color={'gray.500'}>
                 Markdown and L
                 {
                   <>
@@ -190,7 +190,7 @@ export default function CommentBox({
               {token ? (
                 <HStack>
                   {isReply && (
-                    <Button bgColor={useColorModeValue('gray.300', 'gray.700')} onClick={reset}>
+                    <Button bgColor={light} onClick={reset}>
                       Cancel
                     </Button>
                   )}
@@ -238,7 +238,7 @@ export default function CommentBox({
         color="gray.500"
         onClick={handleReplyOpen}
         type="button"
-        borderColor={useColorModeValue('gray.200', 'gray.700')}
+        borderColor={med}
         borderWidth={1}
       >
         Write a reply

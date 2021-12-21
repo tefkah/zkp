@@ -80,6 +80,7 @@ async function get(req: NextApiRequest, res: NextApiResponse<IGiscussion | IErro
   } else {
     discussion = data.repository.discussion
   }
+  console.log(discussion)
 
   if (!discussion) {
     res.status(404).json({ error: 'Discussion not found' })

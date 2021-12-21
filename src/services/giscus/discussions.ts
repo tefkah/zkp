@@ -17,6 +17,8 @@ export function useDiscussion(
 ) {
   const [errorStatus, setErrorStatus] = useState(0)
   const urlParams = new URLSearchParams(cleanParams({ ...query, ...pagination }))
+  console.log(query)
+  console.log([...urlParams])
 
   const headers = useMemo(() => {
     const headers = token ? { Authorization: `Bearer ${token}` } : {}
@@ -252,6 +254,7 @@ export function useFrontBackDiscussion(query: DiscussionQuery, token?: string) {
   const isLocked = backData?.discussion?.locked
 
   const discussion: IDiscussionData = {
+    body: backData?.discussion?.body || '',
     id: backData?.discussion?.id || '',
     url: backData?.discussion?.url || '',
     locked: backData?.discussion?.locked || false,

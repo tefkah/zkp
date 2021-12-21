@@ -54,7 +54,9 @@ export const NewDiscussion = (props: Props) => {
   return (
     <Popover {...{ isOpen, onOpen, onClose }} closeOnBlur={false}>
       <PopoverTrigger>
-        <Button leftIcon={<PlusIcon />}>New Discussion</Button>
+        <Button colorScheme="teal" leftIcon={<PlusIcon />} fontWeight="bold">
+          New Discussion
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
         <PopoverArrow />

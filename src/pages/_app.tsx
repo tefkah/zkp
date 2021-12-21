@@ -10,6 +10,7 @@ import { SWRConfig } from 'swr'
 import fetcher from '../utils/fetcher'
 import type { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
+import { CookiesProvider } from 'react-cookie'
 
 type NextPageWithLayoutAndAuth = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -24,17 +25,19 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayoutAndAut
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
   return (
-    <SessionProvider session={pageProps.session}>
-      <SWRConfig value={{ fetcher }}>
-        <ChakraProvider resetCSS theme={theme}>
-          {Component.auth ? (
-            <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
-          ) : (
-            getLayout(<Component {...pageProps} />)
-          )}
-        </ChakraProvider>
-      </SWRConfig>
-    </SessionProvider>
+    <CookiesProvider>
+      <SessionProvider session={pageProps.session}>
+        <SWRConfig value={{ fetcher }}>
+          <ChakraProvider resetCSS theme={theme}>
+            {Component.auth ? (
+              <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
+            ) : (
+              getLayout(<Component {...pageProps} />)
+            )}
+          </ChakraProvider>
+        </SWRConfig>
+      </SessionProvider>
+    </CookiesProvider>
   )
 }
 

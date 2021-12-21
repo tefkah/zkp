@@ -16,6 +16,7 @@ interface IWidgetProps {
   repo: string
   term: string
   number?: number
+  full?: boolean
 }
 
 export default function Widget({
@@ -27,6 +28,7 @@ export default function Widget({
   category,
   categoryId,
   description,
+  full,
 }: IWidgetProps) {
   const { data: token, error } = useSWR('/api/auth/gha')
   const handleDiscussionCreateRequest = async () =>
@@ -56,6 +58,7 @@ export default function Widget({
       }}
       onDiscussionCreateRequest={handleDiscussionCreateRequest}
       onError={handleError}
+      full={full}
     />
   ) : null
 }
