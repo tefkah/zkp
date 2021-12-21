@@ -10,6 +10,7 @@ import {
   LinkOverlay,
   Skeleton,
   Tooltip,
+  Spinner,
 } from '@chakra-ui/react'
 import { format, formatDistance, parse, parseISO } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
@@ -77,7 +78,7 @@ export default function DiscussionsPage(props: Props) {
               <Box>
                 <VStack w="full" alignItems="flex-start" spacing={5}>
                   {isLoading && !data ? (
-                    <Skeleton />
+                    <Spinner />
                   ) : (
                     // @ts-expect-error
                     data?.data?.repository.discussions.edges.map((discussion: any) => {

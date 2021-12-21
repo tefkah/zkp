@@ -26,7 +26,7 @@ export default function Giscus({
 }: IGiscusProps) {
   const { data: session } = useSession()
   const token = session?.accessToken as string
-  const query = { repo, term, category, number: number || 0 }
+  const query = { repo, term, category, number }
 
   const { updateReactions, increaseSize, backMutators, frontMutators, ...data } =
     useFrontBackDiscussion(query, token)
