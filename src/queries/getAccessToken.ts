@@ -24,15 +24,19 @@ function getHeaders() {
 async function getInstallationId(repoWithOwner: string): Promise<number> {
   const { id } = await fetch(GITHUB_REPO_INSTALLATION_URL(repoWithOwner), {
     headers: getHeaders(),
-  }).then((response) => response.json())
+  })
+    .then((response) => response.json())
+    .catch((e) => console.error(e))
   return id
 }
 
 export async function getAppAccessToken(repoWithOwner: string): Promise<string> {
-  const installationId = await getInstallationId(repoWithOwner)
+  const installationId =
+    parseInt(process.env.DISCUSSIONS_INSTALL_ID || '') || (await getInstallationId(repoWithOwner))
   if (!installationId)
     throw {
-      message: 'giscus is not installed on this repository',
+      message:
+        'thesis.tefkah.com is not installed on this repository, you probably messed something up',
       documentation_url:
         'https://docs.github.com/en/rest/reference/apps#get-a-repository-installation-for-the-authenticated-app',
     }
