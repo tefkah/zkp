@@ -164,7 +164,7 @@ export async function getStaticPaths() {
     .map((commit) => ({ params: { commit: commit.oid } }))
   return {
     paths: commitIndexList,
-    fallback: false,
+    fallback: 'blocking',
   }
 }
 
@@ -182,7 +182,7 @@ export async function getStaticProps(props: StaticProps) {
       return c.oid === commit
     })?.[0] || {}
 
-  return { props: { commitData } }
+  return { props: { commitData }, revalidate: '60s' }
 }
 
 CommitPage.getLayout = function getLayout(page: ReactElement) {

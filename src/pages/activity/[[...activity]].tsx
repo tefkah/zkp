@@ -91,7 +91,7 @@ export default function ActivityPage(props: ActivityPageProps) {
 }
 
 export async function getStaticPaths() {
-  return { paths: ['/activity'], fallback: false }
+  return { paths: ['/activity'], fallback: 'blocking' }
 }
 export async function getStaticProps() {
   const cwd = process.cwd()
@@ -102,7 +102,7 @@ export async function getStaticProps() {
     join(cwd, 'notes', 'git'),
   )
 
-  return { props: { log: dataPerDate } }
+  return { props: { log: dataPerDate }, revalidate: '60s' }
 }
 
 ActivityPage.getLayout = function getLayout(page: ReactElement) {

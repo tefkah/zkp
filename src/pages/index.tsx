@@ -62,3 +62,7 @@ export default function Index({}: Props): ReactElement {
 Index.getLayout = function getLayout(page: ReactElement) {
   return <BasicLayout>{page}</BasicLayout>
 }
+
+export async function getStaticProps() {
+  return { props: {}, revalidate: '60s' }
+}

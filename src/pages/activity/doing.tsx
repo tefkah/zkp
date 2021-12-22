@@ -20,3 +20,7 @@ export default function Doing({}: Props): ReactElement {
 }
 
 Doing.getLayout = (page: React.ReactElement) => <ActivityLayout>{page}</ActivityLayout>
+
+export async function getServerSideProps() {
+  return { props: {} }
+}

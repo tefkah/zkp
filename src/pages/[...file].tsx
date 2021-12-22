@@ -175,7 +175,7 @@ export async function getStaticPaths() {
   }))
   return {
     paths: fileList,
-    fallback: false,
+    fallback: 'blocking',
   }
 }
 
@@ -288,5 +288,6 @@ export async function getStaticProps(props: StaticProps) {
       commits,
       csl,
     },
+    revalidate: '60s',
   }
 }
