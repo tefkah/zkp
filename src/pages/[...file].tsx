@@ -288,6 +288,6 @@ export async function getStaticProps(props: StaticProps) {
       commits,
       csl,
     },
-    revalidate: '60s',
+    revalidate: 60,
   }
 }

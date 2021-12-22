@@ -33,7 +33,6 @@ interface Props {
 
 export const NewDiscussion = (props: Props) => {
   const { discussionCategories, token } = props
-  const nodes = discussionCategories.data.repository.discussionCategories.nodes
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [category, setCategory] = useState<{ id: string; emoji: any; name: string }>({
     id: '',
@@ -51,6 +50,7 @@ export const NewDiscussion = (props: Props) => {
     onClose()
   }
 
+  const nodes = discussionCategories?.data?.repository?.discussionCategories?.nodes || []
   return (
     <Popover {...{ isOpen, onOpen, onClose }} closeOnBlur={false}>
       <PopoverTrigger>

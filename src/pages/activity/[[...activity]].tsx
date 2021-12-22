@@ -102,7 +102,7 @@ export async function getStaticProps() {
     join(cwd, 'notes', 'git'),
   )
 
-  return { props: { log: dataPerDate }, revalidate: '60s' }
+  return { props: { log: dataPerDate }, revalidate: 60 }
 }
 
 ActivityPage.getLayout = function getLayout(page: ReactElement) {

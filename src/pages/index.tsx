@@ -64,5 +64,5 @@ Index.getLayout = function getLayout(page: ReactElement) {
 }
 
 export async function getStaticProps() {
-  return { props: {}, revalidate: '60s' }
+  return { props: {}, revalidate: 60 }
 }

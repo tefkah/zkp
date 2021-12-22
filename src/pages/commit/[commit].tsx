@@ -182,7 +182,7 @@ export async function getStaticProps(props: StaticProps) {
       return c.oid === commit
     })?.[0] || {}
 
-  return { props: { commitData }, revalidate: '60s' }
+  return { props: { commitData }, revalidate: 60 }
 }
 
 CommitPage.getLayout = function getLayout(page: ReactElement) {
