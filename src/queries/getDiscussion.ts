@@ -16,15 +16,15 @@ interface Repository {
 }
 
 interface Discussions {
-  edges: Edge[]
+  edges: DiscussionEdge[]
 }
 
-interface Edge {
+export interface DiscussionEdge {
   cursor: string
-  node: Node
+  node: DiscussionNode
 }
 
-interface Node {
+export interface DiscussionNode {
   body: string
   title: string
   updatedAt: string

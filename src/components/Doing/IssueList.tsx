@@ -32,7 +32,7 @@ interface MilestoneNode {
   url: string
   issues: Issues
 }
-interface NearestMilestoneData {
+export interface NearestMilestoneData {
   data: {
     repository: {
       milestones: {
@@ -46,7 +46,9 @@ interface NearestMilestoneData {
     }
   }
 }
-interface IssueListProps {}
+interface IssueListProps {
+  milestoneContent: NearestMilestoneData
+}
 interface Edge {
   cursor: string
   node: Issue
@@ -75,16 +77,16 @@ export interface LabelNode {
   description: string
 }
 const IssueList = (props: IssueListProps) => {
-  const { data, isLoading, error }: { data: NearestMilestoneData; isLoading: boolean; error: any } =
-    useGQL(nearestMilestoneWithIssues({ first: 100 }))
+  // const { data, isLoading, error }: { data: NearestMilestoneData; isLoading: boolean; error: any } =
+  //   useGQL(nearestMilestoneWithIssues({ first: 100 }))
+  const { milestoneContent } = props
 
-  const { issues, ...milestoneProps } = isLoading
-    ? ({} as MilestoneNode)
-    : data.data.repository.milestones.edges?.[0]?.node
+  const { issues, ...milestoneProps } =
+    milestoneContent?.data?.repository?.milestones?.edges?.[0]?.node ?? ({} as MilestoneNode)
 
   return (
     <>
-      {!isLoading && (
+      {milestoneContent && (
         <VStack
           spacing={{ base: 5, md: 20 }}
           mx={{ base: 2, md: 14 }}
@@ -99,11 +101,11 @@ const IssueList = (props: IssueListProps) => {
             borderRadius="sm"
             divider={<Divider sx={{ my: '0px !important' }} mt={0} mb={0} py={0} />}
           >
-            {issues.edges.map(({ node }: Edge) => {
+            {issues?.edges?.map(({ node }: Edge) => {
               return (
                 <Box
                   p={4}
-                  key={node.id}
+                  key={node.title}
                   w="full"
                   transition="background-color 0.1s"
                   _hover={{ bgColor: useColorModeValue('gray.50', 'gray.700') }}
