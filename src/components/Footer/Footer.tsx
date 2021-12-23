@@ -62,6 +62,7 @@ interface FooterProps {
 export function Footer(props: FooterProps) {
   return (
     <Box
+      h="5vh"
       w="full"
       borderTopWidth={1}
       bg={useColorModeValue('gray.50', 'gray.900')}
@@ -85,25 +86,18 @@ export function Footer(props: FooterProps) {
             </HStack>
           </Link>
         </VStack>
-        <Stack direction={'row'} spacing={6}>
-          <SocialButton label={'Twitter'} href={'https://twitter.com/BewitchedLang'}>
-            <FaTwitter />
-          </SocialButton>
-          <SocialButton label={'GitHub'} href={'https://github.com/ThomasFKJorna'}>
-            <FaGithub />
-          </SocialButton>
-        </Stack>
-      </Container>
-      <Container
-        as={Stack}
-        maxW={'6xl'}
-        py={4}
-        direction={{ base: 'column', md: 'row' }}
-        spacing={4}
-        justify={{ base: 'center', md: 'space-between' }}
-        align={{ base: 'center', md: 'center' }}
-      >
-        <SignInButton />
+        <VStack alignItems="flex-end">
+          <HStack spacing={6}>
+            <SocialButton label={'Twitter'} href={'https://twitter.com/BewitchedLang'}>
+              <FaTwitter />
+            </SocialButton>
+            <SocialButton label={'GitHub'} href={'https://github.com/ThomasFKJorna'}>
+              <FaGithub />
+            </SocialButton>
+          </HStack>
+
+          <SignInButton />
+        </VStack>
       </Container>
     </Box>
   )

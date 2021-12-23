@@ -10,7 +10,6 @@ interface Props {
 
 export const CommentBox = (props: Props) => {
   const { title } = props
-  const { data: session } = useSession()
   const { data, error } = useSWR('/api/auth/goodemail')
   if (data && data.access) {
     return (

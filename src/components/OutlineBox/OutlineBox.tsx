@@ -28,6 +28,7 @@ interface Props {
 
 export const OutlineBox = (props: Props) => {
   const { commits, headings, ...rest } = props
+  console.log(headings)
   return (
     <Box
       as="nav"
@@ -41,7 +42,6 @@ export const OutlineBox = (props: Props) => {
       right="0"
       fontSize="sm"
       alignSelf="start"
-      {...rest}
     >
       <Tabs isFitted size="sm" variant="unstyled" colorScheme="red" align="end">
         <TabList>

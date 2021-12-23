@@ -7,6 +7,7 @@ import React from 'react'
 interface Props {
   href: string
   children: React.ReactNode
+  dontFetch?: boolean
 }
 
 const isActive = (slug: string, children: string, href: string) => {
@@ -31,11 +32,11 @@ const isActive = (slug: string, children: string, href: string) => {
   }
 }
 export const HeaderLink = (props: Props) => {
-  const { href, children } = props
+  const { href, children, dontFetch } = props
   const router = useRouter()
   const active = isActive(router?.asPath, children as string, href)
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref prefetch={!dontFetch}>
       <ChakraLink
         p={2}
         position="relative"

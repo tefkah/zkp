@@ -159,7 +159,7 @@ export const PreviewLink = (props: LinkProps) => {
         <PopoverContent
           key={title}
           boxShadow="sm"
-          w="container.sm"
+          w="container.xs"
           borderRadius="xs"
           // position="relative" // zIndex="tooltip"
         >
@@ -168,7 +168,7 @@ export const PreviewLink = (props: LinkProps) => {
             as={Container}
             pb={5}
             fontSize="xs"
-            maxW="container.sm"
+            maxW="container.xs"
             //zIndex="tooltip"
             maxHeight={300}
             overflowY="scroll"

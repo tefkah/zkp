@@ -113,7 +113,11 @@ const ChakraUIHeader = (props: HeaderProps) => {
               <HeaderLink href="/III.-Anyons">Thesis</HeaderLink>
               <HeaderLink href="/Topological-space">Notes</HeaderLink>
               <HeaderLink href="/activity">Activity</HeaderLink>
-              {user && <HeaderLink href="/discussions">Discussions</HeaderLink>}
+              {user && (
+                <HeaderLink href="/discussions" dontFetch>
+                  Discussions
+                </HeaderLink>
+              )}
             </HStack>
           </HStack>
 

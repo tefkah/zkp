@@ -14,6 +14,7 @@ import {
 import { Heading } from '../../pages/[...file]'
 import { VscCircleOutline } from 'react-icons/vsc'
 import { FaRegDotCircle } from 'react-icons/fa'
+import { AiOutlineConsoleSql } from 'react-icons/ai'
 
 interface TableOfContentProps extends BoxProps {
   headings: Heading[]
@@ -34,7 +35,7 @@ function TableOfContent(props: TableOfContentProps) {
       <OrderedList spacing={1} ml="0" styleType="none">
         {headings.map(({ id, text, level }) => (
           <ListItem
-            key={id}
+            key={`${id}${text}`}
             title={text}
             ml={level === 'h3' ? '4' : level === 'h4' ? '8' : undefined}
           >

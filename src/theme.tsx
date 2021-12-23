@@ -13,8 +13,8 @@ const fonts = {
   // body: 'PT Serif',
   // body: 'Source Serif Pro',
   // body: 'Libre Baskerville',
-  body: 'Lato',
-  heading: 'Lato',
+  body: 'Roboto',
+  heading: 'Roboto',
   orgBody: 'Source Serif Pro',
   orgHeading: 'Source Serif Pro',
 }

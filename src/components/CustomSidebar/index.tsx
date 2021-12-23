@@ -25,6 +25,9 @@ import { File, Files } from '../../pages/[...file]'
 import { slugify } from '../../utils/slug'
 import { BsFileEarmarkText } from 'react-icons/bs'
 import { ChevronDownIcon, ChevronRightIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { usePersistantState } from '../../hooks/usePersistantState'
+import { usePersistantDisclosure } from '../../hooks/usePersistantDisclosure'
+import { useRouter } from 'next/router'
 
 interface Props {
   items: Files
@@ -32,8 +35,9 @@ interface Props {
 
 const CustomSideBar = (props: Props) => {
   const { items } = props
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure()
-  const [hideContent, setHideContent] = useState(true)
+  const { isOpen, onOpen, onClose, onToggle } = usePersistantDisclosure('showSidebar', {
+    defaultIsOpen: true,
+  })
   const bg = useColorModeValue('gray.50', 'gray.800')
   const unemph = useColorModeValue('gray.700', 'gray.300')
   return (
@@ -53,29 +57,34 @@ const CustomSideBar = (props: Props) => {
         animateOpacity={false}
         dimension="width"
         in={isOpen}
-        //endingSize="100vw"
-        startingSize={0}
-        style={{ height: '100vh', position: 'sticky', top: 0 }}
+        endingSize={500}
+        style={{ height: '100vh', position: 'sticky', top: 0, borderRightWidth: 1 }}
+
         // startingSize={0}
         //  unmountOnExit
       >
         <VStack
           zIndex={{ base: 1, md: 0 }}
-          borderRightWidth={1}
           //style={{ position: 'sticky', top: 0 }}
           pl={1}
-          pr="3%"
-          display="flex"
+          //pr="3%"
           backgroundColor={bg}
           // pt="1%"
           alignItems="flex-start"
           overflowX="hidden"
           overflowY="scroll"
-          w={{ base: '100vw', md: 'sm' }}
+          w={{ base: '100vw', md: 500 }}
           h="100vh"
           //  position="fixed"
         >
-          <HStack bg={bg} w="full" ml={4} mt={3} alignItems="center" pos="sticky" top={0}>
+          <HStack
+            bg={bg} // w="full"
+            pl={4}
+            mt={3}
+            alignItems="center"
+            pos="sticky"
+            top={0}
+          >
             <IconButton
               aria-label="close sidebar"
               icon={<HamburgerIcon />}
@@ -107,13 +116,20 @@ export interface SubMenuProps {
 }
 export const SubMenu = (props: SubMenuProps) => {
   const { folder, files, defaultIsOpen } = props
+  const router = useRouter()
+  const fileList = files.map((file) => `/${slugify(file.path)}`)
+  const shouldOpen = fileList.includes(router.asPath)
 
-  const { onToggle, isOpen } = useDisclosure({ defaultIsOpen: defaultIsOpen && true })
-  const iconColor = useColorModeValue('gray.600', 'gray.300')
+  //  const [rando, setRando] = usePersistantState('h', true)
+  const { onToggle, isOpen } = usePersistantDisclosure(folder, {
+    defaultIsOpen: shouldOpen || (defaultIsOpen && true),
+  })
+  const textColor = useColorModeValue('gray.600', 'gray.400')
+  const currentColor = useColorModeValue('black', 'white')
   return (
-    <Box>
-      <Container ml={2} mt={4} mb={4}>
-        <HStack alignItems="center">
+    <Box key={folder}>
+      <Container pl={2} mt={4} mb={4}>
+        <HStack pl={4} alignItems="center">
           <Heading size="sm" fontWeight="600">
             {folder}
           </Heading>
@@ -127,16 +143,17 @@ export const SubMenu = (props: SubMenuProps) => {
         </HStack>
       </Container>
       {isOpen && (
-        <VStack pl={6} pr="5%" display="flex" w="full" alignItems="flex-start" spacing={4}>
+        <VStack pl={2} pr="5%" display="flex" w="full" alignItems="flex-start" spacing={3}>
           {files.map((item: File) => {
             return (
               <Container key={item.path}>
                 <HStack alignItems="baseline">
                   {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
                   <Text
-                    fontWeight="500"
-                    transition="color 0.2s"
-                    _hover={{ color: 'primary', transition: 'color 0.2s' }}
+                    fontWeight={router.asPath === `/${slugify(item.path)}` ? '600' : '500'}
+                    color={router.asPath === `/${slugify(item.path)}` ? currentColor : textColor}
+                    transition="color 0.15s"
+                    _hover={{ color: 'primary' }}
                     fontSize={14}
                     textTransform="capitalize"
                   >

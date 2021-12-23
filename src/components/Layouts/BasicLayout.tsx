@@ -15,7 +15,7 @@ export default function BasicLayout(props: BasicLayoutProps) {
     <>
       <Header />
 
-      <Box w="100vw" h="100vh" overflowX="hidden" style={{ scrollBehavior: 'smooth' }}>
+      <Box w="100vw" h="95vh" overflowX="hidden" style={{ scrollBehavior: 'smooth' }}>
         {children}
         <Footer />
       </Box>

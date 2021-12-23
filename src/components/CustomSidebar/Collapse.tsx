@@ -106,7 +106,7 @@ export const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, 
     dimension,
     transition: !mounted ? { enter: { duration: 0 } } : transition,
     transitionEnd: mergeWith(transitionEnd, {
-      enter: { overflow: 'initial' },
+      enter: { overflow: 'hidden' },
       exit: unmountOnExit
         ? undefined
         : {
