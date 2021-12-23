@@ -35,10 +35,10 @@ export const OutlineBox = (props: Props) => {
       aria-labelledby="toc-title"
       width={60}
       flexShrink={0}
-      display={{ base: 'none', xl: 'block' }}
+      display={{ base: 'none', md: 'block' }}
       position="sticky"
       pr="4"
-      top="3rem"
+      top="5rem"
       right="0"
       fontSize="sm"
       alignSelf="start"
@@ -49,19 +49,19 @@ export const OutlineBox = (props: Props) => {
             _selected={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
             _focus={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
           >
-            TOC
+            <Text fontWeight="500">TOC</Text>
           </Tab>
           <Tab
             _focus={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
             _selected={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
           >
-            History
+            <Text fontWeight="500">History</Text>
           </Tab>
           <Tab
             _focus={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
             _selected={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
           >
-            Info
+            <Text fontWeight="500">Info</Text>
           </Tab>
         </TabList>
         <TabPanels

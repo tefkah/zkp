@@ -55,6 +55,7 @@ interface Author {
 }
 
 interface Category {
+  name: string
   description: string
   emojiHTML: string
 }

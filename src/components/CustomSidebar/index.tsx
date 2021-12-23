@@ -73,7 +73,7 @@ const CustomSideBar = (props: Props) => {
           alignItems="flex-start"
           overflowX="hidden"
           overflowY="scroll"
-          w={{ base: '100vw', md: 500 }}
+          w={{ base: '100vw', md: '100%' }}
           h="100vh"
           //  position="fixed"
         >
@@ -81,6 +81,7 @@ const CustomSideBar = (props: Props) => {
             bg={bg} // w="full"
             pl={4}
             mt={3}
+            w="full"
             alignItems="center"
             pos="sticky"
             top={0}
@@ -95,14 +96,14 @@ const CustomSideBar = (props: Props) => {
 
             <Text color={unemph}>Files</Text>
           </HStack>
-          <Box>
+          <VStack alignItems="flex-start">
             {Object.entries(items.folders)
               .reverse()
               .map(([folder, files]) => (
                 <SubMenu {...{ folder, files }} defaultIsOpen={['Chapters'].includes(folder)} />
               ))}
             <SubMenu folder="Notes" files={items.files} defaultIsOpen />
-          </Box>
+          </VStack>
         </VStack>
       </Collapse>
     </>
@@ -143,7 +144,7 @@ export const SubMenu = (props: SubMenuProps) => {
         </HStack>
       </Container>
       {isOpen && (
-        <VStack pl={2} pr="5%" display="flex" w="full" alignItems="flex-start" spacing={3}>
+        <VStack pl={2} pr="5%" alignItems="flex-start" spacing={3}>
           {files.map((item: File) => {
             return (
               <Container key={item.path}>

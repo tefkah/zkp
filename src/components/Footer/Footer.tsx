@@ -62,22 +62,27 @@ interface FooterProps {
 export function Footer(props: FooterProps) {
   return (
     <Box
-      h="5vh"
-      w="full"
-      borderTopWidth={1}
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
+      h={24}
+      w="full"
+      borderTopWidth={1}
     >
       <Container
         as={Stack}
         maxW={'6xl'}
         py={4}
+        h="full"
         direction={{ base: 'column', md: 'row' }}
         spacing={4}
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <VStack alignItems={{ base: 'center', md: 'flex-start' }}>
+        <VStack
+          h="full"
+          justifyContent="space-between"
+          alignItems={{ base: 'center', md: 'flex-start' }}
+        >
           <Text>© 2021 Thomas F. K. Jorna</Text>
           <Link href="https://creativecommons.org/licenses/by-sa/4.0">
             <HStack>
@@ -86,7 +91,7 @@ export function Footer(props: FooterProps) {
             </HStack>
           </Link>
         </VStack>
-        <VStack alignItems="flex-end">
+        <VStack h="full" alignItems="flex-end" justifyContent="space-between">
           <HStack spacing={6}>
             <SocialButton label={'Twitter'} href={'https://twitter.com/BewitchedLang'}>
               <FaTwitter />
