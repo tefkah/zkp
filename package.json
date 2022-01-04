@@ -2,8 +2,10 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "node scripts/clone.mjs && yarn run jest && next build",
-    "start": "next start"
+    "build": "yarn setup && next build",
+    "start": "next start",
+    "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
+    "setup": "yarn ts-node scripts/setup.ts"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.5",
@@ -34,6 +36,7 @@
     "octokit": "^1.7.1",
     "orgast-util-to-string": "^0.4.5",
     "orgast-util-visit-ids": "^0.4.5",
+    "prismjs": "^1.25.0",
     "re-resizable": "^6.9.1",
     "react": "^17.0.2",
     "react-cookie": "^4.1.1",
@@ -49,6 +52,12 @@
     "remark-math": "^4.0.0",
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.1.0",
+    "remark-slate": "^1.8.2",
+    "remark-slate-transformer": "^0.4.1",
+    "remark-stringify": "9",
+    "slate": "^0.72.3",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.72.1",
     "swr": "^1.0.1",
     "unified": "9",
     "uniorg": "^0.4.0",
@@ -63,6 +72,7 @@
     "@types/jest": "^27.0.2",
     "@types/node": "^14.6.0",
     "@types/nodegit": "^0.27.6",
+    "@types/prismjs": "^1.16.6",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "jest": "^27.3.1",
