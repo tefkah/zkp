@@ -82,7 +82,6 @@ export default function Comment({
 
   const hidden = !!comment.deletedAt || comment.isMinimized
 
-  console.log(comment)
   return (
     <Flex my={4} fontSize="sm">
       <Box

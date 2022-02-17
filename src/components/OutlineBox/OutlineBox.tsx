@@ -28,7 +28,6 @@ interface Props {
 
 export const OutlineBox = (props: Props) => {
   const { commits, headings, ...rest } = props
-  console.log(headings)
   return (
     <Box
       as="nav"

@@ -207,7 +207,6 @@ export async function getStaticProps(props: StaticProps) {
   for (const link of linkFilePaths) {
     const [id, linkFilePath] = link
     const filepath = join(cwd, 'notes', `${linkFilePath}`)
-    console.log(filepath)
     const file =
       linkFilePath && (await fs.promises.lstat(filepath)).isFile()
         ? await fs.promises.readFile(filepath, {
@@ -216,7 +215,6 @@ export async function getStaticProps(props: StaticProps) {
         : ''
     orgTexts[id] = file
   }
-  console.log(orgTexts)
 
   //const commits = await tryReadJSON('data/git.json')
   const toc = [

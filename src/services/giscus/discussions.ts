@@ -17,8 +17,6 @@ export function useDiscussion(
 ) {
   const [errorStatus, setErrorStatus] = useState(0)
   const urlParams = new URLSearchParams(cleanParams({ ...query, ...pagination }))
-  console.log(query)
-  console.log([...urlParams])
 
   const headers = useMemo(() => {
     const headers = token ? { Authorization: `Bearer ${token}` } : {}
