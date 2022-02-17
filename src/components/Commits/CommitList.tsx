@@ -44,7 +44,7 @@ export const CommitList = (props: CommitListProps) => {
               )}
               <Text
                 fontWeight="semibold"
-                size="xs"
+                fontSize="xs"
                 color="gray.400"
                 ml={{ base: slim ? 0 : 6, md: slim ? 0 : 12 }}
               >

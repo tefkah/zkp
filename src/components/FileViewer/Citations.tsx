@@ -59,6 +59,7 @@ export const Citations = (props: CitationProps) => {
               )
             }
             return (
+              //@ts-expect-error
               <Text variant="org" {...props}>
                 {children as React.ReactNode}
               </Text>
@@ -69,6 +70,7 @@ export const Citations = (props: CitationProps) => {
           ul: UnorderedList,
           h: Heading,
           i: ({ children, ...props }) => (
+            //@ts-expect-error
             <Text as="i" variant="org" {...props}>
               {children as React.ReactNode}
             </Text>
