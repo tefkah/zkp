@@ -15,5 +15,5 @@
     "jsx": "preserve"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/auth/[...nextauth].js"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/katexSlatePlugin.tsx"]
 }

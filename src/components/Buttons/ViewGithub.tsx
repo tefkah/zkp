@@ -30,7 +30,7 @@ export const ViewGithub = (props: Props) => {
         <HStack as="span">
           <FaGithub />
           {text && (
-            <Text size="xs" fontWeight="bold" as="span">
+            <Text fontSize="xs" fontWeight="bold" as="span">
               {text}
             </Text>
           )}

@@ -115,7 +115,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
             h3: (props) => <Heading {...props} variant="org" as="h4" size="sm" />,
             h4: (props) => <Heading {...props} variant="org" as="h5" size="xs" />,
             p: ({ children, ...rest }) => (
-              //@ts-expect-error
+              //@ts-ignore
               <Text lang="en" variant="org" {...{ ...rest }}>
                 {children as ReactNode}
               </Text>
@@ -132,7 +132,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
 
               if (['footnum', 'footref'].includes(className as string)) {
                 return (
-                  //@ts-expect-error
+                  //@ts-ignore
                   <Text {...{ ...rest }} variant="org" as="span" fontWeight="bold" color="primary">
                     <Link href={href as string}>
                       <a>{children as ReactNode}</a>
@@ -155,7 +155,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                 )
 
                 return (
-                  //@ts-expect-error
+                  //@ts-ignore
                   <Text as="span" variant="org">
                     (
                     {prettyNames.map((name, index) => {
@@ -195,7 +195,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                       {children}
                     </PreviewLink>
                   ) : (
-                    //@ts-expect-error
+                    //@ts-ignore
                     <Text as="span" variant="org" _hover={{ cursor: 'not-allowed' }}>
                       {children as ReactNode}
                     </Text>
@@ -209,7 +209,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
             span: ({ className, children, ...rest }) => {
               if (['span-addition', 'span-deletion'].includes(className as string)) {
                 return (
-                  //@ts-expect-error
+                  //@ts-ignore
                   <Text as="span" variant="org" className={className as string}>
                     {children as ReactNode}
                   </Text>
