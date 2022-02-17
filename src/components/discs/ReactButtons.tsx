@@ -14,6 +14,7 @@ import {
   PopoverContent,
   PopoverArrow,
   PopoverBody,
+  HStack,
 } from '@chakra-ui/react'
 
 interface IReactButtonsProps {
@@ -56,8 +57,7 @@ export default function ReactButtons({
       if (isSubmitting || (!subjectId && !onDiscussionCreateRequest)) return
       setIsSubmitting(!subjectId)
 
-      const id =
-        subjectId && onDiscussionCreateRequest ? subjectId : await onDiscussionCreateRequest!()
+      const id = subjectId ? subjectId : await onDiscussionCreateRequest!()
 
       onReact(
         content,
@@ -79,14 +79,24 @@ export default function ReactButtons({
         className={`gsc-direct-reaction-Button gsc-social-reaction-summary-item ${
           viewerHasReacted ? 'has-reacted' : ''
         }${!token ? ' cursor-not-allowed' : ''}`}
+        borderRadius="xl"
+        size="sm"
+        variant="ghost"
+        type="button"
+        pb={2}
+        pt={3}
+        mt="-1px"
+        borderWidth={reactionGroups?.[key]?.viewerHasReacted ? 1 : 0}
+        cursor={!token ? 'not-allowed' : undefined}
         disabled={!token}
         title={token ? 'People reacted with' + count : 'You must be signed in to add reactions'}
         onClick={() => react(key)}
+        alignItems="center"
       >
-        <Text as="span" className="inline-block w-4 h-4">
+        <Text as="span" w={4} pr={4} h={4} display="inline-block">
           {Reactions[key]}
         </Text>
-        <Text as="span" className="text-xs ml-[2px] px-1">
+        <Text as="span" fontSize="sm" ml="2px" px={1} className="text-xs ml-[2px] px-1">
           {count}
         </Text>
       </Button>
@@ -176,7 +186,9 @@ export default function ReactButtons({
       ) : null}
 
       {variant !== 'popoverOnly' ? (
-        <Box className="gsc-direct-reaction-Buttons">{directReactionButtons}</Box>
+        <HStack spacing={2} className="gsc-direct-reaction-Buttons">
+          {directReactionButtons}
+        </HStack>
       ) : null}
     </>
   )
