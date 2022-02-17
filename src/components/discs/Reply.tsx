@@ -85,12 +85,8 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
                       {reply.author.login}
                     </Text>
                   </ChakraLink>
-                  <ChakraLink ml={2} isExternal href={reply.url} className="ml-2 link-secondary">
-                    <time
-                      className="whitespace-nowrap"
-                      title={formatDate(reply.createdAt)}
-                      dateTime={reply.createdAt}
-                    >
+                  <ChakraLink ml={2} isExternal href={reply.url} whiteSpace="nowrap">
+                    <time title={formatDate(reply.createdAt)} dateTime={reply.createdAt}>
                       {formatDateDistance(reply.createdAt)}
                     </time>
                   </ChakraLink>
@@ -141,7 +137,9 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
             //   hidden ? undefined : { __html: processCommentBody(reply.bodyHTML) }
             // }
           >
-            {!hidden ? (
+            {!reply.body ? (
+              <></>
+            ) : !hidden ? (
               markdownToReact(reply.body)
             ) : (
               <em className="color-text-secondary">

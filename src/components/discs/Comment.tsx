@@ -23,6 +23,7 @@ import {
   IconButton,
   Avatar,
   HStack,
+  Icon,
 } from '@chakra-ui/react'
 import Image from 'next/image'
 
@@ -171,7 +172,9 @@ export default function Comment({
           //   hidden ? undefined : { __html: processCommentBody(comment.bodyHTML) }
           // }
         >
-          {!hidden ? (
+          {!comment.body ? (
+            <></>
+          ) : !hidden ? (
             markdownToReact(comment.body)
           ) : (
             <Text as="em" className="color-text-secondary">
@@ -184,6 +187,7 @@ export default function Comment({
           <Flex
             content="center"
             justifyContent="space-between"
+            alignItems="center"
             mb="3"
             className="gsc-comment-footer"
           >
@@ -218,7 +222,9 @@ export default function Comment({
               ) : null}
             </HStack>
             <Box mr={4} whiteSpace="nowrap" className="gsc-comment-replies-count">
-              <span className="text-xs color-text-tertiary">{comment.replyCount} replies</span>
+              <Text as="span" fontSize="sm" className="text-xs color-text-tertiary">
+                {comment.replyCount} replies
+              </Text>
             </Box>
           </Flex>
         ) : null}
@@ -240,18 +246,19 @@ export default function Comment({
           >
             {hasNextPage || hasUnfetchedReplies ? (
               <Flex
-                justifyContent="center"
+                // justifyContent="center"
                 h={8}
                 pl={4}
                 mb={2}
+                alignItems="center"
                 className="flex items-center h-8 pl-4 mb-2"
               >
-                <Box className="flex content-center flex-shrink-0 mr-[9px] w-[29px]">
-                  <KebabHorizontalIcon className="w-full rotate-90 fill-[var(--color-border-muted)]" />
-                </Box>
+                <Flex justifyContent="center" alignItems="center" flex="shrink" mr="9px" w="29px">
+                  <Icon as={KebabHorizontalIcon} width="full" rotate="90" />
+                </Flex>
 
                 {hasNextPage ? (
-                  <Button className="color-text-link hover:underline" onClick={incrementBackPage}>
+                  <Button variant="link" onClick={incrementBackPage}>
                     See {remainingReplies} previous replies
                   </Button>
                 ) : null}
