@@ -292,7 +292,6 @@ export async function getDiscussion(
   const query = `repo:${repo} ${categoryQuery} in:title ${JSON.stringify(term)}`
   const gql = GET_DISCUSSION_QUERY(list ? 'list' : number ? 'number' : 'term')
 
-  console.log(number)
   return fetch(GITHUB_GRAPHQL_API_URL, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}` },

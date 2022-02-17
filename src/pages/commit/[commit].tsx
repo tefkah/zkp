@@ -106,7 +106,7 @@ export default function CommitPage(props: Props) {
           <Box borderBottomRadius="xl" borderWidth={1} borderColor="grey.500" py={2} px={4}>
             {messageBody && <Text>{messageBody}</Text>}
             <HStack display="flex" alignItems="flex-end">
-              <Text as="samp" variant="">{`Commit ${oid}`}</Text>
+              <Text as="samp">{`Commit ${oid}`}</Text>
             </HStack>
           </Box>
         </Flex>

@@ -31,7 +31,7 @@ export async function toggleReaction(
   token: string,
   viewerHasReacted: boolean,
 ): Promise<ToggleReactionResponse> {
-  return fetch(process.env.GITHUB_GRAPHQL_API_URL!, {
+  return fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

@@ -56,6 +56,7 @@ export const markdownToReact = (markdown: string) => {
         h3: Heading,
         h4: Heading,
         i: ({ children, ...props }) => (
+          //@ts-ignore
           <Text as="i" variant="org" {...props}>
             {children as React.ReactNode}
           </Text>

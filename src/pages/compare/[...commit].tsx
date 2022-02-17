@@ -153,7 +153,7 @@ export default function ComparePage(props: Props) {
             display="flex"
             alignItems="flex-end"
           >
-            <Text as="samp" variant="">{`Commit ....`}</Text>
+            <Text as="samp">{`Commit ....`}</Text>
           </HStack>
         </Flex>
         <Box w="full" pl={4} pt={10}>
