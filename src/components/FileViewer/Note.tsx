@@ -44,7 +44,7 @@ export const Note = (props: NoteProps) => {
           {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}
           {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
         </VStack>
-        <ProcessedOrg text={page} data={{ data }} />
+        <ProcessedOrg text={page} data={data} />
         {backLinks?.length && <Backlinks {...{ data, backLinks }} />}
         {citations?.length && <Citations {...{ csl }} />}
 
