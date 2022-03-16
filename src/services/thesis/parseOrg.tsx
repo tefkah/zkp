@@ -25,14 +25,14 @@ import { findCiteId, findCiteTitle } from '../../utils/findCiteData'
 import { PreviewLink } from '../../components/FileViewer/Link'
 import { slugify } from '../../utils/slug'
 
-export interface Data {
-  data: FilesData
-  orgTexts: { [id: string]: string }
-}
+// export interface Data {
+//   data: FilesData
+//   orgTexts: { [id: string]: string }
+// }
 interface Props {
   text: string
   // if we have a diff we don't want to process links etc, because that will fuck up
-  data?: Data
+  data?: FilesData
 }
 
 export function ParsedOrg(props: Props): React.ReactElement | null {
@@ -142,7 +142,10 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
               }
 
               const id = (href as string).replace(/id:/g, '')
-              const correctLink = data.data[id]?.title || ''
+              console.log(id)
+              const correctLink = data?.[id]?.title || ''
+              console.log(data.data)
+              console.log(correctLink)
 
               if (!correctLink && (href as string).replace(/.*?(cite:).*/g, '$1')) {
                 const cleanCite = (href as string)
@@ -159,18 +162,19 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                   <Text as="span" variant="org">
                     (
                     {prettyNames.map((name, index) => {
-                      const title = findCiteTitle(`cite:${cleanCite[index]}`, data.data)
-                      const id = findCiteId(`cite:${cleanCite[index]}`, data.data)
-                      const text = data.orgTexts[id] ?? ''
+                      const title = findCiteTitle(`cite:${cleanCite[index]}`, data)
+                      const id = findCiteId(`cite:${cleanCite[index]}`, data)
+                      //const text = data.orgTexts[id] ?? ''
                       if (!title || !id) return <Text as="span">{name}</Text>
                       return (
                         <>
                           {index > 0 && <Text as="span">; </Text>}
                           <PreviewLink
                             title={title}
-                            orgText={text}
-                            data={data.data}
+                            //orgText={text}
+                            data={data}
                             href={`/${slugify(title)}`}
+                            id={id}
                           >
                             {name}
                           </PreviewLink>
@@ -182,15 +186,16 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                 )
               }
 
-              const text = data.orgTexts[id] ?? ''
+              // const text = data.orgTexts[id] ?? ''
               return (
                 <>
                   {correctLink ? (
                     <PreviewLink
                       title={correctLink}
-                      orgText={text}
-                      data={data.data}
+                      //    orgText={text}
+                      data={data}
                       href={`/${slugify(correctLink)}`}
+                      id={id}
                     >
                       {children}
                     </PreviewLink>

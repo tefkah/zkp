@@ -1,13 +1,12 @@
 import { Text, Box, Heading, VStack } from '@chakra-ui/react'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
-import { Data } from '../../services/thesis/parseOrg'
 import { FilesData } from '../../utils/IDIndex/getFilesData'
 import { slugify } from '../../utils/slug'
 import { PreviewLink } from './Link'
 
 interface Props {
-  data: Data
+  data: FilesData
   backLinks: string[]
 }
 
@@ -16,16 +15,9 @@ export const Backlinks = (props: Props) => {
 
   const links = useMemo(() => {
     return backLinks.map((link) => {
-      const title = data.data?.[link]?.title ?? ''
-      const text = data.orgTexts[link]
+      const title = data?.[link]?.title ?? ''
       return (
-        <PreviewLink
-          key={title}
-          data={data.data}
-          title={title}
-          orgText={text}
-          href={`/${slugify(title)}`}
-        >
+        <PreviewLink key={title} data={data} title={title} id={link} href={`/${slugify(title)}`}>
           {title}
         </PreviewLink>
       )

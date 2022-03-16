@@ -3,7 +3,7 @@ import fs from 'fs'
 import * as http from 'isomorphic-git/http/node'
 import { join } from 'path'
 import { getListOfCommitsWithStats } from '../src/utils/getListOfCommitsWithStats'
-
+import getFilesData from '../src/utils/IDIndex/getFilesData'
 ;(async () => {
   const cwd = process.cwd()
   const noteDir = join(cwd, 'notes')
@@ -22,4 +22,11 @@ import { getListOfCommitsWithStats } from '../src/utils/getListOfCommitsWithStat
   })
 
   await getListOfCommitsWithStats(firstCommit, lastCommit, noteDir, noteGitDir)
+
+  const dataById = await getFilesData('id')
+  const dataByTitle = await getFilesData('title')
+  const dataByCite = await getFilesData('cite')
+  await fs.promises.writeFile(join(cwd, 'data', 'dataById.json'), JSON.stringify(dataById))
+  await fs.promises.writeFile(join(cwd, 'data', 'dataByTitle.json'), JSON.stringify(dataByTitle))
+  await fs.promises.writeFile(join(cwd, 'data', 'dataByCite.json'), JSON.stringify(dataByCite))
 })()

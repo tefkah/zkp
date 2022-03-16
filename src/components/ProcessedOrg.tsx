@@ -1,12 +1,12 @@
 import { Box } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
-import { Data, ParsedOrg } from '../services/thesis/parseOrg'
+import { ParsedOrg } from '../services/thesis/parseOrg'
 import { FilesData } from '../utils/IDIndex/getFilesData'
 import { noteStyle } from './NoteStyle'
 
 interface Props {
   text: string
-  data?: Data
+  data?: FilesData
 }
 
 export const ProcessedOrg = (props: Props) => {

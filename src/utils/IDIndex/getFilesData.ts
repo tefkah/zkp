@@ -8,7 +8,7 @@ import readdirp from 'readdirp'
 export interface FilesData {
   [file: string]: OrgFileData
 }
-export default async function getFilesData() {
+export default async function getFilesData(by?: 'id' | 'title' | 'cite') {
   const cwd = process.cwd()
   const dataDir = resolve(cwd, 'notes')
   const files = await readdirp.promise(dataDir, {
@@ -37,5 +37,21 @@ export default async function getFilesData() {
     )
   })
 
-  return fileData
+  switch (by) {
+    case 'title': {
+      return Object.values(fileData).reduce((acc, curr) => {
+        acc[curr.title] = curr
+        return acc
+      }, {} as FilesData)
+    }
+    case 'cite':
+      return Object.values(fileData).reduce((acc, curr) => {
+        if (!curr.citation) return acc
+        acc[curr.citation] = curr
+        return acc
+      }, {} as FilesData)
+    case 'id':
+    default:
+      return fileData
+  }
 }

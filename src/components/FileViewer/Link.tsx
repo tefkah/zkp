@@ -32,9 +32,10 @@ import rehype2react from 'rehype-react'
 export interface LinkProps {
   title: string
   href: any
+  id?: string
   children: any
   data: FilesData
-  orgText: string
+  //orgText: string
   //outline: boolean
   // linksByNodeId: LinksByNodeId
   // isWiki?: boolean
@@ -65,6 +66,7 @@ import { FilesData } from '../../utils/IDIndex/getFilesData'
 import { ProcessedOrg } from '../ProcessedOrg'
 import { slugify } from '../../utils/slug'
 import { ParsedOrg } from '../../services/thesis/parseOrg'
+import { PopoverPreview } from './PopoverPreview'
 
 export const NodeLink = (props: NodeLinkProps) => {
   const {
@@ -126,7 +128,7 @@ export const NormalLink = (props: NormalLinkProps) => {
 }
 
 export const PreviewLink = (props: LinkProps) => {
-  const { href, data, title, orgText, children } = props
+  const { id, href, data, title, children } = props
 
   if (!href) {
     return (
@@ -143,6 +145,7 @@ export const PreviewLink = (props: LinkProps) => {
         gutter={12} //openDelay={300}
         trigger="hover"
         placement="bottom-start"
+        isLazy
       >
         <PopoverTrigger>
           <Text as="span">
@@ -173,12 +176,7 @@ export const PreviewLink = (props: LinkProps) => {
             maxHeight={300}
             overflowY="scroll"
           >
-            <Box w="100%" px={3} sx={noteStyle}>
-              <Heading size="md" variant="org">
-                {title}
-              </Heading>
-              <ParsedOrg text={orgText} />
-            </Box>
+            <PopoverPreview {...{ href, id, title }} />
           </PopoverBody>
         </PopoverContent>
       </Popover>
