@@ -36,9 +36,10 @@ export const diffToString = (diff: FileDiff) => {
 export default function ParsedDiff(props: Props) {
   const { diff } = props
   const diffString = typeof diff === 'string' ? diff : diffToString(diff)
+  // TODO: Separate fake from real ids
   return (
     <Box>
-      <ParsedOrg text={diffString} />
+      <ParsedOrg currentId="AAA FAKE ID" text={diffString} />
     </Box>
   )
 }

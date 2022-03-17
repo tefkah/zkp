@@ -171,6 +171,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                         <>
                           {index > 0 && <Text as="span">; </Text>}
                           <PreviewLink
+                            currentId={currentId}
                             title={title}
                             //orgText={text}
                             data={data}
@@ -192,6 +193,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                 <>
                   {correctLink ? (
                     <PreviewLink
+                      currentId={currentId}
                       title={correctLink}
                       //    orgText={text}
                       data={data}

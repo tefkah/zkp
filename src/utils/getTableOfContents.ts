@@ -1,12 +1,12 @@
 import slugger from 'github-slugger'
-import { Heading } from '../pages/[...file]'
+import { NoteHeading } from '../pages/[...file]'
 
 //see https://github.com/hashicorp/next-mdx-remote/issues/53#issuecomment-725906664
 export function getTableOfContents(orgContent: string) {
   const regexp = new RegExp(/^(\*\*\* |\*\* |\* )(.*)\n/, 'gm')
   // @ts-ignore
   const headings = [...orgContent.matchAll(regexp)]
-  let tableOfContents: Heading[] = []
+  let tableOfContents: NoteHeading[] = []
 
   if (headings.length) {
     tableOfContents = headings.map((heading) => {
