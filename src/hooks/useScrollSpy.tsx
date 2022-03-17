@@ -9,6 +9,7 @@ export function useScrollSpy(selectors: string[], options?: IntersectionObserver
     observer.current = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry?.isIntersecting) {
+          // TODO: scrollspy can't decide between two candidates.
           //@ts-expect-error
           setActiveId(entry.target.getAttribute('id'))
         }

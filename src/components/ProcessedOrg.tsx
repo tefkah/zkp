@@ -7,11 +7,12 @@ import { noteStyle } from './NoteStyle'
 interface Props {
   text: string
   data?: FilesData
+  currentId: string
 }
 
 export const ProcessedOrg = (props: Props) => {
   // try {
-  const { text, data } = props
+  const { text, data, currentId } = props
 
   return (
     <Box
@@ -20,7 +21,7 @@ export const ProcessedOrg = (props: Props) => {
         ...noteStyle,
       }}
     >
-      <ParsedOrg {...{ text, data }} />
+      <ParsedOrg {...{ currentId, text, data }} />
     </Box>
   )
 }

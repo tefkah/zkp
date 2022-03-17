@@ -11,13 +11,14 @@ import {
   HStack,
   Icon,
 } from '@chakra-ui/react'
-import { Heading } from '../../pages/[...file]'
+import { NoteHeading } from '../../pages/[...file]'
 import { VscCircleOutline } from 'react-icons/vsc'
 import { FaRegDotCircle } from 'react-icons/fa'
 import { AiOutlineConsoleSql } from 'react-icons/ai'
+import { useMemo } from 'react'
 
 interface TableOfContentProps extends BoxProps {
-  headings: Heading[]
+  headings: NoteHeading[]
 }
 
 function TableOfContent(props: TableOfContentProps) {
@@ -30,8 +31,8 @@ function TableOfContent(props: TableOfContentProps) {
   )
   const linkColor = useColorModeValue('gray.600', 'gray.400')
   const linkHoverColor = useColorModeValue('gray.900', 'gray.600')
-  return (
-    <>
+  const TOC = useMemo(() => {
+    return (
       <OrderedList spacing={1} ml="0" styleType="none">
         {headings.map(({ id, text, level }) => (
           <ListItem
@@ -61,8 +62,9 @@ function TableOfContent(props: TableOfContentProps) {
           </ListItem>
         ))}
       </OrderedList>
-    </>
-  )
+    )
+  }, [activeId, linkColor, linkHoverColor])
+  return <>{TOC}</>
 }
 
 export default TableOfContent

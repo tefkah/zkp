@@ -47,20 +47,18 @@ const Sidebar = () => {
         <SidebarContent />
       </Box>
       {!isOpen && (
-        <IconButton
-          pos="fixed"
-          top={20}
-          zIndex={10}
-          left={0}
-          roundedLeft={0}
-          size="md"
-          fontSize="lg"
-          aria-label={`Toggle Sidebar`}
-          variant="solid"
-          colorScheme="gray"
-          onClick={onOpen}
-          icon={<SidebarIcon />}
-        />
+        <Box sx={{ zIndex: 'overlay' }} pos="sticky" top={20} left={0}>
+          <IconButton
+            roundedLeft={0}
+            size="md"
+            fontSize="lg"
+            aria-label={`Toggle Sidebar`}
+            variant="solid"
+            colorScheme="gray"
+            onClick={onOpen}
+            icon={<SidebarIcon />}
+          />
+        </Box>
       )}
     </React.Fragment>
   )

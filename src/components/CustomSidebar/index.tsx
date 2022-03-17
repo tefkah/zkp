@@ -46,6 +46,7 @@ const CustomSideBar = (props: Props) => {
         <IconButton
           left={3}
           top={14}
+          zIndex={2}
           position="fixed"
           variant="ghost"
           icon={<HamburgerIcon />}
@@ -57,9 +58,14 @@ const CustomSideBar = (props: Props) => {
         animateOpacity={false}
         dimension="width"
         in={isOpen}
-        endingSize={500}
-        style={{ height: '100vh', position: 'sticky', top: 0, borderRightWidth: 1 }}
-
+        endingSize={350}
+        style={{
+          flex: '0 0 auto',
+          height: '100vh',
+          position: 'sticky',
+          top: 0,
+          borderRightWidth: 1,
+        }}
         // startingSize={0}
         //  unmountOnExit
       >
@@ -145,9 +151,9 @@ export const SubMenu = (props: SubMenuProps) => {
       </Container>
       {isOpen && (
         <VStack pl={2} pr="5%" alignItems="flex-start" spacing={3}>
-          {files.map((item: File) => {
+          {files.map((item: File, index: number) => {
             return (
-              <Container key={item.path}>
+              <Container key={`${item.path}${index}`}>
                 <HStack alignItems="baseline">
                   {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
                   <Text

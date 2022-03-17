@@ -15,6 +15,7 @@
     "@emotion/styled": "11.1.5",
     "@fontsource/eb-garamond": "^4.5.1",
     "@giscus/react": "^1.0.1",
+    "@mantine/hooks": "^4.0.5",
     "@nivo/core": "^0.74.0",
     "@nivo/line": "^0.74.0",
     "@primer/octicons-react": "^16.2.0",

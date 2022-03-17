@@ -8,16 +8,24 @@ import { PreviewLink } from './Link'
 interface Props {
   data: FilesData
   backLinks: string[]
+  currentId: string
 }
 
 export const Backlinks = (props: Props) => {
-  const { data, backLinks } = props
+  const { currentId, data, backLinks } = props
 
   const links = useMemo(() => {
     return backLinks.map((link) => {
       const title = data?.[link]?.title ?? ''
       return (
-        <PreviewLink key={title} data={data} title={title} id={link} href={`/${slugify(title)}`}>
+        <PreviewLink
+          currentId={currentId}
+          key={title}
+          data={data}
+          title={title}
+          id={link}
+          href={`/${slugify(title)}`}
+        >
           {title}
         </PreviewLink>
       )

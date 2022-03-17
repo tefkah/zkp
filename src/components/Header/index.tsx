@@ -92,7 +92,7 @@ const ChakraUIHeader = (props: HeaderProps) => {
       bg={bg}
       //borderTop="6px solid"
       //borderTopColor="brand.400"
-      w="full"
+      //w="full"
       overflowY="hidden"
       borderBottomWidth={1}
     >

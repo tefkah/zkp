@@ -1401,6 +1401,11 @@
     url-regex "^5.0.0"
     vfile "^4.1.1"
 
+"@mantine/hooks@^4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-4.0.5.tgz#593b954cea5ffcac8fed193f46bc10e957abd64b"
+  integrity sha512-MavTo79XP7g4nj5pziXJx5wL2jUfETU6LNepliCAdNcZV4m7m+RKdBLUMbvRfwlMnbLBJFNAZfQ9anPh2ypjgw==
+
 "@mapbox/hast-util-table-cell-style@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@mapbox/hast-util-table-cell-style/-/hast-util-table-cell-style-0.2.0.tgz#1003f59d54fae6f638cb5646f52110fb3da95b4d"

@@ -35,6 +35,7 @@ export interface LinkProps {
   id?: string
   children: any
   data: FilesData
+  currentId: string
   //orgText: string
   //outline: boolean
   // linksByNodeId: LinksByNodeId
@@ -48,6 +49,7 @@ export interface NodeLinkProps {
   href: any
   children: any
   data: FilesData
+  currentId: string
   //openContextMenu: any
   // isWiki?: boolean
   // noUnderline?: boolean
@@ -67,6 +69,7 @@ import { ProcessedOrg } from '../ProcessedOrg'
 import { slugify } from '../../utils/slug'
 import { ParsedOrg } from '../../services/thesis/parseOrg'
 import { PopoverPreview } from './PopoverPreview'
+import { useRouter } from 'next/router'
 
 export const NodeLink = (props: NodeLinkProps) => {
   const {
@@ -74,13 +77,16 @@ export const NodeLink = (props: NodeLinkProps) => {
     //  setSidebarHighlightedNode,
     //  setPreviewNode,
     //n  nodeById,
-    //  openContextMenu,
+    //  openContextMenu
+    currentId,
+    id,
     href,
     children,
     data,
     //  isWiki,
   } = props
 
+  const router = useRouter()
   // const theme = useTheme()
   // const type = href.replaceAll(/(.*?)\:?.*/g, '$1')
   // const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
@@ -110,7 +116,24 @@ export const NodeLink = (props: NodeLinkProps) => {
       //  _focus={{ outlineColor: highlightColor }}
     >
       <Link href={href}>
-        <a>{children}</a>
+        <a
+          onClick={(e) => {
+            e.preventDefault()
+            if (id && router.asPath.includes(id)) {
+              // TODO: scroll to id
+              return
+            }
+            if (router.asPath.replace(/.*\//, '') === currentId) {
+              router.push(`${router.asPath}/${id}`)
+              return
+            }
+            // truncate the path to the current id
+            const truncatedPath = router.asPath.replace(new RegExp(`(.*?\/${currentId}).*`), '$1')
+            router.push(`${truncatedPath}/${id}`)
+          }}
+        >
+          {children}
+        </a>
       </Link>
     </Text>
   )
@@ -128,7 +151,7 @@ export const NormalLink = (props: NormalLinkProps) => {
 }
 
 export const PreviewLink = (props: LinkProps) => {
-  const { id, href, data, title, children } = props
+  const { id, href, data, title, children, currentId } = props
 
   if (!href) {
     return (
@@ -152,6 +175,8 @@ export const PreviewLink = (props: LinkProps) => {
             <NodeLink
               key={title}
               {...{
+                currentId,
+                id,
                 href,
                 children,
                 data,

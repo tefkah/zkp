@@ -16,14 +16,14 @@ import React from 'react'
 import { AiFillFilePdf } from 'react-icons/ai'
 import { FaCreativeCommons, FaCreativeCommonsBy, FaCreativeCommonsSa } from 'react-icons/fa'
 import { Commit, CommitPerDateLog } from '../../lib/api'
-import { Heading } from '../../pages/[...file]'
+import { NoteHeading } from '../../pages/[...file]'
 import { CommitList } from '../Commits/CommitList'
 import TableOfContent from './TableOfContents'
 import { ItemPanel } from './ItemPanel'
 
 interface Props {
   commits: CommitPerDateLog
-  headings: Heading[]
+  headings: NoteHeading[]
 }
 
 export const OutlineBox = (props: Props) => {

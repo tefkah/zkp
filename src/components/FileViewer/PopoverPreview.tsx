@@ -25,7 +25,7 @@ export const PopoverPreview = (props: PopoverPreviewProps) => {
       ) : error ? (
         <Text>Something went wrong, contact Thomas on Github</Text>
       ) : (
-        <ParsedOrg text={data.file} />
+        <ParsedOrg currentId={id!} text={data.file} />
       )}
     </Box>
   )

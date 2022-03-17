@@ -33,10 +33,11 @@ interface Props {
   text: string
   // if we have a diff we don't want to process links etc, because that will fuck up
   data?: FilesData
+  currentId: string
 }
 
 export function ParsedOrg(props: Props): React.ReactElement | null {
-  const { text, data } = props
+  const { text, data, currentId } = props
   const processor = useMemo(
     () =>
       unified()
