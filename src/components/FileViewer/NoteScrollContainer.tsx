@@ -113,7 +113,7 @@ export const NoteScrollContainer = (props: FilePageProps) => {
         stackData={stackedNotesState[fileData.id]}
       />
       {stacked &&
-        stackedNotes.map((note, index) => (
+        stackedNotes?.map((note, index) => (
           <StackedNote
             key={`${note}${index}`}
             {...{ index: index + 1, id: note, data, stackData: stackedNotesState[note] }}
