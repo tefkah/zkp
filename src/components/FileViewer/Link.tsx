@@ -119,7 +119,7 @@ export const NodeLink = (props: NodeLinkProps) => {
         <a
           onClick={(e) => {
             e.preventDefault()
-            if (id && router.asPath.includes(id)) {
+            if (id && router.asPath?.includes(id)) {
               // TODO: scroll to id
               return
             }

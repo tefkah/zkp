@@ -38,7 +38,7 @@ async function get(req: NextApiRequest, res: NextApiResponse<IGiscussion | IErro
   const response = await getDiscussion(params, token)
 
   if ('message' in response) {
-    if (response.message.includes('Bad credentials')) {
+    if (response?.message?.includes('Bad credentials')) {
       res.status(403).json({ error: response.message })
       return
     }

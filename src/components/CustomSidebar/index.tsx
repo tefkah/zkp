@@ -106,7 +106,7 @@ const CustomSideBar = (props: Props) => {
             {Object.entries(items.folders)
               .reverse()
               .map(([folder, files]) => (
-                <SubMenu {...{ folder, files }} defaultIsOpen={['Chapters'].includes(folder)} />
+                <SubMenu {...{ folder, files }} defaultIsOpen={['Chapters']?.includes(folder)} />
               ))}
             <SubMenu folder="Notes" files={items.files} defaultIsOpen />
           </VStack>
@@ -125,7 +125,7 @@ export const SubMenu = (props: SubMenuProps) => {
   const { folder, files, defaultIsOpen } = props
   const router = useRouter()
   const fileList = files.map((file) => `/${slugify(file.path)}`)
-  const shouldOpen = fileList.includes(router.asPath)
+  const shouldOpen = fileList?.includes(router.asPath)
 
   //  const [rando, setRando] = usePersistantState('h', true)
   const { onToggle, isOpen } = usePersistantDisclosure(folder, {

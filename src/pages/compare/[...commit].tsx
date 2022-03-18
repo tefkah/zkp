@@ -227,7 +227,7 @@ export async function getServerSideProps(props: StaticProps) {
   let isRelevantCommit = false
   const { files: relevantFiles, commits } = commitList.reduceRight(
     (acc: { [key: string]: (string | FileCommit)[] }, curr: FileCommit) => {
-      if (isRelevantCommit && commit.includes(curr.oid)) {
+      if (isRelevantCommit && commit?.includes(curr.oid)) {
         isRelevantCommit = false
         acc.files.push(...curr.files)
         acc.commits.push(curr)

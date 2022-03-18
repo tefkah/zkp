@@ -72,20 +72,33 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   const Note = useMemo(() => {
     return (
       <Container w="75ch" my={6}>
-        <Heading variant="org" mb={4}>
-          {slug}
-        </Heading>
+        <Heading mb={4}>{slug}</Heading>
         <HStack my={2} spacing={2}>
-          {!tags.includes('chapter') &&
-            tags.map((tag: string) => (
-              <Tag key={tag} variant="outline">
+          {!tags?.includes('chapter') &&
+            tags?.map((tag: string) => (
+              <Tag key={tag} size="sm" variant="outline">
                 {tag}
               </Tag>
             ))}
         </HStack>
-        <VStack mb={4} alignItems="flex-start">
-          {ctime && <Text fontSize={12}>Created on {parseTime(ctime)}</Text>}
-          {mtime && <Text fontSize={12}>Last modified {parseTime(mtime)}</Text>}
+        <VStack mb={4} spacing={0.5} alignItems="flex-start">
+          {ctime && (
+            <Text fontSize={12} color="gray.500">
+              Created on{' '}
+              <Text fontWeight={500} as="span" color="gray.600">
+                {parseTime(ctime)}
+              </Text>
+            </Text>
+          )}
+          {mtime && (
+            <Text fontSize={12} color="gray.500">
+              Last modified{' '}
+              <Text as="span" fontWeight={500} color="gray.600">
+                {' '}
+                {parseTime(mtime)}
+              </Text>
+            </Text>
+          )}
         </VStack>
         <ProcessedOrg currentId={fileData.id} text={page} data={data} />
         {backLinks?.length && <Backlinks {...{ currentId: fileData.id, data, backLinks }} />}

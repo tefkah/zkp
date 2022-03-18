@@ -50,8 +50,8 @@ export const Citations = (props: CitationProps) => {
           ),
           p: Text,
           div: ({ className, children, ...props }) => {
-            if ((className as string).includes('csl-bib-body')) return <>{children as ReactNode}</>
-            if (!(className as string).includes('csl-entry')) {
+            if ((className as string)?.includes('csl-bib-body')) return <>{children as ReactNode}</>
+            if (!(className as string)?.includes('csl-entry')) {
               return (
                 <Box {...{ className: className as string, ...props }}>
                   {children as React.ReactNode}

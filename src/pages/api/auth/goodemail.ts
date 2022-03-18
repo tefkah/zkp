@@ -6,5 +6,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const mails = process.env.ALLOWED_EMAILS?.split(',') || []
 
   req.statusCode = 200
-  res.status(200).json({ access: mails.includes(session?.user?.email as string) })
+  res.status(200).json({ access: mails?.includes(session?.user?.email as string) })
 }
