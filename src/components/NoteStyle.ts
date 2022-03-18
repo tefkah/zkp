@@ -73,8 +73,29 @@ export const diffStyle = {
   },
 }
 
+const popoverHStyles = [1, 2, 3, 4, 5, 6].reduce((acc, curr) => {
+  acc[`h${curr}`] = { fontSize: `${1.2 - 0.1 * curr}rem` }
+  return acc
+}, {} as { [key: string]: { [keyy: string]: string } })
+const popoverStyle = {
+  // '.chakra-popover__body > div > h2': { fontFamily: 'Roboto', fontSize: '1.2rem' },
+  '.popover': {
+    p: {
+      fontSize: 'xs',
+    },
+    // h1: { fontSize: '1.4rem' },
+    // h2: { fontSize: '1.1rem' },
+    // h3: { fontSize: '1.0rem' },
+    // h4: { fontSize: '0.9rem' },
+    // h5: { fontSize: '0.8rem' },
+    // h6: { fontSize: '0.7rem' },
+    ...popoverHStyles,
+  },
+}
+
 export const noteStyle = {
   ...viewerNoteStyle,
+  paddingTop: 2,
   '.footnote-definition': {
     justifyContent: 'flex-end',
     display: 'flex',
@@ -217,4 +238,5 @@ export const noteStyle = {
   '.figure p': { textAlign: 'center' },
 
   ...diffStyle,
+  ...popoverStyle,
 }

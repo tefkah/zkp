@@ -63,7 +63,7 @@ export const getDataFromFile = async (text: string, props?: DataProps) => {
               data.mtime = value
               return
             case 'ROAM_REFS':
-              data.citation = value
+              data.citation = value.replace(/(cite:|@)/g, '')
               return
             default:
               return

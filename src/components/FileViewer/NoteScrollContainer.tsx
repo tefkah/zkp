@@ -1,4 +1,5 @@
-import { Text, HStack, Box, Button } from '@chakra-ui/react'
+import { Text, HStack, Box, Button, useMergeRefs } from '@chakra-ui/react'
+import shallow from 'zustand/shallow'
 import React, { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import { FilePageProps } from '../../pages/[...file]'
 import { BaseNote } from './BaseNote'
@@ -6,6 +7,7 @@ import { StackedNote } from './StackedNote'
 import { useMeasure, useScroll } from 'react-use'
 import { useElementSize } from '@mantine/hooks'
 import { useRouter } from 'next/router'
+import { useNotes } from '../../stores/noteStore'
 
 interface NoteScrollContainerProps extends FilePageProps {}
 
@@ -21,14 +23,16 @@ const scrollToPane = (
     behavior: 'smooth',
   })
 }
-const obstructedOffset = 120
-const obstructedPageWidth = 40
 
 export interface StackState {
   obstructed: boolean
   highlighted: boolean
   overlay: boolean
   active: boolean
+  /**
+   * Mostly because object order is not guaranteed
+   */
+  index: number
 }
 
 export interface StackedNotesState {
@@ -45,59 +49,85 @@ export const NoteScrollContainer = (props: FilePageProps) => {
     [router.asPath],
   )
 
-  console.log(stackedNotes)
   const stacked = !!stackedNotes?.length
-  const allNotes = [fileData.id, ...(stackedNotes || [])]
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const allNotes = useMemo(() => [fileData.id, ...(stackedNotes || [])], [fileData, stackedNotes])
+  const scrollRef = useRef<HTMLDivElement | null>(null)
   const { x, y } = useScroll(scrollRef)
   const { ref: sizeRef, width, height } = useElementSize()
 
-  console.log(stackedNotes)
-  const [stackedNotesState, setStackedNotesState] = useState({
-    [fileData.id]: {
-      obstructed: false,
-      highlighted: false,
-      overlay: x > width - obstructedOffset,
-      active: true,
-    },
-  })
+  const [
+    stackedNotesState,
+    setStackedNotesState,
+    updateStackedNotesState,
+    noteWidth,
+    setNoteWidth,
+    scrollToId,
+    setScrollContainer,
+    obstructedOffset,
+    obstructedPageWidth,
+    scrollToEnd,
+  ] = useNotes(
+    (state) => [
+      state.stackedNotesState,
+      state.setStackedNotesState,
+      state.updateStackedNotesState,
+      state.noteWidth,
+      state.setNoteWidth,
+      state.scrollToId,
+      state.setScrollContainer,
+      state.obstructedOffset,
+      state.obstructedPageWidth,
+      state.scrollToEnd,
+    ],
+    shallow,
+  )
+
+  useEffect(() => {
+    setNoteWidth(width)
+  }, [width])
+  /**
+   * On mount, set the initial state
+   */
+  useEffect(() => {
+    setStackedNotesState({
+      [fileData.id]: {
+        obstructed: false,
+        highlighted: false,
+        overlay: x > width - obstructedOffset,
+        active: true,
+        index: 0,
+      },
+    })
+  }, [])
+
+  /**
+   * Put scrollref in the store. There's not really any hurry with this,
+   * as a user will almost certainly either scroll or open a new note before
+   * having to use the scrollRef stored in the store, which is mostly for scrolling
+   * to already opened notes.
+   */
+  useEffect(() => {
+    setScrollContainer(scrollRef)
+  }, [scrollRef.current])
 
   /**
    * Scroll to last note when the number of notes changes.
    */
   useEffect(() => {
-    scrollToPane(scrollRef, allNotes.length + 1, width)
-  }, [stackedNotes, scrollRef, width])
+    //if (!stackedNotes) return
+    setTimeout(() => {
+      scrollToEnd(scrollRef)
+    }, 20)
+  }, [scrollRef, stackedNotes?.length])
 
   /**
    * Update the stack state on scroll and note-change
    */
   useEffect(() => {
-    setStackedNotesState(
-      allNotes.reduce((acc, curr, i, a) => {
-        console.log({
-          [i]: {
-            x,
-            length: Math.max(width * (i + 1) - obstructedOffset - obstructedPageWidth * (i - 1), 0),
-          },
-        })
-        console.log({
-          [i]: { left: x + width * (allNotes.length + 1), right: width * i + obstructedOffset },
-        })
-
-        acc[curr] = {
-          highlighted: false,
-          overlay:
-            x > Math.max(width * (i - 1) - obstructedPageWidth * (i - 2), 0) ||
-            x < Math.max(0, width * (i - 2)),
-          obstructed:
-            x > Math.max(width * (i + 1) - obstructedOffset - obstructedPageWidth * (i - 1), 0) ||
-            x + width * (allNotes.length + 1) < width * i + obstructedOffset,
-          active: i === a.length - 1,
-        }
-        return acc
-      }, {} as typeof stackedNotesState),
-    )
+    if (allNotes.length === 1) {
+      return
+    }
+    updateStackedNotesState({ x, width, obstructedOffset, obstructedPageWidth, allNotes })
   }, [stackedNotes, scrollRef, x, setStackedNotesState])
 
   return (
@@ -109,6 +139,12 @@ export const NoteScrollContainer = (props: FilePageProps) => {
       spacing={0}
       flex={1}
     >
+      <Text position="absolute" zIndex={1000}>
+        x:{x}
+        <br /> 4th: {width * 3 - obstructedPageWidth * 3},
+        <br />
+        {x < width * 3 - obstructedPageWidth * 3 ? 'true' : 'false'}
+      </Text>
       <BaseNote
         ref={sizeRef}
         {...{
@@ -121,6 +157,7 @@ export const NoteScrollContainer = (props: FilePageProps) => {
           commits,
           csl,
           index: 0,
+          stackedNotes: allNotes,
         }}
         stackData={stackedNotesState[fileData.id]}
       />
@@ -128,7 +165,13 @@ export const NoteScrollContainer = (props: FilePageProps) => {
         stackedNotes?.map((note, index) => (
           <StackedNote
             key={`${note}${index}`}
-            {...{ index: index + 1, id: note, data, stackData: stackedNotesState[note] }}
+            {...{
+              stackedNotes: allNotes,
+              index: index + 1,
+              id: note,
+              data,
+              stackData: stackedNotesState[note],
+            }}
           />
         ))}
       {/* <Text>

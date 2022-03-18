@@ -19,6 +19,7 @@ import { NoteScrollContainer } from '../components/FileViewer/NoteScrollContaine
 export interface File {
   path: string
   type: 'file'
+  id: string
 }
 export interface Files {
   files: File[]
@@ -136,28 +137,28 @@ export async function getStaticProps(props: StaticProps) {
 
   const fileList = Object.entries(data).reduce(
     (acc: Files, curr: [id: string, entry: OrgFileData]) => {
-      const [, entry] = curr
+      const [id, entry] = curr
       const { path: rawPath, title, tags } = entry
       const path = rawPath.split('/')
       if (path.length !== 1) {
-        acc.folders[path[0]] = [...(acc.folders[path[0]] || []), { type: 'file', path: title }]
+        acc.folders[path[0]] = [...(acc.folders[path[0]] || []), { type: 'file', path: title, id }]
         return acc
       }
       if (tags?.includes('definition')) {
         acc.folders.Definitions = [
           ...(acc.folders.Definitions || []),
-          { type: 'file', path: title },
+          { type: 'file', path: title, id },
         ]
         return acc
       }
       if (tags?.includes('reference')) {
         acc.folders['Literature Notes'] = [
           ...(acc.folders['Literature Notes'] || []),
-          { type: 'file', path: title },
+          { type: 'file', path: title, id },
         ]
         return acc
       }
-      acc.files.push({ type: 'file', path: title })
+      acc.files.push({ type: 'file', path: title, id })
       return acc
     },
     { files: [], folders: {} },

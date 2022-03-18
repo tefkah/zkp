@@ -34,10 +34,11 @@ interface Props {
   // if we have a diff we don't want to process links etc, because that will fuck up
   data?: FilesData
   currentId: string
+  type?: 'default' | 'popover'
 }
 
 export function ParsedOrg(props: Props): React.ReactElement | null {
-  const { text, data, currentId } = props
+  const { text, data, type, currentId } = props
   const processor = useMemo(
     () =>
       unified()
@@ -143,28 +144,26 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
               }
 
               const id = (href as string).replace(/id:/g, '')
-              console.log(id)
               const correctLink = data?.[id]?.title || ''
-              console.log(data.data)
-              console.log(correctLink)
 
-              if (!correctLink && (href as string).replace(/.*?(cite:).*/g, '$1')) {
+              if (!correctLink && (href as string).replace(/\[?.*?(cite:@?).*\]?/g, '$1')) {
                 const cleanCite = (href as string)
-                  .replace(/.*?cite:(.*)/g, '$1')
+                  .replace(/.*?cite:@?(.*)/g, '$1')
                   .replace(/ /g, '')
+                const prettyNames = cleanCite
                   .split(',')
-                const prettyNames = cleanCite.map(
-                  (cite) =>
-                    `${cite.replace(/[0-9]\w*/g, '')}, ${cite.replace(/.*?([0-9])/g, '$1')}`,
-                )
+                  .map(
+                    (cite) =>
+                      `${cite.replace(/[0-9]\w*/g, '')}, ${cite.replace(/.*?([0-9])/g, '$1')}`,
+                  )
 
                 return (
                   //@ts-ignore
                   <Text as="span" variant="org">
                     (
                     {prettyNames.map((name, index) => {
-                      const title = findCiteTitle(`cite:${cleanCite[index]}`, data)
-                      const id = findCiteId(`cite:${cleanCite[index]}`, data)
+                      const title = findCiteTitle(cleanCite, data)
+                      const id = findCiteId(cleanCite, data)
                       //const text = data.orgTexts[id] ?? ''
                       if (!title || !id) return <Text as="span">{name}</Text>
                       return (
@@ -294,7 +293,11 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
   )
 
   try {
-    return <Box>{processor.processSync(text).result as React.ReactElement}</Box>
+    return (
+      <Box className={type === 'popover' ? 'popover' : undefined}>
+        {processor.processSync(text).result as React.ReactElement}
+      </Box>
+    )
   } catch (e) {
     console.log(e)
     return null

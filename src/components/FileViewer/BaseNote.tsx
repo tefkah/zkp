@@ -1,3 +1,4 @@
+import shallow from 'zustand/shallow'
 import {
   Flex,
   Tag,
@@ -24,8 +25,10 @@ import { ProcessedOrg } from '../ProcessedOrg'
 import { Backlinks } from './Backlinks'
 import { Citations } from './Citations'
 import { StackState } from './NoteScrollContainer'
+import { useNotes } from '../../stores/noteStore'
 
 export interface NoteProps {
+  stackedNotes: string[]
   page: string
   fileData: OrgFileData
   data: FilesData
@@ -33,16 +36,20 @@ export interface NoteProps {
   toc: NoteHeading[]
   commits: CommitPerDateLog
   csl: CSLCitation[]
-  stacked?: boolean
   stackData?: StackState
   index: number
   // ref?: any
 }
 
 export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
-  const { index, stackData, toc, stacked, fileData, page, data, slug, commits, csl } = props
+  const { index, stackData, toc, stackedNotes, fileData, page, data, slug, commits, csl } = props
   const { title, tags, ctime, mtime, backLinks, citations, citation } = fileData
 
+  const stacked = stackedNotes.length > 1
+  const [obstructedOffset, obstructedPageWidth, noteWidth] = useNotes(
+    (state) => [state.obstructedOffset, state.obstructedPageWidth, state.noteWidth],
+    shallow,
+  )
   const { colorMode } = useColorMode()
   // const { ref, width, height } = useElementSize()
 
@@ -58,8 +65,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
 
   const highlightedStyle: CSSObject = stackData?.highlighted
     ? {
-        background: 'blue.100',
-        transition: 'background 0.3s ease',
+        backgroundColor: 'red.100',
       }
     : {}
   const overlayStyle: CSSObject = stackData?.overlay
@@ -71,8 +77,10 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
 
   const Note = useMemo(() => {
     return (
-      <Container w="75ch" my={6}>
-        <Heading mb={4}>{slug}</Heading>
+      <Container w="75ch" my={8}>
+        <Heading size="lg" mb={4}>
+          {slug}
+        </Heading>
         <HStack my={2} spacing={2}>
           {!tags?.includes('chapter') &&
             tags?.map((tag: string) => (
@@ -116,19 +124,19 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
       sx={{
         padding: 4,
         backgroundColor: colorMode === 'dark' ? 'gray.800' : 'white',
-        left: `${40 * (index || 0)}px`,
-        right: `${-585 - (20 * index || 0)}`,
+        left: `${obstructedPageWidth * (index || 0)}px`,
+        right: `${-noteWidth + (obstructedPageWidth * (stackedNotes.length - index) || 0)}`,
         transition:
-          'box-shadow 100ms linear, opacity 75ms linear, transform 200ms cubic-bezier(0.19, 1, 0.22, 1)',
+          'box-shadow 100ms linear, opacity 75ms linear, transform 200ms cubic-bezier(0.19, 1, 0.22, 1), background-color 0.3s ease',
         maxH: '95vh',
         position: 'sticky',
         flexGrow: 1,
         overflowY: 'scroll',
         scrollBehavior: 'smooth',
         ...stackedNoteStyle,
-        ...highlightedStyle,
         ...overlayStyle,
         ...obstructedStyle,
+        ...highlightedStyle,
       }}
     >
       {stacked && (
@@ -137,15 +145,15 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
           sx={{
             textDecoration: 'none',
             fontSize: '17px',
-            lineHeight: '40px',
+            lineHeight: `${obstructedPageWidth}px`,
             fontWeight: '500',
-            marginTop: '36px',
+            marginTop: 14,
             top: '0px',
             bottom: '0px',
             left: '0px',
             position: 'absolute',
             backgroundColor: 'transparent',
-            width: '40px',
+            width: `${obstructedPageWidth}px`,
             writingMode: 'vertical-lr',
             textOrientation: 'sideways',
             overflow: 'hidden',

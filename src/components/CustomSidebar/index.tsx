@@ -29,6 +29,9 @@ import { usePersistantState } from '../../hooks/usePersistantState'
 import { usePersistantDisclosure } from '../../hooks/usePersistantDisclosure'
 import { useRouter } from 'next/router'
 
+import shallow from 'zustand/shallow'
+import { useNotes } from '../../stores/noteStore'
+import { SidebarLink } from './SidebarLink'
 interface Props {
   items: Files
 }
@@ -133,6 +136,12 @@ export const SubMenu = (props: SubMenuProps) => {
   })
   const textColor = useColorModeValue('gray.600', 'gray.400')
   const currentColor = 'primary' // useColorModeValue('black', 'white')
+
+  const [setHighlightedNote, unHighlightNotes] = useNotes(
+    (state) => [state.setHighlightedNote, state.unHighlightNotes],
+    shallow,
+  )
+
   return (
     <Box key={folder}>
       <Container pl={2} mt={4} mb={4}>
@@ -151,36 +160,14 @@ export const SubMenu = (props: SubMenuProps) => {
       </Container>
       {isOpen && (
         <VStack pl={2} pr="5%" alignItems="flex-start" spacing={1}>
-          {files.map((item: File, index: number) => {
-            const isActive = router.asPath?.includes(`/${slugify(item.path)}`)
-            return (
-              <Container
-                py={1}
-                key={`${item.path}${index}`}
-                borderRadius="sm"
-                backgroundColor={isActive ? 'red.50' : undefined}
-              >
-                <HStack alignItems="baseline">
-                  {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
-                  <Text
-                    fontWeight={isActive ? '600' : '500'}
-                    color={isActive ? currentColor : textColor}
-                    transition="color 0.15s"
-                    _hover={{ color: 'primary' }}
-                    fontSize={14}
-                    textTransform="capitalize"
-                  >
-                    <Link prefetch={false} href={`/${slugify(item.path)}`} key={item.path}>
-                      {item.path
-                        .replace(/\d{14}-/g, '')
-                        .replace(/\.org/g, '')
-                        .replace(/_/g, ' ')}
-                    </Link>
-                  </Text>
-                </HStack>
-              </Container>
-            )
-          })}
+          {files.map((item: File, index: number) => (
+            <SidebarLink
+              {...{ currentColor, textColor }}
+              item={item}
+              path={router.asPath}
+              key={`${item.path}${index}`}
+            />
+          ))}
         </VStack>
       )}
     </Box>

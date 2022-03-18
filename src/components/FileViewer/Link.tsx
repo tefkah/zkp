@@ -20,6 +20,7 @@ import {
 import Link from 'next/link'
 import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react'
 
+import shallow from 'zustand/shallow'
 import unified from 'unified'
 //import createStream from 'unified-stream'
 import uniorgParse from 'uniorg-parse'
@@ -70,6 +71,7 @@ import { slugify } from '../../utils/slug'
 import { ParsedOrg } from '../../services/thesis/parseOrg'
 import { PopoverPreview } from './PopoverPreview'
 import { useRouter } from 'next/router'
+import { useNotes } from '../../stores/noteStore'
 
 export const NodeLink = (props: NodeLinkProps) => {
   const {
@@ -87,6 +89,24 @@ export const NodeLink = (props: NodeLinkProps) => {
   } = props
 
   const router = useRouter()
+  const [
+    noteWidth,
+    stackedNotesState,
+    scrollContainer,
+    scrollToId,
+    setHighlightedNote,
+    unHighlightNotes,
+  ] = useNotes(
+    (state) => [
+      state.noteWidth,
+      state.stackedNotesState,
+      state.scrollContainer,
+      state.scrollToId,
+      state.setHighlightedNote,
+      state.unHighlightNotes,
+    ],
+    shallow,
+  )
   // const theme = useTheme()
   // const type = href.replaceAll(/(.*?)\:?.*/g, '$1')
   // const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
@@ -117,9 +137,12 @@ export const NodeLink = (props: NodeLinkProps) => {
     >
       <Link href={href}>
         <a
+          onMouseEnter={() => id && setHighlightedNote(id)}
+          onMouseLeave={() => unHighlightNotes()}
           onClick={(e) => {
             e.preventDefault()
             if (id && router.asPath.includes(id)) {
+              scrollToId({ id, stackedNotesState, noteWidth, ref: scrollContainer })
               // TODO: scroll to id
               return
             }
@@ -197,6 +220,9 @@ export const PreviewLink = (props: LinkProps) => {
         trigger="hover"
         placement="bottom-start"
         isLazy
+        lazyBehavior="keepMounted"
+
+        //isLazy
       >
         <PopoverTrigger>
           <Text as="span">
@@ -212,26 +238,27 @@ export const PreviewLink = (props: LinkProps) => {
             />
           </Text>
         </PopoverTrigger>
-        <PopoverContent
-          key={title}
-          boxShadow="sm"
-          w="container.xs"
-          borderRadius="xs"
-          // position="relative" // zIndex="tooltip"
-        >
-          <PopoverArrow />
-          <PopoverBody
-            as={Container}
-            pb={5}
-            fontSize="xs"
-            maxW="container.xs"
-            //zIndex="tooltip"
-            maxHeight={300}
-            overflowY="scroll"
+        <Portal>
+          <PopoverContent
+            boxShadow="md"
+            key={title}
+            // position="relative" // zIndex="tooltip"
           >
-            <PopoverPreview {...{ href, id, title }} />
-          </PopoverBody>
-        </PopoverContent>
+            <PopoverArrow />
+            <PopoverBody
+              as={Container}
+              pb={5}
+              fontSize="xs"
+              maxW="xs"
+              //zIndex="tooltip"
+              maxH="2xs"
+              overflowY="scroll"
+              borderRadius="sm"
+            >
+              <PopoverPreview {...{ href, id, title }} />
+            </PopoverBody>
+          </PopoverContent>
+        </Portal>
       </Popover>
     </>
   )

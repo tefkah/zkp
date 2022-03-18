@@ -27,7 +27,7 @@ export interface StackedNoteProps
 }
 
 export const StackedNote = (props: StackedNoteProps) => {
-  const { id, data, index, stackData } = props
+  const { id, data, index, stackData, stackedNotes } = props
   const { data: file, error: fileError } = useSWR(`/api/file/byId/${id}`)
   const { data: meta, error: fileDataError } = useSWR(`/api/meta/byId/${id}`)
   // if (!file || !meta) {
@@ -39,7 +39,6 @@ export const StackedNote = (props: StackedNoteProps) => {
     <>
       {file && meta && (
         <BaseNote
-          stacked
           page={file?.file}
           fileData={meta?.meta}
           data={data}
@@ -47,7 +46,7 @@ export const StackedNote = (props: StackedNoteProps) => {
           toc={[]}
           commits={{}}
           csl={[]}
-          {...{ index, stackData }}
+          {...{ stackedNotes, index, stackData }}
         />
       )}
     </>
