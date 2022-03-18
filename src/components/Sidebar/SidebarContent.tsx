@@ -41,7 +41,7 @@ export const MenuLink = (props: MenuLink & FlexProps) => {
   const { children, active, isSection, isComp, activeSection, section, subSection, href, ...rest } =
     props
 
-  const activeColor = useColorModeValue('brand.800', 'brand.200')
+  const activeColor = 'red.500' // useColorModeValue('brand.800', 'brand.200')
 
   const hasAlert = !isSection && !isComp && section.alert
   return (
@@ -79,18 +79,21 @@ export const MenuLink = (props: MenuLink & FlexProps) => {
 const CLink = (props: any) => {
   const { children, active, isSection, activeSection, href } = props
 
-  const tColor = useColorModeValue('blackAlpha.700', 'whiteAlpha.700')
-  const activeColor = useColorModeValue('brand.800', 'brand.200')
+  const tColor = 'red.500' // useColorModeValue('blackAlpha.700', 'whiteAlpha.700')
+  const activeColor = 'red.500' // useColorModeValue('brand.800', 'brand.200')
+
   const activeStyle = {
     color: activeColor,
     fontWeight: 'semibold',
   }
+
   const sectionStyle: any = {
     textTransform: 'uppercase',
     fontWeight: 'bold',
     fontSize: 'xs',
     color: tColor,
   }
+
   const baseStyle: any = {
     color: tColor,
     _hover: {
@@ -102,6 +105,7 @@ const CLink = (props: any) => {
     fontSize: 'sm',
     fontWeight: 'md',
   }
+
   const SLinkProps = {
     to: activeSection,
     offset: -90,
@@ -111,11 +115,13 @@ const CLink = (props: any) => {
     spy: true,
     activeClass: 'active',
   }
+
   const RLinkProps = {
     active: active,
     href: href,
     isSection: isSection,
   }
+
   const LinkProps = activeSection ? SLinkProps : RLinkProps
   const LinkComp: any = activeSection ? SLink : RouteLink
 
@@ -127,6 +133,7 @@ const CLink = (props: any) => {
     </LinkComp>
   )
 }
+
 export const CompLink = (props: any) => {
   const { component, activeSection } = props
   return (

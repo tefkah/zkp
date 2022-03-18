@@ -132,7 +132,7 @@ export const SubMenu = (props: SubMenuProps) => {
     defaultIsOpen: shouldOpen || (defaultIsOpen && true),
   })
   const textColor = useColorModeValue('gray.600', 'gray.400')
-  const currentColor = useColorModeValue('black', 'white')
+  const currentColor = 'primary' // useColorModeValue('black', 'white')
   return (
     <Box key={folder}>
       <Container pl={2} mt={4} mb={4}>
@@ -150,15 +150,21 @@ export const SubMenu = (props: SubMenuProps) => {
         </HStack>
       </Container>
       {isOpen && (
-        <VStack pl={2} pr="5%" alignItems="flex-start" spacing={3}>
+        <VStack pl={2} pr="5%" alignItems="flex-start" spacing={1}>
           {files.map((item: File, index: number) => {
+            const isActive = router.asPath?.includes(`/${slugify(item.path)}`)
             return (
-              <Container key={`${item.path}${index}`}>
+              <Container
+                py={1}
+                key={`${item.path}${index}`}
+                borderRadius="sm"
+                backgroundColor={isActive ? 'red.50' : undefined}
+              >
                 <HStack alignItems="baseline">
                   {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
                   <Text
-                    fontWeight={router.asPath === `/${slugify(item.path)}` ? '600' : '500'}
-                    color={router.asPath === `/${slugify(item.path)}` ? currentColor : textColor}
+                    fontWeight={isActive ? '600' : '500'}
+                    color={isActive ? currentColor : textColor}
                     transition="color 0.15s"
                     _hover={{ color: 'primary' }}
                     fontSize={14}

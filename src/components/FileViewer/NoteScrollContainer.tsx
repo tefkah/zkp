@@ -1,10 +1,11 @@
 import { Text, HStack, Box, Button } from '@chakra-ui/react'
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import { FilePageProps } from '../../pages/[...file]'
 import { BaseNote } from './BaseNote'
 import { StackedNote } from './StackedNote'
 import { useMeasure, useScroll } from 'react-use'
 import { useElementSize } from '@mantine/hooks'
+import { useRouter } from 'next/router'
 
 interface NoteScrollContainerProps extends FilePageProps {}
 
@@ -35,13 +36,23 @@ export interface StackedNotesState {
 }
 
 export const NoteScrollContainer = (props: FilePageProps) => {
-  const { toc, fileData, page, data, stackedNotes, slug, commits, csl } = props
+  const { toc, fileData, page, data, slug, commits, csl } = props
+
+  const router = useRouter()
+
+  const stackedNotes = useMemo(
+    () => router.asPath.match(/([\d\w]{8}-([\d\w]{4}-){3}[\d\w]{12})/g),
+    [router.asPath],
+  )
+
+  console.log(stackedNotes)
   const stacked = !!stackedNotes?.length
   const allNotes = [fileData.id, ...(stackedNotes || [])]
   const scrollRef = useRef<HTMLDivElement>(null)
   const { x, y } = useScroll(scrollRef)
   const { ref: sizeRef, width, height } = useElementSize()
 
+  console.log(stackedNotes)
   const [stackedNotesState, setStackedNotesState] = useState({
     [fileData.id]: {
       obstructed: false,
@@ -96,6 +107,7 @@ export const NoteScrollContainer = (props: FilePageProps) => {
       alignItems="top"
       transition="width 100ms cubic-bezier(0.19, 1, 0.22, 1)"
       spacing={0}
+      flex={1}
     >
       <BaseNote
         ref={sizeRef}

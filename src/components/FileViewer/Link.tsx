@@ -119,17 +119,45 @@ export const NodeLink = (props: NodeLinkProps) => {
         <a
           onClick={(e) => {
             e.preventDefault()
-            if (id && router.asPath?.includes(id)) {
+            if (id && router.asPath.includes(id)) {
               // TODO: scroll to id
               return
             }
             if (router.asPath.replace(/.*\//, '') === currentId) {
-              router.push(`${router.asPath}/${id}`)
+              const url = `${router.asPath}/${id}`
+              router.push(url, url, { shallow: true })
               return
             }
             // truncate the path to the current id
             const truncatedPath = router.asPath.replace(new RegExp(`(.*?\/${currentId}).*`), '$1')
-            router.push(`${truncatedPath}/${id}`)
+            const url = `${truncatedPath}/${id}`
+            router.push(url, url, { shallow: true })
+
+            //   if (id && router.query?.stack?.includes(id)) {
+            //     // TODO: scroll to id
+            //     return
+            //   }
+            //   if (router.query?.stack?.includes(currentId)) {
+            //     if (router.query?.stack) {
+            //       const url = `${router.asPath}&stack=${id}`
+            //       router.push(url, url, { shallow: true })
+            //     }
+            //     const url = `${router.asPath}?stack=${id}`
+            //     router.push(url, url, { shallow: true })
+            //     return
+            //   }
+            //   // truncate the path to the current id
+            //   const truncatedPath = router.asPath.replace(
+            //     new RegExp(`(.*?stack=${currentId}).*`),
+            //     '$1',
+            //   )
+            //   if (router.query?.stack) {
+            //     const url = `${truncatedPath}&stack=${id}`
+            //     router.push(url, url, { shallow: true })
+            //   }
+            //   const url = `${truncatedPath}?stack=${id}`
+            //   router.push(url, url, { shallow: true })
+            // }}
           }}
         >
           {children}

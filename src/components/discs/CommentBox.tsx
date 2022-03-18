@@ -110,6 +110,7 @@ export default function CommentBox({
 
   const light = useColorModeValue('gray.50', 'gray.700')
   const dark = useColorModeValue('white', 'black')
+  const white = useColorModeValue('black', 'white')
   const med = useColorModeValue('gray.300', 'gray.600')
 
   return !isReply || isReplyOpen ? (
@@ -125,21 +126,29 @@ export default function CommentBox({
       <Tabs borderWidth={1} borderRadius="md" variant="enclosed">
         <TabList pt={2} px={4} backgroundColor={light}>
           <Tab
-            _selected={{
-              borderWidth: 2,
-              borderBottomWidth: 0,
-              borderColor: 'gray.200',
-              backgroundColor: { dark },
-            }}
-          >
-            Write
-          </Tab>
-          <Tab
+            color={'gray.500'}
+            fontWeight={'500'}
             _selected={{
               borderWidth: 2,
               borderBottomWidth: 0,
               borderColor: 'gray.200',
               backgroundColor: dark,
+              fontWeight: 'semibold',
+              color: white,
+            }}
+          >
+            Write
+          </Tab>
+          <Tab
+            color={'gray.500'}
+            fontWeight={'500'}
+            _selected={{
+              borderWidth: 2,
+              borderBottomWidth: 0,
+              borderColor: 'gray.200',
+              backgroundColor: dark,
+              fontWeight: 'semibold',
+              color: white,
             }}
           >
             Preview

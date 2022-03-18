@@ -81,7 +81,7 @@ export default function FilePage(props: FilePageProps) {
       <Box w="100vw" h="100vh" overflowX="hidden">
         <Flex minH="full" w="100vw">
           <CustomSideBar items={items} />
-          <Box h="full" flex="0 1 auto" overflowX="hidden">
+          <Box h="full" flex="1 1 auto" overflowX="hidden">
             <Header />
             <NoteScrollContainer {...props} />
           </Box>
