@@ -12,7 +12,7 @@ export const Tooltip = (props: TooltipProps) => {
   const { point, commitChartData } = props
   const node = point.data as unknown as CommitDatum
   return (
-    <Container p={3} borderRadius="md" boxShadow="md" bg={useColorModeValue('gray.50', 'gray.600')}>
+    <Container p={3} borderRadius="md" boxShadow="md" bg={background}>
       <Text fontWeight="bold">
         {node.message.slice(0, 8) === 'Scripted' ? 'Auto-commit' : node.message}
       </Text>

@@ -3,7 +3,7 @@ import React from 'react'
 import { LabelNode, Labels } from './IssueList'
 
 export const IssueLabels = (props: Labels) => {
-  const color = useColorModeValue('white', 'black')
+  const color = 'foreground'
 
   return (
     <HStack spacing="2">

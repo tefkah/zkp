@@ -41,7 +41,6 @@ const CustomSideBar = (props: Props) => {
   const { isOpen, onOpen, onClose, onToggle } = usePersistantDisclosure('showSidebar', {
     defaultIsOpen: true,
   })
-  const bg = useColorModeValue('gray.50', 'gray.800')
   const unemph = useColorModeValue('gray.700', 'gray.300')
   return (
     <>
@@ -77,7 +76,7 @@ const CustomSideBar = (props: Props) => {
           //style={{ position: 'sticky', top: 0 }}
           pl={1}
           //pr="3%"
-          backgroundColor={bg}
+          backgroundColor="back"
           // pt="1%"
           alignItems="flex-start"
           overflowX="hidden"
@@ -87,13 +86,14 @@ const CustomSideBar = (props: Props) => {
           //  position="fixed"
         >
           <HStack
-            bg={bg} // w="full"
+            backgroundColor="back" // w="full"
             pl={4}
-            mt={3}
             w="full"
             alignItems="center"
             pos="sticky"
+            pt={3}
             top={0}
+            zIndex={2}
           >
             <IconButton
               aria-label="close sidebar"

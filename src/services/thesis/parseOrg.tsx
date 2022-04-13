@@ -35,10 +35,11 @@ interface Props {
   data?: FilesData
   currentId: string
   type?: 'default' | 'popover'
+  backlink?: boolean
 }
 
 export function ParsedOrg(props: Props): React.ReactElement | null {
-  const { text, data, type, currentId } = props
+  const { text, data, type, backlink, currentId } = props
   const processor = useMemo(
     () =>
       unified()

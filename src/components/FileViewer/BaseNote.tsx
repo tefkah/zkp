@@ -65,7 +65,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
 
   const highlightedStyle: CSSObject = stackData?.highlighted
     ? {
-        backgroundColor: 'red.100',
+        backgroundColor: 'brand.100',
       }
     : {}
   const overlayStyle: CSSObject = stackData?.overlay
@@ -123,7 +123,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
       ref={ref}
       sx={{
         padding: 4,
-        backgroundColor: colorMode === 'dark' ? 'gray.800' : 'white',
+        backgroundColor: colorMode === 'dark' ? 'dark.primary' : 'white',
         left: `${obstructedPageWidth * (index || 0)}px`,
         right: `${-noteWidth + (obstructedPageWidth * (stackedNotes.length - index) || 0)}`,
         transition:
@@ -138,6 +138,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         ...obstructedStyle,
         ...highlightedStyle,
       }}
+      justifyContent={stacked ? 'flex-start' : 'space-between'}
     >
       {stacked && (
         <Heading
@@ -167,6 +168,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         </Heading>
       )}
       <Box
+        flexGrow={1}
         sx={{
           transition: 'opacity 0.2s ease',
           opacity: stackData?.obstructed ? 0 : undefined,

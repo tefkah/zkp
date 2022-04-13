@@ -41,7 +41,7 @@ export const MenuLink = (props: MenuLink & FlexProps) => {
   const { children, active, isSection, isComp, activeSection, section, subSection, href, ...rest } =
     props
 
-  const activeColor = 'red.500' // useColorModeValue('brand.800', 'brand.200')
+  const activeColor = 'brand.500' // useColorModeValue('brand.800', 'brand.200')
 
   const hasAlert = !isSection && !isComp && section.alert
   return (
@@ -79,8 +79,8 @@ export const MenuLink = (props: MenuLink & FlexProps) => {
 const CLink = (props: any) => {
   const { children, active, isSection, activeSection, href } = props
 
-  const tColor = 'red.500' // useColorModeValue('blackAlpha.700', 'whiteAlpha.700')
-  const activeColor = 'red.500' // useColorModeValue('brand.800', 'brand.200')
+  const tColor = 'brand.500' // useColorModeValue('blackAlpha.700', 'whiteAlpha.700')
+  const activeColor = 'brand.500' // useColorModeValue('brand.800', 'brand.200')
 
   const activeStyle = {
     color: activeColor,

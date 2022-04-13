@@ -108,7 +108,7 @@ const IssueList = (props: IssueListProps) => {
                   key={node.title}
                   w="full"
                   transition="background-color 0.1s"
-                  _hover={{ bgColor: useColorModeValue('gray.50', 'gray.700') }}
+                  _hover={{ bgColor: background }}
                 >
                   <VStack alignItems="flex-start">
                     <HStack w="full" spacing={2} justifyContent="space-between" alignItems="center">

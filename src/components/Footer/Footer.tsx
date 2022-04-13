@@ -62,7 +62,7 @@ interface FooterProps {
 export function Footer(props: FooterProps) {
   return (
     <Box
-      bg={useColorModeValue('gray.50', 'gray.900')}
+      bg={'back'}
       color={useColorModeValue('gray.700', 'gray.200')}
       h={24}
       w="full"

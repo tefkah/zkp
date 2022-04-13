@@ -31,6 +31,7 @@ import 'katex/dist/katex.css'
 import rehype2react from 'rehype-react'
 
 export interface LinkProps {
+  backlink?: boolean
   title: string
   href: any
   id?: string
@@ -72,6 +73,7 @@ import { ParsedOrg } from '../../services/thesis/parseOrg'
 import { PopoverPreview } from './PopoverPreview'
 import { useRouter } from 'next/router'
 import { useNotes } from '../../stores/noteStore'
+import useSWR from 'swr'
 
 export const NodeLink = (props: NodeLinkProps) => {
   const {
@@ -202,7 +204,8 @@ export const NormalLink = (props: NormalLinkProps) => {
 }
 
 export const PreviewLink = (props: LinkProps) => {
-  const { id, href, data, title, children, currentId } = props
+  const { id, backlink, href, data, title, children, currentId } = props
+  const { data: text, error } = useSWR(backlink ? `/api/file/byId/${id}` : null)
 
   if (!href) {
     return (
@@ -225,18 +228,34 @@ export const PreviewLink = (props: LinkProps) => {
         //isLazy
       >
         <PopoverTrigger>
-          <Text as="span">
-            <NodeLink
-              key={title}
-              {...{
-                currentId,
-                id,
-                href,
-                children,
-                data,
-              }}
-            />
-          </Text>
+          {backlink ? (
+            <Box sx={noteStyle} color="brand.700">
+              <NodeLink
+                key={title}
+                {...{
+                  currentId,
+                  id,
+                  href,
+                  children,
+                  data,
+                }}
+              />
+              <ParsedOrg type="popover" text={text?.file} currentId={currentId} />
+            </Box>
+          ) : (
+            <Text as="span">
+              <NodeLink
+                key={title}
+                {...{
+                  currentId,
+                  id,
+                  href,
+                  children,
+                  data,
+                }}
+              />
+            </Text>
+          )}
         </PopoverTrigger>
         <Portal>
           <PopoverContent

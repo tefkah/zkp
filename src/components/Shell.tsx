@@ -80,7 +80,7 @@ export default function Shell(props: BoxProps) {
       pb="10"
       overflowX="hidden"
       overflowY="auto"
-      bg={useColorModeValue('white', 'gray.800')}
+      bg={foreground}
       borderColor={useColorModeValue('inherit', 'gray.700')}
       borderRightWidth="1px"
       w="60"
@@ -134,7 +134,7 @@ export default function Shell(props: BoxProps) {
     </Box>
   )
   return (
-    <Box as="section" bg={useColorModeValue('gray.50', 'gray.700')} minH="100vh">
+    <Box as="section" bg={background} minH="100vh">
       <SidebarContent display={{ base: 'none', md: 'unset' }} />
       <Drawer isOpen={sidebar.isOpen} onClose={sidebar.onClose} placement="left">
         <DrawerOverlay />
@@ -149,7 +149,7 @@ export default function Shell(props: BoxProps) {
           justify="space-between"
           w="full"
           px="4"
-          bg={useColorModeValue('white', 'gray.800')}
+          bg={foreground}
           borderBottomWidth="1px"
           borderColor={useColorModeValue('inherit', 'gray.700')}
           h="14"

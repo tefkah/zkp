@@ -108,8 +108,8 @@ export default function CommentBox({
     if (isReplyOpen) textarea.current.focus()
   }, [isReplyOpen])
 
-  const light = useColorModeValue('gray.50', 'gray.700')
-  const dark = useColorModeValue('white', 'black')
+  const light = 'back'
+  const dark = 'foreground'
   const white = useColorModeValue('black', 'white')
   const med = useColorModeValue('gray.300', 'gray.600')
 

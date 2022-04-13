@@ -5,6 +5,7 @@ import {
   StyleProps,
   ThemeComponentProps,
   useColorModeValue,
+  theme as baseTheme,
 } from '@chakra-ui/react'
 import { createBreakpoints } from '@chakra-ui/theme-tools'
 
@@ -15,8 +16,10 @@ const fonts = {
   // body: 'Libre Baskerville',
   body: 'Roboto',
   heading: 'Roboto',
-  orgBody: 'Source Serif Pro',
-  orgHeading: 'Source Serif Pro',
+  orgBody: 'Roboto',
+  orgHeading: 'Roboto',
+  //orgBody: 'Source Serif Pro',
+  // orgHeading: 'Source Serif Pro',
 }
 
 const breakpoints = createBreakpoints({
@@ -26,10 +29,21 @@ const breakpoints = createBreakpoints({
   xl: '80em',
 })
 
+const mainColor = 'red'
 const theme = extendTheme({
   colors: {
     black: '#16161D',
-    primary: '#EF476F',
+    //primary: `red.500`,
+    brand: baseTheme.colors[mainColor],
+    primary: baseTheme.colors[mainColor][500],
+    foreground: {
+      default: baseTheme.colors.white,
+      _dark: baseTheme.colors.gray[900],
+    },
+    back: {
+      default: baseTheme.colors.gray[50],
+      _dark: baseTheme.colors.gray[800],
+    },
   },
   fonts,
   breakpoints,
@@ -59,7 +73,7 @@ const theme = extendTheme({
       baseStyle: (props: ThemeComponentProps) => ({
         borderRadius: 'md',
         bgColor: props.colorMode !== 'dark' ? 'gray.50' : 'gray.600',
-        color: props.colorMode !== 'dark' ? 'gray.800' : 'gray.100',
+        color: props.colorMode !== 'dark' ? 'dark.secondary' : 'gray.100',
       }),
       defaultProps: {
         hasArrow: true,

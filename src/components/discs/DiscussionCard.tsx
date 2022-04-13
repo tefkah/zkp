@@ -53,7 +53,7 @@ export const DiscussionCard = ({
   const newCommentsandReplies = totalCommentsandReplies - (totalCount || 0)
 
   const light = useColorModeValue('gray.100', 'gray.700')
-  const lighter = useColorModeValue('gray.50', 'gray.700')
+  const lighter = 'back'
   const text = useColorModeValue('gray.500', 'gray.200')
   return (
     <Box key={title} w="full">

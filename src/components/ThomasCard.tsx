@@ -18,7 +18,11 @@ const Thomas = () => {
       />
 
       <Box py={4} px={6}>
-        <chakra.h1 fontSize="xl" fontWeight="bold" color={useColorModeValue('gray.800', 'white')}>
+        <chakra.h1
+          fontSize="xl"
+          fontWeight="bold"
+          color={useColorModeValue('dark.secondary', 'white')}
+        >
           Thomas F. K. Jorna
         </chakra.h1>
 

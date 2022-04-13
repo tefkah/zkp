@@ -31,8 +31,8 @@ export const DiffBox = (props: Props) => {
   const { oid, isLoaded, additions, deletions, filepath, children } = props
   const { onToggle, isOpen } = useDisclosure()
   const [raw, setRaw] = useState(false)
-  const headerColor = useColorModeValue('gray.50', 'gray.700')
-  const bodyColor = useColorModeValue('white', 'gray.800')
+  const headerColor = 'back'
+  const bodyColor = 'foreground'
   return (
     <Box
       w="full"

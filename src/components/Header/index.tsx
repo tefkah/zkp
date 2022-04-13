@@ -32,7 +32,7 @@ const ChakraUIHeader = (props: HeaderProps) => {
   const text = useColorModeValue('dark', 'light')
   const SwitchIcon = useColorModeValue(FaMoon, FaSun)
 
-  const bg = useColorModeValue('white', 'gray.800')
+  const bg = 'foreground'
   const ref = React.useRef<any>()
   const [y, setY] = React.useState(0)
   const { height = 0 } = ref.current ? ref.current.getBoundingClientRect() : {}
@@ -60,7 +60,7 @@ const ChakraUIHeader = (props: HeaderProps) => {
       minH="36px"
       rounded="md"
       fontSize="sm"
-      color="gray.800"
+      color="dark.secondary"
       outline="0"
       transition="all 0.3s"
       _hover={{
@@ -152,7 +152,7 @@ const ChakraUIHeader = (props: HeaderProps) => {
               display={{ base: 'flex', md: 'none' }}
               aria-label="Open menu"
               fontSize="20px"
-              color={useColorModeValue('gray.800', 'inherit')}
+              color={useColorModeValue('dark.secondary', 'inherit')}
               variant="ghost"
               icon={<AiOutlineMenu />}
               onClick={mobileNav.onOpen}

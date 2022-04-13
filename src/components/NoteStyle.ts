@@ -52,7 +52,7 @@ export const diffStyle = {
   '.block-deletion': {
     // p: 3,
     color: 'primary',
-    backgroundColor: 'red.50',
+    backgroundColor: 'brand.50',
     fontStyle: 'italic',
     textDecoration: 'line-through',
     // display: 'inline-block !important',
@@ -66,7 +66,7 @@ export const diffStyle = {
   '.span-deletion': {
     // p: 3,
     color: 'primary',
-    backgroundColor: 'red.50',
+    backgroundColor: 'brand.50',
     fontStyle: 'italic',
     textDecoration: 'line-through',
     display: 'inline-block !important',
@@ -118,7 +118,8 @@ export const noteStyle = {
   },
   'div .footdef': { display: 'inline-block !important', w: '95%', pl: 2 },
   a: 'primary',
-  '.katex-html': { overFlowY: 'hidden', height: 10 },
+  '.math-display': { overflowX: 'scroll', maxW: '50ch' },
+  '.katex-html': { overFlowY: 'hidden', overFlowX: 'scroll', height: 10 },
   ol: {
     paddingLeft: 4,
     py: 1,

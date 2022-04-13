@@ -25,7 +25,7 @@ export const SidebarLink = ({ currentColor, textColor, item, path, key }: Sideba
       py={1}
       key={key}
       borderRadius="sm"
-      backgroundColor={isActive ? 'red.50' : undefined}
+      backgroundColor={isActive ? 'brand.50' : undefined}
       onMouseEnter={() => setHighlightedNote(item.id)}
       onMouseLeave={() => unHighlightNotes()}
       role="group"

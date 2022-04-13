@@ -57,7 +57,7 @@ export default function ActivityPage(props: ActivityPageProps) {
         <title>Activity | Thomas' Thesis</title>
       </Head>
       <VStack justifyContents="center" spacing={6} mt={20}>
-        <Box w="80%" height={100} backgroundColor={dark ? 'gray.800' : 'gray.50'}>
+        <Box w="80%" height={100} backgroundColor={dark ? 'dark.secondary' : 'gray.50'}>
           <HistoryGraph data={log} dark={dark} diffs={diffs} setDiffs={setDiffs} />
         </Box>
         <HStack spacing={5}>

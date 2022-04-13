@@ -1,4 +1,4 @@
-import { Text, Box, Heading, VStack } from '@chakra-ui/react'
+import { Text, Box, Heading, VStack, useColorModeValue } from '@chakra-ui/react'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
 import { FilesData } from '../../utils/IDIndex/getFilesData'
@@ -14,11 +14,13 @@ interface Props {
 export const Backlinks = (props: Props) => {
   const { currentId, data, backLinks } = props
 
+  const background = useColorModeValue('brand.50', 'brand.100')
   const links = useMemo(() => {
     return backLinks.map((link) => {
       const title = data?.[link]?.title ?? ''
       return (
         <PreviewLink
+          backlink
           currentId={currentId}
           key={title}
           data={data}
@@ -32,9 +34,11 @@ export const Backlinks = (props: Props) => {
     })
   }, [backLinks])
   return (
-    <Box my={8}>
-      <Heading size="md">References to this note</Heading>
-      <VStack mt={4} spacing={2} alignItems="flex-start">
+    <Box my={8} backgroundColor={background} p={4} borderRadius="lg">
+      <Heading size="md" color="brand.700">
+        References to this note
+      </Heading>
+      <VStack mt={4} spacing={4} alignItems="flex-start">
         {links}
       </VStack>
     </Box>

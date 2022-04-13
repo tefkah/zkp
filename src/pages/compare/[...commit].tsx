@@ -103,8 +103,8 @@ export default function ComparePage(props: Props) {
 
   const [commit1, commit2] = commit
   //const {data:parsedText, isLoading} = useFetch(e)
-  const headerColor = useColorModeValue('gray.50', 'gray.700')
-  const bodyColor = useColorModeValue('white', 'gray.800')
+  const headerColor = 'back'
+  const bodyColor = 'foreground'
 
   return (
     <>

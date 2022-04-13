@@ -16,7 +16,7 @@ export const CommitList = (props: CommitListProps) => {
   const [compair, setCompair] = useState<string[]>([])
   const commits = Object.entries(commitLog).reverse()
 
-  const backgroundC = useColorModeValue('white', 'gray.800')
+  const backgroundC = 'foreground'
   return (
     <VStack spacing={0}>
       {commits.map((commitObj: [string, DateCommit]) => {
