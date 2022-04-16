@@ -3,9 +3,9 @@ import visit from 'unist-util-visit'
 //@ts-expect-error
 import Citation from 'citation-js'
 import { CSLCitation } from '../../lib/api'
-import unified from 'unified'
+import { unified } from 'unified'
 import remarkParse from 'remark-parse'
-import rehype2react from 'rehype-react'
+import rehype2react, { Options } from 'rehype-react'
 import rehypeParse from 'rehype-parse'
 import remarkRehype from 'remark-rehype'
 import remarkGFM from 'remark-gfm'
@@ -62,7 +62,7 @@ export const markdownToReact = (markdown: string) => {
           </Text>
         ),
       },
-    })
+    } as Options)
 
   return <>{processor.processSync(htmlWithLinks).result as React.ReactNode}</>
 }

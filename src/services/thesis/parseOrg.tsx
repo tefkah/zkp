@@ -1,4 +1,4 @@
-import unified from 'unified'
+import { unified } from 'unified'
 //import createStream from 'unified-stream'
 import uniorgParse from 'uniorg-parse'
 import uniorg2rehype from 'uniorg-rehype'
@@ -12,8 +12,8 @@ import attachments from 'uniorg-attach'
 //import 'katex/dist/katex.css'
 import katex from 'rehype-katex'
 import 'katex/dist/katex.css'
-import rehype2react from 'rehype-react'
-import visit from 'unist-util-visit'
+import rehype2react, { Options } from 'rehype-react'
+import { visit } from 'unist-util-visit'
 
 import React, { ReactNode, useMemo } from 'react'
 import { Box, Heading, ListItem, OrderedList, Tag, Text, UnorderedList } from '@chakra-ui/react'
@@ -24,6 +24,8 @@ import { FilesData } from '../../utils/IDIndex/getFilesData'
 import { findCiteId, findCiteTitle } from '../../utils/findCiteData'
 import { PreviewLink } from '../../components/FileViewer/Link'
 import { slugify } from '../../utils/slug'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
 
 // export interface Data {
 //   data: FilesData
@@ -43,52 +45,54 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
   const processor = useMemo(
     () =>
       unified()
-        .use(uniorgParse)
-        .use(() => (node) => {
-          // visit from unist-util-visit
-          visit(node, 'keyword', (keyw) => {
-            const keyword = keyw as Keyword
-            if (keyword.key.toLowerCase() === 'title') {
-              //  console.log(keyword)
-              //  console.log(typeof keyword.value)
-              // h from hastscript. or manually as { type: 'element', tagName: 'transclusion', properties: { value: keyword.value } }
-              Object.assign(keyword, {
-                type: 'element',
-                tagName: 'h1',
-                properties: { className: 'title', value: keyword.value },
-              })
-            }
-          })
-          visit(node, 'special-block', (block) => {
-            const { affiliated, children, blockType, contentsBegin, contentsEnd } =
-              block as SpecialBlock
-            if (blockType.toLowerCase() === 'addition' || blockType.toLowerCase() === 'deletion') {
-              if (children?.[0].type === 'paragraph' && children.length === 1) {
-                // console.log('ppppp')
-                Object.assign(block, {
-                  ...children?.[0],
-                  type: 'element',
-                  tagName: 'span',
-                  properties: {
-                    className: `span-${blockType.toLowerCase()}`,
-                  },
-                })
-              }
-            }
-            // if (blockType.toLowerCase() === 'deletion') {
-            //   // h from hastscript. or manually as { type: 'element', tagName: 'transclusion', properties: { value: keyword.value } }
-            //   Object.assign(block, {
-            //     type: 'element',
-            //     tagName: 'div',
-            //     properties: { className: 'deletion' },
-            //   })
-            // }
-          })
-        })
-        .use(extractKeywords)
-        .use(attachments)
-        .use(uniorgSlug)
-        .use(uniorg2rehype, { useSections: true })
+        .use(remarkParse)
+        .use(remarkRehype)
+        // .use(uniorgParse)
+        // .use(() => (node) => {
+        //   // visit from unist-util-visit
+        //   visit(node, 'keyword', (keyw) => {
+        //     const keyword = keyw as Keyword
+        //     if (keyword.key.toLowerCase() === 'title') {
+        //       //  console.log(keyword)
+        //       //  console.log(typeof keyword.value)
+        //       // h from hastscript. or manually as { type: 'element', tagName: 'transclusion', properties: { value: keyword.value } }
+        //       Object.assign(keyword, {
+        //         type: 'element',
+        //         tagName: 'h1',
+        //         properties: { className: 'title', value: keyword.value },
+        //       })
+        //     }
+        //   })
+        //   visit(node, 'special-block', (block) => {
+        //     const { affiliated, children, blockType, contentsBegin, contentsEnd } =
+        //       block as SpecialBlock
+        //     if (blockType.toLowerCase() === 'addition' || blockType.toLowerCase() === 'deletion') {
+        //       if (children?.[0].type === 'paragraph' && children.length === 1) {
+        //         // console.log('ppppp')
+        //         Object.assign(block, {
+        //           ...children?.[0],
+        //           type: 'element',
+        //           tagName: 'span',
+        //           properties: {
+        //             className: `span-${blockType.toLowerCase()}`,
+        //           },
+        //         })
+        //       }
+        //     }
+        //     // if (blockType.toLowerCase() === 'deletion') {
+        //     //   // h from hastscript. or manually as { type: 'element', tagName: 'transclusion', properties: { value: keyword.value } }
+        //     //   Object.assign(block, {
+        //     //     type: 'element',
+        //     //     tagName: 'div',
+        //     //     properties: { className: 'deletion' },
+        //     //   })
+        //     // }
+        //   })
+        // })
+        // .use(extractKeywords)
+        // .use(attachments)
+        // .use(uniorgSlug)
+        // .use(uniorg2rehype, { useSections: true })
         .use(katex, {
           trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
           macros: {
@@ -102,7 +106,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
           createElement: React.createElement,
           components: {
             h1: (head) => {
-              const { id, className, value, children } = head
+              const { id, className, children } = head
               if (className === 'title') {
                 return null
               }
@@ -227,6 +231,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
               //   return <Tag>{children as ReactNode}</Tag>
               // }
               return (
+                // @ts-expect-error yeah man
                 <Text as="span" {...{ className: className as string, ...rest }}>
                   {children as ReactNode}
                 </Text>
@@ -289,7 +294,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
         p: ({ children }) => {
           return <p lang="en">{children as ReactNode}</p>
         }, */
-        }),
+        } as Options),
     [],
   )
 

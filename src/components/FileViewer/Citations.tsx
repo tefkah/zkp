@@ -2,8 +2,8 @@ import React, { ReactNode, useMemo } from 'react'
 //@ts-expect-error
 import Citation from 'citation-js'
 import { CSLCitation } from '../../lib/api'
-import unified from 'unified'
-import rehype2react from 'rehype-react'
+import { unified } from 'unified'
+import rehype2react, { Options } from 'rehype-react'
 import rehypeParse from 'rehype-parse'
 import {
   Box,
@@ -76,7 +76,7 @@ export const Citations = (props: CitationProps) => {
             </Text>
           ),
         },
-      })
+      } as Options)
 
     return <>{processor.processSync(htmlWithLinks).result as React.ReactNode}</>
   }, [bibliography])

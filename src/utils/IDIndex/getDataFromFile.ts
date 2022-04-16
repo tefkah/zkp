@@ -1,9 +1,9 @@
-import unified from 'unified'
+import { unified } from 'unified'
 import uniorgParse from 'uniorg-parse'
 import { readOrgFile } from './readOrgFile'
 import { visitIds } from 'orgast-util-visit-ids'
 import { Keyword, Link, NodeProperty, OrgData, PropertyDrawer } from 'uniorg'
-import visit from 'unist-util-visit'
+import { visit } from 'unist-util-visit'
 import { extractKeywords } from 'uniorg-extract-keywords'
 import { AiOutlineConsoleSql } from 'react-icons/ai'
 
