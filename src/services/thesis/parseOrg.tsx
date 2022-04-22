@@ -10,7 +10,7 @@ import attachments from 'uniorg-attach'
 // import highlight from 'rehype-highlight'
 //import mathjax from 'rehype-mathjax'
 //import 'katex/dist/katex.css'
-import katex from 'rehype-katex'
+import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.css'
 import rehype2react, { Options } from 'rehype-react'
 import { visit } from 'unist-util-visit'
@@ -26,6 +26,10 @@ import { PreviewLink } from '../../components/FileViewer/Link'
 import { slugify } from '../../utils/slug'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
+import remarkMath from 'remark-math'
+import remarkGFM from 'remark-gfm'
+//@ts-expect-error no types :()
+import remarkWikiLink from 'remark-wiki-link'
 
 // export interface Data {
 //   data: FilesData
@@ -46,6 +50,9 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
     () =>
       unified()
         .use(remarkParse)
+        .use(remarkMath)
+        .use(remarkWikiLink)
+        .use(remarkGFM)
         .use(remarkRehype)
         // .use(uniorgParse)
         // .use(() => (node) => {
@@ -93,7 +100,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
         // .use(attachments)
         // .use(uniorgSlug)
         // .use(uniorg2rehype, { useSections: true })
-        .use(katex, {
+        .use(rehypeKatex, {
           trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
           macros: {
             '\\eqref': '\\href{###1}{(\\text{#1})}',
