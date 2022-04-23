@@ -20,7 +20,10 @@ export const NoteScrollContainer = (props: FilePageProps) => {
   )
 
   const stacked = !!stackedNotes?.length
-  const allNotes = useMemo(() => [fileData.id, ...(stackedNotes || [])], [fileData, stackedNotes])
+  const allNotes = useMemo(
+    () => [fileData.title, ...(stackedNotes || [])],
+    [fileData, stackedNotes],
+  )
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const { x } = useScroll(scrollRef)
   const { ref: sizeRef, width } = useElementSize()

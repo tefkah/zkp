@@ -3,7 +3,7 @@ import { clone } from 'isomorphic-git'
 import fs from 'fs'
 
 import { join } from 'path'
-import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
+import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStatss'
 import { getFilesData } from '../utils/IDIndex/getFilesData'
 
 import * as http from 'isomorphic-git/http/node/index'

@@ -21,7 +21,7 @@ import { Collapse } from './Collapse'
 import React, { useState } from 'react'
 import { Resizable } from 're-resizable'
 import Link from 'next/link'
-import { File, Files } from '../../types/notes'
+import { File, FileList } from '../../types/notes'
 import { slugify } from '../../utils/slug'
 import { BsFileEarmarkText } from 'react-icons/bs'
 import { ChevronDownIcon, ChevronRightIcon, HamburgerIcon } from '@chakra-ui/icons'
@@ -30,18 +30,39 @@ import { usePersistantDisclosure } from '../../hooks/usePersistantDisclosure'
 import { useRouter } from 'next/router'
 
 import shallow from 'zustand/shallow'
+
 import { useNotes } from '../../stores/noteStore'
 import { SidebarLink } from './SidebarLink'
 interface Props {
-  items: Files
+  // items: Files
+  fileList: FileList
+}
+interface RecursiveFolder {
+  [folder: string]: RecursiveFolder | string
+}
+
+const recursiveReducer = (acc: RecursiveFolder, folders: string[]) => {
+  const folder = folders.shift()
+  if (!acc || !folder) return {}
+  if (folders.length === 0) {
+    acc[folder] = folder
+    return acc
+  }
+
+  acc[folder] = recursiveReducer(acc, folders)
+  return acc
 }
 
 export const CustomSideBar = (props: Props) => {
-  const { items } = props
+  const { fileList } = props
   const { isOpen, onOpen, onClose, onToggle } = usePersistantDisclosure('showSidebar', {
     defaultIsOpen: true,
   })
   const unemph = useColorModeValue('gray.700', 'gray.300')
+  const fileListByFolder = Object.values(fileList).reduce((acc, curr) => {
+    const folders = curr.folders
+    return acc
+  }, {} as { [key: string]: FileList[string] })
   return (
     <>
       {!isOpen && (
@@ -104,12 +125,12 @@ export const CustomSideBar = (props: Props) => {
             <Text color={unemph}>Files</Text>
           </HStack>
           <VStack alignItems="flex-start">
-            {Object.entries(items.folders)
+            {Object.values(fileList.folders)
               .reverse()
               .map(([folder, files]) => (
                 <SubMenu {...{ folder, files }} defaultIsOpen={['Chapters']?.includes(folder)} />
               ))}
-            <SubMenu folder="Notes" files={items.files} defaultIsOpen />
+            <SubMenu folder="Notes" files={fileList.files} defaultIsOpen />
           </VStack>
         </VStack>
       </Collapse>

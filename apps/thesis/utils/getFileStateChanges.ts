@@ -3,14 +3,15 @@
 
 import { TREE, walk, WalkerEntry } from 'isomorphic-git'
 import fs from 'fs'
+import { GIT_DIR, NOTE_DIR } from './paths'
 
 export type FileStates = 'equal' | 'modified' | 'add' | 'remove'
 // same as the other but from the isomorphic-git docs
 export const doSomethingAtFileStateChange = (
   commitHash1: string,
   commitHash2: string,
-  dir = 'notes',
-  gitdir = 'notes/git',
+  dir = NOTE_DIR,
+  gitdir = GIT_DIR,
   fileStateFun?: (
     filepath: string,
     trees: Array<WalkerEntry | null>,
@@ -65,8 +66,8 @@ export const doSomethingAtFileStateChange = (
 export const getFileStateChanges = async (
   commitHash1: string,
   commitHash2: string,
-  dir = 'notes',
-  gitdir = 'notes/git',
+  dir = NOTE_DIR,
+  gitdir = GIT_DIR,
   fileStateFun?: (
     filepath: string,
     trees: Array<WalkerEntry | null>,

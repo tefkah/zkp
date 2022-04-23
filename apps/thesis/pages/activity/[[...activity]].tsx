@@ -8,6 +8,7 @@ import { HistoryGraph } from '../../components/HistoryGraph'
 import Link from 'next/link'
 import Head from 'next/head'
 import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
+import { DATA_DIR, GIT_DIR, NOTE_DIR } from '../../utils/paths'
 
 export interface SlimCommit {
   oid: string
@@ -81,20 +82,12 @@ export const getStaticPaths = async function () {
   return { paths: ['/activity'], fallback: 'blocking' }
 }
 export const getStaticProps = async () => {
-  const cwd = process.cwd()
-
-  const currentDir = join(cwd, ...(process.env.CURRENT_FOLDER?.split('/') ?? []))
-
-  const notesDir = join(currentDir, 'notes')
-
-  const gitDir = join(notesDir, 'git')
-  const dataDir = join(currentDir, 'data')
   const { data, dataWithoutDiffs, dataPerDate } = await getListOfCommitsWithStats(
     '',
     '',
-    notesDir,
-    gitDir,
-    dataDir,
+    NOTE_DIR,
+    GIT_DIR,
+    DATA_DIR,
   )
 
   return { props: { log: dataPerDate }, revalidate: 60 }

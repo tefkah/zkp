@@ -10,7 +10,16 @@ export interface StackState {
 }
 
 export interface StackedNotesState {
-  [id: string]: StackState
+  [title: string]: StackState
+}
+
+export interface FileList {
+  [key: string]: {
+    title: string
+    folders: string[]
+    path: string
+    slug: string
+  }
 }
 
 export interface File {

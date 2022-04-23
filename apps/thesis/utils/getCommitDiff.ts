@@ -5,6 +5,7 @@ import * as Diff from 'diff'
 import { Change } from 'diff'
 import { extname } from 'path'
 import { FileDiff } from '../types/api'
+import { GIT_DIR, NOTE_DIR } from './paths'
 
 const bufferToString = async (tree: WalkerEntry) => {
   const content = (await tree?.content()) || []
@@ -119,8 +120,8 @@ const diffMap = async (props: DiffMapProps): Promise<FileDiff | void> => {
 export const getCommitDiff = async (
   commitHash1: string,
   commitHash2: string,
-  dir = 'notes',
-  gitdir = `${dir}/git`,
+  dir = NOTE_DIR,
+  gitdir = GIT_DIR,
   justStats?: boolean,
 ) =>
   walk({
@@ -135,8 +136,8 @@ export const getCommitDiff = async (
 export const getCommitDiffForSingleFile = async (
   commitHash1: string,
   commitHash2: string,
-  dir = 'notes',
-  gitdir = `${dir}/git`,
+  dir = NOTE_DIR,
+  gitdir = GIT_DIR,
   file?: string,
   justStats?: boolean,
 ) =>

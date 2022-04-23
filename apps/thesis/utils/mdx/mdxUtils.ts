@@ -1,12 +1,13 @@
-import path from 'path'
+import path, { join } from 'path'
 import readdirp from 'readdirp'
+import { NOTE_DIR } from '../paths'
 
 // POSTS_PATH is useful when you want to get the path to a specific file
-export const POSTS_PATH = path.join(process.cwd(), 'notes')
+// export const POSTS_PATH = path.join(process.cwd(), 'notes')
 
 // postFilePaths is the list of all mdx files inside the POSTS_PATH directory
 export const postFilePaths = async () =>
-  (await readdirp.promise(POSTS_PATH))
+  (await readdirp.promise(NOTE_DIR))
     // Only include md(x) files
     .filter((entry) => /\.mdx?$/.test(entry.path))
     .map((entry) => entry.path)

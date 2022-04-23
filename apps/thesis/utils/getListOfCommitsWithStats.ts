@@ -3,6 +3,7 @@ import fs from 'fs'
 import { join, resolve } from 'path'
 import { getCommitDiff } from './getCommitDiff'
 import { Commit, FileDiff, SlimCommit } from '../types/api'
+import { DATA_DIR, GIT_DIR, NOTE_DIR } from './paths'
 
 export const consolidateCommitsPerDay = (data: SlimCommit[]) =>
   data.reduce((acc: any, curr: Commit) => {
@@ -30,16 +31,16 @@ export const tryReadJSON = async (path: string, fallback?: any[]) => {
     return fallback || []
   }
 }
-export const getCommits = async (dir = 'notes', gitdir = 'notes/git') => {
+export const getCommits = async (dir = NOTE_DIR, gitdir = GIT_DIR) => {
   const commitList = (await log({ fs, dir, gitdir })).reverse()
   return commitList
 }
 export const getListOfCommitsWithStats = async (
   commit1: string,
   commit2: string,
-  dir = 'notes',
-  gitdir = 'notes/git',
-  datadir = 'data',
+  dir = NOTE_DIR,
+  gitdir = GIT_DIR,
+  datadir = DATA_DIR,
 ) => {
   const cwd = process.cwd()
   if (!fs.existsSync(datadir)) await fs.promises.mkdir(datadir)

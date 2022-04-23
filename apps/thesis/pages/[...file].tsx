@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Box, Flex } from '@chakra-ui/react'
-import { join } from 'path'
+import { basename, dirname, join } from 'path'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
@@ -16,6 +16,14 @@ import Footer from '../components/Footer'
 import { NoteScrollContainer } from '../components/FileViewer/NoteScrollContainer'
 import { Files, NoteHeading } from '../types/notes'
 import { CustomSideBar } from '../components/CustomSidebar'
+import { GetStaticProps } from 'next'
+import { postFilePaths } from '../utils/mdx/mdxUtils'
+import { mdxDataByName } from '../utils/mdx/mdxDataByName'
+import { mdxSerialize } from '../utils/mdx/mdxSerialize'
+import { NOTE_DIR } from '../utils/paths'
+import { readFile } from 'fs/promises'
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { createMdxRehypeReactCompents } from '../utils/mdx/mdxRehypeReactComponents'
 
 /**
  * Props for the file page
@@ -38,6 +46,12 @@ export type FilePageProps = {
   /* Array with the bibliography of the current note in CSL format */
   csl: CSLCitation[]
 }
+export interface MDFilePageProps {
+  source: MDXRemoteSerializeResult<Record<string, any>>
+  frontMatter: { [key: string]: any }
+  data: any
+  fileList: FileList
+}
 
 const useHeadingFocusOnRouteChange = () => {
   const router = useRouter()
@@ -54,10 +68,14 @@ const useHeadingFocusOnRouteChange = () => {
   }, [router.events])
 }
 
-export const FilePage = (props: FilePageProps) => {
-  const { fileData, items } = props
-  const { title } = fileData
+export const FilePage = (props: MDFilePageProps) => {
+  // const { fileData, items } = props
+  // const { title } = fileData
+  //
+  const { source, frontMatter, data, fileList } = props
 
+  const { title } = frontMatter
+  const comps = createMdxRehypeReactCompents(frontMatter?.id ?? 'aath', data)
   useHeadingFocusOnRouteChange()
 
   return (
@@ -68,10 +86,15 @@ export const FilePage = (props: FilePageProps) => {
 
       <Box w="100vw" h="100vh" overflowX="hidden">
         <Flex minH="full" w="100vw">
-          <CustomSideBar items={items} />
+          <CustomSideBar items={fileList} />
           <Box h="full" flex="1 1 auto" overflowX="hidden">
             <Header />
-            <NoteScrollContainer {...props} />
+
+            <main>
+              {/* @ts-expect-error MDX remote does not want "null", but it's fineee */}
+              <MDXRemote {...source} components={comps} />
+            </main>
+            {/* <NoteScrollContainer {...props} /> */}
           </Box>
         </Flex>
         <Footer />
@@ -82,131 +105,175 @@ export const FilePage = (props: FilePageProps) => {
 export default FilePage
 
 export const getStaticPaths = async () => {
-  const data = await getFilesData()
-  const fileList = Object.values(data).map((entry) => ({
-    params: {
-      file: [slugify(entry.title)],
-    },
-  }))
+  const paths = (await postFilePaths())
+    // Remove file extensions for page paths
+    .map((path) => slugify(path.replace(/\.mdx?$/, '').toLowerCase()))
+    // Map the path into the static paths object required by Next.js
+    .map((file) => ({ params: { file } }))
+
   return {
-    paths: fileList,
-    fallback: 'blocking',
+    paths,
+    fallback: false,
   }
 }
 
-export interface StaticProps {
-  params: { file: string[] }
-}
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}): Promise<{ props: MDFilePageProps }> => {
+  const slug = (Array.isArray(params?.slug) ? params?.slug.join('/') : params?.slug) ?? ''
+  const data = await mdxDataByName()
+  const fullpath = data[deslugify(slug)]
+  const postFilePath = join(NOTE_DIR, `${fullpath}.md`)
+  const input = await readFile(postFilePath, 'utf8')
 
-export const getStaticProps = async (props: StaticProps) => {
-  // eslint-disable-next-line
-  const fs = require('fs')
-  // const { file } = props.params
-  const cwd = process.cwd()
-  const { dataWithoutDiffs } = await getListOfCommitsWithStats(
-    '',
-    '',
-    join(cwd, 'notes'),
-    join(cwd, 'notes', 'git'),
-  )
+  const bibliography = join(NOTE_DIR, '.bibliography', 'Academic.bib')
 
-  let data = {} as FilesData
-  try {
-    data = JSON.parse(await fs.promises.readFile(join(cwd, 'data', 'dataById.json'), 'utf8'))
-  } catch (err) {
-    console.warn('No existing filedata found, generating...')
-    data = await getFilesData()
-  }
-
-  const slug = deslugify(props.params.file[0])
-  const stackedNotes = props.params.file.slice(1)
-
-  const file = Object.values(data).find((entry) => entry.title === slug)
-  const concatFile = file?.path || ''
-
-  const fileList = Object.entries(data).reduce(
-    (acc: Files, curr: [id: string, entry: OrgFileData]) => {
-      const [id, entry] = curr
-      const { path: rawPath, title, tags } = entry
-      const path = rawPath.split('/')
-      if (path.length !== 1) {
-        acc.folders[path[0]] = [...(acc.folders[path[0]] || []), { type: 'file', path: title, id }]
-        return acc
-      }
-      if (tags?.includes('definition')) {
-        acc.folders.Definitions = [
-          ...(acc.folders.Definitions || []),
-          { type: 'file', path: title, id },
-        ]
-        return acc
-      }
-      if (tags?.includes('reference')) {
-        acc.folders['Literature Notes'] = [
-          ...(acc.folders['Literature Notes'] || []),
-          { type: 'file', path: title, id },
-        ]
-        return acc
-      }
-      acc.files.push({ type: 'file', path: title, id })
-      return acc
-    },
-    { files: [], folders: {} },
-  )
-
-  const fileString = await fs.promises.readFile(join(cwd, 'notes', `${concatFile}`), {
-    encoding: 'utf8',
-  })
-
-  // let orgTexts: { [key: string]: string } = {}
-
-  // for (const link of linkFilePaths) {
-  //   const [id, linkFilePath] = link
-  //   const filepath = join(cwd, 'notes', `${linkFilePath}`)
-  //   const file =
-  //     linkFilePath && (await fs.promises.lstat(filepath)).isFile()
-  //       ? await fs.promises.readFile(filepath, {
-  //           encoding: 'utf8',
-  //         })
-  //       : ''
-  //   orgTexts[id] = file
-  // }
-
-  // const commits = await tryReadJSON('data/git.json')
-  const toc = [
-    ...getTableOfContents(fileString),
-    ...(file?.citations?.length
-      ? [
-          {
-            text: 'References',
-            id: 'references',
-            level: 1,
-          },
-        ]
-      : []),
-  ]
-
-  const commits = getHistoryForFile({ file: concatFile, commits: dataWithoutDiffs })
-
-  const csl: CSLCitation[] = JSON.parse(
-    await fs.promises.readFile(join(cwd, 'notes', 'bibliography', 'Academic.json'), {
-      encoding: 'utf8',
-    }),
-  ).filter((entry: CSLCitation) => file?.citations?.includes(entry.id))
+  const { frontMatter, source } = await mdxSerialize(input, bibliography)
+  const fileList = (await postFilePaths())
+    // Remove file extensions for page paths
+    .map((path) => ({
+      [path]: {
+        title: basename(path).replace(/\.mdx?$/, ''),
+        folders: dirname(path).replace(NOTE_DIR, '').split('/'),
+        path,
+        slug: slugify(path.replace(/\.mdx?$/, '').toLowerCase()),
+      },
+    }))
+    // Map the path into the static paths object required by Next.js
+    .map((file) => ({ params: { file } }))
 
   return {
     props: {
-      items: fileList,
-      page: fileString,
-      slug,
-      history: {},
-      fileData: file,
+      source,
+      frontMatter,
       data,
-      stackedNotes,
-      // orgTexts,
-      toc,
-      commits,
-      csl,
+      fileList,
     },
-    revalidate: 60,
   }
 }
+
+// export const getStaticPaths = async () => {
+//   const data = await getFilesData()
+//   const fileList = Object.values(data).map((entry) => ({
+//     params: {
+//       file: [slugify(entry.title)],
+//     },
+//   }))
+//   return {
+//     paths: fileList,
+//     fallback: 'blocking',
+//   }
+// }
+
+// export const getStaticProps = async (props: StaticProps) => {
+//   // eslint-disable-next-line
+//   const fs = require('fs')
+//   // const { file } = props.params
+//   const cwd = process.cwd()
+//   const currentDir = join(cwd, ...(process.env.CURRENT_FOLDER?.split('/') ?? []))
+//   const notesDir = join(currentDir, 'notes')
+//   const gitDir = join(notesDir, 'git')
+//   const dataDir = join(currentDir, 'data')
+
+//   const { dataWithoutDiffs } = await getListOfCommitsWithStats('', '', notesDir, gitDir, dataDir)
+
+//   let data = {} as FilesData
+//   try {
+//     data = JSON.parse(await fs.promises.readFile(join(dataDir, 'dataById.json'), 'utf8'))
+//   } catch (err) {
+//     console.warn('No existing filedata found, generating...')
+//     data = await getFilesData()
+//   }
+
+//   const slug = deslugify(props.params.file[0])
+//   const stackedNotes = props.params.file.slice(1)
+
+//   const file = Object.values(data).find((entry) => entry.title === slug)
+//   const concatFile = file?.path || ''
+
+//   const fileList = Object.entries(data).reduce(
+//     (acc: Files, curr: [id: string, entry: OrgFileData]) => {
+//       const [id, entry] = curr
+//       const { path: rawPath, title, tags } = entry
+//       const path = rawPath.split('/')
+//       if (path.length !== 1) {
+//         acc.folders[path[0]] = [...(acc.folders[path[0]] || []), { type: 'file', path: title, id }]
+//         return acc
+//       }
+//       if (tags?.includes('definition')) {
+//         acc.folders.Definitions = [
+//           ...(acc.folders.Definitions || []),
+//           { type: 'file', path: title, id },
+//         ]
+//         return acc
+//       }
+//       if (tags?.includes('reference')) {
+//         acc.folders['Literature Notes'] = [
+//           ...(acc.folders['Literature Notes'] || []),
+//           { type: 'file', path: title, id },
+//         ]
+//         return acc
+//       }
+//       acc.files.push({ type: 'file', path: title, id })
+//       return acc
+//     },
+//     { files: [], folders: {} },
+//   )
+
+//   const fileString = await fs.promises.readFile(join(notesDir, `${concatFile}`), {
+//     encoding: 'utf8',
+//   })
+
+//   // let orgTexts: { [key: string]: string } = {}
+
+//   // for (const link of linkFilePaths) {
+//   //   const [id, linkFilePath] = link
+//   //   const filepath = join(cwd, 'notes', `${linkFilePath}`)
+//   //   const file =
+//   //     linkFilePath && (await fs.promises.lstat(filepath)).isFile()
+//   //       ? await fs.promises.readFile(filepath, {
+//   //           encoding: 'utf8',
+//   //         })
+//   //       : ''
+//   //   orgTexts[id] = file
+//   // }
+
+//   // const commits = await tryReadJSON('data/git.json')
+//   const toc = [
+//     ...getTableOfContents(fileString),
+//     ...(file?.citations?.length
+//       ? [
+//           {
+//             text: 'References',
+//             id: 'references',
+//             level: 1,
+//           },
+//         ]
+//       : []),
+//   ]
+
+//   const commits = getHistoryForFile({ file: concatFile, commits: dataWithoutDiffs })
+
+//   const csl: CSLCitation[] = JSON.parse(
+//     await fs.promises.readFile(join(notesDir, '.bibliography', 'Academic.json'), {
+//       encoding: 'utf8',
+//     }),
+//   ).filter((entry: CSLCitation) => file?.citations?.includes(entry.id))
+
+//   return {
+//     props: {
+//       items: fileList,
+//       page: fileString,
+//       slug,
+//       history: {},
+//       fileData: file,
+//       data,
+//       stackedNotes,
+//       // orgTexts,
+//       toc,
+//       commits,
+//       csl,
+//     },
+//     revalidate: 60,
+//   }
+// }

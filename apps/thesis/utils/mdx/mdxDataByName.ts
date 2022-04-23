@@ -1,9 +1,9 @@
 import readdirp from 'readdirp'
+import { NOTE_DIR } from '../paths'
 import { slugify } from '../slug'
-import { POSTS_PATH } from './mdxUtils'
 
 export const mdxDataByName = async () =>
-  (await readdirp.promise(POSTS_PATH))
+  (await readdirp.promise(NOTE_DIR))
     // Only include md(x) files
     .filter((entry) => /\.mdx?$/.test(entry.path))
     .reduce((acc, curr) => {
