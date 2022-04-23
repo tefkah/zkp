@@ -225,7 +225,12 @@ export const CommentBox = ({
           href={viewer.url}
           className="flex items-center flex-shrink-0"
         >
-          <Avatar src={viewer.avatarUrl} width="30" height="30" alt={`@${viewer.login}`} />
+          <Avatar
+            src={viewer.avatarUrl}
+            width="30"
+            height="30"
+            // alt={`@${viewer.login}`}
+          />
         </ChakraLink>
       ) : null}
       <Button

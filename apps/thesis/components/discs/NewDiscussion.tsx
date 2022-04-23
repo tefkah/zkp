@@ -4,7 +4,6 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 import {
   Button,
   Popover,
-  PopoverTrigger,
   PopoverContent,
   PopoverArrow,
   PopoverHeader,
@@ -25,9 +24,12 @@ import {
 } from '@chakra-ui/react'
 import { PlusIcon } from '@primer/octicons-react'
 import React, { useState } from 'react'
+import { PopoverTrigger as OrigPopoverTrigger } from '@chakra-ui/react'
+
 import { CategoryData } from '../../queries/getDiscussion'
 import { createDiscussion } from '../../services/github/createDiscussion'
 
+export const PopoverTrigger: React.FC<{ children: React.ReactNode }> = OrigPopoverTrigger
 interface Props {
   discussionCategories: CategoryData
   token: string

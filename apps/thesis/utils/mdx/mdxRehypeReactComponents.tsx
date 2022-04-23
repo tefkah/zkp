@@ -30,6 +30,7 @@ export const createMdxRehypeReactCompents = (currentId: string, data: any): Reac
     ),
     div: Box,
     a: (node) => {
+      // @ts-expect-error yayaya
       const { href, className, alias, children, ...rest } = node
       if (!data || href?.includes('http')) {
         return (

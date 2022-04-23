@@ -4,7 +4,7 @@ import { isoToDate, isoToDateDistance } from '../../utils/parseTime'
 import { ViewGithub } from '../Buttons/ViewGithub'
 
 interface Props {
-  url?: string
+  url: string | undefined
   updatedAt: string
 }
 

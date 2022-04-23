@@ -1,27 +1,13 @@
-import {
-  Link as ChakraLink,
-  Text,
-  Box,
-  Container,
-  useColorMode,
-  Flex,
-  VStack,
-  HStack,
-  Button,
-} from '@chakra-ui/react'
+import { Link as ChakraLink, Box, useColorMode, VStack, HStack } from '@chakra-ui/react'
 import { join } from 'path'
-import React, { ReactElement, useState } from 'react'
-import Header from '../../components/Header'
-import { readFileSync } from 'fs'
+import { ReactElement, useState } from 'react'
 import { getListOfCommitsWithStats } from '../../utils/getListOfCommitsWithStats'
 import { CommitList } from '../../components/Commits/CommitList'
-import { CommitPerDateLog, DateCommit } from '../../lib/api'
+import { CommitPerDateLog, DateCommit } from '../../types/api'
 import { HistoryGraph } from '../../components/HistoryGraph'
 import Link from 'next/link'
-import Footer from '../../components/Footer'
 import Head from 'next/head'
-import BasicLayout from '../../components/Layouts/BasicLayout'
-import ActivityLayout from '../../components/Layouts/ActivityLayout'
+import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
 
 export interface SlimCommit {
   oid: string
@@ -39,15 +25,15 @@ const findCommitXDaysAgo = (log: DateCommit[], days: number): string => {
   const today = new Date()
   const unixTime = days * 3600 * 24 * 1000
   const commit = log.find(
-    (commit) => today.getTime() - new Date(commit.totalDate * 1000).getTime() > unixTime,
+    (commit) => today.getTime() - new Date(commit?.lastDate * 1000).getTime() > unixTime,
   )
 
   return commit?.lastOid || ''
 }
 
-export default function ActivityPage(props: ActivityPageProps) {
+export const ActivityPage = (props: ActivityPageProps) => {
   const { log } = props
-  const [diffs, setDiffs] = useState()
+  const [diffs, setDiffs] = useState<{ commit1: string; commit2: string }>()
   const theme = useColorMode()
   const dark = theme.colorMode === 'dark'
   const reverseLogValues = Object.values(log).reverse()
@@ -56,7 +42,7 @@ export default function ActivityPage(props: ActivityPageProps) {
       <Head>
         <title>Activity | Thomas' Thesis</title>
       </Head>
-      <VStack justifyContents="center" spacing={6} mt={20}>
+      <VStack justifyContent="center" spacing={6} mt={20}>
         <Box w="80%" height={100} backgroundColor={dark ? 'dark.secondary' : 'gray.50'}>
           <HistoryGraph data={log} dark={dark} diffs={diffs} setDiffs={setDiffs} />
         </Box>
@@ -90,10 +76,11 @@ export default function ActivityPage(props: ActivityPageProps) {
   )
 }
 
-export async function getStaticPaths() {
+export default ActivityPage
+export const getStaticPaths = async function () {
   return { paths: ['/activity'], fallback: 'blocking' }
 }
-export async function getStaticProps() {
+export const getStaticProps = async () => {
   const cwd = process.cwd()
   const { data, dataWithoutDiffs, dataPerDate } = await getListOfCommitsWithStats(
     '',

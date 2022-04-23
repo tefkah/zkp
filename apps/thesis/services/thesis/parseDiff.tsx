@@ -2,7 +2,6 @@
 
 import { Box } from '@chakra-ui/react'
 import { Change } from 'diff'
-import React from 'react'
 import { FileDiff } from '../../types/api'
 import { ParsedOrg } from './parseOrg'
 

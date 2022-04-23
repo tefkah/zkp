@@ -1,20 +1,10 @@
 import React from 'react'
 
-import {
-  Box,
-  Flex,
-  Spacer,
-  Tag,
-  Stack,
-  useColorModeValue,
-  FlexProps,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, Flex, Spacer, Tag, useColorModeValue, FlexProps, VStack } from '@chakra-ui/react'
 
 // import { useRoutes } from 'categories/parse-categories'
 import Link from 'next/link'
 import { Link as SLink } from 'react-scroll'
-import { SidebarSection } from './SidebarSection'
 
 interface RouteLinkProps {
   children?: any

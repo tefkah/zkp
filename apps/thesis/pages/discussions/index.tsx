@@ -113,13 +113,11 @@ export default function DiscussionsPage(props: Props) {
   )
 }
 
-DiscussionsPage.getLayout = function (page: React.ReactElement) {
-  return <BasicLayout>{page}</BasicLayout>
-}
+DiscussionsPage.getLayout = (page: React.ReactElement) => <BasicLayout>{page}</BasicLayout>
 
 DiscussionsPage.auth = true
 
-export async function getServerSideProps(props: { req: NextApiRequest; res: NextApiResponse }) {
+export const getServerSideProps = async (props: { req: NextApiRequest; res: NextApiResponse }) => {
   const session = await getSession({ req: props.req })
   const token = (session?.accessToken as string) || ''
   if (!token) return { props: { access: false } }

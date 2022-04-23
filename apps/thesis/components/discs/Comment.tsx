@@ -117,7 +117,7 @@ export const Comment = ({
                     src={comment.author.avatarUrl}
                     width="30"
                     height="30"
-                    alt={`@${comment.author.login}`}
+                    // alt={`@${comment.author.login}`}
                   />
                   <Text as="span" fontWeight="semibold" className="font-semibold link-primary">
                     {comment.author.login}

@@ -6,12 +6,13 @@ import { useCallback, useMemo, useState } from 'react'
 import { SWRConfig } from 'swr'
 import useSWRInfinite from 'swr/infinite'
 import { cleanParams, fetcher } from '../../utils/giscus/fetcher'
-import { Reaction, updateDiscussionReaction } from '../../utils/giscus/reactions'
+import { updateDiscussionReaction } from '../../utils/giscus/reactions'
 import { IComment, IGiscussion, IReply } from '../../types/adapter'
 import { DiscussionQuery, PaginationParams } from '../../types/common'
 import { IDiscussionData } from '../../types/giscus'
+import { Reaction } from '../../types/github'
 
-export const useDiscussion = async (
+export const useDiscussion = (
   query: DiscussionQuery,
   token?: string,
   pagination: PaginationParams = {},
@@ -104,14 +105,14 @@ export const useDiscussion = async (
 
   const updateDiscussion = useCallback(
     (newDiscussions: IGiscussion[], promise?: Promise<unknown>) =>
-      mutate(newDiscussions, !promise) && promise?.then(() => mutate()),
+      mutate(newDiscussions, !promise).then(() => promise?.then(() => mutate())),
     [mutate],
   )
 
   const updateComment = useCallback(
     (newComment: IComment, promise?: Promise<unknown>) =>
       mutate(
-        data.map((page) => ({
+        data?.map((page) => ({
           ...page,
           discussion: {
             ...page.discussion,
@@ -121,14 +122,14 @@ export const useDiscussion = async (
           },
         })),
         !promise,
-      ) && promise?.then(() => mutate()),
+      ).then(() => promise?.then(() => mutate())),
     [data, mutate],
   )
 
   const updateReply = useCallback(
     (newReply: IReply, promise?: Promise<unknown>) =>
       mutate(
-        data.map((page) => ({
+        data?.map((page) => ({
           ...page,
           discussion: {
             ...page.discussion,
@@ -145,12 +146,14 @@ export const useDiscussion = async (
           },
         })),
         !promise,
-      ) && promise?.then(() => mutate()),
+      )
+        .then(() => promise?.then(() => mutate()))
+        .catch((e) => console.error(e)),
     [data, mutate],
   )
 
   return {
-    data,
+    data: data ?? [],
     error,
     size,
     setSize,
@@ -205,7 +208,7 @@ export const useFrontBackDiscussion = (query: DiscussionQuery, token?: string) =
           if (comment.id === intersectId) {
             foundIntersect = true
           }
-          return foundIntersect ? false : true
+          return !foundIntersect
         }),
       },
     }
@@ -258,7 +261,7 @@ export const useFrontBackDiscussion = (query: DiscussionQuery, token?: string) =
     id: backData?.discussion?.id || '',
     url: backData?.discussion?.url || '',
     locked: backData?.discussion?.locked || false,
-    reactions: backData?.discussion?.reactions!,
+    reactions: backData?.discussion?.reactions,
     repository: backData?.discussion?.repository || {
       nameWithOwner: 'ThomasFKJorna/thesis-discussions',
     },

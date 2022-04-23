@@ -6,13 +6,13 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverContent,
-  PopoverTrigger,
   Portal,
   Text,
   Container,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import React from 'react'
+import { PopoverTrigger as OrigPopoverTrigger } from '@chakra-ui/react'
 
 import shallow from 'zustand/shallow'
 // import createStream from 'unified-stream'
@@ -30,6 +30,7 @@ import { ParsedOrg } from '../../services/thesis/parseOrg'
 import { PopoverPreview } from './PopoverPreview'
 import { useNotes } from '../../stores/noteStore'
 
+export const PopoverTrigger: React.FC<{ children: React.ReactNode }> = OrigPopoverTrigger
 export interface LinkProps {
   backlink?: boolean
   title: string

@@ -2,7 +2,7 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { IError, IGiscussion } from '../../../types/adapter'
-import { GRepositoryDiscussion } from '../../../lib/github'
+import { GRepositoryDiscussion } from '../../../types/github'
 import { getAppAccessToken } from '../../../queries/getAccessToken'
 import { createDiscussion } from '../../../services/github/createDiscussion'
 import { getDiscussion } from '../../../services/github/getDiscussion'
@@ -87,6 +87,10 @@ async function get(req: NextApiRequest, res: NextApiResponse<IGiscussion | IErro
   }
 
   const adapted = adaptDiscussion({ viewer, discussion })
+  if (!adapted.discussion) {
+    res.status(500).json({ error: 'Something went wrong when formatting the disccusion' })
+    return
+  }
   res.status(200).json(adapted)
 }
 

@@ -37,7 +37,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     text: file,
     currentId: '',
   })
-  const fileString = renderToString(processedFile)
 
   return {
     props: {

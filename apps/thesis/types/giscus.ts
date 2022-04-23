@@ -2,7 +2,7 @@
 
 // import { AvailableLanguage } from '../i18n'
 // import { Theme } from '../variables'
-import { ReactionGroups, IUser } from './adapter'
+import { IReactionGroups, IUser } from './adapter'
 
 export interface ITokenRequest {
   session: string
@@ -28,7 +28,7 @@ export interface IDiscussionData {
   reactionCount: number
   totalCommentCount: number
   totalReplyCount: number
-  reactions: ReactionGroups
+  reactions: IReactionGroups
 }
 
 export interface IMessage<T> {

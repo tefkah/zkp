@@ -1,7 +1,6 @@
 import { Box, Text, Container, Heading, HStack, VStack, Tooltip } from '@chakra-ui/react'
-import React from 'react'
-import { isoToDate, isoToDateDistance } from '../../utils/parseTime'
 import { CalendarIcon } from '@chakra-ui/icons'
+import { isoToDate, isoToDateDistance } from '../../utils/parseTime'
 import { UpdatedAt } from './UpdatedAt'
 
 export interface MilestoneProps {
@@ -16,8 +15,8 @@ export interface MilestoneProps {
   url: string
 }
 
-const Milestone = (props: MilestoneProps) => {
-  const { dueOn, id, url, progressPercentage, updatedAt, title, state, description } = props
+export const Milestone = (props: MilestoneProps) => {
+  const { dueOn, url, progressPercentage, updatedAt, title, description } = props
   return (
     <Box>
       <Container py={4}>
@@ -28,7 +27,11 @@ const Milestone = (props: MilestoneProps) => {
             </HStack>
 
             <Box overflow="hidden" borderWidth={1} borderRadius="md" w="110%">
-              <Box w={`${Math.max(1, parseInt(progressPercentage))}%`} height={2} bg="green.500" />
+              <Box
+                w={`${Math.max(1, parseInt(progressPercentage, 10))}%`}
+                height={2}
+                bg="green.500"
+              />
             </Box>
 
             <HStack spacing={4} alignItems="bottom" color="gray.500" fontWeight="500" fontSize="sm">
@@ -50,4 +53,3 @@ const Milestone = (props: MilestoneProps) => {
     </Box>
   )
 }
-export default Milestone

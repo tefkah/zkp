@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs/promises'
 import { join } from 'path'
-import getFilesData, { FilesData } from '../../../../utils/IDIndex/getFilesData'
+import { getFilesData, FilesData } from '../../../../utils/IDIndex/getFilesData'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { title } = req.query

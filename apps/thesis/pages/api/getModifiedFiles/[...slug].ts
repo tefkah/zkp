@@ -3,7 +3,7 @@ import { getCommitDiffForSingleFile } from '../../../utils/getCommitDiff'
 import { Change } from 'diff'
 import { join } from 'path'
 import { diffToString } from '../../../services/thesis/parseDiff'
-import { FileDiff } from '../../../lib/api'
+import { FileDiff } from '../../../types/api'
 import { getFileStateChanges } from '../../../utils/getFileStateChanges'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

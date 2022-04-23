@@ -57,7 +57,7 @@ export const Reply = ({ reply, onReplyUpdate }: IReplyProps) => {
               src={reply.author.avatarUrl}
               width="30"
               height="30"
-              alt={`@${reply.author.login}`}
+              // alt={`@${reply.author.login}`}
             />
           </ChakraLink>
         </Box>

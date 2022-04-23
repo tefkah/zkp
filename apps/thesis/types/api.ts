@@ -55,15 +55,6 @@ export interface CommitPerDateLog {
   [date: string]: DateCommit
 }
 
-interface DateCommit {
-  totalAdditions: number
-  totalDeletions: number
-  totalDate: number
-  lastMessage: string
-  lastOid: string
-  commits: SlimCommit[]
-}
-
 export interface Diff {
   commit1: string
   commit2: string
@@ -80,7 +71,7 @@ export type GitPerDate = {
   [date: string]: DateCommit
 }
 
-interface DateCommit {
+export interface DateCommit {
   totalAdditions: number
   totalDeletions: number
   lastDate: number
@@ -89,7 +80,7 @@ interface DateCommit {
   commits: SubDateCommit[]
 }
 
-interface SubDateCommit {
+export interface SubDateCommit {
   oid: string
   message: string
   date: number

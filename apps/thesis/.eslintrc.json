@@ -1,14 +1,14 @@
 {
   "extends": [
     "plugin:@nrwl/nx/react-typescript",
-    "../../.eslintrc.json",
     "next",
-    "next/core-web-vitals"
+    "next/core-web-vitals",
+    "../../.eslintrc.json"
   ],
-  "ignorePatterns": ["!**/*"],
+  // "ignorePatterns": ["!**/*"],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
       "parserOptions": {
         "project": "apps/thesis/tsconfig.json"
       },
@@ -17,7 +17,7 @@
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": ["**/*.ts", "**/*.tsx"],
       "rules": {}
     },
     {

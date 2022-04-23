@@ -10,7 +10,7 @@
     "importHelpers": true,
     "target": "esnext",
     "module": "esnext",
-    "lib": ["es2021"],
+    "lib": ["es2021", "DOM"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "allowJs": true,

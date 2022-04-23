@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // ported from the great https://github.com/giscus/giscus
 
 import { MouseEvent as ReactMouseEvent } from 'react'
@@ -92,8 +93,8 @@ export const toggleEmail = (event: ReactMouseEvent<HTMLElement, MouseEvent>) => 
   if (toggle && event.currentTarget.contains(toggle)) {
     event.preventDefault()
     const container = element.closest('div')
-    const content = container.querySelector('.email-hidden-reply')
-    content.classList.toggle('expanded')
+    const content = container?.querySelector('.email-hidden-reply')
+    content?.classList?.toggle('expanded')
   }
 }
 
@@ -106,19 +107,19 @@ export const handleClipboardCopy = (event: ReactMouseEvent<HTMLElement, MouseEve
     event.preventDefault()
     const contents =
       container.dataset.snippetClipboardCopyContent ||
-      container.querySelector('pre').textContent ||
+      container?.querySelector('pre')?.textContent ||
       ''
 
     clipboardCopy(contents).then(() => {
       const clipboardIcon = button.querySelector<SVGElement>('svg.js-clipboard-copy-icon')
       const checkIcon = button.querySelector<SVGElement>('svg.js-clipboard-check-icon')
 
-      clipboardIcon.classList.add('d-none')
-      checkIcon.classList.remove('d-none')
+      clipboardIcon?.classList.add('d-none')
+      checkIcon?.classList.remove('d-none')
 
       setTimeout(() => {
-        clipboardIcon.classList.remove('d-none')
-        checkIcon.classList.add('d-none')
+        clipboardIcon?.classList.remove('d-none')
+        checkIcon?.classList.add('d-none')
       }, 2000)
     })
   }
@@ -136,7 +137,7 @@ export const processCommentBody = (bodyHTML: string) => {
 
   const template = document.createElement('template')
   template.innerHTML = bodyHTML
-  const content = template.content
+  const content = template?.content
 
   content.querySelectorAll<HTMLAnchorElement>(':not(.email-hidden-toggle) > a').forEach((a) => {
     const currentLink = window.location.href
@@ -152,9 +153,9 @@ export const processCommentBody = (bodyHTML: string) => {
     a.rel = 'noopener noreferrer nofollow'
   })
 
-  content
-    .querySelectorAll<HTMLAnchorElement>('a.commit-tease-sha')
-    .forEach((a) => (a.href = 'https://github.com' + a.pathname))
+  content.querySelectorAll<HTMLAnchorElement>('a.commit-tease-sha').forEach((a) => {
+    a.href = `https://github.com${a.pathname}`
+  })
 
   content
     .querySelectorAll<HTMLDivElement>(
@@ -165,7 +166,9 @@ export const processCommentBody = (bodyHTML: string) => {
       div.classList.remove('overflow-auto') // Old comments have this unnecessary class
       const copyButton = document.createElement('template')
       copyButton.innerHTML = COPY_BUTTON_HTML.trim()
-      div.appendChild(copyButton.content.firstChild)
+      const firstChild = copyButton?.content?.firstChild
+      if (!firstChild) return
+      div.appendChild(firstChild)
     })
 
   return template.innerHTML

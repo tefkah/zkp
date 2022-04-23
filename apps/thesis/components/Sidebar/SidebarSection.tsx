@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { Icon, IconButton, useDisclosure, Collapse } from '@chakra-ui/react'
 import { MenuLink, CompLink } from './SidebarContent'
 
-const SidebarSection = (props: any) => {
+export const SidebarSection = (props: any) => {
   const { section } = props
   const subComps = useDisclosure()
   useEffect(() => {

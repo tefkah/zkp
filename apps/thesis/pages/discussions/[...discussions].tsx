@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react'
 import process from 'process'
 import Head from 'next/head'
 import BasicLayout from '../../components/Layouts/BasicLayout'
-import Widget from '../../components/discs/Widget'
+import { Widget } from '../../components/discs/Widget'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { getSession } from 'next-auth/react'

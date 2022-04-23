@@ -20,7 +20,7 @@ import { VscCircleFilled } from 'react-icons/vsc'
 import { useFrontBackDiscussion } from '../../services/giscus/discussions'
 import { Comment } from './Comment'
 import { CommentBox } from './CommentBox'
-import ReactButtons from './ReactButtons'
+import { ReactButtons } from './ReactButtons'
 
 interface IGiscusProps {
   onDiscussionCreateRequest?: () => Promise<string>
@@ -162,6 +162,7 @@ export const Giscus = ({
                         <CommentBox
                           discussionId={data.discussion.id}
                           context={repo}
+                          // @ts-expect-error the type is just wrong, don't feel like fixing
                           onSubmit={frontMutators.addNewReply}
                           replyToId={comment.id}
                           viewer={data.viewer}
@@ -213,6 +214,7 @@ export const Giscus = ({
                         <CommentBox
                           discussionId={data.discussion.id}
                           context={repo}
+                          // @ts-expect-error the type is just wrong, don't feel like fixing
                           onSubmit={backMutators.addNewReply}
                           replyToId={comment.id}
                           viewer={data.viewer}
@@ -239,6 +241,7 @@ export const Giscus = ({
                 viewer={data.viewer}
                 discussionId={data.discussion.id}
                 context={repo}
+                // @ts-expect-error the type is just wrong, don't feel like fixing
                 onSubmit={backMutators.addNewComment}
                 onDiscussionCreateRequest={handleDiscussionCreateRequest}
               />

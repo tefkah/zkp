@@ -42,7 +42,7 @@ export const Citations = (props: CitationProps) => {
         components: {
           html: ({ children }) => children as React.ReactElement,
           body: ({ children }) => children as React.ReactElement,
-          head: () => <></>,
+          head: () => null,
           a: ({ href, children }) => (
             <Link color="primary" style={{ alignItems: 'center' }} href={href as string} isExternal>
               {children as string}
@@ -60,7 +60,6 @@ export const Citations = (props: CitationProps) => {
               )
             }
             return (
-              // @ts-expect-error yea
               <Text variant="org" {...props}>
                 {children as React.ReactNode}
               </Text>

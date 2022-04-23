@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import rehype2react, { Options } from 'rehype-react'

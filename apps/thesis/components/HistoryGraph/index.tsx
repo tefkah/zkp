@@ -1,13 +1,19 @@
 import { Point, ResponsiveLine } from '@nivo/line'
 import { parse } from 'date-fns'
 import React, { useCallback, useMemo } from 'react'
-import { DateCommit, CommitDatum } from '../../types/api'
+import {
+  DateCommit,
+  CommitDatum,
+  CommitChartData,
+  FileDiff,
+  CommitPerDateLog,
+} from '../../types/api'
 import { Tooltip } from './Tooltip'
 
 interface Props {
-  data: any
-  diffs: any
-  setDiffs: any
+  data: CommitPerDateLog
+  diffs: { commit1: string; commit2: string } | undefined
+  setDiffs: (diffs: { commit1: string; commit2: string }) => void
   dark: boolean
 }
 

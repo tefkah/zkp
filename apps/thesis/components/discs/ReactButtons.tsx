@@ -8,16 +8,17 @@ import {
   Button,
   useDisclosure,
   Popover,
-  PopoverTrigger,
   PopoverContent,
   PopoverArrow,
   PopoverBody,
   HStack,
 } from '@chakra-ui/react'
+import { PopoverTrigger as OrigPopoverTrigger } from '@chakra-ui/react'
 import { IReactionGroups } from '../../types/adapter'
 import { Reaction, Reactions } from '../../types/github'
 import { toggleReaction } from '../../services/github/toggleReaction'
 
+export const PopoverTrigger: React.FC<{ children: React.ReactNode }> = OrigPopoverTrigger
 interface IReactButtonsProps {
   reactionGroups: IReactionGroups
   subjectId?: string
@@ -41,6 +42,8 @@ const PopupInfo = ({
 }
 
 type ReactionsMap = [key: Reaction, emoji: typeof Reactions[Reaction]]
+type ReactionGroupsMap = [keyof IReactionGroups, IReactionGroups[keyof IReactionGroups]]
+
 export const ReactButtons = ({
   reactionGroups,
   subjectId,
@@ -108,7 +111,7 @@ export const ReactButtons = ({
 
   const directReactionButtons =
     variant !== 'popoverOnly'
-      ? Object.entries(reactionGroups || {})
+      ? (Object.entries(reactionGroups || {}) as ReactionGroupsMap[])
           .filter(([, { count }]) => count > 0)
           .map(createReactionButton)
       : []
@@ -140,7 +143,7 @@ export const ReactButtons = ({
               position="relative"
               className="m-2"
               px={3}
-              leading="24px"
+              //  leading="24px"
               whiteSpace="nowrap"
             >
               <PopupInfo

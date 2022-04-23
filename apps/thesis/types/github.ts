@@ -19,7 +19,7 @@ export type GCommentAuthorAssociation =
   | 'OWNER'
 
 export interface GReactionGroup {
-  content: keyof typeof Reactions
+  content: keyof IReactions
   users: {
     totalCount: number
   }
@@ -37,6 +37,7 @@ interface GBaseComment {
   deletedAt: string | null
   isMinimized: boolean
   bodyHTML: string
+  body: string
   reactionGroups: GReactionGroup[]
 }
 
@@ -105,7 +106,7 @@ export interface GMultipleErrors {
   }>
 }
 
-export const Reactions = {
+export const Reactions: IReactions = {
   THUMBS_UP: '👍',
   THUMBS_DOWN: '👎',
   LAUGH: '😆',
@@ -116,4 +117,15 @@ export const Reactions = {
   EYES: '👀',
 } as const
 
-export type Reaction = keyof typeof Reactions
+export interface IReactions {
+  THUMBS_UP: '👍'
+  THUMBS_DOWN: '👎'
+  LAUGH: '😆'
+  HOORAY: '🎉'
+  CONFUSED: '😕'
+  HEART: '❤️'
+  ROCKET: '🚀'
+  EYES: '👀'
+}
+
+export type Reaction = keyof IReactions

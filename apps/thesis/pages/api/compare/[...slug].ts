@@ -3,7 +3,7 @@ import { getCommitDiff } from '../../../utils/getCommitDiff'
 import { Change } from 'diff'
 import { join } from 'path'
 import { diffToString } from '../../../services/thesis/parseDiff'
-import { FileDiff } from '../../../lib/api'
+import { FileDiff } from '../../../types/api'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug } = req.query

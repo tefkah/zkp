@@ -1,43 +1,30 @@
-import {
-  consolidateCommitsPerDay,
-  getCommits,
-  tryReadJSON,
-} from '../../utils/getListOfCommitsWithStats'
-import { Commit } from '../../lib/api'
+import { consolidateCommitsPerDay } from '../../utils/getListOfCommitsWithStats'
+import { Commit } from '../../types/api'
 import {
   Box,
   Button,
-  Container,
   Flex,
   HStack,
   Icon,
   IconButton,
   Link,
   Skeleton,
-  Spinner,
   Text,
   Tooltip,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
 import React, { ReactElement, useEffect, useState } from 'react'
-import ParsedDiff from '../../services/thesis/parseDiff'
-import useFetch from '../../utils/useFetch'
-import { commit } from 'isomorphic-git'
+import { ParsedDiff } from '../../services/thesis/parseDiff'
+import { useFetch } from '../../utils/useFetch'
 import { DiffBox } from '../../components/Diff/DiffBox'
-import useSWR from 'swr'
-import fetcher from '../../utils/fetcher'
-import { join } from 'path'
-import Header from '../../components/Header'
 import { format } from 'date-fns'
 import { IoIosGitCompare } from 'react-icons/io'
 import { GoMarkGithub } from 'react-icons/go'
 
 import { CommitList } from '../../components/Commits/CommitList'
-import Footer from '../../components/Footer'
 import BasicLayout from '../../components/Layouts/BasicLayout'
 
-export function ParsedCommit(props: { [key: string]: any }) {
+export const ParsedCommit = (props: { [key: string]: any }) => {
   const { commitData, isLoading } = props
   return (
     <>
@@ -58,7 +45,7 @@ export function ParsedCommit(props: { [key: string]: any }) {
                 key={file.filepath}
                 {...{ isLoaded: !isLoading, oid: '', filepath: file, deletions, additions }}
               >
-                <ParsedDiff {...{ diff, truncated: true }} />
+                [<ParsedDiff {...{ diff, truncated: true }} />]
               </DiffBox>
             )}
           </>
@@ -98,7 +85,7 @@ export const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
   return <ParsedCommit isLoading={isLoading} commitData={data} />
 }
 
-export default function ComparePage(props: Props) {
+export const ComparePage = (props: Props) => {
   const { commit, relevantFiles, commitsPerDate } = props
 
   const [commit1, commit2] = commit
@@ -175,6 +162,7 @@ export default function ComparePage(props: Props) {
   )
 }
 
+export default ComparePage
 interface DiffListProps {
   relevantFiles: string[]
   commit: any
@@ -215,7 +203,7 @@ export const DiffList = (props: DiffListProps) => {
 export interface StaticProps {
   params: { commit: string }
 }
-export async function getServerSideProps(props: StaticProps) {
+export const getServerSideProps = async (props: StaticProps) => {
   const { readFile } = require('fs').promises
   const { resolve, join } = require('path')
   const { commit } = props.params
@@ -250,6 +238,4 @@ export async function getServerSideProps(props: StaticProps) {
   return { props: { commit, relevantFiles, commitsPerDate } }
 }
 
-ComparePage.getLayout = function getLayout(page: ReactElement) {
-  return <BasicLayout>{page}</BasicLayout>
-}
+ComparePage.getLayout = (page: ReactElement) => <BasicLayout>{page}</BasicLayout>

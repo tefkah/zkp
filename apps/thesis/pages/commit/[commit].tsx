@@ -1,5 +1,5 @@
 import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
-import { Commit } from '../../lib/api'
+import { Commit } from '../../types/api'
 import {
   Box,
   Button,
@@ -20,9 +20,8 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
-import React, { ReactElement, useEffect, useState } from 'react'
-import ParsedDiff from '../../services/thesis/parseDiff'
-import useFetch from '../../utils/useFetch'
+import { ReactElement, useEffect, useState } from 'react'
+import { ParsedDiff } from '../../services/thesis/parseDiff'
 import { commit } from 'isomorphic-git'
 import { DiffBox } from '../../components/Diff/DiffBox'
 import { join } from 'path'
@@ -39,10 +38,10 @@ export function parseCommits(commitData: Commit) {
   return commitData?.files?.map((file) => {
     if (!file) return
     const { additions, deletions, filepath, oid } = file
-    const orgText = ParsedDiff({ diff: file, truncated: true })
+    const orgText = ParsedDiff({ diff: file })
     return (
       <DiffBox key={file.filepath} {...{ oid, filepath, deletions, additions }}>
-        {orgText}
+        {[orgText]}
       </DiffBox>
     )
   })
@@ -171,7 +170,7 @@ export async function getStaticPaths() {
 export interface StaticProps {
   params: { commit: string }
 }
-export async function getStaticProps(props: StaticProps) {
+export const getStaticProps = async (props: StaticProps) => {
   const { commit } = props.params
 
   const commits = await tryReadJSON(join('data', 'git.json'))
@@ -185,6 +184,6 @@ export async function getStaticProps(props: StaticProps) {
   return { props: { commitData }, revalidate: 60 }
 }
 
-CommitPage.getLayout = function getLayout(page: ReactElement) {
+CommitPage.getLayout = (page: ReactElement) => {
   return <BasicLayout>{page}</BasicLayout>
 }
