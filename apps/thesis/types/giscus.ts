@@ -1,8 +1,8 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { AvailableLanguage } from '../i18n'
-import { Theme } from '../variables'
-import { IReactionGroups, IUser } from './adapter'
+// import { AvailableLanguage } from '../i18n'
+// import { Theme } from '../variables'
+import { ReactionGroups, IUser } from './adapter'
 
 export interface ITokenRequest {
   session: string
@@ -28,7 +28,7 @@ export interface IDiscussionData {
   reactionCount: number
   totalCommentCount: number
   totalReplyCount: number
-  reactions: IReactionGroups
+  reactions: ReactionGroups
 }
 
 export interface IMessage<T> {
@@ -48,13 +48,13 @@ export interface IMetadataMessage {
 // parent-to-giscus messages
 export interface ISetConfigMessage {
   setConfig: {
-    theme?: Theme
+    // theme?: Theme
     repo?: string
     term?: string
     number?: number
     category?: string
     reactionsEnabled?: boolean
     emitMetadata?: boolean
-    lang?: AvailableLanguage
+    // lang?: AvailableLanguage
   }
 }

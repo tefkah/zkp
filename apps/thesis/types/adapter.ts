@@ -8,7 +8,7 @@ export interface IUser {
   url: string
 }
 
-export type IReactionGroups = {
+export type ReactionGroups = {
   [key in keyof typeof Reactions]: {
     count: number
     viewerHasReacted: boolean
@@ -37,7 +37,7 @@ interface IBaseComment {
   deletedAt: string | null
   isMinimized: boolean
   body: string
-  reactions: IReactionGroups
+  reactions: ReactionGroups
 }
 
 export interface IReply extends IBaseComment {
@@ -71,7 +71,7 @@ export interface IGiscussion {
       nameWithOwner: string
     }
     reactionCount: number
-    reactions: IReactionGroups
+    reactions: ReactionGroups
     comments: IComment[]
   }
 }

@@ -4,10 +4,11 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/next:build",
+      "executor": "./tools/executors/next-git:next-git",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
+        "remote": "https://github.com/thomasfkjorna/thesis-writing",
         "root": "apps/thesis",
         "outputPath": "dist/apps/thesis"
       },

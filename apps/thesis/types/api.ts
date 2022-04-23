@@ -1,8 +1,10 @@
 // ported from the great https://github.com/giscus/giscus
 
+import { Change } from 'diff'
+
 export interface GitLogCommit {
   oid: string
-  commit: SubCommit
+  commit: GitLogSubCommit
   payload: string
 }
 
@@ -43,7 +45,7 @@ export type FileDiff =
   | {
       filepath: string
       oid: string
-      diff: Changes[]
+      diff: Change[]
       additions: number
       deletions: number
     }

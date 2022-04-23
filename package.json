@@ -2,10 +2,12 @@
   "name": "zkp",
   "version": "0.0.0",
   "license": "GPLv3+",
+  "type": "module",
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\""
   },
   "private": true,
   "dependencies": {

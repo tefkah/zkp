@@ -1,26 +1,16 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
+    "jsx": "preserve",
+    //"allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    //   "resolveJsonModule": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "types": ["node", "jest"]
+    "incremental": true,
+    "types": ["jest", "node"]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.d.ts",
-    "src/pages/auth/[...nextauth].js"
-  ],
-  "exclude": ["node_modules", "**/katexSlatePlugin.tsx"]
+  "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "next-env.d.ts"],
+  "exclude": ["node_modules", "jest.config.ts"]
 }
