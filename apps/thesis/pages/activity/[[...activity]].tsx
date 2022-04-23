@@ -82,11 +82,19 @@ export const getStaticPaths = async function () {
 }
 export const getStaticProps = async () => {
   const cwd = process.cwd()
+
+  const currentDir = join(cwd, ...(process.env.CURRENT_FOLDER?.split('/') ?? []))
+
+  const notesDir = join(currentDir, 'notes')
+
+  const gitDir = join(notesDir, 'git')
+  const dataDir = join(currentDir, 'data')
   const { data, dataWithoutDiffs, dataPerDate } = await getListOfCommitsWithStats(
     '',
     '',
-    join(cwd, 'notes'),
-    join(cwd, 'notes', 'git'),
+    notesDir,
+    gitDir,
+    dataDir,
   )
 
   return { props: { log: dataPerDate }, revalidate: 60 }

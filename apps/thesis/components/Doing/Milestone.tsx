@@ -1,4 +1,4 @@
-import { Box, Text, Container, Heading, HStack, VStack, Tooltip } from '@chakra-ui/react'
+import { Box, Text, Container, Heading, HStack, VStack, Tooltip, LinkBox } from '@chakra-ui/react'
 import { CalendarIcon } from '@chakra-ui/icons'
 import { isoToDate, isoToDateDistance } from '../../utils/parseTime'
 import { UpdatedAt } from './UpdatedAt'
@@ -45,9 +45,9 @@ export const Milestone = (props: MilestoneProps) => {
             </HStack>
           </VStack>
           <Text>{description}</Text>
-          <VStack alignItems="flex-start">
+          <LinkBox as={VStack} alignItems="flex-start">
             <UpdatedAt {...{ updatedAt, url }} />
-          </VStack>
+          </LinkBox>
         </VStack>
       </Container>
     </Box>

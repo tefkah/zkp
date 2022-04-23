@@ -4,8 +4,11 @@ import {
   Container,
   HStack,
   Link,
+  LinkBox,
+  LinkOverlay,
   Stack,
   Text,
+  Tooltip,
   useColorModeValue,
   VisuallyHidden,
   VStack,
@@ -19,6 +22,10 @@ import {
 } from 'react-icons/fa'
 import React, { ReactNode } from 'react'
 import { SignInButton } from './SignInButton'
+import { format } from 'date-fns'
+
+const CCText =
+  'All writing, images, and other material on this website (unless otherwise stated) is licensed under the terms of the Creative Commons Attribution-ShareAlike 4.0 license. This means that you are free to redistribute, share, and remix said material granted that you provide proper attribution AND that you share your remixed work under the same license.'
 
 const SocialButton = ({
   children,
@@ -73,13 +80,16 @@ export const Footer = () => (
         justifyContent="space-between"
         alignItems={{ base: 'center', md: 'flex-start' }}
       >
-        <Text>© 2021 Thomas F. K. Jorna</Text>
-        <Link href="https://creativecommons.org/licenses/by-sa/4.0">
-          <HStack>
+        <Text>© 2021-{format(new Date(), 'yyyy')} Thomas F. K. Jorna</Text>
+        <Tooltip label={CCText}>
+          <LinkBox as={HStack}>
             <FaCreativeCommons />
-            <FaCreativeCommonsBy /> <FaCreativeCommonsSa />
-          </HStack>
-        </Link>
+            <FaCreativeCommonsBy />{' '}
+            <LinkOverlay href="https://creativecommons.org/licenses/by-sa/4.0">
+              <FaCreativeCommonsSa />
+            </LinkOverlay>
+          </LinkBox>
+        </Tooltip>
       </VStack>
       <VStack h="full" alignItems="flex-end" justifyContent="space-between">
         <HStack spacing={6}>

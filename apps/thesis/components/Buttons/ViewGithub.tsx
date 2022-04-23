@@ -1,4 +1,4 @@
-import { useColorModeValue, Text, HStack, Link } from '@chakra-ui/react'
+import { useColorModeValue, Text, HStack, Link, LinkOverlay } from '@chakra-ui/react'
 import React from 'react'
 import { FaGithub } from 'react-icons/fa'
 
@@ -17,25 +17,25 @@ export const ViewGithub = (props: Props) => {
       _hover={{ color: useColorModeValue('black', 'white') }}
       transition="color 0.1s"
     >
-      <Link
-        isExternal
-        href={
-          full
-            ? slug
-            : repo
-            ? `https://github.com/ThomasFKJorna/${repo}/${slug}`
-            : `https://github.com/ThomasFKJorna/thesis-writing/${slug}`
-        }
-      >
-        <HStack as="span">
+      <HStack as="span">
+        <LinkOverlay
+          isExternal
+          href={
+            full
+              ? slug
+              : repo
+              ? `https://github.com/ThomasFKJorna/${repo}/${slug}`
+              : `https://github.com/ThomasFKJorna/thesis-writing/${slug}`
+          }
+        >
           <FaGithub />
-          {text && (
-            <Text fontSize="xs" fontWeight="bold" as="span">
-              {text}
-            </Text>
-          )}
-        </HStack>
-      </Link>
+        </LinkOverlay>
+        {text && (
+          <Text fontSize="xs" fontWeight="bold" as="span">
+            {text}
+          </Text>
+        )}
+      </HStack>
     </Text>
   )
 }

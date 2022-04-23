@@ -1,4 +1,4 @@
-import { Box, Divider, Heading, HStack, Text, VStack } from '@chakra-ui/react'
+import { Box, Divider, Heading, HStack, LinkBox, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { Edge, MilestoneNode, NearestMilestoneData } from '../../types/issues'
 import { IssueLabels } from './Labels'
@@ -33,14 +33,12 @@ export const IssueList = (props: IssueListProps) => {
         divider={<Divider sx={{ my: '0px !important' }} mt={0} mb={0} py={0} />}
       >
         {issues?.edges?.map(({ node }: Edge) => (
-          <Box
-            p={4}
-            key={node.title}
-            w="full"
-            transition="background-color 0.1s"
-            _hover={{ bgColor: 'background' }}
-          >
-            <VStack alignItems="flex-start">
+          <LinkBox as={Box} p={4} key={node.title} w="full">
+            <VStack
+              alignItems="flex-start"
+              transition="background-color 0.1s"
+              _hover={{ bgColor: 'hover' }}
+            >
               <HStack w="full" spacing={2} justifyContent="space-between" alignItems="center">
                 <HStack alignItems="start">
                   <IssueStatus closed={node.closed} />
@@ -52,7 +50,7 @@ export const IssueList = (props: IssueListProps) => {
               <Text maxW="70ch">{node.body}</Text>
               <UpdatedAt {...{ url: node.url, updatedAt: node.updatedAt }} />
             </VStack>
-          </Box>
+          </LinkBox>
         ))}
       </VStack>
     </VStack>

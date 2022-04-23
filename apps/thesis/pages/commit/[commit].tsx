@@ -58,7 +58,6 @@ export default function CommitPage(props: Props) {
   //const {data:parsedText, isLoading} = useFetch(e)
 
   const headerColor = 'back'
-  const bodyColor = 'foreground'
   const parsedText = parseCommits(commitData)
 
   const formattedDate = format(new Date(date * 1000), "MMMM do, yyyy 'at' hh:mm")

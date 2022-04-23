@@ -36,6 +36,10 @@ const theme = extendTheme({
       default: baseTheme.colors.gray[50],
       _dark: baseTheme.colors.gray[800],
     },
+    hover: {
+      default: baseTheme.colors.gray[200],
+      _dark: baseTheme.colors.gray[600],
+    },
   },
   fonts,
   breakpoints,

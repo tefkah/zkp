@@ -32,7 +32,7 @@ const diffMap = async (props: DiffMapProps): Promise<FileDiff | void> => {
 
   // just show .org diffs
   // TODO make this an env var
-  if (extname(filepath) !== '.org') {
+  if (!process.env.INCLUDED_EXTENSIONS?.includes(extname(filepath))) {
     return
   }
 

@@ -1,5 +1,4 @@
 import { consolidateCommitsPerDay } from '../../utils/getListOfCommitsWithStats'
-import { Commit } from '../../types/api'
 import {
   Box,
   Button,
