@@ -1,7 +1,5 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
-import React from 'react'
-import { CommitPerDateLog } from '../../types/api'
-import { NoteHeading } from '../../types/notes'
+import { CommitPerDateLog, NoteHeading } from '../../types'
 import { CommitList } from '../Commits/CommitList'
 import { TableOfContent } from './TableOfContents'
 import { ItemPanel } from './ItemPanel'

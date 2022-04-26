@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { IRepoConfig } from '../../types/giscus'
+import { IRepoConfig } from '../../types'
 import { getJSONFile } from './getFile'
 
 export const getRepoConfig = async (repoWithOwner: string, token?: string) => {

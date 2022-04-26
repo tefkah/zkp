@@ -1,40 +1,15 @@
-import {
-  Text,
-  Container,
-  Heading,
-  useColorModeValue,
-  VStack,
-  HStack,
-  Box,
-  LinkBox,
-  LinkOverlay,
-  Skeleton,
-  Tooltip,
-  Spinner,
-  Icon,
-  Divider,
-} from '@chakra-ui/react'
-import { format, formatDistance, parse, parseISO } from 'date-fns'
+import { Heading, VStack, HStack, Box, Spinner, Divider } from '@chakra-ui/react'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 import Head from 'next/head'
-import Link from 'next/link'
-import { join } from 'path'
-import React, { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
+import { useCookies } from 'react-cookie'
 import { ViewGithub } from '../../components/Buttons/ViewGithub'
 import { NewDiscussion } from '../../components/discs/NewDiscussion'
-import BasicLayout from '../../components/Layouts/BasicLayout'
+import { BasicLayout } from '../../components/Layouts'
 import { useDiscussion } from '../../hooks/useDiscussion'
-import {
-  CategoryData,
-  CATEGORY_LIST_QUERY,
-  CommentEdge,
-  DiscussionEdge,
-} from '../../queries/getDiscussion'
+import { CategoryData, CATEGORY_LIST_QUERY, DiscussionEdge } from '../../queries/getDiscussion'
 import makeGenericGraphQlRequest from '../../queries/makeGenericGraphQLRequest'
-import { useCookies } from 'react-cookie'
-import { CircleIcon, CommentDiscussionIcon, DotIcon } from '@primer/octicons-react'
-import { VscCircleFilled } from 'react-icons/vsc'
 import { DiscussionCard } from '../../components/discs/DiscussionCard'
 
 export interface Discussions {
@@ -49,8 +24,7 @@ interface Props {
   token?: string
 }
 
-export default function DiscussionsPage(props: Props) {
-  // const { discussions } = props
+export const DiscussionsPage = (props: Props) => {
   const { access, token, discussionCategories } = props
 
   const { data, isLoading, error } = useDiscussion({
@@ -60,6 +34,7 @@ export default function DiscussionsPage(props: Props) {
     category: '',
     list: true,
   })
+
   !access && window.location.replace('/')
 
   const [cookies, setCookie] = useCookies(['visit'])
@@ -72,6 +47,7 @@ export default function DiscussionsPage(props: Props) {
       // @ts-expect-error
       data?.data?.repository?.discussions?.edges?.map((discussion: DiscussionEdge) => (
         <DiscussionCard
+          key={discussion.node.title}
           {...{ lastVisit, commentCount, replyCount, totalCount }}
           node={discussion.node}
         />
@@ -79,37 +55,35 @@ export default function DiscussionsPage(props: Props) {
     [data],
   )
   return (
-    <>
-      {access && (
-        <>
-          <Head>
-            <title>Discussions | Thomas' Thesis</title>
-          </Head>
-          <Box minH="100vh" mt={{ base: 4, md: 16 }} mb={10}>
-            <VStack px={{ base: '4%', md: '10%' }} w="full" alignItems="flex-start" spacing={10}>
-              <Box w="full">
-                <HStack justifyContent="space-between" w="full">
-                  <Box>
-                    <Heading>Discussions</Heading>
-                    <ViewGithub
-                      text="View discussions on GitHub"
-                      repo="thesis-discussions"
-                      slug="discussions"
-                    />
-                  </Box>
-                  {discussionCategories && token && (
-                    <NewDiscussion {...{ token, discussionCategories }} />
-                  )}
-                </HStack>
-              </Box>
-              <VStack w="full" alignItems="flex-start" spacing={5} divider={<Divider />}>
-                {isLoading && !data ? <Spinner /> : discussionList})
-              </VStack>
+    access && (
+      <>
+        <Head>
+          <title>Discussions | Thomas' Thesis</title>
+        </Head>
+        <Box minH="100vh" mt={{ base: 4, md: 16 }} mb={10}>
+          <VStack px={{ base: '4%', md: '10%' }} w="full" alignItems="flex-start" spacing={10}>
+            <Box w="full">
+              <HStack justifyContent="space-between" w="full">
+                <Box>
+                  <Heading>Discussions</Heading>
+                  <ViewGithub
+                    text="View discussions on GitHub"
+                    repo="thesis-discussions"
+                    slug="discussions"
+                  />
+                </Box>
+                {discussionCategories && token && (
+                  <NewDiscussion {...{ token, discussionCategories }} />
+                )}
+              </HStack>
+            </Box>
+            <VStack w="full" alignItems="flex-start" spacing={5} divider={<Divider />}>
+              {isLoading && !data ? <Spinner /> : discussionList})
             </VStack>
-          </Box>
-        </>
-      )}
-    </>
+          </VStack>
+        </Box>
+      </>
+    )
   )
 }
 
@@ -132,3 +106,4 @@ export const getServerSideProps = async (props: { req: NextApiRequest; res: Next
 
   return { props: { access: true, token, discussionCategories } }
 }
+export default DiscussionsPage

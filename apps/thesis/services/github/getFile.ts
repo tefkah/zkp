@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { GError } from '../../types/github'
+import { GError } from '../../types'
 
 // eslint-disable-next-line prefer-destructuring
 const GITHUB_REPOS_API_URL = process.env.GITHUB_REPOS_API_URL

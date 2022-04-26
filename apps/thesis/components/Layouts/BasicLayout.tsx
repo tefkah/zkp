@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react'
-import Header from '../Header'
-import Footer from '../Footer'
+import { Header } from '../Header'
+import { Footer } from '../Footer'
 
 export interface BasicLayoutProps {
   children: React.ReactElement
@@ -19,5 +19,3 @@ export const BasicLayout = (props: BasicLayoutProps) => {
     </>
   )
 }
-
-export default BasicLayout

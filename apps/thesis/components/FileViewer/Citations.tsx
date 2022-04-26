@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { noteStyle } from '../NoteStyle'
-import { CSLCitation } from '../../types/api'
+import { CSLCitation } from '../../types'
 
 interface CitationProps {
   csl: CSLCitation[]
@@ -70,7 +70,7 @@ export const Citations = (props: CitationProps) => {
           ul: UnorderedList,
           h: Heading,
           i: ({ children, ...props }) => (
-            //@ts-ignore
+            // @ts-ignore
             <Text as="i" variant="org" {...props}>
               {children as React.ReactNode}
             </Text>

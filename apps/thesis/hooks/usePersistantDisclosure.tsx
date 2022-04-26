@@ -1,8 +1,6 @@
 import { callAllHandlers } from '@chakra-ui/utils'
 import * as React from 'react'
-import { useControllableProp } from '@chakra-ui/react'
-import { useId } from '@chakra-ui/react'
-import { useCallbackRef } from '@chakra-ui/react'
+import { useControllableProp , useId , useCallbackRef } from '@chakra-ui/react'
 import { usePersistantState } from './usePersistantState'
 
 export interface UseDisclosureProps {

@@ -107,9 +107,9 @@ const CLink = (props: any) => {
   }
 
   const RLinkProps = {
-    active: active,
-    href: href,
-    isSection: isSection,
+    active,
+    href,
+    isSection,
   }
 
   const LinkProps = activeSection ? SLinkProps : RLinkProps
@@ -158,9 +158,9 @@ export const CompLink = (props: any) => {
 }
 
 export interface Routes {}
-const SidebarContent = () => {
+const SidebarContent = () => 
   // const routes = useRoutes();
-  return (
+   (
     <VStack spacing={0} display="flex" alignItems="flex-start">
       <MenuLink isSection>Chapters</MenuLink>
       <MenuLink isSection>Notes</MenuLink>
@@ -173,5 +173,5 @@ const SidebarContent = () => {
       ))} */}
     </VStack>
   )
-}
+
 export default SidebarContent

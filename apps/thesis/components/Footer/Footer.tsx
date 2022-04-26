@@ -1,16 +1,13 @@
 import {
   Box,
-  chakra,
   Container,
   HStack,
-  Link,
   LinkBox,
   LinkOverlay,
   Stack,
   Text,
   Tooltip,
   useColorModeValue,
-  VisuallyHidden,
   VStack,
 } from '@chakra-ui/react'
 import {
@@ -20,42 +17,12 @@ import {
   FaGithub,
   FaTwitter,
 } from 'react-icons/fa'
-import React, { ReactNode } from 'react'
-import { SignInButton } from './SignInButton'
 import { format } from 'date-fns'
+import { SignInButton } from './SignInButton'
+import { SocialButton } from './SocialButton'
 
 const CCText =
   'All writing, images, and other material on this website (unless otherwise stated) is licensed under the terms of the Creative Commons Attribution-ShareAlike 4.0 license. This means that you are free to redistribute, share, and remix said material granted that you provide proper attribution AND that you share your remixed work under the same license.'
-
-const SocialButton = ({
-  children,
-  label,
-  href,
-}: {
-  children: ReactNode
-  label: string
-  href: string
-}) => (
-  <chakra.button
-    bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
-    rounded="full"
-    w={8}
-    h={8}
-    cursor="pointer"
-    as="a"
-    href={href}
-    display="inline-flex"
-    alignItems="center"
-    justifyContent="center"
-    transition="background 0.3s ease"
-    _hover={{
-      bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
-    }}
-  >
-    <VisuallyHidden>{label}</VisuallyHidden>
-    {children}
-  </chakra.button>
-)
 
 export const Footer = () => (
   <Box

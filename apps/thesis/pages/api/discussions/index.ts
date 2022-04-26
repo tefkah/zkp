@@ -1,14 +1,13 @@
 // adapted from https://github.com/giscus/giscus/blob/main/pages/api/discussions/categories.ts
 
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { IError, IGiscussion } from '../../../types/adapter'
-import { GRepositoryDiscussion } from '../../../types/github'
+import { IError, IGiscussion, GRepositoryDiscussion } from '../../../types'
 import { getAppAccessToken } from '../../../queries/getAccessToken'
 import { createDiscussion } from '../../../services/github/createDiscussion'
 import { getDiscussion } from '../../../services/github/getDiscussion'
 import { adaptDiscussion } from '../../../utils/giscus/adapter'
 
-async function get(req: NextApiRequest, res: NextApiResponse<IGiscussion | IError>) {
+const get = async (req: NextApiRequest, res: NextApiResponse<IGiscussion | IError>) => {
   const params = {
     repo: req.query.repo as string,
     term: req.query.term as string,
@@ -29,7 +28,7 @@ async function get(req: NextApiRequest, res: NextApiResponse<IGiscussion | IErro
     try {
       token = await getAppAccessToken(params.repo)
     } catch (error) {
-      // @ts-ignore
+      // @ts-expect-error error is of certain type
       res.status(403).json({ error: error.message })
       return
     }
@@ -58,7 +57,9 @@ async function get(req: NextApiRequest, res: NextApiResponse<IGiscussion | IErro
     }
 
     console.error(response)
-    const message = response.errors.map?.(({ message }) => message).join('. ') || 'Unknown error'
+    const message =
+      response.errors.map?.(({ message: repsonseMessage }) => repsonseMessage).join('. ') ||
+      'Unknown error'
     res.status(500).json({ error: message })
     return
   }
@@ -94,14 +95,14 @@ async function get(req: NextApiRequest, res: NextApiResponse<IGiscussion | IErro
   res.status(200).json(adapted)
 }
 
-async function post(req: NextApiRequest, res: NextApiResponse<{ id: string } | IError>) {
+const post = async (req: NextApiRequest, res: NextApiResponse<{ id: string } | IError>) => {
   const { repo, input } = req.body
 
   let token: string
   try {
     token = await getAppAccessToken(repo)
   } catch (error) {
-    // @ts-ignore
+    // @ts-expect-error error is of certain type
     res.status(403).json({ error: error.message })
     return
   }
@@ -117,10 +118,12 @@ async function post(req: NextApiRequest, res: NextApiResponse<{ id: string } | I
   res.status(200).json({ id })
 }
 
-export default async function DiscussionsApi(req: NextApiRequest, res: NextApiResponse) {
+export const discussionsApi = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     await post(req, res)
     return
   }
   await get(req, res)
 }
+
+export default discussionsApi

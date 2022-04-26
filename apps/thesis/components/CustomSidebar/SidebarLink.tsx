@@ -2,19 +2,24 @@ import shallow from 'zustand/shallow'
 import { Container, HStack, LinkBox, LinkOverlay, Text } from '@chakra-ui/react'
 import React from 'react'
 import Link from 'next/link'
-import { File } from '../../types/notes'
-import { slugify } from '../../utils/slug'
+import { useRouter } from 'next/router'
 import { useNotes } from '../../stores/noteStore'
 
 export interface SidebarLinkProps {
-  item: File
-  path: string
-  key: string
-  currentColor: string
-  textColor: string
+  // item: File
+  // path: string
+  // key: string
+  // currentColor: string
+  //
+  // textColor: string
+  name: string
+  slug?: string
 }
-export const SidebarLink = ({ currentColor, textColor, item, path, key }: SidebarLinkProps) => {
-  const isActive = path.includes(`/${slugify(item.path)}`)
+
+export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
+  const { asPath: path } = useRouter()
+
+  const isActive = path.includes(`/${slug}`)
   const [setHighlightedNote, unHighlightNotes] = useNotes(
     (state) => [state.setHighlightedNote, state.unHighlightNotes],
     shallow,
@@ -23,10 +28,10 @@ export const SidebarLink = ({ currentColor, textColor, item, path, key }: Sideba
     <LinkBox
       as={Container}
       py={1}
-      key={key}
+      key={name}
       borderRadius="sm"
       backgroundColor={isActive ? 'brand.50' : undefined}
-      onMouseEnter={() => setHighlightedNote(item.id)}
+      onMouseEnter={() => setHighlightedNote(name)}
       onMouseLeave={() => unHighlightNotes()}
       role="group"
     >
@@ -35,21 +40,24 @@ export const SidebarLink = ({ currentColor, textColor, item, path, key }: Sideba
         <Text
           _groupHover={{ color: 'primary' }}
           fontWeight={isActive ? '600' : '500'}
-          color={isActive ? currentColor : textColor}
+          // color={isActive ? currentColor : textColor}
           transition="color 0.15s"
           fontSize={14}
           textTransform="capitalize"
         >
-          <Link passHref prefetch={false} href={`/${slugify(item.path)}`} key={item.path}>
-            <LinkOverlay>
-              {item.path
-                .replace(/\d{14}-/g, '')
-                .replace(/\.org/g, '')
-                .replace(/_/g, ' ')}
-            </LinkOverlay>
-          </Link>
+          {slug ? (
+            <Link passHref prefetch={false} href={`/${slug}`} key={name}>
+              <LinkOverlay>
+                <Text>{name}</Text>
+              </LinkOverlay>
+            </Link>
+          ) : (
+            <Text>{name}</Text>
+          )}
         </Text>
       </HStack>
     </LinkBox>
   )
 }
+
+SidebarLink.defaultProps = { slug: undefined }

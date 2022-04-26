@@ -1,14 +1,14 @@
 import React from 'react'
 import { Box, useDisclosure, IconButton, SlideFade } from '@chakra-ui/react'
-import SidebarContent from './SidebarContent'
 import { MdMenu, MdClose } from 'react-icons/md'
+import SidebarContent from './SidebarContent'
 
 const Sidebar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure({ defaultIsOpen: true })
   const SidebarIcon = isOpen ? MdClose : MdMenu
 
   return (
-    <React.Fragment>
+    <>
       <Box
         id="sidebar"
         as="nav"
@@ -38,7 +38,7 @@ const Sidebar = () => {
           roundedLeft={0}
           size="md"
           fontSize="lg"
-          aria-label={`Toggle Sidebar`}
+          aria-label="Toggle Sidebar"
           variant="solid"
           colorScheme="gray"
           onClick={onClose}
@@ -52,7 +52,7 @@ const Sidebar = () => {
             roundedLeft={0}
             size="md"
             fontSize="lg"
-            aria-label={`Toggle Sidebar`}
+            aria-label="Toggle Sidebar"
             variant="solid"
             colorScheme="gray"
             onClick={onOpen}
@@ -60,7 +60,7 @@ const Sidebar = () => {
           />
         </Box>
       )}
-    </React.Fragment>
+    </>
   )
 }
 

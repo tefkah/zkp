@@ -1,77 +1,13 @@
-import {
-  Text,
-  Box,
-  Heading,
-  VStack,
-  IconButton,
-  Link as ChakraLink,
-  HStack,
-} from '@chakra-ui/react'
+import { Text, Box, Heading, VStack, Link as ChakraLink, HStack } from '@chakra-ui/react'
 
 import { format, utcToZonedTime } from 'date-fns-tz'
 import { formatDistance } from 'date-fns'
 import { nl } from 'date-fns/locale'
 import React from 'react'
-import { IoIosGitCompare } from 'react-icons/io'
-import { ArrowRightIcon, CloseIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import { FaGithub } from 'react-icons/fa'
-import { SlimCommit } from '../../types/api'
-
-const InitialButton = ({
-  oid,
-  setCompair,
-}: {
-  oid: string
-  setCompair: (compair: string[]) => void
-}) => (
-  <IconButton
-    size="xs"
-    variant="ghost"
-    icon={<IoIosGitCompare />}
-    aria-label="Compare commit with another commit"
-    onClick={() => setCompair([oid])}
-  />
-)
-const GoButton = ({
-  compair,
-  oid,
-  setCompair,
-}: {
-  compair: string[]
-  oid: string
-  setCompair: (compair: string[]) => void
-}) =>
-  compair?.[0] === oid ? (
-    <IconButton
-      icon={<CloseIcon />}
-      aria-label="Stop comparing"
-      size="xs"
-      variant="ghost"
-      onClick={() => setCompair([])}
-    />
-  ) : (
-    <Link prefetch={false} passHref href={`/compare/${compair[0]}/${oid}`}>
-      <IconButton icon={<ArrowRightIcon />} aria-label="Compare" size="xs">
-        <ArrowRightIcon h={6} p={1} />
-      </IconButton>
-    </Link>
-  )
-
-export interface CompareButtonProps {
-  compair: string[]
-  setCompair: any
-  oid: string
-}
-export const CompareButton = (props: CompareButtonProps) => {
-  const { compair, setCompair, oid } = props
-
-  return compair.length === 1 ? (
-    <GoButton {...{ compair, setCompair, oid }} />
-  ) : (
-    <InitialButton {...{ oid, setCompair }} />
-  )
-}
+import { SlimCommit } from '../../types'
+import { CompareButton } from './CompareButton'
 
 interface CommitProps extends SlimCommit {
   compair: string[]
@@ -89,6 +25,7 @@ export const Commit = (props: CommitProps) => {
   const formattedDate = `${timeDistance}, at ${time}`
   const [messageText, ...messageBodyRest] = message.split('\n')
   const messageBody = messageBodyRest.join(' ')
+
   return (
     <Box px={slim ? 0 : 4} w="100%" display="flex" justifyContent="space-between">
       <VStack alignItems="flex-start">

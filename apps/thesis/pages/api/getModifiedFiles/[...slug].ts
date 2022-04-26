@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getCommitDiffForSingleFile } from '../../../utils/getCommitDiff'
 import { Change } from 'diff'
 import { join } from 'path'
+import { getCommitDiffForSingleFile } from '../../../utils/getCommitDiff'
 import { diffToString } from '../../../services/thesis/parseDiff'
-import { FileDiff } from '../../../types/api'
+import { FileDiff } from '../../../types'
 import { getFileStateChanges } from '../../../utils/getFileStateChanges'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

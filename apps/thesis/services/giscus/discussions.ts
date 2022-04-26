@@ -7,10 +7,10 @@ import { SWRConfig } from 'swr'
 import useSWRInfinite from 'swr/infinite'
 import { cleanParams, fetcher } from '../../utils/giscus/fetcher'
 import { updateDiscussionReaction } from '../../utils/giscus/reactions'
-import { IComment, IGiscussion, IReply } from '../../types/adapter'
-import { DiscussionQuery, PaginationParams } from '../../types/common'
-import { IDiscussionData } from '../../types/giscus'
-import { Reaction } from '../../types/github'
+import { IComment, IGiscussion, IReply } from '../../types'
+import { DiscussionQuery, PaginationParams } from '../../types'
+import { IDiscussionData } from '../../types'
+import { Reaction } from '../../types'
 
 export const useDiscussion = (
   query: DiscussionQuery,

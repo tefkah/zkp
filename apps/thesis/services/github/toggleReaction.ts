@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { Reaction } from '../../types/github'
+import { Reaction } from '../../types'
 
 const TOGGLE_REACTION_QUERY = (mode: 'add' | 'remove') => `
   mutation($content: ReactionContent!, $subjectId: ID!) {

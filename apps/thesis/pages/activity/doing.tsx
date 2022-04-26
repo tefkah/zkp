@@ -4,7 +4,7 @@ import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
 import { nearestMilestoneWithIssues } from '../../queries/milestones'
 import makeGenericGraphQlRequest from '../../queries/makeGenericGraphQLRequest'
 import { getAppAccessToken } from '../../queries/getAccessToken'
-import { NearestMilestoneData } from '../../types/issues'
+import { NearestMilestoneData } from '../../types'
 
 interface Props {
   milestoneContent: NearestMilestoneData

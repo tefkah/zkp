@@ -2,7 +2,7 @@ import { log } from 'isomorphic-git'
 import fs from 'fs'
 import { join, resolve } from 'path'
 import { getCommitDiff } from './getCommitDiff'
-import { Commit, FileDiff, SlimCommit } from '../types/api'
+import { Commit, FileDiff, SlimCommit } from '../types'
 import { DATA_DIR, GIT_DIR, NOTE_DIR } from './paths'
 
 export const consolidateCommitsPerDay = (data: SlimCommit[]) =>

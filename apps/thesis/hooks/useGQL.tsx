@@ -3,7 +3,7 @@ import makeGenericGraphQlRequest from '../queries/makeGenericGraphQLRequest'
 
 export function useGQL(query: string, options?: IntersectionObserverInit) {
   const fetcher = async (resource: string, options: {}) =>
-    await makeGenericGraphQlRequest({ request: query, token: data, post: true })
+    makeGenericGraphQlRequest({ request: query, token: data, post: true })
 
   const { data, error } = useSWR('/api/auth/gha')
   const isLoading = !data || error

@@ -8,7 +8,7 @@ export interface StackedNoteProps
 }
 
 export const StackedNote = (props: StackedNoteProps) => {
-  const { id, data, index, stackData, stackedNotes } = props
+  const { id, data, index, stackedNotes } = props
   const { data: file } = useSWR(`/api/file/byId/${id}`)
   const { data: meta } = useSWR(`/api/meta/byId/${id}`)
   // if (!file || !meta) {
@@ -25,7 +25,7 @@ export const StackedNote = (props: StackedNoteProps) => {
       toc={[]}
       commits={{}}
       csl={[]}
-      {...{ stackedNotes, index, stackData }}
+      {...{ stackedNotes, index }}
     />
   ) : null
 }

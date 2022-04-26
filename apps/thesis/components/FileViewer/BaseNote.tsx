@@ -12,7 +12,7 @@ import {
   Box,
 } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
-import { CommitPerDateLog, CSLCitation } from '../../types/api'
+import { NoteHeading, CommitPerDateLog, CSLCitation } from '../../types'
 import { OrgFileData } from '../../utils/IDIndex/getDataFromFile'
 import { FilesData } from '../../utils/IDIndex/getFilesData'
 import { parseTime } from '../../utils/parseTime'
@@ -22,7 +22,6 @@ import { ProcessedOrg } from '../ProcessedOrg'
 import { Backlinks } from './Backlinks'
 import { Citations } from './Citations'
 import { useNotes } from '../../stores/noteStore'
-import { NoteHeading, StackState } from '../../types/notes'
 
 export interface NoteProps {
   stackedNotes: string[]
@@ -33,7 +32,7 @@ export interface NoteProps {
   toc: NoteHeading[]
   commits: CommitPerDateLog
   csl: CSLCitation[]
-  stackData?: StackState
+  //  stackData?: StackState
   index: number
   // ref?: any
 }
@@ -141,6 +140,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
       {stacked && (
         <Heading
           size="md"
+          // TODO: do not inline all the stacked note styles
           sx={{
             textDecoration: 'none',
             fontSize: '17px',

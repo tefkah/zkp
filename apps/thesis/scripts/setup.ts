@@ -3,10 +3,10 @@ import { clone } from 'isomorphic-git'
 import fs from 'fs'
 
 import { join } from 'path'
+import * as http from 'isomorphic-git/http/node/index'
 import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStatss'
 import { getFilesData } from '../utils/IDIndex/getFilesData'
 
-import * as http from 'isomorphic-git/http/node/index'
 
 export const setup = async ({
   remote = '',
@@ -53,4 +53,4 @@ export const setup = async ({
   await fs.promises.writeFile(join(notesDir, 'data', 'dataByCite.json'), JSON.stringify(dataByCite))
 }
 
-//setup(readArgs)
+// setup(readArgs)

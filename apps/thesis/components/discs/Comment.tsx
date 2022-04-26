@@ -15,9 +15,9 @@ import {
   Icon,
 } from '@chakra-ui/react'
 import { handleCommentClick } from '../../utils/giscus/adapter'
-import { IComment, IReply } from '../../types/adapter'
+import { IComment, IReply } from '../../types'
 import { updateCommentReaction } from '../../utils/giscus/reactions'
-import { Reaction } from '../../types/github'
+import { Reaction } from '../../types'
 import { toggleUpvote } from '../../services/github/toggleUpvote'
 import { CommentBox } from './CommentBox'
 import { ReactButtons } from './ReactButtons'

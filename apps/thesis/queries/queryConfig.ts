@@ -22,9 +22,9 @@ export const GISCUS_APP_HOST = process.env.NEXT_PUBLIC_GISCUS_APP_HOST as `https
 
 // Supabase
 
-export const SUPABASE_KEY = process.env.SUPABASE_KEY
+export const {SUPABASE_KEY} = process.env
 
-const SUPABASE_URL = process.env.SUPABASE_URL
+const {SUPABASE_URL} = process.env
 const SUPABASE_INSTALLATION_ACCESS_TOKENS_TABLE =
   process.env.SUPABASE_INSTALLATION_ACCESS_TOKENS_TABLE || 'installation_access_tokens'
 

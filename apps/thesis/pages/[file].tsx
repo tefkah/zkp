@@ -1,29 +1,29 @@
 import { useEffect } from 'react'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Container, Flex } from '@chakra-ui/react'
 import { basename, dirname, join } from 'path'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-import { CommitPerDateLog, CSLCitation } from '../types/api'
+import { GetStaticProps } from 'next'
+import { readFile } from 'fs/promises'
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { getFilesData, FilesData } from '../utils/IDIndex/getFilesData'
 import { OrgFileData } from '../utils/IDIndex/getDataFromFile'
 import { deslugify, slugify } from '../utils/slug'
-import Header from '../components/Header'
+import { Header } from '../components/Header'
 import { getTableOfContents } from '../utils/getTableOfContents'
 import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
 import { getHistoryForFile } from '../utils/getHistoryForFile'
-import Footer from '../components/Footer'
-import { NoteScrollContainer } from '../components/FileViewer/NoteScrollContainer'
-import { Files, NoteHeading } from '../types/notes'
+import { Footer } from '../components/Footer'
+import { NoteScrollContainer } from '../components/FileViewer'
+import { CommitPerDateLog, CSLCitation, Files, NoteHeading, FileList, DataBy } from '../types'
 import { CustomSideBar } from '../components/CustomSidebar'
-import { GetStaticProps } from 'next'
 import { postFilePaths } from '../utils/mdx/mdxUtils'
 import { mdxDataByName } from '../utils/mdx/mdxDataByName'
 import { mdxSerialize } from '../utils/mdx/mdxSerialize'
-import { NOTE_DIR } from '../utils/paths'
-import { readFile } from 'fs/promises'
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { createMdxRehypeReactCompents } from '../utils/mdx/mdxRehypeReactComponents'
+import { BIB_PATH, NOTE_DIR } from '../utils/paths'
+import { createMdxRehypeReactCompents } from '../components/MDXComponents/mdxRehypeReactComponents'
+import { mdxDataBySlug } from '../utils/mdx/mdxDataBySlug'
 
 /**
  * Props for the file page
@@ -38,7 +38,6 @@ export type FilePageProps = {
   /* Array with the ids of the stacked notes */
   stackedNotes?: string[]
   /*  Object containing all info of all files by id */
-  data: FilesData
   slug: string
   /* Array of headings of the current document */
   toc: NoteHeading[]
@@ -48,9 +47,10 @@ export type FilePageProps = {
 }
 export interface MDFilePageProps {
   source: MDXRemoteSerializeResult<Record<string, any>>
+  name: string
   frontMatter: { [key: string]: any }
-  data: any
-  fileList: FileList
+  // data: any
+  fileList: DataBy
 }
 
 const useHeadingFocusOnRouteChange = () => {
@@ -72,27 +72,29 @@ export const FilePage = (props: MDFilePageProps) => {
   // const { fileData, items } = props
   // const { title } = fileData
   //
-  const { source, frontMatter, data, fileList } = props
+  const { source, name, frontMatter, fileList } = props
 
   const { title } = frontMatter
-  const comps = createMdxRehypeReactCompents(frontMatter?.id ?? 'aath', data)
+
+  const comps = createMdxRehypeReactCompents(name ?? 'aath')
   useHeadingFocusOnRouteChange()
 
   return (
     <>
       <Head>
-        <title>{`${title} | Thomas Thesis`}</title>
+        <title>{`${title || name} | Thomas Thesis`}</title>
       </Head>
 
       <Box w="100vw" h="100vh" overflowX="hidden">
         <Flex minH="full" w="100vw">
-          <CustomSideBar items={fileList} />
+          <CustomSideBar fileList={fileList} />
           <Box h="full" flex="1 1 auto" overflowX="hidden">
             <Header />
 
             <main>
-              {/* @ts-expect-error MDX remote does not want "null", but it's fineee */}
-              <MDXRemote {...source} components={comps} />
+              <Container>
+                <MDXRemote {...source} components={comps} />
+              </Container>
             </main>
             {/* <NoteScrollContainer {...props} /> */}
           </Box>
@@ -105,12 +107,13 @@ export const FilePage = (props: MDFilePageProps) => {
 export default FilePage
 
 export const getStaticPaths = async () => {
-  const paths = (await postFilePaths())
+  const paths = Object.values(await mdxDataBySlug())
     // Remove file extensions for page paths
-    .map((path) => slugify(path.replace(/\.mdx?$/, '').toLowerCase()))
+    .map((entry) => entry.slug)
     // Map the path into the static paths object required by Next.js
     .map((file) => ({ params: { file } }))
-
+  // console.log(paths)
+  // console.log(paths)
   return {
     paths,
     fallback: false,
@@ -120,34 +123,21 @@ export const getStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({
   params,
 }): Promise<{ props: MDFilePageProps }> => {
-  const slug = (Array.isArray(params?.slug) ? params?.slug.join('/') : params?.slug) ?? ''
-  const data = await mdxDataByName()
-  const fullpath = data[deslugify(slug)]
-  const postFilePath = join(NOTE_DIR, `${fullpath}.md`)
-  const input = await readFile(postFilePath, 'utf8')
+  const file = (Array.isArray(params?.file) ? params?.file.join('/') : params?.file) ?? ''
+  const data = await mdxDataBySlug()
+  const { name, fullPath } = data[file]
 
-  const bibliography = join(NOTE_DIR, '.bibliography', 'Academic.bib')
+  const input = await readFile(fullPath, 'utf8')
+  const bibliography = join(BIB_PATH)
 
   const { frontMatter, source } = await mdxSerialize(input, bibliography)
-  const fileList = (await postFilePaths())
-    // Remove file extensions for page paths
-    .map((path) => ({
-      [path]: {
-        title: basename(path).replace(/\.mdx?$/, ''),
-        folders: dirname(path).replace(NOTE_DIR, '').split('/'),
-        path,
-        slug: slugify(path.replace(/\.mdx?$/, '').toLowerCase()),
-      },
-    }))
-    // Map the path into the static paths object required by Next.js
-    .map((file) => ({ params: { file } }))
 
   return {
     props: {
+      name,
       source,
       frontMatter,
-      data,
-      fileList,
+      fileList: data,
     },
   }
 }

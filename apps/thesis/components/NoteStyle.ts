@@ -44,7 +44,7 @@ export const diffStyle = {
     fontSize: 32,
   },
   '.block-addition': {
-    //p: 3,
+    // p: 3,
     color: 'green.500',
     backgroundColor: 'green.50',
     // display: 'inline-block !important',
@@ -58,7 +58,7 @@ export const diffStyle = {
     // display: 'inline-block !important',
   },
   '.span-addition': {
-    //p: 3,
+    // p: 3,
     color: 'green.500',
     backgroundColor: 'green.50',
     display: 'inline-block !important',
@@ -204,7 +204,7 @@ export const noteStyle = {
   '#preamble p': { fontSize: '90%', margin: '.2em' },
   'p.verse': { marginLeft: '3%' },
   pre: {
-    //border: '1px solid #e6e6e6',
+    // border: '1px solid #e6e6e6',
     borderRadius: '3px',
     backgroundColor: 'white',
     padding: '8pt',
@@ -222,7 +222,7 @@ export const noteStyle = {
     top: '-8px',
     right: '12px',
     padding: '3px',
-    //color: '#555',
+    // color: '#555',
     backgroundColor: 'white',
   },
   'caption.t-above': { captionSide: 'top' },

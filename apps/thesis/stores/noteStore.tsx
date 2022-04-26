@@ -1,7 +1,7 @@
 import { MutableRefObject } from 'react'
 import create from 'zustand'
 import { combine } from 'zustand/middleware'
-import { StackedNotesState } from '../types/notes'
+import { StackedNotesState } from '../types'
 
 export interface InitialNoteState {
   stackedNotesState: StackedNotesState

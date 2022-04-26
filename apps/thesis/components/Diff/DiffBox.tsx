@@ -17,16 +17,15 @@ import React, { useState } from 'react'
 import { noteStyle } from '../NoteStyle'
 
 interface Props {
-  oid: string
+  //  oid: string
   additions: number
   deletions: number
   filepath: string
   children: React.ReactFragment
-  isLoaded?: boolean
 }
 
 export const DiffBox = (props: Props) => {
-  const { oid, isLoaded, additions, deletions, filepath, children } = props
+  const { additions, deletions, filepath, children } = props
   const { onToggle, isOpen } = useDisclosure()
   const [raw, setRaw] = useState(false)
   const headerColor = 'back'

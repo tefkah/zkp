@@ -3,9 +3,7 @@ import React from 'react'
 import { FaGithub } from 'react-icons/fa'
 import { Button } from '@chakra-ui/react'
 
-interface Props {}
-
-export const SignInButton = (props: Props) => {
+export const SignInButton = () => {
   const { data: user } = useSession()
   if (!user) {
     return (

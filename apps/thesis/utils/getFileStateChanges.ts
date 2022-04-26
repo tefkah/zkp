@@ -54,11 +54,11 @@ export const doSomethingAtFileStateChange = (
       }
 
       if (fileStateFun) {
-        return await fileStateFun(filepath, [A, B], type as FileStates)
+        return fileStateFun(filepath, [A, B], type as FileStates)
       }
       return {
         path: `/${filepath}`,
-        type: type,
+        type,
       }
     },
   })

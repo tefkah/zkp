@@ -13,9 +13,9 @@ import {
   HStack,
 } from '@chakra-ui/react'
 import { ReactButtons } from './ReactButtons'
-import { IReply } from '../../types/adapter'
+import { IReply } from '../../types'
 import { updateCommentReaction } from '../../utils/giscus/reactions'
-import { Reaction } from '../../types/github'
+import { Reaction } from '../../types'
 
 import { handleCommentClick } from '../../utils/giscus/adapter'
 import { markdownToReact } from './md'

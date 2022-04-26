@@ -1,12 +1,11 @@
 import { Link as ChakraLink, Box, useColorMode, VStack, HStack } from '@chakra-ui/react'
-import { join } from 'path'
 import { ReactElement, useState } from 'react'
-import { getListOfCommitsWithStats } from '../../utils/getListOfCommitsWithStats'
-import { CommitList } from '../../components/Commits/CommitList'
-import { CommitPerDateLog, DateCommit } from '../../types/api'
-import { HistoryGraph } from '../../components/HistoryGraph'
 import Link from 'next/link'
 import Head from 'next/head'
+import { getListOfCommitsWithStats } from '../../utils/getListOfCommitsWithStats'
+import { CommitList } from '../../components/Commits/CommitList'
+import { CommitPerDateLog, DateCommit } from '../../types'
+import { HistoryGraph } from '../../components/HistoryGraph'
 import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
 import { DATA_DIR, GIT_DIR, NOTE_DIR } from '../../utils/paths'
 
@@ -78,21 +77,12 @@ export const ActivityPage = (props: ActivityPageProps) => {
 }
 
 export default ActivityPage
-export const getStaticPaths = async function () {
-  return { paths: ['/activity'], fallback: 'blocking' }
-}
+export const getStaticPaths = async () => ({ paths: ['/activity'], fallback: 'blocking' })
+
 export const getStaticProps = async () => {
-  const { data, dataWithoutDiffs, dataPerDate } = await getListOfCommitsWithStats(
-    '',
-    '',
-    NOTE_DIR,
-    GIT_DIR,
-    DATA_DIR,
-  )
+  const { dataPerDate } = await getListOfCommitsWithStats('', '', NOTE_DIR, GIT_DIR, DATA_DIR)
 
   return { props: { log: dataPerDate }, revalidate: 60 }
 }
 
-ActivityPage.getLayout = function getLayout(page: ReactElement) {
-  return <ActivityLayout>{page}</ActivityLayout>
-}
+ActivityPage.getLayout = (page: ReactElement) => <ActivityLayout>{page}</ActivityLayout>

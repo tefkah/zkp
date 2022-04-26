@@ -1,4 +1,5 @@
-import { InstallationAccessToken } from '../types/supabase'
+import { InstallationAccessToken } from '../types'
+
 export const SUPABASE_INSTALLATION_ACCESS_TOKENS_URL = `${process.env.SUPABASE_URL}/rest/v1/${process.env.SUPABASE_INSTALLATION_ACCESS_TOKENS_TABLE}`
 
 export async function getCachedAccessToken(installationId: number) {

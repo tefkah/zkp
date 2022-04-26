@@ -2,7 +2,7 @@ import { Container, Text } from '@chakra-ui/react'
 import { Point } from '@nivo/line'
 import { format } from 'date-fns'
 import React from 'react'
-import { CommitChartData, CommitDatum } from '../../types/api'
+import { CommitChartData, CommitDatum } from '../../types'
 
 export interface TooltipProps {
   point: Point

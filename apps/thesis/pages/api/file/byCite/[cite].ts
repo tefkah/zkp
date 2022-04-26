@@ -3,14 +3,14 @@ import fs from 'fs/promises'
 import { join } from 'path'
 import { getFilesData, FilesData } from '../../../../utils/IDIndex/getFilesData'
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { cite } = req.query
   if (Array.isArray(cite)) {
     res.status(404)
     return
   }
 
-  //const { file } = props.params
+  // const { file } = props.params
   const cwd = process.cwd()
 
   let data = {} as FilesData
@@ -31,3 +31,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const file = await fs.readFile(join(cwd, 'notes', path), 'utf8')
   res.json({ file })
 }
+
+export default handler

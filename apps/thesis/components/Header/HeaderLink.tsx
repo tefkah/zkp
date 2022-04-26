@@ -9,7 +9,7 @@ interface Props {
   dontFetch?: boolean
 }
 
-const isActive = (slug: string, children: string, href: string) => {
+const isActive = (slug: string, children: string) => {
   const isActivity = ['commit', 'compare', 'activity'].includes(
     slug.replace(/\/(.+?)(\/|\b).*/g, '$1'),
   )

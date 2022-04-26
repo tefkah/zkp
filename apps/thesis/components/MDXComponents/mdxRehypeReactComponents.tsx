@@ -1,12 +1,16 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { Box, Text, Heading, UnorderedList, OrderedList, ListItem, Tag } from '@chakra-ui/react'
 import { ReactNode } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { ReactObjectType } from '../../types'
-import { PreviewLink } from '../../components/FileViewer/Link'
+// import Image from 'next/image'
+import { MDXComponents } from 'mdx/types'
+import { PreviewLink } from '../FileViewer/Link'
+import { MDXLinkBase } from './MDXLink'
+import { WithId } from './WithId'
 
-export const createMdxRehypeReactCompents = (currentId: string, data: any): ReactObjectType => {
-  const components = {
+export const createMdxRehypeReactCompents = (currentId: string): MDXComponents => {
+  // const LinkWithId = WithId<'a'>(MDXLinkBase, currentId)
+  const components: MDXComponents = {
     h1: (head) => {
       const { className, children } = head
       if (className === 'title') {
@@ -30,9 +34,9 @@ export const createMdxRehypeReactCompents = (currentId: string, data: any): Reac
     ),
     div: Box,
     a: (node) => {
-      // @ts-expect-error yayaya
       const { href, className, alias, children, ...rest } = node
-      if (!data || href?.includes('http')) {
+      console.log({ node })
+      if (href?.includes('http')) {
         return (
           <Link href={href as string} passHref>
             <a>{children as ReactNode}</a>
@@ -42,8 +46,7 @@ export const createMdxRehypeReactCompents = (currentId: string, data: any): Reac
 
       if (['footnum', 'footref'].includes(className as string)) {
         return (
-          // @ts-expect-error yeah yeah text is not a span
-          <Text {...{ ...rest }} variant="org" as="span" fontWeight="bold" color="primary">
+          <Text variant="org" as="span" fontWeight="bold" color="primary">
             <Link href={href as string}>
               <a>{children as ReactNode}</a>
             </Link>
@@ -56,24 +59,26 @@ export const createMdxRehypeReactCompents = (currentId: string, data: any): Reac
         <PreviewLink
           currentId={currentId}
           title={title}
-          data={data}
-          href={`/${(href as string).replace('#/page', '')}`}
+          href={`${(href as string).replace(/#\/page\/?/, '')}`}
           id={title}
         >
           {children}
         </PreviewLink>
       )
     },
+
     ul: UnorderedList,
     ol: OrderedList,
     li: ListItem,
 
     span: ({ className, children, ...rest }) => {
       if (className?.includes('citation')) {
+        //
       }
       if (['span-addition', 'span-deletion'].includes(className as string)) {
         return (
-          <Text as="span" variant="org" className={className as string}>
+          // @ts-expect-error yeah man
+          <Text {...rest} as="span" variant="org" className={className as string}>
             {children as ReactNode}
           </Text>
         )
@@ -108,9 +113,7 @@ export const createMdxRehypeReactCompents = (currentId: string, data: any): Reac
         </Box>
       )
     },
-    img: ({ src }) => {
-      return <img src={(src as string).replace(/\.\/media\//g, '/media/')} />
-    },
-  } as ReactObjectType
+    img: ({ src }) => <img src={(src as string).replace(/\.\/media\//g, '/media/')} />,
+  } as MDXComponents
   return components
 }

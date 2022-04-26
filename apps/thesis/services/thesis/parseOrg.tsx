@@ -1,5 +1,5 @@
 import { unified } from 'unified'
-//import createStream from 'unified-stream'
+// import createStream from 'unified-stream'
 import uniorgParse from 'uniorg-parse'
 import uniorg2rehype from 'uniorg-rehype'
 import uniorgSlug from 'uniorg-slug'
@@ -8,8 +8,8 @@ import attachments from 'uniorg-attach'
 // rehypeHighlight does not have any types
 // add error thing here
 // import highlight from 'rehype-highlight'
-//import mathjax from 'rehype-mathjax'
-//import 'katex/dist/katex.css'
+// import mathjax from 'rehype-mathjax'
+// import 'katex/dist/katex.css'
 import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.css'
 import rehype2react, { Options } from 'rehype-react'
@@ -17,19 +17,19 @@ import { visit } from 'unist-util-visit'
 
 import React, { ReactNode, useMemo } from 'react'
 import { Box, Heading, ListItem, OrderedList, Tag, Text, UnorderedList } from '@chakra-ui/react'
-//import { noteStyle } from '../components/NoteStyle'
+// import { noteStyle } from '../components/NoteStyle'
 import { Keyword, OrgData, OrgNode, Paragraph, SpecialBlock } from 'uniorg'
 import Link from 'next/link'
-import { FilesData } from '../../utils/IDIndex/getFilesData'
-import { findCiteId, findCiteTitle } from '../../utils/findCiteData'
-import { PreviewLink } from '../../components/FileViewer/Link'
-import { slugify } from '../../utils/slug'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import remarkMath from 'remark-math'
 import remarkGFM from 'remark-gfm'
-//@ts-expect-error no types :()
+// @ts-expect-error no types :()
 import remarkWikiLink from 'remark-wiki-link'
+import { slugify } from '../../utils/slug'
+import { PreviewLink } from '../../components/FileViewer/Link'
+import { findCiteId, findCiteTitle } from '../../utils/findCiteData'
+import { FilesData } from '../../utils/IDIndex/getFilesData'
 
 // export interface Data {
 //   data: FilesData
@@ -44,7 +44,7 @@ interface Props {
   backlink?: boolean
 }
 
-export function ParsedOrg(props: Props): React.ReactElement | null {
+export var ParsedOrg = (props: Props): React.ReactElement | null => {
   const { text, data, type, backlink, currentId } = props
   const processor = useMemo(
     () =>
@@ -123,13 +123,13 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                   {children as ReactNode}
                 </Heading>
               )
-              //return <Heading className="title">{value as string}</Heading>
+              // return <Heading className="title">{value as string}</Heading>
             },
             h2: (props) => <Heading {...props} variant="org" as="h3" size="md" />,
             h3: (props) => <Heading {...props} variant="org" as="h4" size="sm" />,
             h4: (props) => <Heading {...props} variant="org" as="h5" size="xs" />,
             p: ({ children, ...rest }) => (
-              //@ts-ignore
+              // @ts-ignore
               <Text lang="en" variant="org" {...{ ...rest }}>
                 {children as ReactNode}
               </Text>
@@ -146,7 +146,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
 
               if (['footnum', 'footref'].includes(className as string)) {
                 return (
-                  //@ts-ignore
+                  // @ts-ignore
                   <Text {...{ ...rest }} variant="org" as="span" fontWeight="bold" color="primary">
                     <Link href={href as string}>
                       <a>{children as ReactNode}</a>
@@ -170,13 +170,13 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                   )
 
                 return (
-                  //@ts-ignore
+                  // @ts-ignore
                   <Text as="span" variant="org">
                     (
                     {prettyNames.map((name, index) => {
                       const title = findCiteTitle(cleanCite, data)
                       const id = findCiteId(cleanCite, data)
-                      //const text = data.orgTexts[id] ?? ''
+                      // const text = data.orgTexts[id] ?? ''
                       if (!title || !id) return <Text as="span">{name}</Text>
                       return (
                         <>
@@ -184,7 +184,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                           <PreviewLink
                             currentId={currentId}
                             title={title}
-                            //orgText={text}
+                            // orgText={text}
                             data={data}
                             href={`/${slugify(title)}`}
                             id={id}
@@ -214,7 +214,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                       {children}
                     </PreviewLink>
                   ) : (
-                    //@ts-ignore
+                    // @ts-ignore
                     <Text as="span" variant="org" _hover={{ cursor: 'not-allowed' }}>
                       {children as ReactNode}
                     </Text>
@@ -228,7 +228,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
             span: ({ className, children, ...rest }) => {
               if (['span-addition', 'span-deletion'].includes(className as string)) {
                 return (
-                  //@ts-ignore
+                  // @ts-ignore
                   <Text as="span" variant="org" className={className as string}>
                     {children as ReactNode}
                   </Text>
@@ -272,9 +272,7 @@ export function ParsedOrg(props: Props): React.ReactElement | null {
                 </Box>
               )
             },
-            img: ({ src }) => {
-              return <img src={(src as string).replace(/\.\/media\//g, '/media/')} />
-            },
+            img: ({ src }) => <img src={(src as string).replace(/\.\/media\//g, '/media/')} />,
           },
           // eslint-disable-next-line react/display-name
           /*       components: {

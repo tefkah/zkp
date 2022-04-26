@@ -1,5 +1,3 @@
-import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
-import { Commit } from '../../types/api'
 import {
   Box,
   Button,
@@ -7,36 +5,32 @@ import {
   Flex,
   HStack,
   Icon,
-  IconButton,
   Link,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  Spinner,
   Text,
   Tooltip,
-  useColorMode,
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
-import { ReactElement, useEffect, useState } from 'react'
-import { ParsedDiff } from '../../services/thesis/parseDiff'
-import { commit } from 'isomorphic-git'
-import { DiffBox } from '../../components/Diff/DiffBox'
+import { ReactElement } from 'react'
 import { join } from 'path'
-import Header from '../../components/Header'
 import { GoMarkGithub } from 'react-icons/go'
 import { IoIosGitCompare } from 'react-icons/io'
 import { format } from 'date-fns'
-import Footer from '../../components/Footer'
 import { Giscus } from '@giscus/react'
 import Head from 'next/head'
-import BasicLayout from '../../components/Layouts/BasicLayout'
+import { DiffBox } from '../../components/Diff/DiffBox'
+import { ParsedDiff } from '../../services/thesis/parseDiff'
+import { Commit } from '../../types'
+import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
+import { BasicLayout } from '../../components/Layouts/BasicLayout'
 
-export function parseCommits(commitData: Commit) {
-  return commitData?.files?.map((file) => {
-    if (!file) return
+export const ParsedCommits = (commitData: Commit) =>
+  commitData?.files?.map((file) => {
+    if (!file) return null
     const { additions, deletions, filepath, oid } = file
     const orgText = ParsedDiff({ diff: file })
     return (
@@ -45,20 +39,19 @@ export function parseCommits(commitData: Commit) {
       </DiffBox>
     )
   })
-}
 
 interface Props {
   commitData: Commit
 }
-export default function CommitPage(props: Props) {
+export const CommitPage = (props: Props) => {
   const { commitData } = props
   const { oid, deletions, additions, message, date } = commitData
   const [messageTitle, ...messageBody] = message.split('\n')
 
-  //const {data:parsedText, isLoading} = useFetch(e)
+  // const {data:parsedText, isLoading} = useFetch(e)
 
   const headerColor = 'back'
-  const parsedText = parseCommits(commitData)
+  const parsedText = ParsedCommits(commitData)
 
   const formattedDate = format(new Date(date * 1000), "MMMM do, yyyy 'at' hh:mm")
   return (
@@ -149,7 +142,7 @@ export default function CommitPage(props: Props) {
   )
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths = async () => {
   const commitList = await getCommits()
   const commitIndexList = commitList
     .filter(
@@ -173,16 +166,13 @@ export const getStaticProps = async (props: StaticProps) => {
   const { commit } = props.params
 
   const commits = await tryReadJSON(join('data', 'git.json'))
-  //const commits = await tryReadJSON('data/git.json')
+  // const commits = await tryReadJSON('data/git.json')
 
-  const commitData =
-    commits.filter((c: Commit) => {
-      return c.oid === commit
-    })?.[0] || {}
+  const commitData = commits.filter((c: Commit) => c.oid === commit)?.[0] || {}
 
   return { props: { commitData }, revalidate: 60 }
 }
 
-CommitPage.getLayout = (page: ReactElement) => {
-  return <BasicLayout>{page}</BasicLayout>
-}
+CommitPage.getLayout = (page: ReactElement) => <BasicLayout>{page}</BasicLayout>
+
+export default CommitPage

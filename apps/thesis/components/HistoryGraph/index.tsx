@@ -1,13 +1,7 @@
 import { Point, ResponsiveLine } from '@nivo/line'
 import { parse } from 'date-fns'
 import React, { useCallback, useMemo } from 'react'
-import {
-  DateCommit,
-  CommitDatum,
-  CommitChartData,
-  FileDiff,
-  CommitPerDateLog,
-} from '../../types/api'
+import { DateCommit, CommitDatum, CommitPerDateLog } from '../../types'
 import { Tooltip } from './Tooltip'
 
 interface Props {
@@ -18,7 +12,7 @@ interface Props {
 }
 
 export const HistoryGraph = (props: Props) => {
-  const { data, diffs, setDiffs, dark } = props
+  const { data, diffs, setDiffs } = props
 
   const compareDiffs = (
     diff: string | undefined,
@@ -46,8 +40,8 @@ export const HistoryGraph = (props: Props) => {
     if (!point) {
       return
     }
-    const data = point?.data as unknown as CommitDatum
-    compareDiffs(data?.id)
+    const diffData = point?.data as unknown as CommitDatum
+    compareDiffs(diffData?.id)
     // compareDiffs(datum?.originalDatum?.id, datum?.originalSeries.data)
   }
 

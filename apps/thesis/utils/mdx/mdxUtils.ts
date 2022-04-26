@@ -1,4 +1,3 @@
-import path, { join } from 'path'
 import readdirp from 'readdirp'
 import { NOTE_DIR } from '../paths'
 

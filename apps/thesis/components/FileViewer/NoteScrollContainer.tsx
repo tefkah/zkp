@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef } from 'react'
 import { useElementSize } from '@mantine/hooks'
 import { useScroll } from 'react-use'
 import { useRouter } from 'next/router'
-import { FilePageProps } from '../../pages/[...file]'
+import { FilePageProps } from '../../pages/[file]'
 import { BaseNote } from './BaseNote'
 import { StackedNote } from './StackedNote'
 import { useNotes } from '../../stores/noteStore'
@@ -122,7 +122,7 @@ export const NoteScrollContainer = (props: FilePageProps) => {
           index: 0,
           stackedNotes: allNotes,
         }}
-        stackData={stackedNotesState[fileData.id]}
+        // stackData={stackedNotesState[fileData.id]}
       />
       {stacked &&
         stackedNotes?.map((note, index) => (

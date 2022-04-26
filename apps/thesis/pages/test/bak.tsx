@@ -18,7 +18,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
   )
 
   console.log(paths)
-  return { paths: paths, fallback: false }
+  return { paths, fallback: false }
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
@@ -30,7 +30,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   const cwd = process.cwd()
 
-  const filepath = join(cwd, 'notes', ...path) + '.md'
+  const filepath = `${join(cwd, 'notes', ...path)  }.md`
   console.log(filepath)
   const file = await fs.readFile(filepath, 'utf8')
   const processedFile = ProcessedOrg({

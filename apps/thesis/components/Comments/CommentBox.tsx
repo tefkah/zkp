@@ -25,8 +25,8 @@ export const CommentBox = (props: Props) => {
           category="Feedback"
           categoryId="DIC_kwDOGiFak84CASa-"
           term={title}
-          origin={''}
-          description={''}
+          origin=""
+          description=""
         />
       </Box>
     )
@@ -39,9 +39,9 @@ export const CommentBox = (props: Props) => {
         category="General"
         category-id="DIC_kwDOGVpQ7c4CAQYS"
         term={title}
-        origin={''}
-        categoryId={''}
-        description={''}
+        origin=""
+        categoryId=""
+        description=""
       />
     </Box>
   )

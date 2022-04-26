@@ -18,7 +18,7 @@ import {
   Avatar,
 } from '@chakra-ui/react'
 import { adaptComment, adaptReply } from '../../utils/giscus/adapter'
-import { IComment, IReply, IUser } from '../../types/adapter'
+import { IComment, IReply, IUser } from '../../types'
 import { addDiscussionComment } from '../../services/github/addDiscussionComment'
 import { addDiscussionReply } from '../../services/github/addDiscussionReply'
 import { markdownToReact } from './md'

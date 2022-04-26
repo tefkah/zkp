@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { GComment } from '../../types/github'
+import { GComment } from '../../types'
 
 const GITHUB_GRAPHQL_API_URL = 'https://api.github.com/graphql'
 

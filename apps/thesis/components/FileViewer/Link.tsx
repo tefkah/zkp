@@ -9,10 +9,10 @@ import {
   Portal,
   Text,
   Container,
+  PopoverTrigger as OrigPopoverTrigger,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import React from 'react'
-import { PopoverTrigger as OrigPopoverTrigger } from '@chakra-ui/react'
 
 import shallow from 'zustand/shallow'
 // import createStream from 'unified-stream'
@@ -37,7 +37,6 @@ export interface LinkProps {
   href: any
   id?: string
   children: any
-  data: FilesData
   currentId: string
   // orgText: string
   // outline: boolean
@@ -51,7 +50,6 @@ export interface LinkProps {
 export interface NodeLinkProps {
   href: any
   children: any
-  data: FilesData
   currentId: string
   // openContextMenu: any
   // isWiki?: boolean
@@ -74,7 +72,6 @@ export const NodeLink = (props: NodeLinkProps) => {
     id,
     href,
     children,
-    data,
     //  isWiki,
   } = props
 
@@ -193,7 +190,9 @@ export const NormalLink = (props: NormalLinkProps) => {
 }
 
 export const PreviewLink = (props: LinkProps) => {
-  const { id, backlink, href, data, title, children, currentId } = props
+  const { id, backlink, href, title, children, currentId } = props
+  console.log({ currentId })
+  console.log({ id })
   const { data: text } = useSWR(backlink ? `/api/file/byId/${id}` : null)
 
   if (!href) {
@@ -225,7 +224,6 @@ export const PreviewLink = (props: LinkProps) => {
                 id,
                 href,
                 children,
-                data,
               }}
             />
             <ParsedOrg type="popover" text={text?.file} currentId={currentId} />
@@ -239,7 +237,6 @@ export const PreviewLink = (props: LinkProps) => {
                 id,
                 href,
                 children,
-                data,
               }}
             />
           </Text>
@@ -262,7 +259,7 @@ export const PreviewLink = (props: LinkProps) => {
             overflowY="scroll"
             borderRadius="sm"
           >
-            <PopoverPreview {...{ href, id, title }} />
+            <PopoverPreview {...{ href, id: currentId, title }} />
           </PopoverBody>
         </PopoverContent>
       </Portal>

@@ -21,10 +21,9 @@ import {
   Box,
   Tooltip,
   useDisclosure,
-} from '@chakra-ui/react'
+ PopoverTrigger as OrigPopoverTrigger } from '@chakra-ui/react'
 import { PlusIcon } from '@primer/octicons-react'
 import React, { useState } from 'react'
-import { PopoverTrigger as OrigPopoverTrigger } from '@chakra-ui/react'
 
 import { CategoryData } from '../../queries/getDiscussion'
 import { createDiscussion } from '../../services/github/createDiscussion'

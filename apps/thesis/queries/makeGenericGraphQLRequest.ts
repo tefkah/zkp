@@ -6,7 +6,7 @@ export default async function makeGenericGraphQlRequest(props: {
 }) {
   const { request, endpoint, token, post } = props
 
-  return await fetch(`${endpoint || 'https://api.github.com/graphql'}`, {
+  return fetch(`${endpoint || 'https://api.github.com/graphql'}`, {
     method: post ? 'POST' : 'GET',
     headers: {
       Authorization: `Bearer ${token}`,

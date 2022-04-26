@@ -1,7 +1,7 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { DiscussionQuery, PaginationParams } from '../../types/common'
-import { GUser, GRepositoryDiscussion, GError, GMultipleErrors } from '../../types/github'
+import { DiscussionQuery, PaginationParams } from '../../types'
+import { GUser, GRepositoryDiscussion, GError, GMultipleErrors } from '../../types'
 import { parseRepoWithOwner } from '../../utils/giscus/utils'
 
 const GITHUB_GRAPHQL_API_URL = 'https://api.github.com/graphql'

@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 // modified from https://github.com/chakra-ui/chakra-ui/blob/fc3b97d0978cf2adb9fc79157c6e42b4b68155c5/packages/transition/src/collapse.tsx
 
 import { cx, mergeWith, warn, __DEV__ } from '@chakra-ui/utils'

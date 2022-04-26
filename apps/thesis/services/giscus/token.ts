@@ -1,7 +1,7 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { IError } from '../../types/adapter'
-import { ITokenRequest, ITokenResponse } from '../../types/giscus'
+import { IError } from '../../types'
+import { ITokenRequest, ITokenResponse } from '../../types'
 
 export const getToken = async (session: string) => {
   const result: ITokenResponse | IError = await fetch('/api/oauth/token', {

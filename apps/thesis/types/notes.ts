@@ -16,6 +16,7 @@ export interface StackedNotesState {
 export interface FileList {
   [key: string]: {
     title: string
+    name?: string
     folders: string[]
     path: string
     slug: string

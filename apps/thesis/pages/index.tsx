@@ -2,7 +2,7 @@ import { Text, Container, Heading, VStack, Link } from '@chakra-ui/layout'
 import Head from 'next/head'
 import React, { ReactElement } from 'react'
 import { Hero } from '../components/Hero'
-import BasicLayout from '../components/Layouts/BasicLayout'
+import { BasicLayout } from '../components/Layouts'
 import { Main } from '../components/Main'
 
 export const Index = () => (
@@ -57,6 +57,4 @@ Index.getLayout = function getLayout(page: ReactElement) {
 }
 export default Index
 
-export const getStaticProps = async () => {
-  return { props: {}, revalidate: 60 }
-}
+export const getStaticProps = async () => ({ props: {}, revalidate: 60 })

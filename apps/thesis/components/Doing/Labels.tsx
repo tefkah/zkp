@@ -1,5 +1,5 @@
 import { HStack, Tag, Tooltip } from '@chakra-ui/react'
-import { LabelNode, Labels } from '../../types/issues'
+import { LabelNode, Labels } from '../../types'
 
 export const IssueLabels = (props: Labels) => {
   const color = 'foreground'

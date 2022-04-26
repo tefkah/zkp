@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { GCreateDiscussionInput } from '../../types/github'
+import { GCreateDiscussionInput } from '../../types'
 
 const GITHUB_GRAPHQL_API_URL = 'https://api.github.com/graphql'
 
