@@ -9,6 +9,12 @@ const nextConfig = {
   experimental: { nftTracing: true, topLevelAwait: true },
   experiments: { topLevelAwait: true },
   staticPageGenerationTimeout: 120,
+  webpack(config, { dev }) {
+    if (dev) {
+      config.devtool = 'cheap-module-source-map'
+    }
+    return config
+  },
   images: { domains: ['avatars.githubusercontent.com'] },
 }
 
