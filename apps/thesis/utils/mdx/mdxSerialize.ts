@@ -20,6 +20,7 @@ export const mdxSerialize = async (
   const wikiLinkOptions = {
     pageResolver: (name: string) => [slugify(name)],
     hrefTemplate: (permalink: string) => `/${permalink}`,
+    aliasDivider: '|',
   }
   const mdxSource = await serialize(content, {
     // Optionally pass remark/rehype plugins
@@ -32,6 +33,7 @@ export const mdxSerialize = async (
           rehypeCitation,
           {
             bibliography,
+            csl: 'apa',
             // inlineClass: 'citation',
           },
         ],
