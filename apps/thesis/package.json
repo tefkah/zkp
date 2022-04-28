@@ -10,7 +10,6 @@
   },
   "repository": "https://github.com/thomasfkjorna/thesis-visualization",
   "author": "Thomas F. K. Jorna <hello@tefkah.com>",
-  "devDependencies": {
-    "@types/mdx": "^2.0.1"
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }

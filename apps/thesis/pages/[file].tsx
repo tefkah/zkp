@@ -29,25 +29,32 @@ import { mdxDataBySlug } from '../utils/mdx/mdxDataBySlug'
  * Props for the file page
  */
 export type FilePageProps = {
-  /* The text for the current page */
-  page: string
-  history: CommitPerDateLog
-  items: Files
-  /*  The metadata for the current file */
-  fileData: OrgFileData
-  /* Array with the ids of the stacked notes */
+  /**
+   * The source for the current page
+   */
+  source: MDXRemoteSerializeResult
+  /**
+   * The metadata for the current file
+   */
+  // fileData: OrgFileData
+  /**
+   * Array with the ids of the stacked notes
+   */
   stackedNotes?: string[]
-  /*  Object containing all info of all files by id */
-  slug: string
-  /* Array of headings of the current document */
+  /**
+   * Object containing all info of all files by id
+   */
+  id: string
+  /**
+   * Array of headings of the current document
+   */
   toc: NoteHeading[]
   commits: CommitPerDateLog
-  /* Array with the bibliography of the current note in CSL format */
-  csl: CSLCitation[]
 }
 export interface MDFilePageProps {
   source: MDXRemoteSerializeResult<Record<string, any>>
   name: string
+  slug: string
   frontMatter: { [key: string]: any }
   // data: any
   fileList: DataBy
@@ -72,11 +79,10 @@ export const FilePage = (props: MDFilePageProps) => {
   // const { fileData, items } = props
   // const { title } = fileData
   //
-  const { source, name, frontMatter, fileList } = props
+  const { source, slug, name, frontMatter, fileList } = props
 
   const { title } = frontMatter
 
-  const comps = createMdxRehypeReactCompents(name ?? 'aath')
   useHeadingFocusOnRouteChange()
 
   return (
@@ -92,11 +98,8 @@ export const FilePage = (props: MDFilePageProps) => {
             <Header />
 
             <main>
-              <Container>
-                <MDXRemote {...source} components={comps} />
-              </Container>
+              <NoteScrollContainer source={source} id={slug} toc={[]} commits={{}} />
             </main>
-            {/* <NoteScrollContainer {...props} /> */}
           </Box>
         </Flex>
         <Footer />
@@ -134,6 +137,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
+      slug: file,
       name,
       source,
       frontMatter,

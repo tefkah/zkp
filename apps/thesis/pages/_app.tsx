@@ -2,7 +2,7 @@ import '@fontsource/eb-garamond/400.css'
 
 import { ChakraProvider } from '@chakra-ui/react'
 import { SessionProvider, signIn, useSession } from 'next-auth/react'
-
+import { ClickToComponent } from 'click-to-react-component'
 import { AppProps } from 'next/app'
 import React from 'react'
 import { SWRConfig } from 'swr'
@@ -46,6 +46,7 @@ export const ZKP = ({ Component, pageProps }: AppPropsWithLayoutAndAuth) => {
       <SessionProvider session={pageProps.session}>
         <SWRConfig value={{ fetcher }}>
           <ChakraProvider resetCSS theme={theme}>
+            <ClickToComponent />
             {Component.auth ? (
               <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
             ) : (

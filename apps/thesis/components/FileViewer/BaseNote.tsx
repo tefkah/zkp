@@ -12,7 +12,7 @@ import {
   Box,
 } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
-import { NoteHeading, CommitPerDateLog, CSLCitation } from '../../types'
+import { NoteHeading, CommitPerDateLog, CSLCitation, StackState } from '../../types'
 import { OrgFileData } from '../../utils/IDIndex/getDataFromFile'
 import { FilesData } from '../../utils/IDIndex/getFilesData'
 import { parseTime } from '../../utils/parseTime'
@@ -22,33 +22,31 @@ import { ProcessedOrg } from '../ProcessedOrg'
 import { Backlinks } from './Backlinks'
 import { Citations } from './Citations'
 import { useNotes } from '../../stores/noteStore'
+import { MDXNote } from './MDXNote'
+import { FilePageProps } from '../../pages/[file]'
 
-export interface NoteProps {
-  stackedNotes: string[]
-  page: string
-  fileData: OrgFileData
-  data: FilesData
-  slug: string
-  toc: NoteHeading[]
-  commits: CommitPerDateLog
-  csl: CSLCitation[]
-  //  stackData?: StackState
+export interface NoteProps extends FilePageProps {
+  // stackData?: StackState
   index: number
   // ref?: any
 }
 
 export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
-  const { index, stackData, toc, stackedNotes, fileData, page, data, slug, commits, csl } = props
-  const { title, tags, ctime, mtime, backLinks, citations } = fileData
+  const { index, toc, stackedNotes, source, id, commits } = props
+  // const { title, tags, ctime, mtime, backLinks, citations } = fileData
 
-  const stacked = stackedNotes.length > 1
-  const [, obstructedPageWidth, noteWidth] = useNotes(
-    (state) => [state.obstructedOffset, state.obstructedPageWidth, state.noteWidth],
+  const stacked = (stackedNotes?.length ?? 0) > 1
+  const { obstructedPageWidth, noteWidth, getStackStateById } = useNotes(
+    (state) => ({
+      obstructedPageWidth: state.obstructedPageWidth,
+      noteWidth: state.noteWidth,
+      getStackStateById: state.getStackStateById,
+    }),
     shallow,
   )
   const { colorMode } = useColorMode()
   // const { ref, width, height } = useElementSize()
-
+  const stackData = getStackStateById(id)
   const stackedNoteStyle: CSSObject = stacked
     ? {
         borderStyle: 'solid',
@@ -74,18 +72,18 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   const Note = useMemo(
     () => (
       <Container w="75ch" my={8}>
-        <Heading size="lg" mb={4}>
-          {slug}
-        </Heading>
-        <HStack my={2} spacing={2}>
+        {/*         <Heading size="lg" mb={4}>
+          {id}
+        </Heading> */}
+        {/*         <HStack my={2} spacing={2}>
           {!tags?.includes('chapter') &&
             tags?.map((tag: string) => (
               <Tag key={tag} size="sm" variant="outline">
                 {tag}
               </Tag>
             ))}
-        </HStack>
-        <VStack mb={4} spacing={0.5} alignItems="flex-start">
+        </HStack> */}
+        {/*         <VStack mb={4} spacing={0.5} alignItems="flex-start">
           {ctime && (
             <Text fontSize={12} color="gray.500">
               Created on{' '}
@@ -103,15 +101,14 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
               </Text>
             </Text>
           )}
-        </VStack>
-        <ProcessedOrg currentId={fileData.id} text={page} data={data} />
-        {backLinks?.length && <Backlinks {...{ currentId: fileData.id, data, backLinks }} />}
-        {citations?.length && <Citations {...{ csl }} />}
+        </VStack> */}
+        <MDXNote source={source} currentId={id} />
+        {/* backLinks?.length && <Backlinks {...{ currentId: id, backLinks }} /> */}
 
-        {!stacked && <CommentBox {...{ title }} />}
+        {/* !stacked && <CommentBox {...{ title }} /> */}
       </Container>
     ),
-    [stacked, citations, backLinks, ctime, mtime, page, data, fileData, slug, tags],
+    [stacked, id, source],
   )
 
   return (
@@ -122,7 +119,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         padding: 4,
         backgroundColor: colorMode === 'dark' ? 'dark.primary' : 'white',
         left: `${obstructedPageWidth * (index || 0)}px`,
-        right: `${-noteWidth + (obstructedPageWidth * (stackedNotes.length - index) || 0)}`,
+        right: `${-noteWidth + (obstructedPageWidth * ((stackedNotes?.length ?? 0) - index) || 0)}`,
         transition:
           'box-shadow 100ms linear, opacity 75ms linear, transform 200ms cubic-bezier(0.19, 1, 0.22, 1), background-color 0.3s ease',
         maxH: '95vh',
@@ -162,7 +159,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
             whiteSpace: 'nowrap',
           }}
         >
-          {fileData.title}
+          {id}
         </Heading>
       )}
       <Box

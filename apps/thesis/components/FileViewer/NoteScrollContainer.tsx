@@ -10,20 +10,17 @@ import { StackedNote } from './StackedNote'
 import { useNotes } from '../../stores/noteStore'
 
 export const NoteScrollContainer = (props: FilePageProps) => {
-  const { toc, fileData, page, data, slug, commits, csl } = props
+  const { toc, source, id, commits } = props
 
   const router = useRouter()
 
   const stackedNotes = useMemo(
-    () => router.asPath.match(/([\d\w]{8}-([\d\w]{4}-){3}[\d\w]{12})/g),
-    [router.asPath],
+    () => (Array.isArray(router.query.s) ? router.query.s : router.query.s ? [router.query.s] : []),
+    [router.query.s],
   )
 
   const stacked = !!stackedNotes?.length
-  const allNotes = useMemo(
-    () => [fileData.title, ...(stackedNotes || [])],
-    [fileData, stackedNotes],
-  )
+  const allNotes = useMemo(() => [id, ...(stackedNotes || [])], [stackedNotes])
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const { x } = useScroll(scrollRef)
   const { ref: sizeRef, width } = useElementSize()
@@ -59,7 +56,7 @@ export const NoteScrollContainer = (props: FilePageProps) => {
    */
   useEffect(() => {
     setStackedNotesState({
-      [fileData.id]: {
+      [id]: {
         obstructed: false,
         highlighted: false,
         overlay: x > width - obstructedOffset,
@@ -112,27 +109,24 @@ export const NoteScrollContainer = (props: FilePageProps) => {
         ref={sizeRef}
         {...{
           toc,
-          fileData,
-          page,
-          data,
+          source,
           stacked,
-          slug,
+          id,
           commits,
-          csl,
           index: 0,
           stackedNotes: allNotes,
         }}
         // stackData={stackedNotesState[fileData.id]}
       />
       {stacked &&
-        stackedNotes?.map((note, index) => (
+        stackedNotes &&
+        stackedNotes.map((note: string, index: number) => (
           <StackedNote
             key={`${note}`}
             {...{
               stackedNotes: allNotes,
               index: index + 1,
               id: note,
-              data,
               stackData: stackedNotesState[note],
             }}
           />

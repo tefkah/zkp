@@ -1,4 +1,4 @@
-import { Heading, VStack, HStack, Box, Spinner, Divider } from '@chakra-ui/react'
+import { Heading, VStack, HStack, Box, Divider } from '@chakra-ui/react'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 import Head from 'next/head'
@@ -11,6 +11,7 @@ import { useDiscussion } from '../../hooks/useDiscussion'
 import { CategoryData, CATEGORY_LIST_QUERY, DiscussionEdge } from '../../queries/getDiscussion'
 import makeGenericGraphQlRequest from '../../queries/makeGenericGraphQLRequest'
 import { DiscussionCard } from '../../components/discs/DiscussionCard'
+import { ChaoticOrbit } from '@uiball/loaders'
 
 export interface Discussions {
   title: string
@@ -78,7 +79,7 @@ export const DiscussionsPage = (props: Props) => {
               </HStack>
             </Box>
             <VStack w="full" alignItems="flex-start" spacing={5} divider={<Divider />}>
-              {isLoading && !data ? <Spinner /> : discussionList})
+              {isLoading && !data ? <ChaoticOrbit /> : discussionList})
             </VStack>
           </VStack>
         </Box>

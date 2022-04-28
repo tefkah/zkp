@@ -50,6 +50,7 @@ export interface SetNoteState {
   setNoteWidth: (width: number) => void
   setScrollContainer: (ref: MutableRefObject<HTMLDivElement | null>) => void
   scrollToEnd: (ref: MutableRefObject<HTMLDivElement | null>) => void
+  getStackStateById: (id: string) => StackedNotesState[typeof id]
 }
 
 export const useNotes = create(
@@ -61,7 +62,8 @@ export const useNotes = create(
       obstructedOffset: 120,
       obstructedPageWidth: 40,
     },
-    (set) => ({
+    (set, get) => ({
+      getStackStateById: (id: string) => get().stackedNotesState[id],
       setStackedNotesState: (stackedNotesState: StackedNotesState) =>
         set((state) => ({ ...state, stackedNotesState })),
       updateStackedNotesState: ({ allNotes, x, width, obstructedPageWidth }) =>

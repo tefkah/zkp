@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/interactive-supports-focus */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/display-name */
 import {
   Link as ChakraLink,
@@ -76,24 +79,28 @@ export const NodeLink = (props: NodeLinkProps) => {
   } = props
 
   const router = useRouter()
-  const [
+  const {
     noteWidth,
     stackedNotesState,
     scrollContainer,
     scrollToId,
     setHighlightedNote,
     unHighlightNotes,
-  ] = useNotes(
-    (state) => [
-      state.noteWidth,
-      state.stackedNotesState,
-      state.scrollContainer,
-      state.scrollToId,
-      state.setHighlightedNote,
-      state.unHighlightNotes,
-    ],
+  } = useNotes(
+    (state) => ({
+      noteWidth: state.noteWidth,
+      stackedNotesState: state.stackedNotesState,
+      scrollContainer: state.scrollContainer,
+      scrollToId: state.scrollToId,
+      setHighlightedNote: state.setHighlightedNote,
+      unHighlightNotes: state.unHighlightNotes,
+    }),
     shallow,
   )
+
+  const linkTarget = href.replace(/^\//, '')
+  const scroll = () =>
+    scrollToId({ id: linkTarget, stackedNotesState, noteWidth, ref: scrollContainer })
   // const theme = useTheme()
   // const type = href.replaceAll(/(.*?)\:?.*/g, '$1')
   // const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
@@ -125,50 +132,57 @@ export const NodeLink = (props: NodeLinkProps) => {
       <Link passHref href={href}>
         <a
           role="link"
-          onMouseEnter={() => id && setHighlightedNote(id)}
+          onMouseEnter={() => linkTarget && setHighlightedNote(linkTarget)}
           onMouseLeave={() => unHighlightNotes()}
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault()
-            if (id && router.asPath.includes(id)) {
-              scrollToId({ id, stackedNotesState, noteWidth, ref: scrollContainer })
-              // TODO: scroll to id
+            console.log(router.query)
+            const safeQuery = router.query.s
+              ? Array.isArray(router.query.s)
+                ? router.query.s
+                : [router.query.s]
+              : []
+            if (!router.query.s) {
+              console.log(router.query)
+              await router.push(
+                {
+                  pathname: router.asPath,
+                  query: { ...router.query, s: [...safeQuery, linkTarget] },
+                },
+                { pathname: router.asPath, query: { s: [...safeQuery, linkTarget] } },
+                { shallow: true },
+              )
+              scroll()
               return
             }
-            if (router.asPath.replace(/.*\//, '') === currentId) {
+            if (linkTarget && safeQuery.includes(linkTarget)) {
+              scroll()
+              return
+            }
+
+            const index = safeQuery.indexOf(currentId)
+
+            const newQ = index > -1 ? safeQuery.slice(0, index + 1) : safeQuery
+            console.log(router.query.s)
+            console.log(newQ)
+            await router.push(
+              {
+                pathname: router.asPath,
+                query: { ...router.query, s: [...(newQ ?? []), linkTarget] },
+              },
+              { pathname: router.asPath, query: { s: [...(newQ ?? []), linkTarget] } },
+              { shallow: true },
+            )
+            scroll()
+            /*            if (router.asPath.replace(/.*\//, '') === currentId) {
               const url = `${router.asPath}/${id}`
               router.push(url, url, { shallow: true })
               return
             }
-            // truncate the path to the current id
-            const truncatedPath = router.asPath.replace(new RegExp(`(.*?\/${currentId}).*`), '$1')
-            const url = `${truncatedPath}/${id}`
-            router.push(url, url, { shallow: true })
 
-            //   if (id && router.query?.stack?.includes(id)) {
-            //     // TODO: scroll to id
-            //     return
-            //   }
-            //   if (router.query?.stack?.includes(currentId)) {
-            //     if (router.query?.stack) {
-            //       const url = `${router.asPath}&stack=${id}`
-            //       router.push(url, url, { shallow: true })
-            //     }
-            //     const url = `${router.asPath}?stack=${id}`
-            //     router.push(url, url, { shallow: true })
-            //     return
-            //   }
-            //   // truncate the path to the current id
-            //   const truncatedPath = router.asPath.replace(
-            //     new RegExp(`(.*?stack=${currentId}).*`),
-            //     '$1',
-            //   )
-            //   if (router.query?.stack) {
-            //     const url = `${truncatedPath}&stack=${id}`
-            //     router.push(url, url, { shallow: true })
-            //   }
-            //   const url = `${truncatedPath}?stack=${id}`
-            //   router.push(url, url, { shallow: true })
-            // }}
+            // truncate the path to the current id
+            if()
+            const truncatedPath =  .replace(new RegExp(`(.*?\/${currentId}).*`), '$1') */
           }}
         >
           {children}

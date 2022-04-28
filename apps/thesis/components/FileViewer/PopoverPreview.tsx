@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Spinner, Link } from '@chakra-ui/react'
+import { Box, Heading, Text, Link } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import useSWR from 'swr'
 // import { ParsedOrg } from '../../services/thesis/parseOrg'
@@ -7,6 +7,7 @@ import { noteStyle } from '../NoteStyle'
 import { createMdxRehypeReactCompents } from '../MDXComponents'
 import { MDXProvider } from '@mdx-js/react'
 import { deslugify } from '../../utils/slug'
+import { ChaoticOrbit } from '@uiball/loaders'
 
 interface PopoverPreviewProps {
   href: string
@@ -27,7 +28,7 @@ export const PopoverPreview = (props: PopoverPreviewProps) => {
       {
         // eslint-disable-next-line no-nested-ternary
         !data && !error ? (
-          <Spinner />
+          <ChaoticOrbit />
         ) : error ? (
           <Text>
             Something went wrong,{' '}

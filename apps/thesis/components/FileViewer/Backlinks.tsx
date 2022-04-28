@@ -5,13 +5,12 @@ import { slugify } from '../../utils/slug'
 import { PreviewLink } from './Link'
 
 interface Props {
-  data: FilesData
   backLinks: string[]
   currentId: string
 }
 
 export const Backlinks = (props: Props) => {
-  const { currentId, data, backLinks } = props
+  const { currentId, backLinks } = props
 
   const background = useColorModeValue('brand.50', 'brand.100')
   const links = useMemo(

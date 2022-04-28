@@ -1,3 +1,6 @@
+/**
+ * State of the current object in the stack
+ */
 export interface StackState {
   obstructed: boolean
   highlighted: boolean

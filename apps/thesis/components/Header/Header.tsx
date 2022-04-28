@@ -102,8 +102,8 @@ export const Header = () => {
               />
             </Link>
             <HStack spacing={1} px={4}>
-              <HeaderLink href="/III.-Anyons">Thesis</HeaderLink>
-              <HeaderLink href="/Topological-space">Notes</HeaderLink>
+              <HeaderLink href="/iii.-anyons">Thesis</HeaderLink>
+              <HeaderLink href="/topological-space">Notes</HeaderLink>
               <HeaderLink href="/activity">Activity</HeaderLink>
               {user && (
                 <HeaderLink href="/discussions" dontFetch>

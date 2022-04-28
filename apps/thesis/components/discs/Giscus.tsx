@@ -9,7 +9,7 @@ import {
   Button,
   VStack,
   Container,
-  Spinner,
+  ChaoticOrbit,
   HStack,
   Icon,
 } from '@chakra-ui/react'
@@ -125,7 +125,7 @@ export const Giscus = ({
                 'Something went wrong'
               ) : data.isLoading ? (
                 <HStack spacing={4} as="span" alignItems="center">
-                  <Spinner /> <Text>Loading Comments</Text>
+                  <ChaoticOrbit /> <Text>Loading Comments</Text>
                 </HStack>
               ) : (
                 <ChakraLink href={data.discussion.url} isExternal className="color-text-primary">
