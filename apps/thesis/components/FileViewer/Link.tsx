@@ -136,14 +136,12 @@ export const NodeLink = (props: NodeLinkProps) => {
           onMouseLeave={() => unHighlightNotes()}
           onClick={async (e) => {
             e.preventDefault()
-            console.log(router.query)
             const safeQuery = router.query.s
               ? Array.isArray(router.query.s)
                 ? router.query.s
                 : [router.query.s]
               : []
             if (!router.query.s) {
-              console.log(router.query)
               await router.push(
                 {
                   pathname: router.asPath,
@@ -163,8 +161,6 @@ export const NodeLink = (props: NodeLinkProps) => {
             const index = safeQuery.indexOf(currentId)
 
             const newQ = index > -1 ? safeQuery.slice(0, index + 1) : safeQuery
-            console.log(router.query.s)
-            console.log(newQ)
             await router.push(
               {
                 pathname: router.asPath,
@@ -205,8 +201,6 @@ export const NormalLink = (props: NormalLinkProps) => {
 
 export const PreviewLink = (props: LinkProps) => {
   const { id, backlink, href, title, children, currentId } = props
-  console.log({ currentId })
-  console.log({ id })
   const { data: text } = useSWR(backlink ? `/api/file/byId/${id}` : null)
 
   if (!href) {

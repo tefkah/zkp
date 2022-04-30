@@ -1,3 +1,5 @@
+import { NextJSCompatibleStats } from '.'
+
 export interface Root {
   type: 'root'
   children: RecursiveFolder[]
@@ -14,4 +16,15 @@ export interface FileLeaf {
   type: 'file'
   name: string
   slug: string
+  stats: NextJSCompatibleStats
 }
+
+export type CompareFn = (a: RecursiveFolder | FileLeaf, b: RecursiveFolder | FileLeaf) => number
+
+export type Sorts =
+  | 'alpha'
+  | 'reverseAlpha'
+  | 'created'
+  | 'reverseCreated'
+  | 'modified'
+  | 'reverseModified'

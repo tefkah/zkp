@@ -1,12 +1,30 @@
+/*
 import { useState, useEffect } from 'react'
 
-export function usePersistantState<V>(
+export const getStorage = <T,>(key: string, storage: Storage) => ({
+  get(): T | undefined {
+    const value = storage.getItem(key)
+    if (value && value !== 'undefined') {
+      return JSON.parse(value)
+    }
+
+    return undefined
+  },
+  update(updatedState: T) {
+    storage.setItem(key, JSON.stringify(updatedState))
+  },
+  remove() {
+    storage.removeItem(key)
+  },
+})
+
+export const usePersistantState = <V,>(
   storageKey: string,
   defaultValue: V,
-  options: {
+  options?: {
     storage?: Storage
   } = {},
-): [V, (v: V | ((v: V) => V)) => void] {
+): [V, (v: V | ((v: V) => V)) => void] => {
   const storage = getStorage<V | undefined>(storageKey, localStorage)
 
   const storageValue = storage.get()
@@ -43,22 +61,4 @@ export function usePersistantState<V>(
 
   return [value, set]
 }
-
-export function getStorage<T>(key: string, storage: Storage) {
-  return {
-    get(): T | undefined {
-      const value = storage.getItem(key)
-      if (value && value !== 'undefined') {
-        return JSON.parse(value)
-      }
-
-      return undefined
-    },
-    update(updatedState: T) {
-      storage.setItem(key, JSON.stringify(updatedState))
-    },
-    remove() {
-      storage.removeItem(key)
-    },
-  }
-}
+*/

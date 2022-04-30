@@ -1,5 +1,5 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, Container, HStack, Heading, IconButton, VStack } from '@chakra-ui/react'
+import { Box, Container, HStack, Heading, VStack, Collapse, Button } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { usePersistantDisclosure } from '../../hooks/usePersistantDisclosure'
 import { RecursiveFolder } from '../../utils/folders'
@@ -27,22 +27,24 @@ export const SubMenu = (props: SubMenuProps) => {
   //  const currentColor = 'primary' // useColorModeValue('black', 'white')
 
   return (
-    <Box key={folderName}>
-      <Container pl={2} mt={4} mb={4}>
-        <HStack pl={4} alignItems="center">
-          <Heading size="sm" fontWeight="600">
-            {folderName}
-          </Heading>
-          <IconButton
+    <Box ml={-2} key={folderName}>
+      <Container mt={4} mb={4}>
+        <HStack alignItems="center">
+          <Button
             variant="ghost"
             size="sm"
             aria-label="Close section"
-            icon={isOpen ? <ChevronDownIcon /> : <ChevronRightIcon />}
+            rightIcon={isOpen ? <ChevronDownIcon /> : <ChevronRightIcon />}
             onClick={onToggle}
-          />
+          >
+            <Heading size="sm" fontWeight="600">
+              {folderName}
+            </Heading>
+          </Button>
         </HStack>
       </Container>
-      {isOpen && (
+
+      <Collapse in={isOpen} animateOpacity={false}>
         <VStack pl={2} pr="5%" alignItems="flex-start" spacing={1}>
           {files?.map(({ name, slug, type, children }) => {
             if (type === 'folder') {
@@ -58,7 +60,7 @@ export const SubMenu = (props: SubMenuProps) => {
             return <SidebarLink key={name} {...{ name, slug }} />
           })}
         </VStack>
-      )}
+      </Collapse>
     </Box>
   )
 }

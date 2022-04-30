@@ -33,7 +33,6 @@ export const getFreshDataBySlug = async () =>
 export const mdxDataBySlug = async (): Promise<DataBy> => {
   if (process.env.NODE_ENV !== 'production') {
     const data = await getFreshDataBySlug()
-    console.log(data)
     return data
   }
   const datapath = join(DATA_DIR, 'dataBySlug.json')

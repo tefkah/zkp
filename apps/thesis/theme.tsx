@@ -44,6 +44,20 @@ const theme = extendTheme({
   fonts,
   breakpoints,
   components: {
+    Button: {
+      variants: {
+        ghoster: {
+          background: 'none',
+          border: '1px solid rgba(0,0,0,0)',
+          _hover: {
+            background: 'none',
+            borderColor: 'primary',
+
+            color: 'primary',
+          },
+        },
+      },
+    },
     Heading: {
       baseStyle: {
         scrollMarginTop: '100px',

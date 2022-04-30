@@ -19,8 +19,6 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   // const { file } = props.params
 
   const data = await mdxDataBySlug()
-  //  console.log({ mdxDataByslug: data })
-  console.log(slug)
   const path = data?.[slug].path
 
   if (!path) {

@@ -1,28 +1,28 @@
 import { useEffect } from 'react'
-import { Box, Container, Flex } from '@chakra-ui/react'
-import { basename, dirname, join } from 'path'
+import { Box, Flex } from '@chakra-ui/react'
+import { join } from 'path'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import { GetStaticProps } from 'next'
-import { readFile } from 'fs/promises'
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { getFilesData, FilesData } from '../utils/IDIndex/getFilesData'
-import { OrgFileData } from '../utils/IDIndex/getDataFromFile'
-import { deslugify, slugify } from '../utils/slug'
+import { readFile, writeFile } from 'fs/promises'
+import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+// import { getFilesData, FilesData } from '../utils/IDIndex/getFilesData'
+// import { OrgFileData } from '../utils/IDIndex/getDataFromFile'
+// import { deslugify, slugify } from '../utils/slug'
 import { Header } from '../components/Header'
 import { getTableOfContents } from '../utils/getTableOfContents'
 import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
 import { getHistoryForFile } from '../utils/getHistoryForFile'
 import { Footer } from '../components/Footer'
 import { NoteScrollContainer } from '../components/FileViewer'
-import { CommitPerDateLog, CSLCitation, Files, NoteHeading, FileList, DataBy } from '../types'
+import { CommitPerDateLog, NoteHeading, FileList, DataBy } from '../types'
 import { CustomSideBar } from '../components/CustomSidebar'
-import { postFilePaths } from '../utils/mdx/mdxUtils'
-import { mdxDataByName } from '../utils/mdx/mdxDataByName'
+// import { postFilePaths } from '../utils/mdx/mdxUtils'
+// import { mdxDataByName } from '../utils/mdx/mdxDataByName'
 import { mdxSerialize } from '../utils/mdx/mdxSerialize'
-import { BIB_PATH, NOTE_DIR } from '../utils/paths'
-import { createMdxRehypeReactCompents } from '../components/MDXComponents/mdxRehypeReactComponents'
+import { BIB_PATH } from '../utils/paths'
+// import { createMdxRehypeReactCompents } from '../components/MDXComponents/mdxRehypeReactComponents'
 import { mdxDataBySlug } from '../utils/mdx/mdxDataBySlug'
 
 /**
@@ -115,8 +115,6 @@ export const getStaticPaths = async () => {
     .map((entry) => entry.slug)
     // Map the path into the static paths object required by Next.js
     .map((file) => ({ params: { file } }))
-  // console.log(paths)
-  // console.log(paths)
   return {
     paths,
     fallback: false,
@@ -135,14 +133,16 @@ export const getStaticProps: GetStaticProps = async ({
 
   const { frontMatter, source } = await mdxSerialize(input, bibliography)
 
+  const props = {
+    slug: file,
+    name,
+    source,
+    frontMatter,
+    fileList: data,
+  }
+
   return {
-    props: {
-      slug: file,
-      name,
-      source,
-      frontMatter,
-      fileList: data,
-    },
+    props,
   }
 }
 

@@ -27,7 +27,6 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   try {
     const file = await fs.readFile(join(cwd, 'notes', path), 'utf8')
-    console.log(file)
     res.status(200)
     res.json({ file })
   } catch (err) {

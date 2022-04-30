@@ -4085,10 +4085,10 @@
     "@typescript-eslint/types" "5.18.0"
     eslint-visitor-keys "^3.0.0"
 
-"@uiball/loaders@^1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@uiball/loaders/-/loaders-1.2.4.tgz#3c60cba02d71ced80ac5f1c4f87ff9312d93d08b"
-  integrity sha512-Oy8dWNrmSi0dAmrBmr4laSDvMu/ZNEE8xRf4kp8R6t/L6NecLlxyRtjidOtu8a2IzcZwisp0mksGE2zATrJFoQ==
+"@uiball/loaders@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@uiball/loaders/-/loaders-1.2.6.tgz#bd748a4538e16897daef6dec13dd4141efabd5c8"
+  integrity sha512-Db3be5pG9ciZa1Rxr6Iwv8bIwVP+g00m3GYQFsu3j7B9T16MpHhnGXLksuNtKlePdP3FCTFGpFrXbJz4GG/OOg==
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
@@ -13733,6 +13733,11 @@ use-isomorphic-layout-effect@^1.1.1:
   resolved "https://registry.yarnpkg.com/use-isomorphic-layout-effect/-/use-isomorphic-layout-effect-1.1.2.tgz#497cefb13d863d687b08477d9e5a164ad8c1a6fb"
   integrity sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==
 
+use-local-storage-state@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/use-local-storage-state/-/use-local-storage-state-17.0.1.tgz#7679e08ad973205018283172b1c9bc1080aabf72"
+  integrity sha512-e0UzIgWF9SzqGv7QnFKcOSK+2oP1fN/tImN69Thj8z13g8CYfgkAEdvMWCktuiEcZ+/pTiiBXj8hSu5EHxkrsQ==
+
 use-sidecar@^1.0.1, use-sidecar@^1.0.5:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/use-sidecar/-/use-sidecar-1.1.2.tgz#2f43126ba2d7d7e117aa5855e5d8f0276dfe73c2"
@@ -14300,7 +14305,7 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zustand@^4.0.0:
+zustand@^4.0.0-rc.0:
   version "4.0.0-rc.0"
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.0.0-rc.0.tgz#644982d70ea1eba3b6983790608bfe101afdd649"
   integrity sha512-jMimx6EIlLb/hwgnkVZ4Wd/UI73wXedUB6L/kcdIYbOYHcjIFRc7JEB8IXFZt+1rQq2qwuts7kN6kuHhFss47A==

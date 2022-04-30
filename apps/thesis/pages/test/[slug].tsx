@@ -32,7 +32,6 @@ export const PostPage = (props: {
 }) => {
   const { source, frontMatter, data } = props
   const comps = createMdxRehypeReactCompents(frontMatter?.id ?? 'aath', data)
-  console.log(source)
   return (
     <BasicLayout>
       <header>

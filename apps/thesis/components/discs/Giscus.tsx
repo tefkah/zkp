@@ -9,10 +9,10 @@ import {
   Button,
   VStack,
   Container,
-  ChaoticOrbit,
   HStack,
   Icon,
 } from '@chakra-ui/react'
+import { ChaoticOrbit } from '@uiball/loaders'
 import { useSession } from 'next-auth/react'
 import { useCookies } from 'react-cookie'
 import { useEffect } from 'react'

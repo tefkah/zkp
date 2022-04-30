@@ -71,7 +71,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
 
   const Note = useMemo(
     () => (
-      <Container w="75ch" my={8}>
+      <Container w="75ch" minHeight="full" my={8}>
         {/*         <Heading size="lg" mb={4}>
           {id}
         </Heading> */}
@@ -123,6 +123,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         transition:
           'box-shadow 100ms linear, opacity 75ms linear, transform 200ms cubic-bezier(0.19, 1, 0.22, 1), background-color 0.3s ease',
         maxH: '95vh',
+        minH: 'full',
         position: 'sticky',
         flexGrow: 1,
         overflowY: 'scroll',

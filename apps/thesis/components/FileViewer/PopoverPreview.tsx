@@ -17,7 +17,6 @@ interface PopoverPreviewProps {
 
 export const PopoverPreview = (props: PopoverPreviewProps) => {
   const { id, title, href } = props
-  console.log({ href })
   const { data, error } = useSWR(`/api/file/bySlug/${href}`)
 
   const comps = useMemo(() => createMdxRehypeReactCompents(id), [id])

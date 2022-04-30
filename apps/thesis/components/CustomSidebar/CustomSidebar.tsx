@@ -1,7 +1,8 @@
 import { Text, VStack, HStack, IconButton, useColorModeValue } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { useMemo } from 'react'
-import { FileList } from '../../types'
+import useLocalStorageState from 'use-local-storage-state'
+import { DataBy, Sorts } from '../../types'
 import { usePersistantDisclosure } from '../../hooks/usePersistantDisclosure'
 
 import { Collapse } from './Collapse'
@@ -10,19 +11,28 @@ import { SubMenu } from './SubMenu'
 import { SidebarLink } from './SidebarLink'
 
 import { fileListReducer } from '../../utils/folders'
+import { sorts } from '../../utils/folders/sorts'
+import { SortButton } from './SortButton'
 
 interface Props {
-  fileList: FileList
+  fileList: DataBy
 }
 
 export const CustomSideBar = (props: Props) => {
   const { fileList } = props
-  const { isOpen, onOpen, onClose, onToggle } = usePersistantDisclosure('showSidebar', {
+  const { isOpen, onClose, onToggle } = usePersistantDisclosure('showSidebar', {
     defaultIsOpen: true,
   })
-  console.log({ fileList })
   const unemph = useColorModeValue('gray.700', 'gray.300')
-  const folderList = useMemo(() => fileListReducer(Object.values(fileList)), [fileList])
+
+  const [sort, setSort] = useLocalStorageState<Sorts>('sidebarSort', {
+    defaultValue: 'alpha',
+  })
+
+  const folderList = useMemo(
+    () => fileListReducer(Object.values(fileList), sorts[sort]),
+    [fileList, sort],
+  )
 
   const defaultOpenFolders = process.env.DEFAULT_OPEN_SIDEBAR_FOLDERS
 
@@ -54,9 +64,9 @@ export const CustomSideBar = (props: Props) => {
         }}
       >
         <VStack
-          zIndex={{ base: 1, md: 0 }}
+          zIndex={{ base: 1, md: 1 }}
           pl={1}
-          backgroundColor="back"
+          backgroundColor="foreground"
           alignItems="flex-start"
           overflowX="hidden"
           overflowY="scroll"
@@ -82,8 +92,15 @@ export const CustomSideBar = (props: Props) => {
             />
 
             <Text color={unemph}>Files</Text>
+            <SortButton {...{ sort, setSort, values: ['alpha', 'reverseAlpha'] }}>Aa</SortButton>
+            <SortButton {...{ sort, setSort, values: ['created', 'reverseCreated'] }}>
+              Created
+            </SortButton>
+            <SortButton {...{ sort, setSort, values: ['modified', 'reverseModified'] }}>
+              Modified
+            </SortButton>
           </HStack>
-          <VStack alignItems="flex-start">
+          <VStack pl={4} alignItems="flex-start">
             {folderList?.children?.map((folderOrFile) => {
               if (folderOrFile.type === 'folder') {
                 return (

@@ -36,7 +36,6 @@ const setup = async ({ remote, appdir, gitdir, notedir, datadir }) => {
   // await fs.promises.writeFile(join(dataDir, 'dataByCite.json'), JSON.stringify(dataByCite))
 }
 //setup(readArgs)
-console.log(args)
 
 setup({
   remote: args?.[2] ?? '',

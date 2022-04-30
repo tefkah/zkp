@@ -17,7 +17,6 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
       `/test/${file.path.replace('.md', '')}`,
   )
 
-  console.log(paths)
   return { paths, fallback: false }
 }
 
@@ -30,8 +29,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   const cwd = process.cwd()
 
-  const filepath = `${join(cwd, 'notes', ...path)  }.md`
-  console.log(filepath)
+  const filepath = `${join(cwd, 'notes', ...path)}.md`
   const file = await fs.readFile(filepath, 'utf8')
   const processedFile = ProcessedOrg({
     text: file,

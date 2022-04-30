@@ -35,7 +35,6 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
     div: Box,
     a: (node) => {
       const { href, className, alias, children, ...rest } = node
-      console.log({ node })
       if (href?.includes('http')) {
         return (
           <Link href={href as string} passHref>

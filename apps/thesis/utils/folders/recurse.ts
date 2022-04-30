@@ -1,17 +1,8 @@
 import { convert } from 'unist-util-is'
-import { FileLeaf, RecursiveFolder, FileList } from '../../types'
+import { FileLeaf, RecursiveFolder, CompareFn, DataBy } from '../../types'
+import { defaultSort } from './sorts'
 
 const isFile = convert<FileLeaf>('file')
-
-export type CompareFn = (a: RecursiveFolder | FileLeaf, b: RecursiveFolder | FileLeaf) => number
-
-export const defaultSort: CompareFn = (a, b) => {
-  if (a.type === b.type) {
-    return a.name.localeCompare(b.name)
-  }
-
-  return a.type === 'folder' ? -100 : 100
-}
 
 export const recursePath = (
   thing: RecursiveFolder,
@@ -48,12 +39,12 @@ export const recursePath = (
   return folder
 }
 
-export const fileListReducer = (files: FileList[string][], compareFn: CompareFn = defaultSort) =>
+export const fileListReducer = (files: DataBy[string][], compareFn: CompareFn = defaultSort) =>
   files.reduce(
     (acc: RecursiveFolder, curr) => {
-      const { folders, title, ...file } = curr
+      const { folders, name, stats, ...file } = curr
 
-      const newFile = { ...file, type: 'file', ...(file.name ? {} : { name: title }) } as FileLeaf
+      const newFile = { ...file, type: 'file', name, stats } as FileLeaf
 
       const foldersAndFile = [...folders, newFile]
 

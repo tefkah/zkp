@@ -1,7 +1,7 @@
 import { callAllHandlers } from '@chakra-ui/utils'
 import * as React from 'react'
-import { useControllableProp , useId , useCallbackRef } from '@chakra-ui/react'
-import { usePersistantState } from './usePersistantState'
+import { useControllableProp, useId, useCallbackRef } from '@chakra-ui/react'
+import useLocalStorageState from 'use-local-storage-state'
 
 export interface UseDisclosureProps {
   isOpen?: boolean
@@ -11,15 +11,14 @@ export interface UseDisclosureProps {
   id?: string
 }
 
-export function usePersistantDisclosure(storageKey: string, props: UseDisclosureProps = {}) {
+export const usePersistantDisclosure = (storageKey: string, props: UseDisclosureProps = {}) => {
   const { onClose: onCloseProp, onOpen: onOpenProp, isOpen: isOpenProp, id: idProp } = props
 
   const onOpenPropCallbackRef = useCallbackRef(onOpenProp)
   const onClosePropCallbackRef = useCallbackRef(onCloseProp)
-  const [isOpenState, setIsOpen] =
-    typeof window !== 'undefined'
-      ? usePersistantState(storageKey, props.defaultIsOpen || false)
-      : React.useState(props.defaultIsOpen || false)
+  const [isOpenState, setIsOpen] = useLocalStorageState(storageKey, {
+    defaultValue: props.defaultIsOpen || false,
+  })
   const [isControlled, isOpen] = useControllableProp(isOpenProp, isOpenState)
 
   const id = useId(idProp, 'disclosure')
