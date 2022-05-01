@@ -1,0 +1,28 @@
+{
+  "root": "apps/zkp-editor-e2e",
+  "sourceRoot": "apps/zkp-editor-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/zkp-editor-e2e/cypress.json",
+        "devServerTarget": "zkp-editor:storybook"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "zkp-editor:storybook:ci"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/zkp-editor-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["zkp-editor"]
+}

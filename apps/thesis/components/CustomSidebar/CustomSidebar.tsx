@@ -27,6 +27,7 @@ export const CustomSideBar = (props: Props) => {
 
   const [sort, setSort] = useLocalStorageState<Sorts>('sidebarSort', {
     defaultValue: 'alpha',
+    ssr: true,
   })
 
   const folderList = useMemo(

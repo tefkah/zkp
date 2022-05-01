@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`processor should create standard stuff from standard .md 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "text": "Hey",
+      },
+    ],
+    "depth": 1,
+    "type": "heading",
+  },
+]
+`;
+
+exports[`processor should handle citations 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "data": Object {
+          "citeItems": Array [
+            Object {
+              "key": "Shech2019",
+            },
+          ],
+        },
+        "type": "cite",
+        "value": "[@Shech2019]",
+      },
+      Object {
+        "text": "
+@Shech2019",
+      },
+    ],
+    "type": "paragraph",
+  },
+]
+`;
+
+exports[`processor should handle math 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "text": " \\\\frac{1}{2}",
+          },
+        ],
+        "type": "inlineMath",
+      },
+    ],
+    "type": "paragraph",
+  },
+]
+`;
+
+exports[`processor should handle wikilinks 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "text": "hey",
+      },
+    ],
+    "depth": 1,
+    "type": "heading",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "text": "Alias",
+          },
+        ],
+        "exists": false,
+        "title": "Alias",
+        "type": "wikiLink",
+        "url": "link",
+      },
+    ],
+    "type": "paragraph",
+  },
+]
+`;

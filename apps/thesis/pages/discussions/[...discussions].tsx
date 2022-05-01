@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { getSession } from 'next-auth/react'
-import { Widget } from '../../components/discs/Widget'
+import { Widget } from '../../components/Discussions/Widget'
 import { BasicLayout } from '../../components/Layouts'
 
 interface Props {

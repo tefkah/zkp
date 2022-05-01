@@ -1,1 +1,1 @@
-export * from './lib/zkp-editor'
+export * from './lib/ZKPEditor'
