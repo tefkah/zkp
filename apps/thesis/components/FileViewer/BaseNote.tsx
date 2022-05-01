@@ -12,6 +12,10 @@ import {
   Box,
 } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
+import useSWR from 'swr'
+import { Waveform } from '@uiball/loaders'
+import { AiOutlineConsoleSql } from 'react-icons/ai'
+
 import { NoteHeading, CommitPerDateLog, CSLCitation, StackState } from '../../types'
 import { OrgFileData } from '../../utils/IDIndex/getDataFromFile'
 import { FilesData } from '../../utils/IDIndex/getFilesData'
@@ -47,6 +51,10 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   const { colorMode } = useColorMode()
   // const { ref, width, height } = useElementSize()
   const stackData = getStackStateById(id)
+  console.log(id)
+  const { data, error } = useSWR(`/api/meta/bySlug/${id}`)
+  console.log(data)
+
   const stackedNoteStyle: CSSObject = stacked
     ? {
         borderStyle: 'solid',
@@ -104,11 +112,11 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         </VStack> */}
         <MDXNote source={source} currentId={id} />
         {/* backLinks?.length && <Backlinks {...{ currentId: id, backLinks }} /> */}
-
+        {!data ? <Waveform /> : <CommentBox {...{ title: data.name }} />}
         {/* !stacked && <CommentBox {...{ title }} /> */}
       </Container>
     ),
-    [stacked, id, source],
+    [stacked, id, source, data],
   )
 
   return (

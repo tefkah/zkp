@@ -18,7 +18,9 @@
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "zkp-editor": ["libs/zkp-editor/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

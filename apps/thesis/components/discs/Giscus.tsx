@@ -97,8 +97,8 @@ export const Giscus = ({
           <Container p={0}>{data.discussion.body}</Container>
         </Box>
       )}
-      <Box className="color-text-primary gsc-main" w="full">
-        <Flex flexDir="column" className="gsc-comments">
+      <Box w="full">
+        <Flex flexDir="column">
           <HStack
             alignItems="center"
             spacing={4}
@@ -118,7 +118,7 @@ export const Giscus = ({
                 />
               </Flex>
             ) : null}
-            <Heading mr={2} fontWeight="semibold" size="md" as="h4" className="gsc-comments-count">
+            <Heading mr={2} fontWeight="regular" size="sm" as="h4" className="gsc-comments-count">
               {shouldCreateDiscussion && !data.totalCommentCount ? (
                 '0 Comments'
               ) : data.error && !data.backData ? (
@@ -192,14 +192,16 @@ export const Giscus = ({
                   px={6}
                   py={2}
                   fontSize="sm"
-                  className="flex flex-col items-center px-6 py-2 text-sm border rounded color-bg-primary color-border-primary"
                   onClick={increaseSize}
                   disabled={data.isLoadingMore}
                 >
-                  <span className="color-text-secondary">{`${data.numHidden} hidden comments`}</span>
-                  <span className="font-semibold color-text-link">
+                  <Text
+                    as="span"
+                    className="color-text-secondary"
+                  >{`${data.numHidden} hidden comments`}</Text>
+                  <Text as="span" className="font-semibold color-text-link">
                     {data.isLoadingMore ? 'Loading' : 'Load more'}…
-                  </span>
+                  </Text>
                 </Button>
               </Flex>
             ) : null}
@@ -231,11 +233,11 @@ export const Giscus = ({
           {shouldShowCommentBox ? (
             <>
               <Box
-                as="hr"
                 my={4}
                 fontSize="sm"
                 borderTop={2}
                 className="gsc-comment-box-separator color-border-primary"
+                color="grey.700"
               />
               <CommentBox
                 viewer={data.viewer}

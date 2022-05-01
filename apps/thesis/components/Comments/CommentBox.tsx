@@ -13,10 +13,11 @@ export const CommentBox = (props: Props) => {
   if (data && data.access) {
     return (
       <Box mt={20}>
-        <Alert my={10} status="info">
+        <Alert my={10} borderRadius="md" status="info">
           <AlertIcon />
           <Text as="em">
-            If you see this, this means you are my supervisor. No one else is able to see this.
+            If you see this, this means you are my supervisor. No one else (except for Thomas) is
+            able to see this.
           </Text>
         </Alert>
         <Widget

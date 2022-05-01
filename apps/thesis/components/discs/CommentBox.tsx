@@ -112,18 +112,19 @@ export const CommentBox = ({
         handleSubmit()
       }}
     >
-      <Tabs borderWidth={1} borderRadius="md" variant="enclosed">
-        <TabList pt={2} px={4} backgroundColor={light}>
+      <Tabs borderRadius="sm" variant="enclosed">
+        <TabList pt={2} borderWidth={0} backgroundColor={light}>
           <Tab
             color="gray.500"
             fontWeight="500"
             _selected={{
               borderWidth: 2,
-              borderBottomWidth: 0,
+              borderRadius: 'lg',
+              // borderBottomWidth: 0,
               borderColor: 'gray.200',
               backgroundColor: dark,
               fontWeight: 'semibold',
-              color: white,
+              color: 'primary',
             }}
           >
             Write
@@ -133,28 +134,28 @@ export const CommentBox = ({
             fontWeight="500"
             _selected={{
               borderWidth: 2,
-              borderBottomWidth: 0,
+              borderRadius: 'lg',
               borderColor: 'gray.200',
               backgroundColor: dark,
               fontWeight: 'semibold',
-              color: white,
+              color: 'primary',
             }}
           >
             Preview
           </Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
+          <TabPanel px={0}>
             <Textarea
               w="full"
-              p={2}
+              py={2}
               minH="100px"
               maxH="500px"
               _disabled={{ cursor: 'notAllowed' }}
               onChange={(event) => setInput(event.target.value)}
               value={input}
             />
-            <HStack alignItems="center" justifyContent="space-between" m={2}>
+            <HStack alignItems="center" justifyContent="space-between" my={2}>
               <Text fontWeight="semibold" fontSize="sm" color="gray.500">
                 Markdown and L
                 <>
@@ -190,7 +191,11 @@ export const CommentBox = ({
                       Cancel
                     </Button>
                   )}
-                  <Button type="submit" disabled={(token && !input.trim()) || isSubmitting}>
+                  <Button
+                    variant="ghoster"
+                    type="submit"
+                    disabled={(token && !input.trim()) || isSubmitting}
+                  >
                     {isReply ? 'Reply' : 'Comment'}
                   </Button>
                 </HStack>
@@ -201,7 +206,7 @@ export const CommentBox = ({
               )}
             </HStack>
           </TabPanel>
-          <TabPanel px={2} pt={2} pb={4} minH="105px" borderBottomWidth={2}>
+          <TabPanel pt={6} pb={4} mb={20} minH="105px">
             {markdownToReact(input)}
           </TabPanel>
         </TabPanels>
