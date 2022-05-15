@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -72,7 +73,6 @@ export const NodeLink = (props: NodeLinkProps) => {
     // n  nodeById,
     //  openContextMenu
     currentId,
-    id,
     href,
     children,
     //  isWiki,
@@ -136,23 +136,30 @@ export const NodeLink = (props: NodeLinkProps) => {
           onMouseLeave={() => unHighlightNotes()}
           onClick={async (e) => {
             e.preventDefault()
+
+            const basepath = router.asPath.replace(/(.*?)\?s.*/, '$1')
             const safeQuery = router.query.s
               ? Array.isArray(router.query.s)
                 ? router.query.s
                 : [router.query.s]
               : []
+
             if (!router.query.s) {
               await router.push(
                 {
-                  pathname: router.asPath,
+                  pathname: basepath,
                   query: { ...router.query, s: [...safeQuery, linkTarget] },
                 },
-                { pathname: router.asPath, query: { s: [...safeQuery, linkTarget] } },
+                {
+                  pathname: basepath,
+                  query: { s: [...safeQuery, linkTarget] },
+                },
                 { shallow: true },
               )
               scroll()
               return
             }
+
             if (linkTarget && safeQuery.includes(linkTarget)) {
               scroll()
               return
@@ -161,12 +168,16 @@ export const NodeLink = (props: NodeLinkProps) => {
             const index = safeQuery.indexOf(currentId)
 
             const newQ = index > -1 ? safeQuery.slice(0, index + 1) : safeQuery
+
             await router.push(
               {
-                pathname: router.asPath,
+                pathname: basepath,
                 query: { ...router.query, s: [...(newQ ?? []), linkTarget] },
               },
-              { pathname: router.asPath, query: { s: [...(newQ ?? []), linkTarget] } },
+              {
+                pathname: basepath,
+                query: { s: [...(newQ ?? []), linkTarget] },
+              },
               { shallow: true },
             )
             scroll()

@@ -5,15 +5,17 @@ import { DATA_DIR, NOTE_DIR } from '../paths'
 import { slugify } from '../slug'
 import { DataBy } from '../../types'
 
-export const getFreshDataBySlug = async () =>
-  (await readdirp.promise(NOTE_DIR, { alwaysStat: true }))
-    // Only include md(x) files
+export const getFreshDataBySlug = async () => {
+  const rawDir = await readdirp.promise(NOTE_DIR, { alwaysStat: true })
+  // Only include md(x) files
+  return rawDir
     .filter((entry) => /\.mdx?$/.test(entry.path))
     .reduce((acc, curr) => {
       const name = curr.basename.replace(/\.mdx?$/, '')
       const slug = slugify(name)
       const { atime, mtime, ctime, birthtime, ...stats } = { ...curr.stats }
       acc[slug] = {
+        // @ts-expect-error yeahyeah
         stats,
         fullPath: curr.fullPath,
         path: curr.path,
@@ -28,10 +30,11 @@ export const getFreshDataBySlug = async () =>
       }
       return acc
     }, {} as DataBy)
+}
 
 // TODO: Make the dataBy... files inherit from the same function
 export const mdxDataBySlug = async (): Promise<DataBy> => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.ALWAYS_FRESH !== 'true') {
     const data = await getFreshDataBySlug()
     return data
   }

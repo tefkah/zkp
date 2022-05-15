@@ -2,7 +2,7 @@ import { join } from 'path'
 
 const cwd = process.cwd()
 
-export const APP_DIR = join(cwd, ...(process.env.CURRENT_FOLDER?.split('/') ?? []))
+export const APP_DIR = join(cwd) // , 'apps', 'thesis')
 
 export const NOTE_DIR = join(APP_DIR, process.env.NOTE_DIR ?? 'notes')
 

@@ -1,33 +1,23 @@
 import shallow from 'zustand/shallow'
-import {
-  Flex,
-  Tag,
-  Text,
-  HStack,
-  VStack,
-  Container,
-  Heading,
-  CSSObject,
-  useColorMode,
-  Box,
-} from '@chakra-ui/react'
+import { Flex, Container, Heading, CSSObject, useColorMode, CloseButton } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
 import useSWR from 'swr'
 import { Waveform } from '@uiball/loaders'
-import { AiOutlineConsoleSql } from 'react-icons/ai'
+// import { AiOutlineConsoleSql } from 'react-icons/ai'
 
-import { NoteHeading, CommitPerDateLog, CSLCitation, StackState } from '../../types'
-import { OrgFileData } from '../../utils/IDIndex/getDataFromFile'
-import { FilesData } from '../../utils/IDIndex/getFilesData'
-import { parseTime } from '../../utils/parseTime'
+// import { NoteHeading, CommitPerDateLog, CSLCitation, StackState } from '../../types'
+// import { OrgFileData } from '../../utils/IDIndex/getDataFromFile'
+// import { FilesData } from '../../utils/IDIndex/getFilesData'
+// import { parseTime } from '../../utils/parseTime'
 import { CommentBox } from '../Comments/CommentBox'
 import { OutlineBox } from '../OutlineBox/OutlineBox'
 import { ProcessedOrg } from '../ProcessedOrg'
 import { Backlinks } from './Backlinks'
-import { Citations } from './Citations'
+// import { Citations } from './Citations'
 import { useNotes } from '../../stores/noteStore'
 import { MDXNote } from './MDXNote'
 import { FilePageProps } from '../../pages/[file]'
+import { useRouter } from 'next/router'
 
 export interface NoteProps extends FilePageProps {
   // stackData?: StackState
@@ -37,30 +27,46 @@ export interface NoteProps extends FilePageProps {
 
 export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   const { index, toc, stackedNotes, source, id, commits } = props
-  // const { title, tags, ctime, mtime, backLinks, citations } = fileData
 
   const stacked = (stackedNotes?.length ?? 0) > 1
+  const router = useRouter()
+
   const { obstructedPageWidth, noteWidth, getStackStateById } = useNotes(
     (state) => ({
       obstructedPageWidth: state.obstructedPageWidth,
       noteWidth: state.noteWidth,
       getStackStateById: state.getStackStateById,
+      // removeNoteById: state.removeNoteById,
     }),
     shallow,
   )
+
+  const removeNote = () => {
+    const basepath = router.asPath.replace(/(.*?)\?s.*/, '$1')
+    if (typeof router.query.s === 'string') {
+      router.push(basepath, { pathname: basepath, query: {} }, { shallow: true })
+      return
+    }
+    const q = router.query.s?.filter((thing) => thing !== id)
+
+    router.push(
+      { pathname: basepath, query: { ...router.query, ...(q ? { s: q } : {}) } },
+      { pathname: basepath, query: { ...(q ? { s: q } : {}) } },
+      {
+        shallow: true,
+      },
+    )
+  }
+
   const { colorMode } = useColorMode()
-  // const { ref, width, height } = useElementSize()
   const stackData = getStackStateById(id)
-  console.log(id)
-  const { data, error } = useSWR(`/api/meta/bySlug/${id}`)
-  console.log(data)
+  const { data } = useSWR(`/api/meta/bySlug/${id}`)
 
   const stackedNoteStyle: CSSObject = stacked
     ? {
         borderStyle: 'solid',
         borderLeftWidth: '1px',
         flexShrink: '0',
-        maxHeight: '95vh',
         w: '75ch',
       }
     : {}
@@ -79,7 +85,18 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
 
   const Note = useMemo(
     () => (
-      <Container w="75ch" minHeight="full" my={8}>
+      <Container
+        w="75ch"
+        display="flex"
+        flexDirection="column"
+        py={8}
+        justifyContent="space-between"
+        flexGrow={1}
+        sx={{
+          transition: 'opacity 0.2s ease',
+          opacity: stackData?.obstructed ? 0 : undefined,
+        }}
+      >
         {/*         <Heading size="lg" mb={4}>
           {id}
         </Heading> */}
@@ -130,8 +147,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         right: `${-noteWidth + (obstructedPageWidth * ((stackedNotes?.length ?? 0) - index) || 0)}`,
         transition:
           'box-shadow 100ms linear, opacity 75ms linear, transform 200ms cubic-bezier(0.19, 1, 0.22, 1), background-color 0.3s ease',
-        maxH: '95vh',
-        minH: 'full',
+        // maxH: '95vh',
         position: 'sticky',
         flexGrow: 1,
         overflowY: 'scroll',
@@ -142,44 +158,40 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         ...highlightedStyle,
       }}
       justifyContent={stacked ? 'flex-start' : 'space-between'}
+      height="full"
     >
       {stacked && (
-        <Heading
-          size="md"
-          // TODO: do not inline all the stacked note styles
-          sx={{
-            textDecoration: 'none',
-            fontSize: '17px',
-            lineHeight: `${obstructedPageWidth}px`,
-            fontWeight: '500',
-            marginTop: 14,
-            top: '0px',
-            bottom: '0px',
-            left: '0px',
-            position: 'absolute',
-            backgroundColor: 'transparent',
-            width: `${obstructedPageWidth}px`,
-            writingMode: 'vertical-lr',
-            textOrientation: 'sideways',
-            overflow: 'hidden',
-            opacity: stackData?.obstructed ? 1 : 0,
-            transition: 'color 0.3s ease, opacity 0.1s ease',
-            pointerEvents: 'none',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {id}
-        </Heading>
+        <Flex>
+          <CloseButton onClick={removeNote} />
+          <Heading
+            size="md"
+            // TODO: do not inline all the stacked note styles
+            sx={{
+              textDecoration: 'none',
+              fontSize: '17px',
+              lineHeight: `${obstructedPageWidth}px`,
+              fontWeight: '500',
+              marginTop: 14,
+              top: '0px',
+              bottom: '0px',
+              left: '0px',
+              position: 'absolute',
+              backgroundColor: 'transparent',
+              width: `${obstructedPageWidth}px`,
+              writingMode: 'vertical-lr',
+              textOrientation: 'sideways',
+              overflow: 'hidden',
+              opacity: stackData?.obstructed ? 1 : 0,
+              transition: 'color 0.3s ease, opacity 0.1s ease',
+              pointerEvents: 'none',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {id}
+          </Heading>
+        </Flex>
       )}
-      <Box
-        flexGrow={1}
-        sx={{
-          transition: 'opacity 0.2s ease',
-          opacity: stackData?.obstructed ? 0 : undefined,
-        }}
-      >
-        {Note}
-      </Box>
+      {Note}
       {!stacked && <OutlineBox {...{ headings: toc, commits }} />}
     </Flex>
   )

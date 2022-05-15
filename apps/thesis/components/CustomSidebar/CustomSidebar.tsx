@@ -67,7 +67,7 @@ export const CustomSideBar = (props: Props) => {
         <VStack
           zIndex={{ base: 1, md: 1 }}
           pl={1}
-          backgroundColor="foreground"
+          backgroundColor="back"
           alignItems="flex-start"
           overflowX="hidden"
           overflowY="scroll"
@@ -106,6 +106,7 @@ export const CustomSideBar = (props: Props) => {
               if (folderOrFile.type === 'folder') {
                 return (
                   <SubMenu
+                    key={folderOrFile.name}
                     folderName={folderOrFile.name}
                     foldersOrFiles={folderOrFile.children}
                     defaultIsOpen={defaultOpenFolders?.includes(folderOrFile.name)}

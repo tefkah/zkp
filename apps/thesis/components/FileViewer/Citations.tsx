@@ -32,7 +32,7 @@ export const Citations = (props: CitationProps) => {
   }, [csl])
 
   const citations = useMemo(() => {
-    const htmlWithLinks = bibliography.replace(/(https?:\/\/([^\<]*))/g, '<a href="$1">$1</a>')
+    const htmlWithLinks = bibliography.replace(/(https?:\/\/([^<]*))/g, '<a href="$1">$1</a>')
 
     const processor = unified()
       .use(rehypeParse)
@@ -51,7 +51,7 @@ export const Citations = (props: CitationProps) => {
           ),
           p: Text,
           div: ({ className, children, ...props }) => {
-            if ((className as string)?.includes('csl-bib-body')) return <>{children as ReactNode}</>
+            if ((className as string)?.includes('csl-bib-body')) return children as ReactNode
             if (!(className as string)?.includes('csl-entry')) {
               return (
                 <Box {...{ className: className as string, ...props }}>
@@ -70,7 +70,6 @@ export const Citations = (props: CitationProps) => {
           ul: UnorderedList,
           h: Heading,
           i: ({ children, ...props }) => (
-            // @ts-ignore
             <Text as="i" variant="org" {...props}>
               {children as React.ReactNode}
             </Text>

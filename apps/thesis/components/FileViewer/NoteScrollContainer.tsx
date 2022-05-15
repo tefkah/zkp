@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { HStack } from '@chakra-ui/react'
 import shallow from 'zustand/shallow'
 import React, { useEffect, useMemo, useRef } from 'react'
@@ -13,18 +14,6 @@ export const NoteScrollContainer = (props: FilePageProps) => {
   const { toc, source, id, commits } = props
 
   const router = useRouter()
-
-  const stackedNotes = useMemo(
-    () => (Array.isArray(router.query.s) ? router.query.s : router.query.s ? [router.query.s] : []),
-    [router.query.s],
-  )
-
-  const stacked = !!stackedNotes?.length
-  const allNotes = useMemo(() => [id, ...(stackedNotes || [])], [stackedNotes])
-  const scrollRef = useRef<HTMLDivElement | null>(null)
-  const { x } = useScroll(scrollRef)
-  const { ref: sizeRef, width } = useElementSize()
-
   const [
     stackedNotesState,
     setStackedNotesState,
@@ -48,9 +37,21 @@ export const NoteScrollContainer = (props: FilePageProps) => {
     shallow,
   )
 
+  const stackedNotes = useMemo(
+    () => (Array.isArray(router.query.s) ? router.query.s : router.query.s ? [router.query.s] : []),
+    [router.query.s],
+  )
+
+  const stacked = !!stackedNotes?.length
+  const allNotes = useMemo(() => [id, ...(stackedNotes || [])], [stackedNotes])
+  const scrollRef = useRef<HTMLDivElement | null>(null)
+  const { x } = useScroll(scrollRef)
+  const { ref: sizeRef, width } = useElementSize()
+
   useEffect(() => {
     setNoteWidth(width)
-  }, [width])
+  }, [setNoteWidth, width])
+
   /**
    * On mount, set the initial state
    */
@@ -102,8 +103,10 @@ export const NoteScrollContainer = (props: FilePageProps) => {
       alignItems="top"
       transition="width 100ms cubic-bezier(0.19, 1, 0.22, 1)"
       spacing={0}
-      flex={1}
-      justifyContent={stackedNotes?.length ? 'flex-start' : 'space-between'}
+      // flex={1}
+      //      justifyContent={stackedNotes?.length ? 'flex-start' : 'space-between'}
+      justifyContent="space-between"
+      height="100%"
     >
       <BaseNote
         ref={sizeRef}
@@ -116,7 +119,6 @@ export const NoteScrollContainer = (props: FilePageProps) => {
           index: 0,
           stackedNotes: allNotes,
         }}
-        // stackData={stackedNotesState[fileData.id]}
       />
       {stacked &&
         stackedNotes &&
@@ -131,14 +133,6 @@ export const NoteScrollContainer = (props: FilePageProps) => {
             }}
           />
         ))}
-      {/* <Text>
-        {x}
-        {y}
-      </Text>
-      <Text>
-        W:{width}
-        H:{height}
-      </Text> */}
     </HStack>
   )
 }

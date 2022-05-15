@@ -28,17 +28,21 @@ const theme = extendTheme({
     // primary: `red.500`,
     brand: baseTheme.colors[mainColor],
     primary: baseTheme.colors[mainColor][500],
-    foreground: {
-      default: baseTheme.colors.white,
-      _dark: baseTheme.colors.gray[900],
-    },
-    back: {
-      default: baseTheme.colors.gray[50],
-      _dark: baseTheme.colors.gray[800],
-    },
-    hover: {
-      default: baseTheme.colors.gray[200],
-      _dark: baseTheme.colors.gray[600],
+  },
+  semanticTokens: {
+    colors: {
+      foreground: {
+        default: baseTheme.colors.white,
+        _dark: baseTheme.colors.gray[900],
+      },
+      back: {
+        default: baseTheme.colors.gray[50],
+        _dark: baseTheme.colors.gray[800],
+      },
+      hover: {
+        default: baseTheme.colors.gray[200],
+        _dark: baseTheme.colors.gray[600],
+      },
     },
   },
   fonts,

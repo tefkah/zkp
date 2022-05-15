@@ -16,7 +16,7 @@ export interface SidebarLinkProps {
   slug?: string
 }
 
-export const SidebarLink = ({ slug, name, key }: SidebarLinkProps) => {
+export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
   const { asPath: path } = useRouter()
 
   const isActive = path.includes(`/${slug}`)

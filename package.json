@@ -66,6 +66,7 @@
     "rehype-katex": "6.0.2",
     "rehype-mathjax": "4.0.2",
     "rehype-react": "7.1.1",
+    "rehype-stringify": "^9.0.3",
     "rehype-url-inspector": "^2.0.2",
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",

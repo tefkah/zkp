@@ -84,7 +84,7 @@ export const Header = () => {
       top={0}
       shadow={y > height ? 'sm' : undefined}
       transition="box-shadow 0.2s"
-      bg={bg}
+      bgColor="foreground"
       overflowY="hidden"
       borderBottomWidth={1}
     >

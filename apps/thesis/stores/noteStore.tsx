@@ -51,6 +51,7 @@ export interface SetNoteState {
   setScrollContainer: (ref: MutableRefObject<HTMLDivElement | null>) => void
   scrollToEnd: (ref: MutableRefObject<HTMLDivElement | null>) => void
   getStackStateById: (id: string) => StackedNotesState[typeof id]
+  removeNoteById: (id: string) => void
 }
 
 export const useNotes = create(
@@ -66,7 +67,7 @@ export const useNotes = create(
       getStackStateById: (id: string) => get().stackedNotesState[id],
       setStackedNotesState: (stackedNotesState: StackedNotesState) =>
         set((state) => ({ ...state, stackedNotesState })),
-      updateStackedNotesState: ({ allNotes, x, width, obstructedPageWidth }) =>
+      updateStackedNotesState: ({ allNotes, x, width, obstructedPageWidth, obstructedOffset }) =>
         set((state) => ({
           ...state,
           stackedNotesState: allNotes.reduce((acc, curr, i, a) => {
@@ -78,7 +79,7 @@ export const useNotes = create(
               // TODO: [bug] obstructed computation is increasingly off as i increases
               obstructed:
                 x > Math.max(width * (i + 1) - obstructedPageWidth * (i - 1), 0) ||
-                // x + width * allNotes.length < width * i + obstructedOffset ||
+                x + width * allNotes.length < width * i + obstructedOffset ||
                 x < width * (i - 1 || 0) - obstructedPageWidth * i,
               active: i === a.length - 1,
               index: i,
@@ -147,6 +148,11 @@ export const useNotes = create(
           behavior: 'smooth',
         })
       },
+      removeNoteById: (id: string) =>
+        set((state) => {
+          const { [id]: dummy, ...rest } = state.stackedNotesState
+          return { ...state, stackedNotesState: rest }
+        }),
       setScrollContainer: (ref) => set((state) => ({ ...state, scrollContainer: ref })),
     }),
   ),

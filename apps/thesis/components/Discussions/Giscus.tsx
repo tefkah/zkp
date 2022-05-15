@@ -12,7 +12,7 @@ import {
   HStack,
   Icon,
 } from '@chakra-ui/react'
-import { ChaoticOrbit } from '@uiball/loaders'
+import { Waveform } from '@uiball/loaders'
 import { useSession } from 'next-auth/react'
 import { useCookies } from 'react-cookie'
 import { useEffect } from 'react'
@@ -125,7 +125,7 @@ export const Giscus = ({
                 'Something went wrong'
               ) : data.isLoading ? (
                 <HStack spacing={4} as="span" alignItems="center">
-                  <ChaoticOrbit /> <Text>Loading Comments</Text>
+                  <Waveform /> <Text>Loading Comments</Text>
                 </HStack>
               ) : (
                 <ChakraLink href={data.discussion.url} isExternal className="color-text-primary">

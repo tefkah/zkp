@@ -1,3 +1,5 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable @typescript-eslint/no-shadow */
 // ported from the great https://github.com/giscus/giscus
 
 import { MarkGithubIcon } from '@primer/octicons-react'
@@ -26,6 +28,7 @@ import { markdownToReact } from './md'
 interface CommentBoxProps {
   viewer?: IUser
   discussionId?: string
+  // eslint-disable-next-line react/no-unused-prop-types
   context?: string
   replyToId?: string
   onSubmit: (comment: IComment | IReply) => void
@@ -97,11 +100,6 @@ export const CommentBox = ({
     if (isReplyOpen) textarea.current.focus()
   }, [isReplyOpen])
 
-  const light = 'back'
-  const dark = 'foreground'
-  const white = useColorModeValue('black', 'white')
-  const med = useColorModeValue('gray.300', 'gray.600')
-
   return !isReply || isReplyOpen ? (
     <form
       className={`color-bg-primary color-border-primary gsc-comment-box${
@@ -113,7 +111,7 @@ export const CommentBox = ({
       }}
     >
       <Tabs borderRadius="sm" variant="enclosed">
-        <TabList pt={2} borderWidth={0} backgroundColor={light}>
+        <TabList pt={2} borderWidth={0}>
           <Tab
             color="gray.500"
             fontWeight="500"
@@ -122,7 +120,7 @@ export const CommentBox = ({
               borderRadius: 'lg',
               // borderBottomWidth: 0,
               borderColor: 'gray.200',
-              backgroundColor: dark,
+              backgroundColor: 'foreground',
               fontWeight: 'semibold',
               color: 'primary',
             }}
@@ -136,7 +134,7 @@ export const CommentBox = ({
               borderWidth: 2,
               borderRadius: 'lg',
               borderColor: 'gray.200',
-              backgroundColor: dark,
+              backgroundColor: 'foreground',
               fontWeight: 'semibold',
               color: 'primary',
             }}
@@ -187,7 +185,7 @@ export const CommentBox = ({
               {token ? (
                 <HStack>
                   {isReply && (
-                    <Button bgColor={light} onClick={reset}>
+                    <Button bgColor="background" onClick={reset}>
                       Cancel
                     </Button>
                   )}
@@ -245,7 +243,7 @@ export const CommentBox = ({
         color="gray.500"
         onClick={handleReplyOpen}
         type="button"
-        borderColor={med}
+        borderColor="back"
         borderWidth={1}
       >
         Write a reply
