@@ -94,7 +94,7 @@ export const NoteScrollContainer = (props: FilePageProps) => {
       return
     }
     updateStackedNotesState({ x, width, obstructedOffset, obstructedPageWidth, allNotes })
-  }, [stackedNotes, scrollRef, x, setStackedNotesState])
+  }, [stackedNotes.length, stackedNotes, scrollRef, x, setStackedNotesState])
 
   return (
     <HStack

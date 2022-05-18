@@ -44,7 +44,7 @@ export const ZKP = ({ Component, pageProps }: AppPropsWithLayoutAndAuth) => {
       <SessionProvider session={pageProps.session}>
         <SWRConfig value={{ fetcher }}>
           <ChakraProvider resetCSS theme={theme}>
-            <ClickToComponent />
+            {/* <ClickToComponent /> */}
             {Component.auth ? (
               <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
             ) : (
