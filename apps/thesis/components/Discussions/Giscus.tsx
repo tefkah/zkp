@@ -1,5 +1,7 @@
 // ported from the great https://github.com/giscus/giscus
-
+/**
+ * TODO: Export Giscus functionality to its own sublibary
+ */
 import {
   Link as ChakraLink,
   Box,
@@ -49,13 +51,13 @@ export const Giscus = ({
     useFrontBackDiscussion(query, token)
 
   const [cookies, setCookie] = useCookies<string>([])
-  // useEffect(() => {
-  //   console.log(data)
-  //   if (data.error && onError) {
-  //     console.log(data)
+  //  useEffect(() => {
+  //    console.log(data)
+  //    if (data.error && onError) {
+  //      console.log(data)
   //     onError(data?.error?.message as string)
-  //   }
-  // }, [data.error, onError])
+  //    }
+  //  }, [data.error, onError])
 
   const handleDiscussionCreateRequest = async () => {
     const id = onDiscussionCreateRequest ? await onDiscussionCreateRequest() : ''

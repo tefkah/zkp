@@ -6,7 +6,6 @@ import { MarkGithubIcon } from '@primer/octicons-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import {
-  useColorModeValue,
   Text,
   Textarea,
   Button,

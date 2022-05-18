@@ -13,9 +13,8 @@ import {
   HStack,
 } from '@chakra-ui/react'
 import { ReactButtons } from './ReactButtons'
-import { IReply } from '../../types'
 import { updateCommentReaction } from '../../utils/giscus/reactions'
-import { Reaction } from '../../types'
+import { Reaction, IReply } from '../../types'
 
 import { handleCommentClick } from '../../utils/giscus/adapter'
 import { markdownToReact } from './md'
@@ -134,15 +133,16 @@ export const Reply = ({ reply, onReplyUpdate }: IReplyProps) => {
             //   hidden ? undefined : { __html: processCommentBody(reply.bodyHTML) }
             // }
           >
-            {!reply.body ? (
-              <></>
-            ) : !hidden ? (
-              markdownToReact(reply.body)
-            ) : (
-              <em className="color-text-secondary">
-                {reply.deletedAt ? 'thisCommentWasDeleted' : 'thisCommentWasHidden'}
-              </em>
-            )}
+            {
+              // eslint-disable-next-line no-nested-ternary
+              !reply.body ? null : !hidden ? (
+                markdownToReact(reply.body)
+              ) : (
+                <em className="color-text-secondary">
+                  {reply.deletedAt ? 'thisCommentWasDeleted' : 'thisCommentWasHidden'}
+                </em>
+              )
+            }
           </Box>
           {!hidden ? (
             <Box className="gsc-reply-reactions">

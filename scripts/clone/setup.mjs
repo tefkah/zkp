@@ -17,8 +17,8 @@ const setup = async ({ remote, appdir, gitdir, notedir, datadir }) => {
   const gitDir = join(noteDir, gitdir)
   const dataDir = join(appDir, datadir)
 
-  const firstCommit = '8a8d96b1a6ae75dd17f7462c31695823189f6f14'
-  const lastCommit = '635c1974031c9ba51e275c308ac38617bd8b5b46'
+  // const firstCommit = '8a8d96b1a6ae75dd17f7462c31695823189f6f14'
+  // const lastCommit = '635c1974031c9ba51e275c308ac38617bd8b5b46'
   await clone({
     fs,
     http,
@@ -27,7 +27,7 @@ const setup = async ({ remote, appdir, gitdir, notedir, datadir }) => {
     gitdir: gitDir,
     remote: 'notes',
   })
-  await getListOfCommitsWithStats(firstCommit, lastCommit, noteDir, gitDir, dataDir)
+  // await getListOfCommitsWithStats(firstCommit, lastCommit, noteDir, gitDir, dataDir)
   // const dataById = await getFilesData('id', noteDir)
   // const dataByTitle = await getFilesData('title', noteDir)
   // const dataByCite = await getFilesData('cite', noteDir)
@@ -38,7 +38,7 @@ const setup = async ({ remote, appdir, gitdir, notedir, datadir }) => {
 //setup(readArgs)
 
 setup({
-  remote: args?.[2] ?? '',
+  remote: args?.[2] ?? 'https://github.com/thomasfkjorna/thesis-writing',
   appdir: args?.[3] ?? 'apps/thesis',
   gitdir: args?.[4] ?? 'git',
   notedir: args?.[5] ?? 'notes',

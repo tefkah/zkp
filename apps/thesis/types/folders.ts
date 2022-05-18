@@ -9,9 +9,16 @@ export interface Root {
 export interface RecursiveFolder {
   name: string
   type: 'folder'
+  slug?: string
   children: (RecursiveFolder | FileLeaf)[]
 }
 
+export const isFile = (fileOrFolder: RecursiveFolder | FileLeaf): fileOrFolder is FileLeaf =>
+  Object.hasOwnProperty.call(fileOrFolder, 'stats')
+
+export const isFolder = (
+  fileOrFolder: RecursiveFolder | FileLeaf,
+): fileOrFolder is RecursiveFolder => Object.hasOwnProperty.call(fileOrFolder, 'children')
 export interface FileLeaf {
   type: 'file'
   name: string

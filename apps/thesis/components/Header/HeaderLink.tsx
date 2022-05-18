@@ -9,6 +9,9 @@ interface Props {
   dontFetch?: boolean
 }
 
+/**
+ * TODO: Figure out a more modular way to check whether a heading is active
+ */
 const isActive = (slug: string, children: string) => {
   const isActivity = ['commit', 'compare', 'activity'].includes(
     slug.replace(/\/(.+?)(\/|\b).*/g, '$1'),
@@ -32,12 +35,13 @@ const isActive = (slug: string, children: string) => {
 }
 
 export const HeaderLink = (props: Props) => {
-  const { href, children, dontFetch } = props
+  const { href, children } = props
   const router = useRouter()
-  const active = isActive(router?.asPath, children as string, href)
+  const active = isActive(router?.asPath, children as string)
   return (
-    <Link href={href} passHref prefetch={!dontFetch}>
+    <Link href={href} passHref>
       <ChakraLink
+        href="#"
         p={2}
         position="relative"
         _after={{

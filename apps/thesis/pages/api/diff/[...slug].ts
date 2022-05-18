@@ -1,11 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Change } from 'diff'
 import { join } from 'path'
 import { getCommitDiffForSingleFile } from '../../../utils/getCommitDiff'
 import { diffToString } from '../../../services/thesis/parseDiff'
 import { FileDiff } from '../../../types'
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { slug } = req.query
   if (slug && slug?.length < 3) {
     res.end(`Post: Error, api is like compare/commit1/commit2/file.`)
@@ -17,8 +16,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const diffs = await getCommitDiffForSingleFile(
       commit1,
       commit2,
-      join(cwd, 'notes'),
-      join(cwd, 'notes', 'git'),
+      undefined,
+      undefined,
+      //  join(cwd, 'notes'),
+      //  join(cwd, 'notes', 'git'),
       file,
     )
 
@@ -40,3 +41,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500)
   }
 }
+
+export default handler

@@ -5,7 +5,6 @@
 /* eslint-disable react/display-name */
 import {
   Link as ChakraLink,
-  Box,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -25,21 +24,19 @@ import 'katex/dist/katex.css'
 
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
-import useSWR from 'swr'
-import { noteStyle } from '../NoteStyle'
+// import useSWR from 'swr'
+// import { noteStyle } from '../NoteStyle'
 // import { Section } from './Section'
 // import { OrgRoamLink } from '../../api'
-import { FilesData } from '../../utils/IDIndex/getFilesData'
-import { ParsedOrg } from '../../services/thesis/parseOrg'
+// import { ParsedOrg } from '../../services/thesis/parseOrg'
 import { PopoverPreview } from './PopoverPreview'
 import { useNotes } from '../../stores/noteStore'
 
 export const PopoverTrigger: React.FC<{ children: React.ReactNode }> = OrigPopoverTrigger
 export interface LinkProps {
   backlink?: boolean
-  title: string
+  title?: string
   href: any
-  id?: string
   children: any
   currentId: string
   // orgText: string
@@ -58,13 +55,15 @@ export interface NodeLinkProps {
   // openContextMenu: any
   // isWiki?: boolean
   // noUnderline?: boolean
-  id?: string
 }
 export interface NormalLinkProps {
   href: string
   children: string
 }
 
+/**
+ * TODO: Extract this to a separate component
+ */
 export const NodeLink = (props: NodeLinkProps) => {
   const {
     //  noUnderline,
@@ -211,8 +210,8 @@ export const NormalLink = (props: NormalLinkProps) => {
 }
 
 export const PreviewLink = (props: LinkProps) => {
-  const { id, backlink, href, title, children, currentId } = props
-  const { data: text } = useSWR(backlink ? `/api/file/byId/${id}` : null)
+  const { backlink, href, title, children, currentId } = props
+  //  const { data: text } = useSWR(backlink ? `/api/file/byId/${id}` : null)
 
   if (!href) {
     return (
@@ -235,36 +234,26 @@ export const PreviewLink = (props: LinkProps) => {
     >
       <PopoverTrigger>
         {backlink ? (
-          <Box sx={noteStyle} color="brand.700">
-            <NodeLink
-              key={title}
-              {...{
-                currentId,
-                id,
-                href,
-                children,
-              }}
-            />
+          {
+            /* <Box sx={noteStyle} color="brand.700">
+            <NodeLink key={title} currentId={currentId} href={href}>
+              {children}
+            </NodeLink>
             <ParsedOrg type="popover" text={text?.file} currentId={currentId} />
-          </Box>
+        </Box> */
+          }
         ) : (
           <Text as="span">
-            <NodeLink
-              key={title}
-              {...{
-                currentId,
-                id,
-                href,
-                children,
-              }}
-            />
+            <NodeLink key={title} currentId={currentId} href={href}>
+              {children}
+            </NodeLink>
           </Text>
         )}
       </PopoverTrigger>
       <Portal>
         <PopoverContent
           boxShadow="md"
-          key={title}
+          key={href}
           // position="relative" // zIndex="tooltip"
         >
           <PopoverArrow />
@@ -278,7 +267,7 @@ export const PreviewLink = (props: LinkProps) => {
             overflowY="scroll"
             borderRadius="sm"
           >
-            <PopoverPreview {...{ href, id: currentId, title }} />
+            <PopoverPreview {...{ href, id: currentId }} />
           </PopoverBody>
         </PopoverContent>
       </Portal>

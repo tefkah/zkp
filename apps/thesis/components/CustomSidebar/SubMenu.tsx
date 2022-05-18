@@ -2,19 +2,19 @@ import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Box, Container, HStack, Heading, VStack, Collapse, Button } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { usePersistantDisclosure } from '../../hooks/usePersistantDisclosure'
-import { RecursiveFolder } from '../../utils/folders'
+import { FileLeaf, isFolder, RecursiveFolder } from '../../types'
 import { SidebarLink } from './SidebarLink'
 
 export interface SubMenuProps {
   folderName: string
-  foldersOrFiles?: RecursiveFolder[]
+  foldersOrFiles?: (FileLeaf | RecursiveFolder)[]
   defaultIsOpen?: boolean
 }
 export const SubMenu = (props: SubMenuProps) => {
   const { folderName, foldersOrFiles: files, defaultIsOpen } = props
   const router = useRouter()
   const shouldOpen = !!files?.find(
-    (folderOrFile) => folderOrFile.slug && router.asPath.includes(folderOrFile?.slug),
+    (folderOrFile): boolean => !!folderOrFile.slug && router.asPath.includes(folderOrFile?.slug),
   )
 
   //  const [rando, setRando] = usePersistantState('h', true)
@@ -27,7 +27,7 @@ export const SubMenu = (props: SubMenuProps) => {
   //  const currentColor = 'primary' // useColorModeValue('black', 'white')
 
   return (
-    <Box ml={-2} key={folderName}>
+    <Box key={folderName}>
       <Container mt={4} mb={4}>
         <HStack alignItems="center">
           <Button
@@ -45,14 +45,15 @@ export const SubMenu = (props: SubMenuProps) => {
       </Container>
 
       <Collapse in={isOpen} animateOpacity={false}>
-        <VStack pl={2} pr="5%" alignItems="flex-start" spacing={1}>
-          {files?.map(({ name, slug, type, children }) => {
-            if (type === 'folder') {
+        <VStack pl={4} py={2} pb={3} pr="5%" alignItems="flex-start" spacing={1}>
+          {files?.map((fileOrFolder) => {
+            const { name, slug } = fileOrFolder
+            if (isFolder(fileOrFolder)) {
               return (
                 <SubMenu
                   key={name}
                   folderName={name}
-                  foldersOrFiles={children}
+                  foldersOrFiles={fileOrFolder.children}
                   defaultIsOpen={defaultOpenFolders?.includes(name)}
                 />
               )

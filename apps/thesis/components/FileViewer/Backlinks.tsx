@@ -1,6 +1,6 @@
 import { Box, Heading, VStack, useColorModeValue } from '@chakra-ui/react'
 import { useMemo } from 'react'
-import { FilesData } from '../../utils/IDIndex/getFilesData'
+// import { FilesData } from '../../utils/IDIndex/getFilesData'
 import { slugify } from '../../utils/slug'
 import { PreviewLink } from './Link'
 
@@ -9,6 +9,9 @@ interface Props {
   currentId: string
 }
 
+/**
+ * TODO: Reimplement backlinks
+ */
 export const Backlinks = (props: Props) => {
   const { currentId, backLinks } = props
 
@@ -16,15 +19,15 @@ export const Backlinks = (props: Props) => {
   const links = useMemo(
     () =>
       backLinks.map((link) => {
-        const title = data?.[link]?.title ?? ''
+        //        const title = data?.[link]?.title ?? ''
+        const title = ''
         return (
           <PreviewLink
             backlink
             currentId={currentId}
             key={title}
-            data={data}
+            // data={data}
             title={title}
-            id={link}
             href={`/${slugify(title)}`}
           >
             {title}

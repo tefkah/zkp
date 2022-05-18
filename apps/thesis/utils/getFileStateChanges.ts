@@ -48,7 +48,8 @@ export const doSomethingAtFileStateChange = (
         type = 'remove'
       }
       if (Aoid === undefined && Boid === undefined) {
-        console.log('Something weird happened:')(A)
+        console.log('Something weird happened:')
+        console.log(A)
         console.log(B)
       }
 

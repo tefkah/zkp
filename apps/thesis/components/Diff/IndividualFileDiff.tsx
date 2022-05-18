@@ -1,14 +1,15 @@
 import { Text } from '@chakra-ui/react'
-import { ParsedCommit } from '../../pages/compare/[...commit]'
+import { ParsedCommit } from '../Commits'
 import { useFetch } from '../../utils/useFetch'
 
 interface IndiviualFileDiffProps {
-  commit: string[]
+  commits: string[]
   file: string
 }
+
 export const IndiviualFileDiff = (props: IndiviualFileDiffProps) => {
-  const { commit, file } = props
-  const [commit1, commit2] = commit
+  const { commits, file } = props
+  const [commit1, commit2] = commits
   const { data, isLoading, isError } = useFetch(
     `/api/diff/${commit1}/${commit2}/${encodeURIComponent(file)}`,
   )

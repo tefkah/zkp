@@ -1,5 +1,5 @@
 import { extendTheme, ThemeComponentProps, theme as baseTheme } from '@chakra-ui/react'
-import { createBreakpoints } from '@chakra-ui/theme-tools'
+import { createBreakpoints, cssVar } from '@chakra-ui/theme-tools'
 
 const fonts = {
   // body: 'EB Garamond', heading: 'EB Garamond', mono: `'Menlo', monospace`
@@ -49,6 +49,20 @@ const theme = extendTheme({
   breakpoints,
   components: {
     Button: {
+      default: {
+        _active: {
+          outline: 'none',
+        },
+        outline: 'none',
+      },
+      baseStyle: {
+        _focus: {
+          boxShadow: 'none',
+        },
+        _focusVisible: {
+          shadow: 'outline',
+        },
+      },
       variants: {
         ghoster: {
           background: 'none',

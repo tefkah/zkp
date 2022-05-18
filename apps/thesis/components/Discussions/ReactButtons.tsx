@@ -14,8 +14,7 @@ import {
   HStack,
   PopoverTrigger as OrigPopoverTrigger,
 } from '@chakra-ui/react'
-import { IReactionGroups } from '../../types'
-import { Reaction, Reactions } from '../../types'
+import { IReactionGroups, Reaction, Reactions } from '../../types'
 import { toggleReaction } from '../../services/github/toggleReaction'
 
 export const PopoverTrigger: React.FC<{ children: React.ReactNode }> = OrigPopoverTrigger

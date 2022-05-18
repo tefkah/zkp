@@ -23,8 +23,8 @@ export const Commit = (props: CommitProps) => {
   const time = format(dateObj, 'HH:mm', { timeZone: 'Europe/Amsterdam', locale: nl })
   const timeDistance = formatDistance(dateObj, new Date(), { addSuffix: true })
   const formattedDate = `${timeDistance}, at ${time}`
-  const [messageText, ...messageBodyRest] = message.split('\n')
-  const messageBody = messageBodyRest.join(' ')
+  const [messageText, ...messageBodyRest] = message?.split('\n') || ['']
+  const messageBody = messageBodyRest?.join(' ')
 
   return (
     <Box px={slim ? 0 : 4} w="100%" display="flex" justifyContent="space-between">

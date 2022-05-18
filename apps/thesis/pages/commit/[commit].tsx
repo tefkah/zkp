@@ -27,6 +27,7 @@ import { ParsedDiff } from '../../services/thesis/parseDiff'
 import { Commit } from '../../types'
 import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
 import { BasicLayout } from '../../components/Layouts/BasicLayout'
+import { DATA_DIR } from '../../utils/paths'
 
 export const ParsedCommits = (commitData: Commit) =>
   commitData?.files?.map((file) => {
@@ -46,7 +47,7 @@ interface Props {
 export const CommitPage = (props: Props) => {
   const { commitData } = props
   const { oid, deletions, additions, message, date } = commitData
-  const [messageTitle, ...messageBody] = message.split('\n')
+  const [messageTitle, ...messageBody] = message?.split('\n') || ['']
 
   // const {data:parsedText, isLoading} = useFetch(e)
 
@@ -162,10 +163,11 @@ export const getStaticPaths = async () => {
 export interface StaticProps {
   params: { commit: string }
 }
+
 export const getStaticProps = async (props: StaticProps) => {
   const { commit } = props.params
 
-  const commits = await tryReadJSON(join('data', 'git.json'))
+  const commits = await tryReadJSON(join(DATA_DIR, 'git.json'))
   // const commits = await tryReadJSON('data/git.json')
 
   const commitData = commits.filter((c: Commit) => c.oid === commit)?.[0] || {}

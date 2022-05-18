@@ -123,8 +123,9 @@ export const getCommitDiff = async (
   dir = NOTE_DIR,
   gitdir = GIT_DIR,
   justStats?: boolean,
-) =>
-  walk({
+) => {
+  console.log(gitdir)
+  return walk({
     fs,
     dir,
     gitdir,
@@ -132,7 +133,11 @@ export const getCommitDiff = async (
     map: (filename: string, trees: Array<WalkerEntry | null>) =>
       diffMap({ filepath: filename, trees, justStats }),
   })
+}
 
+/**
+ * TODO: Change parameters to take an object jfc
+ */
 export const getCommitDiffForSingleFile = async (
   commitHash1: string,
   commitHash2: string,
@@ -140,8 +145,9 @@ export const getCommitDiffForSingleFile = async (
   gitdir = GIT_DIR,
   file?: string,
   justStats?: boolean,
-) =>
-  walk({
+) => {
+  console.log(gitdir)
+  return walk({
     fs,
     dir,
     gitdir,
@@ -154,6 +160,7 @@ export const getCommitDiffForSingleFile = async (
       return diffMap({ filepath: filename, trees, justStats })
     },
   })
+}
 
 // export async function getModifiedCommitDiff(
 //   commitHash1: string,

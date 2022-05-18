@@ -7,7 +7,7 @@ describe('getFileStateChanges', () => {
       '4cb1dd47256b7f9947af03c82672c567173003d1',
       '635c1974031c9ba51e275c308ac38617bd8b5b46',
     ]
-    const status = await getFileStateChanges(commit1, commit2, 'notes', 'notes/git')
+    const status = await getFileStateChanges(commit1, commit2)
     const changed = status.filter((f: any) => f.type !== 'equal')
     expect(changed).toEqual([{ path: '/.github/workflows/vercel.yml', type: 'modify' }])
   })
@@ -17,7 +17,7 @@ describe('getFileStateChanges', () => {
       '59b4d09776cd1ad293bf9a6b6f864bc81603bbc2',
     ]
 
-    const status = await getFileStateChanges(commit1, commit2, 'notes', 'notes/git')
+    const status = await getFileStateChanges(commit1, commit2)
     const changed = status.filter((f: any) => f.type !== 'equal')
     expect(changed).toEqual([{ path: '/.github/workflows/vercel.yml', type: 'add' }])
   })
@@ -26,7 +26,7 @@ describe('getFileStateChanges', () => {
       '8a8d96b1a6ae75dd17f7462c31695823189f6f14',
       '635c1974031c9ba51e275c308ac38617bd8b5b46',
     ]
-    const list = (await getFileStateChanges(commit1, commit2, 'notes', 'notes/git')).filter(
+    const list = (await getFileStateChanges(commit1, commit2)).filter(
       (f: any) => f.type !== 'equal',
     )
     expect(list).toBeDefined()
@@ -42,8 +42,8 @@ describe('doSomethingAtFileStateChange', () => {
     const x = await doSomethingAtFileStateChange(
       commit1,
       commit2,
-      'notes',
-      'notes/git',
+      undefined,
+      undefined,
       async (filepath: string, trees: Array<WalkerEntry | null>, type?: string) => {
         if (type === 'equal') {
           return

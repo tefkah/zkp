@@ -15,9 +15,8 @@ import {
   Icon,
 } from '@chakra-ui/react'
 import { handleCommentClick } from '../../utils/giscus/adapter'
-import { IComment, IReply } from '../../types'
+import { Reaction, IComment, IReply } from '../../types'
 import { updateCommentReaction } from '../../utils/giscus/reactions'
-import { Reaction } from '../../types'
 import { toggleUpvote } from '../../services/github/toggleUpvote'
 import { CommentBox } from './CommentBox'
 import { ReactButtons } from './ReactButtons'
@@ -174,15 +173,16 @@ export const Comment = ({
           //   hidden ? undefined : { __html: processCommentBody(comment.bodyHTML) }
           // }
         >
-          {!comment.body ? (
-            <></>
-          ) : !hidden ? (
-            markdownToReact(comment.body)
-          ) : (
-            <Text as="em" className="color-text-secondary">
-              {comment.deletedAt ? 'This comment was deleted' : 'This comment is minimized'}
-            </Text>
-          )}
+          {
+            // eslint-disable-next-line no-nested-ternary
+            !comment.body ? null : !hidden ? (
+              markdownToReact(comment.body)
+            ) : (
+              <Text as="em" className="color-text-secondary">
+                {comment.deletedAt ? 'This comment was deleted' : 'This comment is minimized'}
+              </Text>
+            )
+          }
         </Box>
         {children}
         {!comment.isMinimized && onCommentUpdate ? (

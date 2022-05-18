@@ -60,3 +60,8 @@ export const Widget = ({
     />
   ) : null
 }
+
+Widget.defaultProps = {
+  number: 0,
+  full: false,
+}

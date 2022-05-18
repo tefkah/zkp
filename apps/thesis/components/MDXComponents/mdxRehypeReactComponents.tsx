@@ -5,8 +5,8 @@ import Link from 'next/link'
 // import Image from 'next/image'
 import { MDXComponents } from 'mdx/types'
 import { PreviewLink } from '../FileViewer/Link'
-import { MDXLinkBase } from './MDXLink'
-import { WithId } from './WithId'
+// import { MDXLinkBase } from './MDXLink'
+// import { WithId } from './WithId'
 
 export const createMdxRehypeReactCompents = (currentId: string): MDXComponents => {
   // const LinkWithId = WithId<'a'>(MDXLinkBase, currentId)
@@ -34,6 +34,7 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
     ),
     div: Box,
     a: (node) => {
+      // @ts-expect-error TODO: types aaaaa
       const { href, className, alias, children, ...rest } = node
       if (href?.includes('http')) {
         return (
@@ -53,13 +54,11 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
         )
       }
 
-      const title = alias
       return (
         <PreviewLink
           currentId={currentId}
-          title={title}
+          title={alias}
           href={`${(href as string).replace(/#\/page\/?/, '')}`}
-          id={title}
         >
           {children}
         </PreviewLink>

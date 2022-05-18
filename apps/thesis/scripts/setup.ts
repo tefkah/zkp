@@ -4,9 +4,8 @@ import fs from 'fs'
 
 import { join } from 'path'
 import * as http from 'isomorphic-git/http/node/index'
-import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStatss'
 import { getFilesData } from '../utils/IDIndex/getFilesData'
-
+import { getListOfCommitsWithStats } from '../utils/getListOfCommitsWithStats'
 
 export const setup = async ({
   remote = '',

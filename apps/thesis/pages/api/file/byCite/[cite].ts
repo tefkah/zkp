@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs/promises'
 import { join } from 'path'
 import { getFilesData, FilesData } from '../../../../utils/IDIndex/getFilesData'
+import { NOTE_DIR } from '../../../../utils/paths'
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { cite } = req.query
@@ -28,7 +29,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(404)
     return
   }
-  const file = await fs.readFile(join(cwd, 'notes', path), 'utf8')
+  const file = await fs.readFile(join(NOTE_DIR, path), 'utf8')
   res.json({ file })
 }
 

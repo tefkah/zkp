@@ -23,6 +23,9 @@ interface CitationProps {
   csl: CSLCitation[]
 }
 
+/**
+ * TODO: Move citations component to separate lib, no longer needed for this project but a waste to just throw away
+ */
 export const Citations = (props: CitationProps) => {
   const { csl } = props
 
@@ -69,8 +72,9 @@ export const Citations = (props: CitationProps) => {
           ol: OrderedList,
           ul: UnorderedList,
           h: Heading,
-          i: ({ children, ...props }) => (
-            <Text as="i" variant="org" {...props}>
+          em: ({ children, ...props }) => (
+            // @ts-expect-error idk man, something about em not being assignable to p
+            <Text as="em" variant="org" {...props}>
               {children as React.ReactNode}
             </Text>
           ),

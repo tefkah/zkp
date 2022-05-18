@@ -2,11 +2,7 @@ import { parseGitRepo } from './parseGitRepo'
 
 describe('parseGitRepo', () => {
   it('should parse repo', async () => {
-    const repo = await parseGitRepo(
-      'https://github.com/ThomasFKJorna/thesis-writing',
-      'notes',
-      'notes/git',
-    )
+    const repo = await parseGitRepo('https://github.com/ThomasFKJorna/thesis-writing')
     expect(repo).toBeDefined()
   })
   /*   it('should do something with diff', async () => {

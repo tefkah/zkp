@@ -80,7 +80,7 @@ export default ActivityPage
 export const getStaticPaths = async () => ({ paths: ['/activity'], fallback: 'blocking' })
 
 export const getStaticProps = async () => {
-  const { dataPerDate } = await getListOfCommitsWithStats('', '', NOTE_DIR, GIT_DIR, DATA_DIR)
+  const { dataPerDate } = await getListOfCommitsWithStats()
 
   return { props: { log: dataPerDate }, revalidate: 60 }
 }

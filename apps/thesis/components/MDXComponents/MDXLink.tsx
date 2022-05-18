@@ -1,11 +1,13 @@
-import { MDXComponents } from 'mdx/types'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import { Text } from '@chakra-ui/react'
 import { PreviewLink } from '../FileViewer'
-import { MDXComp, MDXPropsWithId } from './types'
+import { MDXComp } from './types'
 
-export const MDXLinkBase: MDXComp<'a'> = (props: MDXPropsWithId<'a'>) => {
+// @ts-expect-error Yeah hthe types are all over the frigging place here
+export const MDXLinkBase: MDXComp<'a'> = (
+  props: React.ComponentProps<'a'> & { currentId: string; alias?: string },
+) => {
   const { href, className, alias, children, currentId, ...rest } = props
   if (href?.includes('http')) {
     type NewType = ReactNode
@@ -34,7 +36,6 @@ export const MDXLinkBase: MDXComp<'a'> = (props: MDXPropsWithId<'a'>) => {
       currentId={currentId}
       title={title}
       href={`/${(href as string).replace('#/page', '')}`}
-      id={title}
     >
       {children}
     </PreviewLink>

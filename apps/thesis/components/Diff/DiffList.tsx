@@ -1,25 +1,26 @@
 import { VStack, Button } from '@chakra-ui/react'
-import { useState, useEffect } from 'react'
-import { IndiviualFileDiff } from '../../pages/compare/[...commit]'
+import { useState, useMemo } from 'react'
+import { IndiviualFileDiff } from './IndividualFileDiff'
 
 interface DiffListProps {
   relevantFiles: string[]
-  commit: any
+  commits: string[]
 }
 
 export const DiffList = (props: DiffListProps) => {
-  const { relevantFiles, commit } = props
-  const [diffs, setDiffs] = useState<any[]>([])
+  const { relevantFiles, commits } = props
+  // const [diffs, setDiffs] = useState<any[]>([])
   const [diffsToLoad, setDiffsToLoad] = useState([0, 5])
 
-  useEffect(() => {
-    setDiffs((curr: any) => [
-      ...curr,
+  const diffs = useMemo(
+    () => [
       relevantFiles
         .slice(diffsToLoad[0], diffsToLoad[1])
-        .map((file: string) => <IndiviualFileDiff key={file} {...{ commit, file }} />),
-    ])
-  }, [diffsToLoad])
+        .map((file: string) => <IndiviualFileDiff key={file} {...{ commits, file }} />),
+    ],
+    [diffsToLoad, commits, relevantFiles],
+  )
+
   return (
     <VStack w="full" spacing={6}>
       {diffs}

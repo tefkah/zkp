@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs/promises'
 import { join } from 'path'
 import { getFilesData, FilesData } from '../../../../utils/IDIndex/getFilesData'
+import { DATA_DIR } from '../../../../utils/paths'
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query
@@ -14,7 +15,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   let data = {} as FilesData
   try {
-    data = JSON.parse(await fs.readFile(join(cwd, 'data', 'dataById.json'), 'utf8'))
+    data = JSON.parse(await fs.readFile(join(DATA_DIR, 'dataById.json'), 'utf8'))
   } catch (err) {
     console.warn('No existing filedata found, generating...')
     data = await getFilesData()

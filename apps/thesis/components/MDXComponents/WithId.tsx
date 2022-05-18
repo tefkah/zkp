@@ -6,16 +6,18 @@ export interface WithIdProps {
   /**
    * The component to be passd the Id
    */
-  Component: MDXComponents[string]
+  Component: MDXComponents[keyof JSX.IntrinsicElements]
   /**
    * The id of the page the component is rendered in.
    */
   currentId: string
 }
 
-type Comp<T extends string = string> = (props: MDXProps<T> & { currentId?: string }) => MDXComp<T>
+type Comp<T extends keyof JSX.IntrinsicElements = 'div'> = (
+  props: MDXProps<T> & { currentId?: string },
+) => MDXComp<T>
 
-export const WithId = <T extends string>(
+export const WithId = <T extends keyof JSX.IntrinsicElements = 'div'>(
   Component: React.FC<any>,
   currentId: WithIdProps['currentId'],
 ) => {

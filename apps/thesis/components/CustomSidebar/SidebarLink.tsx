@@ -1,5 +1,5 @@
 import shallow from 'zustand/shallow'
-import { Container, HStack, LinkBox, LinkOverlay, Text, Tooltip } from '@chakra-ui/react'
+import { Box, Container, HStack, LinkBox, LinkOverlay, Text, Tooltip } from '@chakra-ui/react'
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -25,7 +25,7 @@ export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
     shallow,
   )
   return (
-    <Tooltip placement="top" label={name} key={name} openDelay={600}>
+    <Tooltip placement="top" label={name} key={name} openDelay={600} borderWidth={2}>
       <LinkBox
         as={Container}
         py={1}
@@ -37,7 +37,7 @@ export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
       >
         <HStack alignItems="baseline">
           {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
-          <Text
+          <Box
             _groupHover={{ color: 'primary' }}
             fontWeight={isActive ? '600' : '400'}
             // color={isActive ? currentColor : textColor}
@@ -46,17 +46,18 @@ export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
             fontSize={14}
             textTransform="capitalize"
             noOfLines={1}
+            pl={3}
           >
             {slug ? (
               <Link passHref prefetch={false} href={`/${slug}`} key={name}>
-                <LinkOverlay>
-                  <Text>{name}</Text>
-                </LinkOverlay>
+                {/* <LinkOverlay> */}
+                <Text>{name}</Text>
+                {/* </LinkOverlay> */}
               </Link>
             ) : (
               <Text>{name}</Text>
             )}
-          </Text>
+          </Box>
         </HStack>
       </LinkBox>
     </Tooltip>

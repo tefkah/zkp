@@ -1,3 +1,4 @@
+import { u } from 'unist-builder'
 import { getCommitDiffForSingleFile } from './getCommitDiff'
 
 describe('diff api', () => {
@@ -18,8 +19,8 @@ describe('diff api', () => {
     const diffForOneFile = await getCommitDiffForSingleFile(
       commit1,
       commit2,
-      'notes',
-      'notes/git',
+      undefined,
+      undefined,
       '.github/workflows/vercel.yml',
     )
     expect(diffForOneFile).toBeDefined()
@@ -86,11 +87,12 @@ describe('diff api', () => {
       '23d36ae61a2ba87ad0ecd76dc90ad9ecfaa8a95f',
     ]
     const file = 'Gendler2020.org'
+
     const diffForOneFile = await getCommitDiffForSingleFile(
       commit3,
       commit4,
-      'notes',
-      'notes/git',
+      undefined,
+      undefined,
       file,
     )
     expect(diffForOneFile).toBeDefined()

@@ -36,8 +36,8 @@ export const getCommits = async (dir = NOTE_DIR, gitdir = GIT_DIR) => {
   return commitList
 }
 export const getListOfCommitsWithStats = async (
-  commit1: string,
-  commit2: string,
+  commit1?: string,
+  commit2?: string,
   dir = NOTE_DIR,
   gitdir = GIT_DIR,
   datadir = DATA_DIR,

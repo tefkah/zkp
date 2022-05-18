@@ -1,29 +1,25 @@
-import { Box, Heading, Text, Link } from '@chakra-ui/react'
+import { Box, Text, Link } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import useSWR from 'swr'
 // import { ParsedOrg } from '../../services/thesis/parseOrg'
 import { MDXRemote } from 'next-mdx-remote'
+import { ChaoticOrbit } from '@uiball/loaders'
 import { noteStyle } from '../NoteStyle'
 import { createMdxRehypeReactCompents } from '../MDXComponents'
-import { MDXProvider } from '@mdx-js/react'
-import { deslugify } from '../../utils/slug'
-import { ChaoticOrbit } from '@uiball/loaders'
 
 interface PopoverPreviewProps {
   href: string
-  title: string
   id: string
 }
 
 export const PopoverPreview = (props: PopoverPreviewProps) => {
-  const { id, title, href } = props
+  const { id, href } = props
   const { data, error } = useSWR(`/api/file/bySlug/${href}`)
 
   const comps = useMemo(() => createMdxRehypeReactCompents(id), [id])
 
   return (
     <Box w="100%" px={3} sx={noteStyle}>
-      <Heading size="md">{title}</Heading>
       {
         // eslint-disable-next-line no-nested-ternary
         !data && !error ? (

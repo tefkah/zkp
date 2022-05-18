@@ -1,3 +1,4 @@
+// @ts-nocheck shhh
 import { unified } from 'unified'
 // import createStream from 'unified-stream'
 import uniorgParse from 'uniorg-parse'
@@ -44,8 +45,8 @@ interface Props {
   backlink?: boolean
 }
 
-export var ParsedOrg = (props: Props): React.ReactElement | null => {
-  const { text, data, type, backlink, currentId } = props
+export const ParsedOrg = (props: Props): React.ReactElement | null => {
+  const { text, data, type, currentId } = props
   const processor = useMemo(
     () =>
       unified()
@@ -113,7 +114,7 @@ export var ParsedOrg = (props: Props): React.ReactElement | null => {
           createElement: React.createElement,
           components: {
             h1: (head) => {
-              const { id, className, children } = head
+              const { className, children } = head
               if (className === 'title') {
                 return null
               }
@@ -129,7 +130,6 @@ export var ParsedOrg = (props: Props): React.ReactElement | null => {
             h3: (props) => <Heading {...props} variant="org" as="h4" size="sm" />,
             h4: (props) => <Heading {...props} variant="org" as="h5" size="xs" />,
             p: ({ children, ...rest }) => (
-              // @ts-ignore
               <Text lang="en" variant="org" {...{ ...rest }}>
                 {children as ReactNode}
               </Text>
@@ -170,7 +170,6 @@ export var ParsedOrg = (props: Props): React.ReactElement | null => {
                   )
 
                 return (
-                  // @ts-ignore
                   <Text as="span" variant="org">
                     (
                     {prettyNames.map((name, index) => {
@@ -185,9 +184,7 @@ export var ParsedOrg = (props: Props): React.ReactElement | null => {
                             currentId={currentId}
                             title={title}
                             // orgText={text}
-                            data={data}
                             href={`/${slugify(title)}`}
-                            id={id}
                           >
                             {name}
                           </PreviewLink>

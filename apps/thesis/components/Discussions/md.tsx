@@ -10,6 +10,7 @@ import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.css'
 
+// TODO: Create a reusable library for the MDX compiler for this as well, stop reinventing friggin markdown rendering all the time
 export const markdownToReact = (markdown: string) => {
   const htmlWithLinks = markdown.replace(/(https?:\/\/([^<]*))/g, '<a href="$1">$1</a>')
   const processor = unified()

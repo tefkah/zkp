@@ -3,7 +3,7 @@ import { Header } from '../Header'
 import { Footer } from '../Footer'
 
 export interface BasicLayoutProps {
-  children: React.ReactElement
+  children: React.ReactNode
 }
 export const BasicLayout = (props: BasicLayoutProps) => {
   const { children } = props
