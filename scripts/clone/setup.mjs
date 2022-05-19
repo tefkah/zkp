@@ -44,9 +44,9 @@ const setup = async ({ remote, appdir, gitdir, notedir, datadir }) => {
 //setup(readArgs)
 
 setup({
-  remote: args?.[2] ?? 'https://github.com/thomasfkjorna/thesis-writing',
-  appdir: args?.[3] ?? 'apps/thesis',
-  gitdir: args?.[4] ?? 'git',
-  notedir: args?.[5] ?? 'notes',
-  datadir: args?.[6] ?? 'data',
+  remote: args?.[2] ?? process.env.REPO_URL ?? 'https://github.com/thomasfkjorna/thesis-writing',
+  appdir: args?.[3] ?? process.env.APP_BUILD_DIR ?? 'apps/thesis',
+  gitdir: args?.[4] ?? process.env.GIT_DIR ?? 'git',
+  notedir: args?.[5] ?? process.env.NOTE_DIR ?? 'notes',
+  datadir: args?.[6] ?? process.env.DATA_DIR ?? 'data',
 })

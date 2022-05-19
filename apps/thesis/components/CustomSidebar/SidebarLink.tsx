@@ -34,10 +34,17 @@ export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
         onMouseEnter={() => setHighlightedNote(name)}
         onMouseLeave={() => unHighlightNotes()}
         role="group"
+        onClick={(event) => {
+          if (!event.altKey) {
+            return
+          }
+
+          event.preventDefault()
+        }}
       >
         <HStack alignItems="baseline">
           {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
-          <Box
+          <Text
             _groupHover={{ color: 'primary' }}
             fontWeight={isActive ? '600' : '400'}
             // color={isActive ? currentColor : textColor}
@@ -49,15 +56,17 @@ export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
             pl={3}
           >
             {slug ? (
-              <Link passHref prefetch={false} href={`/${slug}`} key={name}>
-                {/* <LinkOverlay> */}
-                <Text>{name}</Text>
-                {/* </LinkOverlay> */}
+              <Link passHref href={`/${slug}`} key={name}>
+                <LinkOverlay href={`/${slug}`} tabIndex={0}>
+                  <Text as="span" tabIndex={0}>
+                    {name}
+                  </Text>
+                </LinkOverlay>
               </Link>
             ) : (
-              <Text>{name}</Text>
+              { name }
             )}
-          </Box>
+          </Text>
         </HStack>
       </LinkBox>
     </Tooltip>
