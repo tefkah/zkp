@@ -1,9 +1,9 @@
 const config = {
   displayName: '<%= importPath %>',
-  preset: '<%= offsetFromRoot %>jest.preset.js',
+  preset: '<%= offsetFromRoot %>jest.preset.ts',
   globals: {
     'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
+      tsconfig: '<rootDir>tsconfig.spec.json',
       useESM: true,
     },
   },
@@ -13,7 +13,7 @@ const config = {
   },
   transformIgnorePatterns: [],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '<%= offsetFromRoot %>/coverage/libs/<%= importPath %>',
+  coverageDirectory: '<%= offsetFromRoot %>coverage/libs/<%= importPath %>',
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',

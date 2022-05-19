@@ -12,6 +12,8 @@
     "module": "NodeNext",
     "lib": ["es2021", "DOM"],
     "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "skipDefaultLibCheck": true,
     "allowJs": true,
     "esModuleInterop": true,
@@ -19,6 +21,8 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
+      "please": ["libs/utils/please/src/index.ts"],
+      "try-me": ["libs/utils/try-me/src/index.ts"],
       "zkp-editor": ["libs/zkp-editor/src/index.ts"]
     }
   },

@@ -1,7 +1,6 @@
 {
   "name": "zkp",
   "version": "0.0.0",
-  "type": "module",
   "license": "GPL-3-0-or-later",
   "scripts": {
     "start": "nx serve",
@@ -98,7 +97,9 @@
     "@nrwl/cypress": "14.0.5",
     "@nrwl/eslint-plugin-nx": "14.0.5",
     "@nrwl/jest": "14.0.5",
+    "@nrwl/js": "14.0.5",
     "@nrwl/linter": "14.0.5",
+    "@nrwl/node": "^14.1.7",
     "@nrwl/nx-cloud": "14.0.3",
     "@nrwl/react": "14.0.5",
     "@nrwl/storybook": "^14.0.5",

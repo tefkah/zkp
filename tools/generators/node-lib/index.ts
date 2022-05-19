@@ -24,6 +24,9 @@ import { nxVersion } from '@nrwl/workspace/src/utils/versions'
 import { addLint } from '@nrwl/workspace/src/generators/library/library'
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial'
 import { jestProjectGenerator } from '@nrwl/jest'
+import { updateTsConfig } from '@nrwl/jest/src/generators/jest-project/lib/update-tsconfig'
+import { updateJestConfig } from '@nrwl/jest/src/generators/jest-project/lib/update-jestconfig'
+import { updateWorkspace } from '@nrwl/jest/src/generators/jest-project/lib/update-workspace'
 
 export interface NormalizedSchema extends Schema {
   name: string
@@ -69,7 +72,7 @@ export async function libraryGenerator(tree: Tree, schema: Schema) {
 
     if (options.publishable === true && !schema.importPath) {
       throw new Error(
-        `For publishable libs you have to provide a proper "--importPath" which needs to be a valid npm package name (e.g. my-awesome-lib or @myorg/my-lib)`
+        `For publishable libs you have to provide a proper "--importPath" which needs to be a valid npm package name (e.g. my-awesome-lib or @myorg/my-lib)`,
       )
     }
 
@@ -102,9 +105,7 @@ function normalizeOptions(tree: Tree, options: Schema): NormalizedSchema {
   const { npmScope, libsDir } = getWorkspaceLayout(tree)
   const defaultPrefix = npmScope
   const name = names(options.name).fileName
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name
+  const projectDirectory = options.directory ? `${names(options.directory).fileName}/${name}` : name
 
   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-')
   const fileName = getCaseAwareFileName({
@@ -113,12 +114,9 @@ function normalizeOptions(tree: Tree, options: Schema): NormalizedSchema {
   })
   const projectRoot = joinPathFragments(libsDir, projectDirectory)
 
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : []
+  const parsedTags = options.tags ? options.tags.split(',').map((s) => s.trim()) : []
 
-  const importPath =
-    options.importPath || `@${defaultPrefix}/${projectDirectory}`
+  const importPath = options.importPath || `@${defaultPrefix}/${projectDirectory}`
 
   return {
     ...options,
@@ -132,10 +130,7 @@ function normalizeOptions(tree: Tree, options: Schema): NormalizedSchema {
   }
 }
 
-function getCaseAwareFileName(options: {
-  pascalCaseFiles: boolean
-  fileName: string
-}) {
+function getCaseAwareFileName(options: { pascalCaseFiles: boolean; fileName: string }) {
   const normalized = names(options.fileName)
 
   return options.pascalCaseFiles ? normalized.className : normalized.fileName
@@ -198,6 +193,18 @@ function updateProject(tree: Tree, options: NormalizedSchema) {
 
   try {
     updateProjectConfiguration(tree, options.name, project)
+    updateTsConfig(tree, {
+      ...options,
+      project: options.name,
+      setupFile: 'none',
+      supportTsx: true,
+      babelJest: options.babelJest,
+      skipSerializers: true,
+      testEnvironment: options.testEnvironment,
+      skipFormat: true,
+    })
+    updateJestConfig(tree, { ...options, project: options.name })
+    updateWorkspace(tree, { ...options, project: options.name })
   } catch (e) {
     console.error(e)
     throw new Error(e as string)
@@ -213,17 +220,13 @@ function updateRootTsConfig(host: Tree, options: NormalizedSchema) {
     //@ts-ignore
     if (c.paths[options.importPath]) {
       throw new Error(
-        `You already have a library using the import path "${options.importPath}". Make sure to specify a unique one.`
+        `You already have a library using the import path "${options.importPath}". Make sure to specify a unique one.`,
       )
     }
 
     //@ts-ignore
     c.paths[options.importPath] = [
-      joinPathFragments(
-        options.projectRoot,
-        './src',
-        'index.' + (options.js ? 'js' : 'ts')
-      ),
+      joinPathFragments(options.projectRoot, './src', 'index.' + (options.js ? 'js' : 'ts')),
     ]
 
     return json
@@ -253,18 +256,10 @@ function addProject(tree: Tree, options: NormalizedSchema) {
       },
     }
   }
-  addProjectConfiguration(
-    tree,
-    options.name,
-    projectConfiguration,
-    options.standaloneConfig
-  )
+  addProjectConfiguration(tree, options.name, projectConfiguration, options.standaloneConfig)
 }
 
-async function addJest(
-  tree: Tree,
-  options: NormalizedSchema
-): Promise<GeneratorCallback> {
+async function addJest(tree: Tree, options: NormalizedSchema): Promise<GeneratorCallback> {
   return await jestProjectGenerator(tree, {
     project: options.name,
     setupFile: 'none',
