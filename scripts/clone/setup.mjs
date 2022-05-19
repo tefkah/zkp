@@ -1,7 +1,10 @@
+// @ts-check
 import { clone } from 'isomorphic-git'
 import fs from 'fs'
 import { join } from 'path'
 import * as http from 'isomorphic-git/http/node/index.js'
+import { mdxDataBySlug } from './mdxDataBySlug.mjs'
+import { getListOfCommitsWithStats } from './getListOfCommitsWithStats.mjs'
 
 const args = process.argv
 const setup = async ({ remote, appdir, gitdir, notedir, datadir }) => {
@@ -29,7 +32,8 @@ const setup = async ({ remote, appdir, gitdir, notedir, datadir }) => {
     gitdir: gitDir,
     remote: 'notes',
   })
-  // await getListOfCommitsWithStats(firstCommit, lastCommit, noteDir, gitDir, dataDir)
+  await getListOfCommitsWithStats('', '', noteDir, gitDir, dataDir)
+  await mdxDataBySlug(dataDir, noteDir)
   // const dataById = await getFilesData('id', noteDir)
   // const dataByTitle = await getFilesData('title', noteDir)
   // const dataByCite = await getFilesData('cite', noteDir)

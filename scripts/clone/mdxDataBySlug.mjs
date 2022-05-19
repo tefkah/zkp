@@ -1,11 +1,10 @@
+// @ts-check
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import readdirp from 'readdirp'
-import { DATA_DIR, NOTE_DIR } from '../paths'
-import { slugify } from '../slug'
-import { DataBy } from '../../types'
+import { slugify } from './slug.mjs'
 
-export const getFreshDataBySlug = async (noteDir = NOTE_DIR) => {
+export const getFreshDataBySlug = async (noteDir) => {
   const rawDir = await readdirp.promise(noteDir, { alwaysStat: true })
   // Only include md(x) files
   return rawDir
@@ -15,7 +14,6 @@ export const getFreshDataBySlug = async (noteDir = NOTE_DIR) => {
       const slug = slugify(name)
       const { atime, mtime, ctime, birthtime, ...stats } = { ...curr.stats }
       acc[slug] = {
-        // @ts-expect-error yeahyeah
         stats,
         fullPath: curr.fullPath,
         path: curr.path,
@@ -29,11 +27,11 @@ export const getFreshDataBySlug = async (noteDir = NOTE_DIR) => {
         basename: curr.basename,
       }
       return acc
-    }, {} as DataBy)
+    }, {})
 }
 
 // TODO: Make the dataBy... files inherit from the same function
-export const mdxDataBySlug = async (dataDir = DATA_DIR, noteDir = NOTE_DIR): Promise<DataBy> => {
+export const mdxDataBySlug = async (dataDir, noteDir) => {
   if (process.env.ALWAYS_FRESH !== 'true' && process.env.NODE_ENV !== 'production') {
     const data = await getFreshDataBySlug(noteDir)
     return data
@@ -43,6 +41,7 @@ export const mdxDataBySlug = async (dataDir = DATA_DIR, noteDir = NOTE_DIR): Pro
     const data = JSON.parse(await readFile(datapath, 'utf8'))
     return data
   } catch (e) {
+    console.log('No data found, writing new')
     const data = await getFreshDataBySlug(noteDir)
     await writeFile(datapath, JSON.stringify(data))
     return data
