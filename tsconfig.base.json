@@ -21,8 +21,6 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "please": ["libs/utils/please/src/index.ts"],
-      "try-me": ["libs/utils/try-me/src/index.ts"],
       "zkp-editor": ["libs/zkp-editor/src/index.ts"]
     }
   },

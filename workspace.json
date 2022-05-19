@@ -3,8 +3,6 @@
   "projects": {
     "thesis": "apps/thesis",
     "thesis-e2e": "apps/thesis-e2e",
-    "utils-please": "libs/utils/please",
-    "utils-try-me": "libs/utils/try-me",
     "zkp-editor": "libs/zkp-editor",
     "zkp-editor-e2e": "apps/zkp-editor-e2e"
   }
