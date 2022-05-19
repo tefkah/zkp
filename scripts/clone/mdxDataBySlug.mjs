@@ -32,10 +32,10 @@ export const getFreshDataBySlug = async (noteDir) => {
 
 // TODO: Make the dataBy... files inherit from the same function
 export const mdxDataBySlug = async (dataDir, noteDir) => {
-  if (process.env.ALWAYS_FRESH !== 'true' && process.env.NODE_ENV !== 'production') {
-    const data = await getFreshDataBySlug(noteDir)
-    return data
-  }
+  // if (process.env.ALWAYS_FRESH !== 'true' && process.env.NODE_ENV !== 'production') {
+  //   const data = await getFreshDataBySlug(noteDir)
+  //   return data
+  // }
   const datapath = join(dataDir, 'dataBySlug.json')
   try {
     const data = JSON.parse(await readFile(datapath, 'utf8'))

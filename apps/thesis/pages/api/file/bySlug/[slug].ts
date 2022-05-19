@@ -2,9 +2,10 @@ import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs/promises'
 import { join } from 'path'
-import { mdxDataBySlug } from '../../../../utils/mdx/mdxDataBySlug'
+// import { mdxDataBySlug } from '../../../../utils/mdx/mdxDataBySlug'
 import { BIB_PATH, NOTE_DIR } from '../../../../utils/paths'
 import { mdxSerialize } from '../../../../utils/mdx/mdxSerialize'
+import { deslugify } from '../../../../utils/slug'
 
 export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   req: NextApiRequest,
@@ -17,16 +18,23 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   }
 
   // const { file } = props.params
+  const url = process.env.NODE_ENV === 'production' ? process.env.LOCAL_URL : process.env.PROD_URL
+  // const dataBySlug =
+  // console.dir(dataBySlug, { depth: null })
+  //  const bo= await dataBySlug.json()
+  const bod = await fetch(`${url?.replace(/(.)$/, '$1')}/notes/${slug}`)
+  console.log(`${deslugify(slug)}.md`)
+  const file = Buffer.from(await bod.arrayBuffer()).toString('utf-8')
+  // console.log(file)
+  // const data = await mdxDataBySlug()
+  // const path = data?.[slug]?.path
 
-  const data = await mdxDataBySlug()
-  const path = data?.[slug]?.path
-
-  if (!path) {
+  if (!file) {
     res.status(404)
     return
   }
   try {
-    const file = await fs.readFile(join(NOTE_DIR, path), 'utf8')
+    // const file = await fs.readFile(join(NOTE_DIR, path), 'utf8')
     const result = await mdxSerialize(file, BIB_PATH)
 
     res.status(200)

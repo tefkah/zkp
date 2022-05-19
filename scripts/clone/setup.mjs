@@ -5,35 +5,40 @@ import { join } from 'path'
 import * as http from 'isomorphic-git/http/node/index.js'
 import { mdxDataBySlug } from './mdxDataBySlug.mjs'
 import { getListOfCommitsWithStats } from './getListOfCommitsWithStats.mjs'
+import * as dotenv from 'dotenv'
+import { repo, appDir, gitDir, noteDir, dataDir } from './paths.mjs'
+import { flattenAndSlugifyNotes } from './flattenAndSlugifyNotes.mjs'
+dotenv.config()
 
 const args = process.argv
-const setup = async ({ remote, appdir, gitdir, notedir, datadir }) => {
+const setup = async ({
+  remote = repo,
+  //  appdir = appDir,
+  gitdir = gitDir,
+  notedir = noteDir,
+  datadir = dataDir,
+}) => {
   if (!remote) {
     console.error('Please first specify a remote for your notes in the options!')
     return
   }
-  const cwd = process.cwd()
-  console.log('Current dir = ' + cwd)
-  const appDir = join(cwd, appdir)
-  console.log('Current appdir = ' + appDir)
-  const noteDir = join(appDir, notedir)
-  console.log('Current noteDir= ' + noteDir)
-  const gitDir = join(noteDir, gitdir)
-  console.log('Current gitDir= ' + noteDir)
-  const dataDir = join(appDir, datadir)
 
+  fs.unlinkSync(noteDir)
+  fs.unlinkSync(dataDir)
   // const firstCommit = '8a8d96b1a6ae75dd17f7462c31695823189f6f14'
   // const lastCommit = '635c1974031c9ba51e275c308ac38617bd8b5b46'
   await clone({
     fs,
     http,
     url: 'https://github.com/thomasfkjorna/thesis-writing',
-    dir: noteDir,
-    gitdir: gitDir,
+    dir: notedir,
+    gitdir: gitdir,
     remote: 'notes',
   })
-  await getListOfCommitsWithStats('', '', noteDir, gitDir, dataDir)
-  await mdxDataBySlug(dataDir, noteDir)
+
+  await flattenAndSlugifyNotes({ notedir })
+  await getListOfCommitsWithStats('', '', notedir, gitdir, datadir)
+  await mdxDataBySlug(datadir, notedir)
   // const dataById = await getFilesData('id', noteDir)
   // const dataByTitle = await getFilesData('title', noteDir)
   // const dataByCite = await getFilesData('cite', noteDir)
@@ -42,11 +47,11 @@ const setup = async ({ remote, appdir, gitdir, notedir, datadir }) => {
   // await fs.promises.writeFile(join(dataDir, 'dataByCite.json'), JSON.stringify(dataByCite))
 }
 //setup(readArgs)
-
+console.log(process.env.DATA_DIR)
 setup({
-  remote: args?.[2] ?? process.env.REPO_URL ?? 'https://github.com/thomasfkjorna/thesis-writing',
-  appdir: args?.[3] ?? process.env.APP_BUILD_DIR ?? 'apps/thesis',
-  gitdir: args?.[4] ?? process.env.GIT_DIR ?? 'git',
-  notedir: args?.[5] ?? process.env.NOTE_DIR ?? 'notes',
-  datadir: args?.[6] ?? process.env.DATA_DIR ?? 'data',
+  remote: args?.[2],
+  // appdir: args?.[3],
+  gitdir: args?.[4],
+  notedir: args?.[5],
+  datadir: args?.[6],
 })
