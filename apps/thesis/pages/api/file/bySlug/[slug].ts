@@ -32,6 +32,7 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
     res.status(200)
     res.json({ ...result })
   } catch (err) {
+    console.error(err)
     res.status(500)
     res.json({ err })
   }

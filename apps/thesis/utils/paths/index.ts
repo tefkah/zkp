@@ -14,7 +14,6 @@ export const GIT_DIR = join(NOTE_DIR, 'git')
 console.log(GIT_DIR)
 export const DATA_DIR = join(APP_DIR, process.env.DATA_DIR ?? 'data')
 
-export const BIB_PATH = join(
-  APP_DIR,
-  ...(process.env.BIB_PATH ? [process.env.BIB_PATH] : ['notes', '.bibliography', 'Academic.bib']),
-)
+export const BIB_PATH = process.env.BIB_PATH
+  ? join(APP_DIR, process.env.BIB_PATH)
+  : join(NOTE_DIR, '.bibliography', 'Academic.bib')
