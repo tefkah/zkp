@@ -20,7 +20,6 @@ import { join } from 'path'
 import { GoMarkGithub } from 'react-icons/go'
 import { IoIosGitCompare } from 'react-icons/io'
 import { format } from 'date-fns'
-import { Giscus } from '@giscus/react'
 import Head from 'next/head'
 import { DiffBox } from '../../components/Diff/DiffBox'
 import { ParsedDiff } from '../../services/thesis/parseDiff'
@@ -28,6 +27,7 @@ import { Commit } from '../../types'
 import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
 import { BasicLayout } from '../../components/Layouts/BasicLayout'
 import { DATA_DIR } from '../../utils/paths'
+import { Giscus } from '../../components/Discussions/Giscus'
 
 export const ParsedCommits = (commitData: Commit) =>
   commitData?.files?.map((file) => {
@@ -129,13 +129,13 @@ export const CommitPage = (props: Props) => {
         <Container>
           <Giscus
             repo="ThomasFKJorna/thesis-writing"
-            repoId="R_kgDOGVpQ7Q"
+            // repoId="R_kgDOGVpQ7Q"
             category="General"
             category-id="DIC_kwDOGVpQ7c4CAQYS"
-            mapping="title"
-            reactionsEnabled="1"
-            emitMetadata="1"
-            theme={useColorModeValue('light', 'dark')}
+            term={messageTitle}
+            // reactionsEnabled="1"
+            // emitMetadata="1"
+            // theme={useColorModeValue('light', 'dark')}
           />
         </Container>
       </VStack>
