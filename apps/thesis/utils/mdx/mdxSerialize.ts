@@ -22,25 +22,33 @@ export const mdxSerialize = async (
     hrefTemplate: (permalink: string) => `/${permalink}`,
     aliasDivider: '|',
   }
-  const mdxSource = await serialize(content, {
-    // Optionally pass remark/rehype plugins
-    mdxOptions: {
-      remarkPlugins: [remarkMath, remarkGFM, [remarkWikiLink, wikiLinkOptions]],
+  try {
+    const mdxSource = await serialize(content, {
+      // Optionally pass remark/rehype plugins
+      mdxOptions: {
+        remarkPlugins: [remarkMath, remarkGFM, [remarkWikiLink, wikiLinkOptions]],
 
-      rehypePlugins: [
-        rehypeKatex,
-        [
-          rehypeCitation,
-          {
-            bibliography,
-            csl: 'apa',
-            // inlineClass: 'citation',
-          },
+        rehypePlugins: [
+          rehypeKatex,
+          [
+            rehypeCitation,
+            {
+              bibliography,
+              csl: 'apa',
+              // inlineClass: 'citation',
+            },
+          ],
         ],
-      ],
-    },
-    scope: data,
-  })
-
-  return { frontMatter: data, source: mdxSource }
+      },
+      scope: data,
+    })
+    return { frontMatter: data, source: mdxSource }
+  } catch (e) {
+    console.error(e)
+    return await mdxSerialize(`Something went wrong while rendering this page, please contact the administrator and show them this.
+   \`\`\`
+   ${e}
+   \`\`\`
+    `)
+  }
 }
