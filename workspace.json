@@ -4,6 +4,7 @@
     "thesis": "apps/thesis",
     "thesis-e2e": "apps/thesis-e2e",
     "zkp-editor": "libs/zkp-editor",
-    "zkp-editor-e2e": "apps/zkp-editor-e2e"
+    "zkp-editor-e2e": "apps/zkp-editor-e2e",
+    "utils-try-catch": "libs/utils/try-catch"
   }
 }
