@@ -1,8 +1,6 @@
 import { clone } from 'isomorphic-git'
 import fs from 'fs'
 import { join } from 'path'
-import { getListOfCommitsWithStats } from './getListOfCommitsWithStats.mjs'
-import { getFilesData } from './getFilesData.mjs'
 import * as http from 'isomorphic-git/http/node/index.js'
 
 const args = process.argv
@@ -12,9 +10,13 @@ const setup = async ({ remote, appdir, gitdir, notedir, datadir }) => {
     return
   }
   const cwd = process.cwd()
+  console.log('Current dir = ' + cwd)
   const appDir = join(cwd, appdir)
+  console.log('Current appdir = ' + appDir)
   const noteDir = join(appDir, notedir)
+  console.log('Current noteDir= ' + noteDir)
   const gitDir = join(noteDir, gitdir)
+  console.log('Current gitDir= ' + noteDir)
   const dataDir = join(appDir, datadir)
 
   // const firstCommit = '8a8d96b1a6ae75dd17f7462c31695823189f6f14'

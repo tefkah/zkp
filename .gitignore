@@ -38,6 +38,10 @@ testem.log
 .DS_Store
 Thumbs.db
 
-apps/thesis/notes
+/apps/thesis/notes
 
 .VSCodeCounter/
+notes
+data
+.log
+dist
