@@ -1,0 +1,297 @@
+// ported from the great https://github.com/giscus/giscus
+
+// from Giscus
+
+import { useCallback, useMemo, useState } from 'react'
+import { SWRConfig } from 'swr'
+import useSWRInfinite from 'swr/infinite'
+import { cleanParams, fetcher } from '../../utils/giscus/fetcher'
+import { updateDiscussionReaction } from '../../utils/giscus/reactions'
+import { IComment, IGiscussion, IReply } from '../../types'
+import { DiscussionQuery, PaginationParams } from '../../types'
+import { IDiscussionData } from '../../types'
+import { Reaction } from '../../types'
+
+export const useDiscussion = (
+  query: DiscussionQuery,
+  token?: string,
+  pagination: PaginationParams = {},
+) => {
+  const [errorStatus, setErrorStatus] = useState(0)
+  const urlParams = new URLSearchParams(cleanParams({ ...query, ...pagination }))
+
+  const headers = useMemo(() => {
+    const header = token ? { Authorization: `Bearer ${token}` } : {}
+    return { header }
+  }, [token])
+
+  const getKey = (pageIndex: number, previousPageData?: IGiscussion) => {
+    if (pagination.first === 0 || pagination.last === 0) return null
+    if (pageIndex === 0) return [`/api/discussions?${urlParams}`, headers]
+    if (!previousPageData?.discussion?.pageInfo?.hasNextPage) return null
+    const params = new URLSearchParams(
+      cleanParams({
+        ...query,
+        after: previousPageData.discussion.pageInfo.endCursor,
+        before: pagination.before,
+      }),
+    )
+    return [`/api/discussions?${params}`, headers]
+  }
+
+  const shouldRevalidate = (status: number) => ![403, 404, 429].includes(status)
+
+  const { data, size, setSize, error, mutate, isValidating } = useSWRInfinite<IGiscussion>(
+    getKey,
+    fetcher,
+    {
+      onErrorRetry: (err, key, config, revalidate, opts) => {
+        if (!shouldRevalidate(err?.status)) return
+        SWRConfig.default.onErrorRetry(err, key, config, revalidate, opts)
+      },
+      revalidateOnMount: shouldRevalidate(errorStatus),
+      revalidateOnFocus: shouldRevalidate(errorStatus),
+      revalidateOnReconnect: shouldRevalidate(errorStatus),
+    },
+  )
+
+  if (error?.status && error.status !== errorStatus) {
+    setErrorStatus(error.status)
+  } else if (!error?.status && errorStatus) {
+    setErrorStatus(0) // Clear error
+  }
+
+  const addNewComment = useCallback(
+    (comment: IComment) => {
+      if (!data) return mutate()
+      const firstPage = data.slice(0, data.length - 1)
+      const [lastPage] = data.slice(-1)
+      mutate(
+        [
+          ...firstPage,
+          {
+            ...lastPage,
+            discussion: {
+              ...lastPage.discussion,
+              comments: [...(lastPage.discussion?.comments || []), comment],
+            },
+          },
+        ],
+        false,
+      )
+      return mutate()
+    },
+    [data, mutate],
+  )
+
+  const addNewReply = useCallback(
+    (reply: IReply) => {
+      const newData = data?.map((page) => ({
+        ...page,
+        discussion: {
+          ...page.discussion,
+          comments: page.discussion.comments.map((comment) =>
+            comment.id === reply.replyToId
+              ? { ...comment, replies: [...comment.replies, reply] }
+              : comment,
+          ),
+        },
+      }))
+      mutate(newData, false)
+      return mutate()
+    },
+    [data, mutate],
+  )
+
+  const updateDiscussion = useCallback(
+    (newDiscussions: IGiscussion[], promise?: Promise<unknown>) =>
+      mutate(newDiscussions, !promise).then(() => promise?.then(() => mutate())),
+    [mutate],
+  )
+
+  const updateComment = useCallback(
+    (newComment: IComment, promise?: Promise<unknown>) =>
+      mutate(
+        data?.map((page) => ({
+          ...page,
+          discussion: {
+            ...page.discussion,
+            comments: page.discussion.comments.map((comment) =>
+              comment.id === newComment.id ? newComment : comment,
+            ),
+          },
+        })),
+        !promise,
+      ).then(() => promise?.then(() => mutate())),
+    [data, mutate],
+  )
+
+  const updateReply = useCallback(
+    (newReply: IReply, promise?: Promise<unknown>) =>
+      mutate(
+        data?.map((page) => ({
+          ...page,
+          discussion: {
+            ...page.discussion,
+            comments: page.discussion.comments.map((comment) =>
+              comment.id === newReply.replyToId
+                ? {
+                    ...comment,
+                    replies: comment.replies.map((reply) =>
+                      reply.id === newReply.id ? newReply : reply,
+                    ),
+                  }
+                : comment,
+            ),
+          },
+        })),
+        !promise,
+      )
+        .then(() => promise?.then(() => mutate()))
+        .catch((e) => console.error(e)),
+    [data, mutate],
+  )
+
+  return {
+    data: data ?? [],
+    error,
+    size,
+    setSize,
+    isValidating,
+    isLoading: !error && !data,
+    isError: !!error,
+    mutators: {
+      addNewComment,
+      addNewReply,
+      updateDiscussion,
+      updateComment,
+      updateReply,
+      mutate,
+    },
+  }
+}
+
+export const useFrontBackDiscussion = (query: DiscussionQuery, token?: string) => {
+  const backDiscussion = useDiscussion(query, token, { last: 15 })
+  const {
+    data: backkData,
+    isLoading: isBackLoading,
+    mutators: backMutators,
+    error: backError,
+  } = backDiscussion
+
+  const backData = backkData && backkData[backkData.length - 1]
+  const intersectId = backData?.discussion?.comments?.[0]?.id
+
+  const frontDiscussion = useDiscussion(query, token, { first: 15 })
+  const {
+    data: fronttData,
+    isLoading: isFrontLoading,
+    mutators: frontMutators,
+    size,
+    setSize,
+    error: frontError,
+  } = frontDiscussion
+
+  const frontData = fronttData?.map((page) => {
+    let foundIntersect = false
+
+    // We couldn't make use of GitHub API's `before` parameter to prevent
+    // duplicates because that would change our key for SWR. Therefore,
+    // we need to get rid of duplicates manually by removing the comments
+    // that are already in backData.
+    const newData = {
+      ...page,
+      discussion: {
+        ...page?.discussion,
+        comments: page?.discussion?.comments?.filter((comment) => {
+          if (comment.id === intersectId) {
+            foundIntersect = true
+          }
+          return !foundIntersect
+        }),
+      },
+    }
+
+    // Fix the reply count.
+    newData.discussion.totalReplyCount = newData.discussion.comments?.reduce(
+      (prev, c) => prev + c.replyCount,
+      0,
+    )
+
+    return newData
+  })
+
+  const backComments = backData?.discussion?.comments || []
+  const frontComments = frontData?.flatMap((page) => page?.discussion?.comments || []) || []
+
+  const updateReactions = useCallback(
+    (reaction: Reaction, promise: Promise<unknown>) =>
+      backData
+        ? backMutators.updateDiscussion([updateDiscussionReaction(backData, reaction)], promise)
+        : promise.then(() => backMutators.mutate()),
+    [backData, backMutators],
+  )
+
+  const increaseSize = useCallback(() => setSize(size + 1), [setSize, size])
+
+  const numHidden =
+    backData?.discussion?.totalCommentCount ??
+    0 -
+      (backData?.discussion?.comments?.length ?? 0) -
+      (frontData?.reduce((prev, g) => prev + (g.discussion.comments?.length ?? 0), 0) ?? 0)
+
+  const reactionCount = backData?.discussion?.reactionCount
+  const totalCommentCount = backData?.discussion?.totalCommentCount
+  const totalReplyCount =
+    (backData?.discussion?.totalReplyCount || 0) +
+    (frontData?.reduce((prev, g) => prev + g.discussion.totalReplyCount, 0) || 0)
+
+  const error = frontError || backError
+  const needsFrontLoading = backData?.discussion?.pageInfo?.hasPreviousPage
+
+  const isLoading = (needsFrontLoading && isFrontLoading) || isBackLoading
+  const isLoadingMore = isFrontLoading || (size > 0 && !frontData?.[size - 1])
+  const isNotFound = error?.status === 404
+  const isRateLimited = error?.status === 429
+  const isLocked = backData?.discussion?.locked
+
+  const discussion: IDiscussionData = {
+    body: backData?.discussion?.body || '',
+    id: backData?.discussion?.id || '',
+    url: backData?.discussion?.url || '',
+    locked: backData?.discussion?.locked || false,
+    reactions: backData?.discussion?.reactions,
+    repository: backData?.discussion?.repository || {
+      nameWithOwner: 'ThomasFKJorna/thesis-discussions',
+    },
+    reactionCount: reactionCount || 0,
+    totalCommentCount: totalCommentCount || 0,
+    totalReplyCount,
+  }
+
+  const viewer = backData?.viewer
+
+  return {
+    updateReactions,
+    increaseSize,
+    frontData,
+    frontComments,
+    frontMutators,
+    backData,
+    backComments,
+    backMutators,
+    numHidden,
+    reactionCount,
+    totalCommentCount,
+    totalReplyCount,
+    error,
+    isLoading,
+    isLoadingMore,
+    isNotFound,
+    isRateLimited,
+    isLocked,
+    discussion,
+    viewer,
+  }
+}

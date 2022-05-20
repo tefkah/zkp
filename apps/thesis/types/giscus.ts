@@ -1,0 +1,60 @@
+// ported from the great https://github.com/giscus/giscus
+
+// import { AvailableLanguage } from '../i18n'
+// import { Theme } from '../variables'
+import { IReactionGroups, IUser } from './adapter'
+
+export interface ITokenRequest {
+  session: string
+}
+
+export interface ITokenResponse {
+  token: string
+}
+
+export interface IRepoConfig {
+  origins?: string[]
+  originsRegex?: string[]
+}
+
+export interface IDiscussionData {
+  body: string
+  id: string
+  url: string
+  locked: boolean
+  repository: {
+    nameWithOwner: string
+  }
+  reactionCount: number
+  totalCommentCount: number
+  totalReplyCount: number
+  reactions: IReactionGroups
+}
+
+export interface IMessage<T> {
+  giscus: T
+}
+
+// giscus-to-parent messages
+export interface IErrorMessage {
+  error: string
+}
+
+export interface IMetadataMessage {
+  discussion: IDiscussionData
+  viewer: IUser
+}
+
+// parent-to-giscus messages
+export interface ISetConfigMessage {
+  setConfig: {
+    // theme?: Theme
+    repo?: string
+    term?: string
+    number?: number
+    category?: string
+    reactionsEnabled?: boolean
+    emitMetadata?: boolean
+    // lang?: AvailableLanguage
+  }
+}

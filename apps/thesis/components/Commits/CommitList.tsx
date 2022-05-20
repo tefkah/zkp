@@ -1,0 +1,61 @@
+import { Box, Flex, Icon, Text, VStack } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { BsRecordCircle } from 'react-icons/bs'
+import { format, parse } from 'date-fns'
+import { CommitPerDateLog, DateCommit } from '../../types'
+import { CommitListByDate } from './CommitListByDate'
+
+interface CommitListProps {
+  commitLog: CommitPerDateLog
+  slim?: boolean
+}
+
+export const CommitList = (props: CommitListProps) => {
+  const { commitLog, slim } = props
+  const [compair, setCompair] = useState<string[]>([])
+  const commits = Object.entries(commitLog).reverse()
+
+  const backgroundC = 'foreground'
+  return (
+    <VStack spacing={0}>
+      {commits.map((commitObj: [string, DateCommit]) => {
+        const [date, totalCommit] = commitObj
+        const commitList = totalCommit.commits
+
+        const niceDate = format(parse(date, 'yyyy-MM-dd', new Date()), 'MMMM do, yyyy')
+        return (
+          <VStack
+            pb={{ base: slim ? 1 : 4, md: slim ? 4 : 10 }}
+            pl={{ base: slim ? 0 : 4, md: slim ? 0 : 10 }}
+            display="flex"
+            alignItems="flex-start"
+            borderLeftColor="grey.600"
+            borderLeftWidth={slim ? 0 : 1}
+            borderLeftStyle="solid"
+            w={slim ? 'full' : 'full'}
+            key={niceDate}
+          >
+            <Flex ml={{ base: slim ? 0 : -6, md: slim ? 0 : -12 }} alignItems="center" mb={2}>
+              {!slim && (
+                <Box backgroundColor={backgroundC} pt={1} pb={2}>
+                  <Icon as={BsRecordCircle} color="gray.500" />
+                </Box>
+              )}
+              <Text
+                fontWeight="semibold"
+                fontSize="xs"
+                color="gray.400"
+                ml={{ base: slim ? 0 : 6, md: slim ? 0 : 12 }}
+              >
+                {niceDate}
+              </Text>
+            </Flex>
+            <CommitListByDate commits={commitList} {...{ slim, compair, setCompair }} />
+          </VStack>
+        )
+      })}
+    </VStack>
+  )
+}
+
+CommitList.defaultProps = { slim: false }
