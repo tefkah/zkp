@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import makeGenericGraphQlRequest from '../queries/makeGenericGraphQLRequest'
 
-export function useGQL(query: string, options?: IntersectionObserverInit) {
+export const useGQL = (query: string, options?: IntersectionObserverInit) => {
   const fetcher = async (resource: string, options: {}) =>
     makeGenericGraphQlRequest({ request: query, token: data, post: true })
 

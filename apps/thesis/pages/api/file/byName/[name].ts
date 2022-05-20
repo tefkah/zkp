@@ -3,7 +3,7 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs/promises'
 import { join } from 'path'
 import { mdxDataByName } from '../../../../utils/mdx/mdxDataByName'
-import { BIB_PATH, NOTE_DIR } from '../../../../utils/paths'
+import { BIB_PATH, NEXT_PUBLIC_NOTE_DIR } from '../../../../utils/paths'
 import { mdxSerialize } from '../../../../utils/mdx/mdxSerialize'
 
 export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
@@ -28,7 +28,7 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
     return
   }
   try {
-    const file = await fs.readFile(join(NOTE_DIR, path), 'utf8')
+    const file = await fs.readFile(join(NEXT_PUBLIC_NOTE_DIR, path), 'utf8')
     const result = await mdxSerialize(file, BIB_PATH)
 
     res.status(200)

@@ -7,14 +7,14 @@ import { slugify } from './slug.mjs'
 
 export const flattenAndSlugifyNotes = async ({ notedir = noteDir }) => {
   const files = await readdirp.promise(notedir, {
-    fileFilter: ['.md', '.mdx', '.png', '.jpg', '.svg'],
+    fileFilter: ['*.md', '*.mdx', '*.png', '*.jpg', '*.svg'],
   })
 
   console.dir(files, { depth: null })
   const renamedFiles = []
 
   for (const file of files) {
-    const ending = file.path.replace(/(\.md|\.org|\.mdx)/, '')
+    const ending = file.basename.replace(/(\.md|\.org|\.mdx)/, '')
     const sluggedEnding = slugify(ending)
     const newpath = join(notedir, sluggedEnding)
     renamedFiles.push(rename(file.fullPath, newpath))

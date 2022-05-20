@@ -1,15 +1,15 @@
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import readdirp from 'readdirp'
-import { DATA_DIR, NOTE_DIR } from '../paths'
+import { DATA_DIR, NEXT_PUBLIC_NOTE_DIR } from '../paths'
 import { slugify } from '../slug'
 import { DataBy } from '../../types'
 
-export const getFreshDataBySlug = async (noteDir = NOTE_DIR) => {
+export const getFreshDataBySlug = async (noteDir = NEXT_PUBLIC_NOTE_DIR) => {
   const rawDir = await readdirp.promise(noteDir, { alwaysStat: true })
   // Only include md(x) files
   return rawDir
-    .filter((entry) => /\.mdx?$/.test(entry.path))
+    .filter((entry) => !/\.\w{1,6}$/.test(entry.path))
     .reduce((acc, curr) => {
       const name = curr.basename.replace(/\.mdx?$/, '')
       const slug = slugify(name)
@@ -33,7 +33,10 @@ export const getFreshDataBySlug = async (noteDir = NOTE_DIR) => {
 }
 
 // TODO: Make the dataBy... files inherit from the same function
-export const mdxDataBySlug = async (dataDir = DATA_DIR, noteDir = NOTE_DIR): Promise<DataBy> => {
+export const mdxDataBySlug = async (
+  dataDir = DATA_DIR,
+  noteDir = NEXT_PUBLIC_NOTE_DIR,
+): Promise<DataBy> => {
   if (process.env.ALWAYS_FRESH !== 'true' && process.env.NODE_ENV !== 'production') {
     const data = await getFreshDataBySlug(noteDir)
     return data

@@ -1,6 +1,7 @@
 // @ts-check
 import { clone } from 'isomorphic-git'
 import fs from 'fs'
+import { unlink } from 'fs/promises'
 import { join } from 'path'
 import * as http from 'isomorphic-git/http/node/index.js'
 import { mdxDataBySlug } from './mdxDataBySlug.mjs'
@@ -8,6 +9,7 @@ import { getListOfCommitsWithStats } from './getListOfCommitsWithStats.mjs'
 import * as dotenv from 'dotenv'
 import { repo, appDir, gitDir, noteDir, dataDir } from './paths.mjs'
 import { flattenAndSlugifyNotes } from './flattenAndSlugifyNotes.mjs'
+
 dotenv.config()
 
 const args = process.argv
@@ -23,8 +25,16 @@ const setup = async ({
     return
   }
 
-  fs.unlinkSync(noteDir)
-  fs.unlinkSync(dataDir)
+  try {
+    await unlink(noteDir)
+  } catch (e) {
+    console.log('No need to remove old notes')
+  }
+  try {
+    await unlink(dataDir)
+  } catch (e) {
+    console.log('No need to remove old data')
+  }
   // const firstCommit = '8a8d96b1a6ae75dd17f7462c31695823189f6f14'
   // const lastCommit = '635c1974031c9ba51e275c308ac38617bd8b5b46'
   await clone({
@@ -36,9 +46,9 @@ const setup = async ({
     remote: 'notes',
   })
 
-  await flattenAndSlugifyNotes({ notedir })
   await getListOfCommitsWithStats('', '', notedir, gitdir, datadir)
   await mdxDataBySlug(datadir, notedir)
+  await flattenAndSlugifyNotes({ notedir })
   // const dataById = await getFilesData('id', noteDir)
   // const dataByTitle = await getFilesData('title', noteDir)
   // const dataByCite = await getFilesData('cite', noteDir)

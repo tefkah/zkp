@@ -5,7 +5,7 @@ import * as Diff from 'diff'
 import { Change } from 'diff'
 import { extname } from 'path'
 import { FileDiff } from '../types'
-import { GIT_DIR, NOTE_DIR } from './paths'
+import { GIT_DIR, NEXT_PUBLIC_NOTE_DIR } from './paths'
 
 const bufferToString = async (tree: WalkerEntry) => {
   const content = (await tree?.content()) || []
@@ -120,12 +120,11 @@ const diffMap = async (props: DiffMapProps): Promise<FileDiff | void> => {
 export const getCommitDiff = async (
   commitHash1: string,
   commitHash2: string,
-  dir = NOTE_DIR,
+  dir = NEXT_PUBLIC_NOTE_DIR,
   gitdir = GIT_DIR,
   justStats?: boolean,
-) => {
-  console.log(gitdir)
-  return walk({
+) =>
+  walk({
     fs,
     dir,
     gitdir,
@@ -133,7 +132,6 @@ export const getCommitDiff = async (
     map: (filename: string, trees: Array<WalkerEntry | null>) =>
       diffMap({ filepath: filename, trees, justStats }),
   })
-}
 
 /**
  * TODO: Change parameters to take an object jfc
@@ -141,13 +139,13 @@ export const getCommitDiff = async (
 export const getCommitDiffForSingleFile = async (
   commitHash1: string,
   commitHash2: string,
-  dir = NOTE_DIR,
+  dir = NEXT_PUBLIC_NOTE_DIR,
   gitdir = GIT_DIR,
   file?: string,
   justStats?: boolean,
-) => {
-  console.log(gitdir)
-  return walk({
+) =>
+  // console.log(gitdir)
+  walk({
     fs,
     dir,
     gitdir,
@@ -160,7 +158,6 @@ export const getCommitDiffForSingleFile = async (
       return diffMap({ filepath: filename, trees, justStats })
     },
   })
-}
 
 // export async function getModifiedCommitDiff(
 //   commitHash1: string,

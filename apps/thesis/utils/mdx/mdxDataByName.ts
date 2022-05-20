@@ -2,7 +2,7 @@ import { Stats } from 'fs'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import readdirp from 'readdirp'
-import { DATA_DIR, NOTE_DIR } from '../paths'
+import { DATA_DIR, NEXT_PUBLIC_NOTE_DIR } from '../paths'
 import { slugify } from '../slug'
 
 // TODO: Make the dataBy... files inherit from the same function
@@ -12,7 +12,7 @@ export const mdxDataByName = async () => {
     const data = JSON.parse(await readFile(datapath, 'utf8'))
     return data
   } catch (e) {
-    const data = (await readdirp.promise(NOTE_DIR, { alwaysStat: true }))
+    const data = (await readdirp.promise(NEXT_PUBLIC_NOTE_DIR, { alwaysStat: true }))
       // Only include md(x) files
       .filter((entry) => /\.mdx?$/.test(entry.path))
       .reduce(

@@ -21,9 +21,9 @@ import { CustomSideBar } from '../components/CustomSidebar'
 // import { postFilePaths } from '../utils/mdx/mdxUtils'
 // import { mdxDataByName } from '../utils/mdx/mdxDataByName'
 import { mdxSerialize } from '../utils/mdx/mdxSerialize'
-import { BIB_PATH } from '../utils/paths'
+import { BIB_PATH, DATA_DIR, NEXT_PUBLIC_NOTE_DIR } from '../utils/paths'
 // import { createMdxRehypeReactCompents } from '../components/MDXComponents/mdxRehypeReactComponents'
-import { mdxDataBySlug } from '../utils/mdx/mdxDataBySlug'
+// import { mdxDataBySlug } from '../utils/mdx/mdxDataBySlug'
 import { NoteScrollContainer } from '../components/FileViewer'
 
 /**
@@ -110,7 +110,10 @@ export const FilePage = (props: MDFilePageProps) => {
 export default FilePage
 
 export const getStaticPaths = async () => {
-  const paths = Object.values(await mdxDataBySlug())
+  // const getData = await fetch('/data/dataBySlug.json')
+  const data = JSON.parse(await readFile(join(DATA_DIR, 'dataBySlug.json'), 'utf8')) as DataBy
+
+  const paths = Object.values(data)
     // Remove file extensions for page paths
     .map((entry) => entry.slug)
     // Map the path into the static paths object required by Next.js
@@ -125,12 +128,15 @@ export const getStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({
   params,
 }): Promise<{ props: MDFilePageProps }> => {
-  console.log(params?.file)
+  // console.log(params?.file)
   const file = (Array.isArray(params?.file) ? params?.file.join('/') : params?.file) ?? ''
-  const data = await mdxDataBySlug()
-  const { name, fullPath } = data[file]
+  // const data = await mdxDataBySlug()
+  const data = JSON.parse(await readFile(join(DATA_DIR, 'dataBySlug.json'), 'utf8')) as DataBy
+  const { name } = data[file]
 
-  const input = await readFile(fullPath, 'utf8')
+  //  console.log(file)
+  const input = await readFile(join(NEXT_PUBLIC_NOTE_DIR, file), 'utf8')
+  // console.log(input)
   const bibliography = join(BIB_PATH)
 
   const { frontMatter, source } = await mdxSerialize(input, bibliography)

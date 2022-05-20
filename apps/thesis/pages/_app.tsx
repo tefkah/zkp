@@ -6,7 +6,7 @@ import { SWRConfig } from 'swr'
 import type { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
 import { CookiesProvider } from 'react-cookie'
-import { fetcher } from '../utils/fetcher'
+import { fetcher } from '../utils/fetchers/fetcher'
 import theme from '../theme'
 
 type NextPageWithLayoutAndAuth = NextPage & {

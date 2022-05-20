@@ -7,7 +7,7 @@ import { CommitList } from '../../components/Commits/CommitList'
 import { CommitPerDateLog, DateCommit } from '../../types'
 import { HistoryGraph } from '../../components/HistoryGraph'
 import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
-import { DATA_DIR, GIT_DIR, NOTE_DIR } from '../../utils/paths'
+import { DATA_DIR, GIT_DIR, NEXT_PUBLIC_NOTE_DIR } from '../../utils/paths'
 
 export interface SlimCommit {
   oid: string

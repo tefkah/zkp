@@ -1,6 +1,6 @@
 import React from 'react'
-import useSWR from 'swr'
 import { BaseNote, NoteProps } from './BaseNote'
+import { useMDX } from '../../hooks/useMDX'
 
 export interface StackedNoteProps
   extends Omit<NoteProps, 'page' | 'source' | 'slug' | 'fileData' | 'toc' | 'commits' | 'csl'> {
@@ -9,7 +9,7 @@ export interface StackedNoteProps
 
 export const StackedNote = (props: StackedNoteProps) => {
   const { id, index, stackedNotes } = props
-  const { data: file } = useSWR(`/api/file/bySlug/${id}`)
+  const { data: file } = useMDX(id)
   // const { data: meta } = useSWR(`/api/meta/bySlug/${id}`)
   // if (!file || !meta) {
   //   return <ChaoticOrbit />

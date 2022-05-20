@@ -5,7 +5,7 @@ dotenv.config()
 
 const appdir = process.env.APP_BUILD_DIR ?? 'apps/thesis'
 const gitdir = process.env.GIT_DIR ?? 'git'
-const notedir = process.env.NOTE_DIR ?? 'public/notes'
+const notedir = process.env.NEXT_PUBLIC_NOTE_DIR ?? 'public/notes'
 const datadir = process.env.DATA_DIR ?? 'public/data'
 
 const cwd = process.cwd()

@@ -9,15 +9,15 @@ import { Waveform } from '@uiball/loaders'
 // import { OrgFileData } from '../../utils/IDIndex/getDataFromFile'
 // import { FilesData } from '../../utils/IDIndex/getFilesData'
 // import { parseTime } from '../../utils/parseTime'
-import { CommentBox } from '../Comments/CommentBox'
+import { useRouter } from 'next/router'
 import { OutlineBox } from '../OutlineBox/OutlineBox'
-import { ProcessedOrg } from '../ProcessedOrg'
-import { Backlinks } from './Backlinks'
+// import { ProcessedOrg } from '../ProcessedOrg'
+// import { Backlinks } from './Backlinks'
 // import { Citations } from './Citations'
 import { useNotes } from '../../stores/noteStore'
 import { MDXNote } from './MDXNote'
 import { FilePageProps } from '../../pages/[file]'
-import { useRouter } from 'next/router'
+import { CommentBoxMaybe } from '../Comments/CommentBoxMaybe'
 
 export interface NoteProps extends FilePageProps {
   // stackData?: StackState
@@ -60,7 +60,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
 
   const { colorMode } = useColorMode()
   const stackData = getStackStateById(id)
-  const { data } = useSWR(`/api/meta/bySlug/${id}`)
+  const { data } = useSWR(`/data/dataBySlug.json`)
 
   const stackedNoteStyle: CSSObject = stacked
     ? {
@@ -129,7 +129,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         </VStack> */}
         <MDXNote source={source} currentId={id} />
         {/* backLinks?.length && <Backlinks {...{ currentId: id, backLinks }} /> */}
-        {!data ? <Waveform /> : <CommentBox {...{ title: data.name }} />}
+        {!data ? <Waveform /> : <CommentBoxMaybe show={stacked} title={data?.[id]?.name} />}
         {/* !stacked && <CommentBox {...{ title }} /> */}
       </Container>
     ),
@@ -187,7 +187,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
               whiteSpace: 'nowrap',
             }}
           >
-            {id}
+            {data?.[id]?.name ?? id}
           </Heading>
         </Flex>
       )}
