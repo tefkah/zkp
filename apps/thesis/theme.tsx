@@ -1,5 +1,5 @@
 import { extendTheme, ThemeComponentProps, theme as baseTheme } from '@chakra-ui/react'
-import { createBreakpoints, cssVar } from '@chakra-ui/theme-tools'
+import { createBreakpoints } from '@chakra-ui/theme-tools'
 
 const fonts = {
   // body: 'EB Garamond', heading: 'EB Garamond', mono: `'Menlo', monospace`
@@ -84,7 +84,7 @@ const theme = extendTheme({
       variants: {
         org: {
           fontFamily: 'orgHeading',
-          mt: 4,
+          my: 6,
         },
       },
     },
@@ -93,7 +93,7 @@ const theme = extendTheme({
         org: {
           fontFamily: 'orgBody',
           fontSize: 'md',
-          my: 2,
+          my: 6,
         },
       },
     },

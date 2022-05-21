@@ -12,10 +12,12 @@ const ConditionalCommentBox = ({ title }: { title: string }) => {
   return <CommentBox title={title} />
 }
 
-export const CommentBoxMaybe = (props: { show: boolean; title: string }) => {
+const CommentBoxMaybe = (props: { show: boolean; title: string }) => {
   const { show, title } = props
   if (show) {
     return <ConditionalCommentBox title={title} />
   }
   return <CommentBox title={title} />
 }
+
+export default CommentBoxMaybe
