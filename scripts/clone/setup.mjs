@@ -1,7 +1,7 @@
 // @ts-check
 import { clone } from 'isomorphic-git'
 import fs from 'fs'
-import { unlink } from 'fs/promises'
+import { rmdir, unlink } from 'fs/promises'
 import { join } from 'path'
 import * as http from 'isomorphic-git/http/node/index.js'
 import { mdxDataBySlug } from './mdxDataBySlug.mjs'
@@ -26,12 +26,13 @@ const setup = async ({
   }
 
   try {
-    await unlink(noteDir)
+    await rmdir(noteDir, { recursive: true, force: true })
   } catch (e) {
+    console.log(e)
     console.log('No need to remove old notes')
   }
   try {
-    await unlink(dataDir)
+    await rmdir(dataDir)
   } catch (e) {
     console.log('No need to remove old data')
   }

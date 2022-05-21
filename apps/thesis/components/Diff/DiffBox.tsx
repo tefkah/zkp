@@ -55,7 +55,7 @@ export const DiffBox = (props: Props) => {
             aria-label="Hide/Show diff"
             onClick={onToggle}
           />
-          <Heading fontWeight="600" isTruncated size="sm">
+          <Heading fontWeight="600" noOfLines={1} size="sm">
             <Link href={`/${filepath}`}>{filepath}</Link>
           </Heading>
         </HStack>

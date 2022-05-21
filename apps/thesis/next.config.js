@@ -1,5 +1,10 @@
 const withNx = require('@nrwl/next/plugins/with-nx')
 
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
+const withPlugins = require('next-compose-plugins')
 const withSWRTypes = require('next-typed-api-with-swr')
 /**
  * @type {import('next').NextConfig}
@@ -18,10 +23,4 @@ const nextConfig = {
   images: { domains: ['avatars.githubusercontent.com'] },
 }
 
-module.exports = withNx(
-  //  withSWRTypes(
-  nextConfig,
-  //, {
-  // outputFilePath: '__generated__/swr-api-types.ts',
-  //}),
-)
+module.exports = withPlugins([[withNx], [withBundleAnalyzer]], nextConfig)

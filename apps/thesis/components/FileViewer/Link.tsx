@@ -71,16 +71,14 @@ export const PreviewLink = (props: LinkProps) => {
       // isLazy
     >
       <PopoverTrigger>
-        {backlink ? (
-          {
-            /* <Box sx={noteStyle} color="brand.700">
+        {backlink ? null : (
+          /* <Box sx={noteStyle} color="brand.700">
             <NodeLink key={title} currentId={currentId} href={href}>
               {children}
             </NodeLink>
             <ParsedOrg type="popover" text={text?.file} currentId={currentId} />
         </Box> */
-          }
-        ) : (
+
           <Text as="span">
             <NodeLink key={title} currentId={currentId} href={href}>
               {children}

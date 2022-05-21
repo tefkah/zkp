@@ -73,7 +73,6 @@ export const HistoryGraph = (props: Props) => {
     [commitChartData],
   )
   return (
-    // @ts-expect-error Something due to React18
     <ResponsiveLine
       margin={{ top: 10, bottom: 10, left: 10, right: 10 }}
       data={commitChartData}
