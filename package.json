@@ -4,7 +4,7 @@
   "license": "GPL-3-0-or-later",
   "scripts": {
     "start": "nx serve",
-    "build": "node scripts/clone/setup.mjs && nx build",
+    "build": "node scripts/clone/setup.mjs && yarn nx build --prod --verbose",
     "test": "nx test",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\""
   },

@@ -32,6 +32,8 @@ export const tryReadJSON = async (path: string, fallback?: any[]) => {
   }
 }
 export const getCommits = async (dir = NEXT_PUBLIC_NOTE_DIR, gitdir = GIT_DIR) => {
+  console.log(`getCommits: dir = ${dir}`)
+  console.log(`getCommits: gitdir = ${gitdir}`)
   const commitList = (await log({ fs, dir, gitdir })).reverse()
   return commitList
 }
@@ -43,16 +45,22 @@ export const getListOfCommitsWithStats = async (
   datadir = DATA_DIR,
 ) => {
   const cwd = process.cwd()
+
   if (!fs.existsSync(datadir)) await fs.promises.mkdir(datadir)
+
   const gitJS = join(datadir, 'git.json')
   const gitSlimJS = join(datadir, 'gitSlim.json')
   const gitPerDateJS = join(datadir, 'gitPerDate.json')
+
   const gitObj = await tryReadJSON(gitJS)
   const gitSlimObj = await tryReadJSON(gitSlimJS)
+
   const lastWrittenCommit = gitObj?.[gitObj.length - 1]?.oid || ''
+
   const commitList = await getCommits(dir, gitdir)
   const commitIndexList = commitList.map((commit) => commit.oid)
   const commitIndex = commitIndexList.indexOf(lastWrittenCommit) + 1
+
   if (gitObj.length && commitIndex === gitObj.length) {
     const gitPerDateTest = await tryReadJSON(gitPerDateJS)
     const gitPerDateObj = gitPerDateTest.length
