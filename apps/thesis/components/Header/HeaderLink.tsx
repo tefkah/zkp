@@ -39,25 +39,15 @@ export const HeaderLink = (props: Props) => {
   const active = isActive(router?.asPath, children as string)
   return (
     <Link href={href} passHref>
-      <ChakraLink
-        href="#"
-        p={2}
-        position="relative"
-        _after={{
-          content: '" "',
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          backgroundColor: 'primary',
-          width: active ? '100%' : 0,
-          height: '3px',
-          transition: 'all 0.4s',
-        }}
-        transition="all 0.4s"
-        _hover={{ _after: { width: '100%' } }}
+      <a
+        href={href}
+        className={`p-2 relative after:contents-[" "] after:absolute after:bottom-0 after:left-0 after:bg-red-500 ${
+          active ? 'after:w-full' : 'after:w-0'
+        }  after:h-1 transition-all hover:after:w-full duration-300 after:transition-all`}
+        // _hover={{ _after: { width: '100%' } }}
       >
         {children}
-      </ChakraLink>
+      </a>
     </Link>
   )
 }

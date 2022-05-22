@@ -15,7 +15,7 @@ export const Index = () => (
         content="An interactive Master's thesis in the philosophy of science."
       />
     </Head>
-    <div>
+    <div className="bg-slate-200">
       <VStack>
         <Hero title="Thomas' Personal Panopticon" />
         <Main>
@@ -23,9 +23,9 @@ export const Index = () => (
             <VStack spacing={10} alignItems="flex-start">
               <VStack alignItems="flex-start">
                 <Heading>Why?</Heading>
-                <Text>
+                <p className="text-emerald-500">
                   I need pressure, and I want to explore what open science in the humanities can be.
-                </Text>
+                </p>
               </VStack>
               <VStack alignItems="flex-start">
                 <Heading>Where do I start?</Heading>

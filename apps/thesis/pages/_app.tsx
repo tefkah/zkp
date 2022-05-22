@@ -8,6 +8,7 @@ import type { NextPage } from 'next'
 import { CookiesProvider } from 'react-cookie'
 import { fetcher } from '../utils/fetchers/fetcher'
 import theme from '../theme'
+import '../styles/globals.css'
 
 type NextPageWithLayoutAndAuth = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -42,7 +43,7 @@ export const ZKP = ({ Component, pageProps }: AppPropsWithLayoutAndAuth) => {
     <CookiesProvider>
       <SessionProvider session={pageProps.session}>
         <SWRConfig value={{ fetcher }}>
-          <ChakraProvider resetCSS theme={theme}>
+          <ChakraProvider theme={theme}>
             {Component.auth ? (
               <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
             ) : (
