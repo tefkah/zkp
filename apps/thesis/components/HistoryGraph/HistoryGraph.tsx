@@ -1,5 +1,7 @@
-import { Point, ResponsiveLine } from '@nivo/line'
+// import { Point, ResponsiveLine } from '@nivo/line'
+import { LineSvgProps, Point } from '@nivo/line'
 import { parse } from 'date-fns'
+import dynamic from 'next/dynamic'
 import React, { useCallback, useMemo } from 'react'
 import { DateCommit, CommitDatum, CommitPerDateLog } from '../../types'
 import { Tooltip } from './Tooltip'
@@ -10,6 +12,10 @@ interface Props {
   setDiffs: (diffs: { commit1: string; commit2: string }) => void
   dark: boolean
 }
+
+const ResponsiveLine = dynamic<LineSvgProps>(() =>
+  import('@nivo/line').then((module) => module.ResponsiveLine),
+)
 
 export const HistoryGraph = (props: Props) => {
   const { data, diffs, setDiffs } = props

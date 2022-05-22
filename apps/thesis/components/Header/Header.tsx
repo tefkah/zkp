@@ -105,11 +105,7 @@ export const Header = () => {
               <HeaderLink href="/iii.-anyons">Thesis</HeaderLink>
               <HeaderLink href="/topological-space">Notes</HeaderLink>
               <HeaderLink href="/activity">Activity</HeaderLink>
-              {user && (
-                <HeaderLink href="/discussions" dontFetch>
-                  Discussions
-                </HeaderLink>
-              )}
+              {user && <HeaderLink href="/discussions">Discussions</HeaderLink>}
             </HStack>
           </HStack>
 

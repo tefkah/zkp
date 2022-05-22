@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // ported from the great https://github.com/giscus/giscus
 /**
  * TODO: Export Giscus functionality to its own sublibary
@@ -41,6 +42,7 @@ export const Giscus = ({
   category,
   full,
   onDiscussionCreateRequest,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onError,
 }: IGiscusProps) => {
   const { data: session } = useSession()

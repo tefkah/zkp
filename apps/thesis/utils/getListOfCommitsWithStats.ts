@@ -44,7 +44,7 @@ export const getListOfCommitsWithStats = async (
   gitdir = GIT_DIR,
   datadir = DATA_DIR,
 ) => {
-  const cwd = process.cwd()
+  //  const cwd = process.cwd()
 
   if (!fs.existsSync(datadir)) await fs.promises.mkdir(datadir)
 

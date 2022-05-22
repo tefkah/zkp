@@ -49,14 +49,14 @@ export const usePersistantDisclosure = (storageKey: string, props: UseDisclosure
     onClose,
     onToggle,
     isControlled,
-    getButtonProps: (props: any = {}) => ({
-      ...props,
+    getButtonProps: (buttonProps: any = {}) => ({
+      ...buttonProps,
       'aria-expanded': 'true',
       'aria-controls': id,
-      onClick: callAllHandlers(props.onClick, onToggle),
+      onClick: callAllHandlers(buttonProps.onClick, onToggle),
     }),
-    getDisclosureProps: (props: any = {}) => ({
-      ...props,
+    getDisclosureProps: (disclosureProps: any = {}) => ({
+      ...disclosureProps,
       hidden: !isOpen,
       id,
     }),

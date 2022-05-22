@@ -44,14 +44,8 @@ export const ZKP = ({ Component, pageProps }: AppPropsWithLayoutAndAuth) => {
         <SWRConfig value={{ fetcher }}>
           <ChakraProvider resetCSS theme={theme}>
             {Component.auth ? (
-              <Auth>
-                {
-                  /* @ts-expect-error yayaya */
-                  getLayout(<Component {...pageProps} />)
-                }
-              </Auth>
+              <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
             ) : (
-              // @ts-expect-error yayaya
               getLayout(<Component {...pageProps} />)
             )}
           </ChakraProvider>

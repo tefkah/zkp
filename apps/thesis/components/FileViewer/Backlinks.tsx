@@ -20,7 +20,8 @@ export const Backlinks = (props: Props) => {
     () =>
       backLinks.map((link) => {
         //        const title = data?.[link]?.title ?? ''
-        const title = ''
+        console.log(link)
+        const title = 'FIX THIS FIX THIS'
         return (
           <PreviewLink
             backlink

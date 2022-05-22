@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import { MDXRemote } from 'next-mdx-remote'
 import { ChaoticOrbit } from '@uiball/loaders'
 import { noteStyle } from '../NoteStyle'
+// eslint-disable-next-line import/no-cycle
 import { createMdxRehypeReactCompents } from '../MDXComponents'
 // import { mdxFetcher } from '../../utils/fetchers/mdxFetcher'
 import { useMDX } from '../../hooks/useMDX'

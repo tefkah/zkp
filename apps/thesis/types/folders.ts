@@ -1,4 +1,4 @@
-import { NextJSCompatibleStats } from '.'
+import { NextJSCompatibleStats } from './notes'
 
 export interface Root {
   type: 'root'

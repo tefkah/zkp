@@ -13,7 +13,7 @@ interface Props {
 export const Doing = ({ milestoneContent }: Props) => (
   <>
     <Head>
-      <title>Current Goal | Thomas' Thesis</title>
+      <title>Current Goal | Thomas&apos; Thesis</title>
       <meta
         name="description"
         content={`${milestoneContent?.data?.repository?.milestones?.edges?.[0]?.node?.title}, due on ${milestoneContent?.data?.repository?.milestones?.edges?.[0]?.node?.dueOn}`}

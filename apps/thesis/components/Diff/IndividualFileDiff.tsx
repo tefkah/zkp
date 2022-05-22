@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react'
-import { ParsedCommit } from '../Commits'
+import { ParsedCommit } from './ParsedCommit'
 import { useFetch } from '../../utils/useFetch'
 
 interface IndiviualFileDiffProps {

@@ -1,9 +1,7 @@
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-import fs from 'fs/promises'
-import { join } from 'path'
 // import { mdxDataBySlug } from '../../../../utils/mdx/mdxDataBySlug'
-import { BIB_PATH, NEXT_PUBLIC_NOTE_DIR } from '../../../../utils/paths'
+import { BIB_PATH } from '../../../../utils/paths'
 import { mdxSerialize } from '../../../../utils/mdx/mdxSerialize'
 import { deslugify } from '../../../../utils/slug'
 
@@ -20,12 +18,15 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   // const { file } = props.params
   const url =
     process.env.NODE_ENV === 'production'
-      ? process.env.NEXT_PUBLIC_LOCAL_URL
-      : process.env.NEXT_PUBLIC_PROD_URL
+      ? process.env.NEXT_PUBLIC_PROD_URL
+      : process.env.NEXT_PUBLIC_LOCAL_URL
+
   // const dataBySlug =
   // console.dir(dataBySlug, { depth: null })
   //  const bo= await dataBySlug.json()
-  const bod = await fetch(`${url?.replace(/(.)$/, '$1')}/notes/${slug}`)
+  const ur = `${url?.replace(/(.)$/, '$1')}/notes/${slug}`
+  console.log(ur)
+  const bod = await fetch(ur)
   console.log(`${deslugify(slug)}.md`)
   const file = Buffer.from(await bod.arrayBuffer()).toString('utf-8')
   console.log('======FILE=======')

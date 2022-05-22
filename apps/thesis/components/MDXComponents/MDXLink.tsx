@@ -14,7 +14,7 @@ export const MDXLinkBase: MDXComp<'a'> = (
 
     return (
       <Link href={href as string} passHref>
-        <a>{children as NewType}</a>
+        <a href={href}>{children as NewType}</a>
       </Link>
     )
   }
@@ -24,7 +24,7 @@ export const MDXLinkBase: MDXComp<'a'> = (
       // @ts-expect-error yeah yeah text is not a span
       <Text {...{ ...rest }} variant="org" as="span" fontWeight="bold" color="primary">
         <Link href={href as string}>
-          <a>{children as ReactNode}</a>
+          <a href={href}>{children as ReactNode}</a>
         </Link>
       </Text>
     )

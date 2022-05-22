@@ -7,7 +7,6 @@ import { CommitList } from '../../components/Commits/CommitList'
 import { CommitPerDateLog, DateCommit } from '../../types'
 import { HistoryGraph } from '../../components/HistoryGraph'
 import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
-import { DATA_DIR, GIT_DIR, NEXT_PUBLIC_NOTE_DIR } from '../../utils/paths'
 
 export interface SlimCommit {
   oid: string
@@ -25,7 +24,10 @@ const findCommitXDaysAgo = (log: DateCommit[], days: number): string => {
   const today = new Date()
   const unixTime = days * 3600 * 24 * 1000
   const commit = log.find(
-    (commit) => today.getTime() - new Date(commit?.lastDate * 1000).getTime() > unixTime,
+    (combinedCommit) =>
+      today.getTime() -
+        new Date(combinedCommit?.lastDate ? combinedCommit.lastDate * 1000 : today).getTime() >
+      unixTime,
   )
 
   return commit?.lastOid || ''
@@ -40,7 +42,7 @@ export const ActivityPage = (props: ActivityPageProps) => {
   return (
     <>
       <Head>
-        <title>Activity | Thomas' Thesis</title>
+        <title>Activity | Thomas&apos; Thesis</title>
       </Head>
       <VStack justifyContent="center" spacing={6} mt={20}>
         <Box w="80%" height={100} backgroundColor={dark ? 'dark.secondary' : 'gray.50'}>

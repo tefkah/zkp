@@ -1,25 +1,14 @@
-import {
-  Box,
-  Flex,
-  HStack,
-  Icon,
-  IconButton,
-  Link,
-  Skeleton,
-  Text,
-  Tooltip,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, Flex, HStack, Icon, IconButton, Link, Text, Tooltip, VStack } from '@chakra-ui/react'
 import React, { ReactElement } from 'react'
 import { format } from 'date-fns'
 import { IoIosGitCompare } from 'react-icons/io'
 import { GoMarkGithub } from 'react-icons/go'
-import { ParsedDiff } from '../../services/thesis/parseDiff'
 import { consolidateCommitsPerDay } from '../../utils/getListOfCommitsWithStats'
 
 import { CommitList } from '../../components/Commits'
 import { BasicLayout } from '../../components/Layouts'
-import { DiffList, DiffBox } from '../../components/Diff'
+import { DiffList } from '../../components/Diff'
+import { BASE_URL } from '../../utils/paths'
 
 interface FileCommit {
   oid: string
@@ -111,13 +100,15 @@ export interface StaticProps {
   params: { commit: string }
 }
 export const getServerSideProps = async (props: StaticProps) => {
-  const { readFile } = require('fs').promises
-  const { resolve, join } = require('path')
+  //  const { readFile } = require('fs').promises
+  //  const { resolve, join } = require('path')
   const { commit } = props.params
-  const dataDir = resolve(process.cwd(), 'data')
-  const slimJSONLocation = join(dataDir, 'gitSlim.json')
+  //  const dataDir = resolve(process.cwd(), 'data')
+  //  const slimJSONLocation = join(dataDir, 'gitSlim.json')
 
-  const commitList = JSON.parse(await readFile(slimJSONLocation, { encoding: 'utf8' }))
+  const slimJSON = await (await fetch(`${BASE_URL}/data/gitSlim.json`)).json()
+
+  const commitList = slimJSON
 
   let isRelevantCommit = false
   const { files: relevantFiles, commits } = commitList.reduceRight(

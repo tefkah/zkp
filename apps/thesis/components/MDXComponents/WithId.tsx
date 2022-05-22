@@ -13,7 +13,7 @@ export interface WithIdProps {
   currentId: string
 }
 
-type Comp<T extends keyof JSX.IntrinsicElements = 'div'> = (
+export type Comp<T extends keyof JSX.IntrinsicElements = 'div'> = (
   props: MDXProps<T> & { currentId?: string },
 ) => MDXComp<T>
 

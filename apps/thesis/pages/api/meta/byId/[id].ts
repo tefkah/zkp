@@ -11,7 +11,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  const cwd = process.cwd()
+  // const cwd = process.cwd()
 
   let data = {} as FilesData
   try {

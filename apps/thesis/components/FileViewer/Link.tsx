@@ -16,9 +16,11 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 
-import 'katex/dist/katex.css'
+// import 'katex/dist/katex.css'
 
 import { ExternalLinkIcon } from '@chakra-ui/icons'
+// TODO: Fix popover dependency cycle
+// eslint-disable-next-line import/no-cycle
 import { PopoverPreview } from './PopoverPreview'
 import { NodeLink } from '../Link/NodeLink'
 

@@ -25,4 +25,10 @@ export const BIB_URL = `${
 }/${join(
   process.env.NEXT_PUBLIC_NOTE_DIR?.replace('public/', '') || 'notes',
 )}/.bibliography/Academic.bib`
-console.log(BIB_URL)
+
+export const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_PROD_URL
+    : process.env.NEXT_PUBLIC_REPO_URL
+
+// console.log(BIB_URL)

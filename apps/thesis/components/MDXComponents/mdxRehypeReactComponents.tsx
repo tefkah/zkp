@@ -14,6 +14,7 @@ import { ReactNode } from 'react'
 import Link from 'next/link'
 // import Image from 'next/image'
 import { MDXComponents } from 'mdx/types'
+// eslint-disable-next-line import/no-cycle
 import { PreviewLink } from '../FileViewer/Link'
 // import { MDXLinkBase } from './MDXLink'
 // import { WithId } from './WithId'
@@ -43,7 +44,7 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
       </Text>
     ),
     div: (div) => {
-      const { className, id, children, ...rest } = div
+      const { className, id, children } = div
       if (id === 'refs') {
         return (
           <Box {...{ className, id }}>

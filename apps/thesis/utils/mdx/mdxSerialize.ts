@@ -1,7 +1,7 @@
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import remarkMath from 'remark-math'
-import rehypeCitation from 'rehype-citation'
+// import rehypeCitation from 'rehype-citation'
 import remarkGFM from 'remark-gfm'
 // @ts-expect-error no types
 import remarkWikiLink from 'remark-wiki-link'
@@ -11,6 +11,7 @@ import { slugify } from '../slug'
 
 export const mdxSerialize = async (
   input: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   bibliography?: string,
 ): Promise<{
   frontMatter: Record<string, any>
@@ -30,14 +31,14 @@ export const mdxSerialize = async (
 
         rehypePlugins: [
           rehypeKatex,
-          [
-            rehypeCitation,
-            {
-              bibliography,
-              csl: 'apa',
-              // inlineClass: 'citation',
-            },
-          ],
+          // [
+          //   rehypeCitation,
+          //   {
+          //     bibliography,
+          //     csl: 'apa',
+          //     // inlineClass: 'citation',
+          //   },
+          // ],
         ],
       },
       scope: data,

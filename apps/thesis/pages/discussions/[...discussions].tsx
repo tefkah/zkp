@@ -10,7 +10,6 @@ import { BasicLayout } from '../../components/Layouts'
 
 interface Props {
   access: boolean
-  token?: string
   title?: string
 }
 

@@ -5,6 +5,7 @@ import { Hero } from '../components/Hero'
 import { BasicLayout } from '../components/Layouts'
 import { Main } from '../components/Main'
 
+// TODO: Import the text for the first page from an MDX file
 export const Index = () => (
   <>
     <Head>
@@ -36,7 +37,7 @@ export const Index = () => (
                 </Text>
                 <Text>
                   <Link color="blue.500" href="/Outline-Anyons">
-                    The most recent chapter I'm working on
+                    The most recent chapter I am working on
                   </Link>
                 </Text>
               </VStack>
@@ -52,9 +53,10 @@ export const Index = () => (
   </>
 )
 
-Index.getLayout = function getLayout(page: ReactElement) {
-  return <BasicLayout>{page}</BasicLayout>
-}
+const getLayout = (page: ReactElement) => <BasicLayout>{page}</BasicLayout>
+
+Index.getLayout = getLayout
+
 export default Index
 
 export const getStaticProps = async () => ({ props: {}, revalidate: 60 })

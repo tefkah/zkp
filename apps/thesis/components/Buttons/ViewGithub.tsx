@@ -1,4 +1,4 @@
-import { useColorModeValue, Text, HStack, Link, LinkOverlay } from '@chakra-ui/react'
+import { useColorModeValue, Text, HStack, LinkOverlay } from '@chakra-ui/react'
 import React from 'react'
 import { FaGithub } from 'react-icons/fa'
 
@@ -20,7 +20,9 @@ export const ViewGithub = (props: Props) => {
       <HStack as="span">
         <LinkOverlay
           isExternal
+          // TODO: Update viewgithub button with environment var
           href={
+            // eslint-disable-next-line no-nested-ternary
             full
               ? slug
               : repo

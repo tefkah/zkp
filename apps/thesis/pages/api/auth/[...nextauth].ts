@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-param-reassign */
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import NextAuth from 'next-auth'
-import { decode } from 'next-auth/jwt'
 import GitHubProvider from 'next-auth/providers/github'
 
 export default NextAuth({
@@ -32,12 +34,11 @@ export default NextAuth({
       )
       if (isAllowedToSignIn) {
         return true
-      } 
-        // Return false to display a default error message
-        return false
-        // Or you can return a URL to redirect to:
-        // return '/unauthorized'
-      
+      }
+      // Return false to display a default error message
+      return false
+      // Or you can return a URL to redirect to:
+      // return '/unauthorized'
     },
   },
 })

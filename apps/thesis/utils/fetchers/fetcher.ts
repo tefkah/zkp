@@ -1,4 +1,6 @@
-import axios from 'axios'
+// import axios from 'axios'
 
 export const fetcher = async (resource: string, init?: { [key: string]: string | number }) =>
-  axios.get(resource, init).then((res) => res.data)
+  fetch(resource, init)
+    .then((res) => res.json())
+    .then((res) => res)

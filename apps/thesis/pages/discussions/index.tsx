@@ -4,6 +4,7 @@ import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useMemo } from 'react'
 import { useCookies } from 'react-cookie'
+import { ChaoticOrbit } from '@uiball/loaders'
 import { ViewGithub } from '../../components/Buttons/ViewGithub'
 import { NewDiscussion } from '../../components/Discussions/NewDiscussion'
 import { BasicLayout } from '../../components/Layouts'
@@ -11,7 +12,6 @@ import { useDiscussion } from '../../hooks/useDiscussion'
 import { CategoryData, CATEGORY_LIST_QUERY, DiscussionEdge } from '../../queries/getDiscussion'
 import makeGenericGraphQlRequest from '../../queries/makeGenericGraphQLRequest'
 import { DiscussionCard } from '../../components/Discussions/DiscussionCard'
-import { ChaoticOrbit } from '@uiball/loaders'
 
 export interface Discussions {
   title: string
@@ -28,7 +28,8 @@ interface Props {
 export const DiscussionsPage = (props: Props) => {
   const { access, token, discussionCategories } = props
 
-  const { data, isLoading, error } = useDiscussion({
+  // TODO: Create a version of useDiscussion which can have data loaded through getStatic/getServerSide props
+  const { data, isLoading } = useDiscussion({
     first: 10,
     repo: 'thomasfkjorna/thesis-discussions',
     term: '',
@@ -36,7 +37,10 @@ export const DiscussionsPage = (props: Props) => {
     list: true,
   })
 
-  !access && window.location.replace('/')
+  // TODO: Deny access using middleware instead of client side functions
+  if (!access) {
+    window.location.replace('/')
+  }
 
   const [cookies, setCookie] = useCookies(['visit'])
   if (!cookies.visit) setCookie('visit', {})
@@ -45,7 +49,7 @@ export const DiscussionsPage = (props: Props) => {
 
   const discussionList = useMemo(
     () =>
-      // @ts-expect-error
+      // @ts-expect-error this super complicated thing needs to be this way somehow
       data?.data?.repository?.discussions?.edges?.map((discussion: DiscussionEdge) => (
         <DiscussionCard
           key={discussion.node.title}
@@ -59,7 +63,8 @@ export const DiscussionsPage = (props: Props) => {
     access && (
       <>
         <Head>
-          <title>Discussions | Thomas' Thesis</title>
+          {/* TODO: Get header info from serverside/staticprops */}
+          <title>Discussions | Thomas&apos; Thesis</title>
         </Head>
         <Box minH="100vh" mt={{ base: 4, md: 16 }} mb={10}>
           <VStack px={{ base: '4%', md: '10%' }} w="full" alignItems="flex-start" spacing={10}>

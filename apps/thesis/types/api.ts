@@ -55,7 +55,7 @@ export interface CommitPerDateLog {
   [date: string]: DateCommit
 }
 
-export interface Diff {
+export interface ToDiff {
   commit1: string
   commit2: string
 }

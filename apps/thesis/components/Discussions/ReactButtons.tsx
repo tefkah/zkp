@@ -35,6 +35,7 @@ const PopupInfo = ({
   isLoading: boolean
   current: Reaction
 }) => {
+  console.log(current)
   if (isLoading) return <Text className="m-2">Please wait</Text>
   if (!isLoggedIn) return <Button onClick={() => signIn()} className="color-text-link" />
   return null

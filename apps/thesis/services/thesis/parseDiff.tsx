@@ -6,7 +6,7 @@ import { FileDiff } from '../../types'
 import { ParsedOrg } from './parseOrg'
 
 interface Props {
-  diff: FileDiff
+  diff: FileDiff | string
 }
 
 export const diffToString = (diffs: FileDiff) => {

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable react/no-unstable-nested-components */
 import React, { ReactNode, useMemo } from 'react'
 
 // @ts-expect-error citation???

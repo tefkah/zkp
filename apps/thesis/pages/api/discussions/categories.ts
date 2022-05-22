@@ -6,10 +6,10 @@ import { getDiscussionCategories } from '../../../services/github/getDiscussionC
 
 type NewType = IError
 
-export default async function DiscussionCategoriesApi(
+export const DiscussionCategoriesApi = async (
   req: NextApiRequest,
   res: NextApiResponse<ICategories | NewType>,
-) {
+) => {
   const params = { repo: req.query.repo as string }
   const result = { repositoryId: '', categories: [] }
 
@@ -53,3 +53,5 @@ export default async function DiscussionCategoriesApi(
 
   res.status(200).json({ repositoryId, categories })
 }
+
+export default DiscussionCategoriesApi

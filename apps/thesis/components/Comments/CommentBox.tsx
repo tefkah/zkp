@@ -9,7 +9,7 @@ interface Props {
 
 export const CommentBox = (props: Props) => {
   const { title } = props
-  const { data, error } = useSWR('/api/auth/goodemail')
+  const { data } = useSWR('/api/auth/goodemail')
   if (data && data.access) {
     return (
       <Box mt={20}>

@@ -17,7 +17,7 @@ import { OutlineBox } from '../OutlineBox/OutlineBox'
 // import { Citations } from './Citations'
 import { useNotes } from '../../stores/noteStore'
 import { MDXNote } from './MDXNote'
-import { FilePageProps } from '../../pages/[file]'
+import { FilePageProps } from '../../types'
 
 export interface NoteProps extends FilePageProps {
   // stackData?: StackState

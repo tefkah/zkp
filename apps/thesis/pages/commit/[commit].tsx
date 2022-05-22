@@ -12,7 +12,6 @@ import {
   MenuList,
   Text,
   Tooltip,
-  useColorModeValue,
   VStack,
 } from '@chakra-ui/react'
 import { ReactElement } from 'react'
