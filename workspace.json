@@ -1,10 +1,12 @@
 {
   "version": 2,
   "projects": {
+    "popover": "libs/popover",
+    "popover-e2e": "apps/popover-e2e",
     "thesis": "apps/thesis",
     "thesis-e2e": "apps/thesis-e2e",
+    "utils-try-catch": "libs/utils/try-catch",
     "zkp-editor": "libs/zkp-editor",
-    "zkp-editor-e2e": "apps/zkp-editor-e2e",
-    "utils-try-catch": "libs/utils/try-catch"
+    "zkp-editor-e2e": "apps/zkp-editor-e2e"
   }
 }

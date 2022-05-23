@@ -3,9 +3,7 @@
   "affected": {
     "defaultBase": "main"
   },
-  "cli": {
-    "defaultCollection": "@nrwl/next"
-  },
+  "cli": {},
   "implicitDependencies": {
     "package.json": {
       "dependencies": "*",
