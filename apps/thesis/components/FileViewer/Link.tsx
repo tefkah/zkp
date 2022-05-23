@@ -14,6 +14,7 @@ import {
   Container,
   PopoverTrigger as OrigPopoverTrigger,
 } from '@chakra-ui/react'
+import { Popover as HeadlessPopover } from '@zkp/popover'
 import React from 'react'
 
 // import 'katex/dist/katex.css'
@@ -58,53 +59,61 @@ export const PreviewLink = (props: LinkProps) => {
   }
 
   return (
-    <Popover
-      closeOnEsc
-      gutter={12} // openDelay={300}
-      trigger="hover"
-      placement="bottom-start"
-      isLazy
-      lazyBehavior="keepMounted"
-
-      // isLazy
-    >
-      <PopoverTrigger>
-        {backlink ? null : (
-          /* <Box sx={noteStyle} color="brand.700">
-            <NodeLink key={title} currentId={currentId} href={href}>
-              {children}
-            </NodeLink>
-            <ParsedOrg type="popover" text={text?.file} currentId={currentId} />
-        </Box> */
-
-          <span>
-            <NodeLink key={title} currentId={currentId} href={href}>
-              {children}
-            </NodeLink>
-          </span>
-        )}
-      </PopoverTrigger>
-      <Portal>
-        <PopoverContent
-          boxShadow="md"
-          key={href}
-          // position="relative" // zIndex="tooltip"
-        >
-          <PopoverArrow />
-          <PopoverBody
-            as={Container}
-            pb={5}
-            fontSize="xs"
-            maxW="xs"
-            // zIndex="tooltip"
-            maxH="2xs"
-            overflowY="scroll"
-            borderRadius="sm"
-          >
-            <PopoverPreview {...{ href, id: currentId }} />
-          </PopoverBody>
-        </PopoverContent>
-      </Portal>
-    </Popover>
+    <HeadlessPopover title={children} href={href} arrow lazy>
+      <div className="bg-white p-4">
+        <PopoverPreview href={href} id={currentId} />
+      </div>
+    </HeadlessPopover>
   )
+
+  // return (
+  //   <Popover
+  //     closeOnEsc
+  //     gutter={12} // openDelay={300}
+  //     trigger="hover"
+  //     placement="bottom-start"
+  //     isLazy
+  //     lazyBehavior="keepMounted"
+
+  //     // isLazy
+  //   >
+  //     <PopoverTrigger>
+  //       {backlink ? null : (
+  //         /* <Box sx={noteStyle} color="brand.700">
+  //           <NodeLink key={title} currentId={currentId} href={href}>
+  //             {children}
+  //           </NodeLink>
+  //           <ParsedOrg type="popover" text={text?.file} currentId={currentId} />
+  //       </Box> */
+
+  //         <span>
+  //           <NodeLink key={title} currentId={currentId} href={href}>
+  //             {children}
+  //           </NodeLink>
+  //         </span>
+  //       )}
+  //     </PopoverTrigger>
+  //     <Portal>
+  //       <PopoverContent
+  //         boxShadow="md"
+  //         key={href}
+  //         // position="relative" // zIndex="tooltip"
+  //       >
+  //         <PopoverArrow />
+  //         <PopoverBody
+  //           as={Container}
+  //           pb={5}
+  //           fontSize="xs"
+  //           maxW="xs"
+  //           // zIndex="tooltip"
+  //           maxH="2xs"
+  //           overflowY="scroll"
+  //           borderRadius="sm"
+  //         >
+  //           <PopoverPreview {...{ href, id: currentId }} />
+  //         </PopoverBody>
+  //       </PopoverContent>
+  //     </Portal>
+  //   </Popover>
+  // )
 }

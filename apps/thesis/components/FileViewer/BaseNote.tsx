@@ -18,14 +18,14 @@ import { OutlineBox } from '../OutlineBox/OutlineBox'
 import { useNotes } from '../../stores/noteStore'
 import { MDXNote } from './MDXNote'
 import { FilePageProps } from '../../types'
-
+// import CommentBoxMaybe from '../Comments/CommentBoxMaybe'
 export interface NoteProps extends FilePageProps {
   // stackData?: StackState
   index: number
   // ref?: any
 }
 
-const CommentBoxMaybe = dynamic(() => import('../Comments/CommentBoxMaybe'))
+const CommentBoxMaybe = dynamic(() => import('../Comments/CommentBoxMaybe'), { ssr: false })
 
 export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   const { index, toc, stackedNotes, source, id, commits } = props

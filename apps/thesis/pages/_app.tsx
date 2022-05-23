@@ -40,19 +40,21 @@ export const Auth = ({ children }: { children: ReactNode | ReactNode[] }) => {
 export const ZKP = ({ Component, pageProps }: AppPropsWithLayoutAndAuth) => {
   const getLayout = Component.getLayout ?? ((page) => page)
   return (
-    <CookiesProvider>
-      <SessionProvider session={pageProps.session}>
-        <SWRConfig value={{ fetcher }}>
-          <ChakraProvider theme={theme}>
-            {Component.auth ? (
-              <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
-            ) : (
-              getLayout(<Component {...pageProps} />)
-            )}
-          </ChakraProvider>
-        </SWRConfig>
-      </SessionProvider>
-    </CookiesProvider>
+    <React.StrictMode>
+      <CookiesProvider>
+        <SessionProvider session={pageProps.session}>
+          <SWRConfig value={{ fetcher }}>
+            <ChakraProvider theme={theme}>
+              {Component.auth ? (
+                <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
+              ) : (
+                getLayout(<Component {...pageProps} />)
+              )}
+            </ChakraProvider>
+          </SWRConfig>
+        </SessionProvider>
+      </CookiesProvider>
+    </React.StrictMode>
   )
 }
 export default ZKP

@@ -1,5 +1,14 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, Container, HStack, Heading, VStack, Collapse, Button } from '@chakra-ui/react'
+import {
+  Box,
+  Container,
+  HStack,
+  Heading,
+  VStack,
+  Collapse,
+  Button,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { usePersistantDisclosure } from '../../hooks/usePersistantDisclosure'
 import { FileLeaf, isFolder, RecursiveFolder } from '../../types'
@@ -12,15 +21,16 @@ export interface SubMenuProps {
 }
 export const SubMenu = (props: SubMenuProps) => {
   const { folderName, foldersOrFiles: files, defaultIsOpen } = props
-  const router = useRouter()
-  const shouldOpen = !!files?.find(
-    (folderOrFile): boolean => !!folderOrFile.slug && router.asPath.includes(folderOrFile?.slug),
-  )
+  //  const router = useRouter()
+  // const shouldOpen = !!files?.find(
+  //   (folderOrFile): boolean => !!folderOrFile.slug && router.asPath.includes(folderOrFile?.slug),
+  // )
 
   //  const [rando, setRando] = usePersistantState('h', true)
-  const { onToggle, isOpen } = usePersistantDisclosure(folderName, {
-    defaultIsOpen: shouldOpen || (defaultIsOpen && true),
-  })
+  const { onToggle, isOpen } = useDisclosure()
+  // usePersistantDisclosure(folderName, {
+  //   defaultIsOpen: shouldOpen || (defaultIsOpen && true),
+  // })
 
   const defaultOpenFolders = process.env.DEFAULT_OPEN_SIDEBAR_FOLDERS
   //  const textColor = useColorModeValue('gray.600', 'gray.400')
