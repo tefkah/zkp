@@ -38,13 +38,13 @@ export const Backlinks = (props: Props) => {
     [backLinks],
   )
   return (
-    <Box my={8} backgroundColor={background} p={4} borderRadius="lg">
-      <Heading size="md" color="brand.700">
+    <div className="bg-brand-100 my-8 rounded-lg p-4">
+      <h2 className="text-md text-red-700" color="brand.700">
         References to this note
-      </Heading>
+      </h2>
       <VStack mt={4} spacing={4} alignItems="flex-start">
         {links}
       </VStack>
-    </Box>
+    </div>
   )
 }

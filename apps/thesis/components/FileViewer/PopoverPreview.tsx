@@ -21,23 +21,26 @@ export const PopoverPreview = (props: PopoverPreviewProps) => {
   const comps = useMemo(() => createMdxRehypeReactCompents(id), [id])
   const source = data?.source
   return (
-    <Box w="100%" px={3} sx={noteStyle}>
+    <div className="prose-sm w-full px-3">
       {
         // eslint-disable-next-line no-nested-ternary
         isLoading ? (
           <ChaoticOrbit />
         ) : isError || !source ? (
-          <Text>
+          <p>
             Something went wrong,{' '}
-            <Link color="primary" href="https://github.com/thomasfkjorna/thesis-visualization">
+            <a
+              className="text-red-500"
+              href="https://github.com/thomasfkjorna/thesis-visualization"
+            >
               contact Thomas on Github
-            </Link>
-          </Text>
+            </a>
+          </p>
         ) : (
           <MDXRemote compiledSource={source.compiledSource} components={comps} />
           // <ParsedOrg type="popover" currentId={id!} text={data.file} />
         )
       }
-    </Box>
+    </div>
   )
 }

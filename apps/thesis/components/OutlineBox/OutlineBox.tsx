@@ -12,18 +12,11 @@ interface Props {
 export const OutlineBox = (props: Props) => {
   const { commits, headings } = props
   return (
-    <Box
-      as="nav"
+    <nav
+      // as="nav"
+      className="md:display:block sm:display:none sticky top-8 right-0 w-60 flex-shrink-0 self-start pr-4 text-sm"
       aria-labelledby="toc-title"
-      width={60}
-      flexShrink={0}
-      display={{ base: 'none', md: 'block' }}
-      position="sticky"
-      pr="4"
-      top="2rem"
-      right="0"
-      fontSize="sm"
-      alignSelf="start"
+      // display={{ base: 'none', md: 'block' }}
     >
       <Tabs isFitted size="sm" variant="unstyled" colorScheme="red" align="end">
         <TabList>
@@ -31,19 +24,19 @@ export const OutlineBox = (props: Props) => {
             _selected={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
             _focus={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
           >
-            <Text fontWeight="500">TOC</Text>
+            <p className="font-medium">TOC</p>
           </Tab>
           <Tab
             _focus={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
             _selected={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
           >
-            <Text fontWeight="500">History</Text>
+            <p className="font-medium">History</p>
           </Tab>
           <Tab
             _focus={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
             _selected={{ borderBottomWidth: 1, borderBottomColor: 'primary' }}
           >
-            <Text fontWeight="500">Info</Text>
+            <p className="font-medium">Info</p>
           </Tab>
         </TabList>
         <TabPanels
@@ -62,6 +55,6 @@ export const OutlineBox = (props: Props) => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </Box>
+    </nav>
   )
 }

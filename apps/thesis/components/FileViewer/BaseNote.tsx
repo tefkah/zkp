@@ -1,5 +1,5 @@
 import shallow from 'zustand/shallow'
-import { Flex, Container, Heading, CSSObject, useColorMode, CloseButton } from '@chakra-ui/react'
+import { CSSObject, useColorMode, CloseButton } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
 import useSWR from 'swr'
 import { Waveform } from '@uiball/loaders'
@@ -69,7 +69,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         borderStyle: 'solid',
         borderLeftWidth: '1px',
         flexShrink: '0',
-        w: '75ch',
+        width: '75ch',
       }
     : {}
 
@@ -87,21 +87,11 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
 
   const Note = useMemo(
     () => (
-      <Container
-        w="75ch"
-        display="flex"
-        flexDirection="column"
-        py={8}
-        justifyContent="space-between"
-        flexGrow={1}
-        sx={{
-          transition: 'opacity 0.2s ease',
-          opacity: stackData?.obstructed ? 0 : undefined,
-        }}
+      <div
+        className={`container flex w-[75ch] flex-grow flex-col justify-between py-8 ${
+          stackData?.obstructed ? 'opacity-0' : 'opacity-1'
+        }`}
       >
-        {/*         <Heading size="lg" mb={4}>
-          {id}
-        </Heading> */}
         {/*         <HStack my={2} spacing={2}>
           {!tags?.includes('chapter') &&
             tags?.map((tag: string) => (
@@ -133,69 +123,90 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         {/* backLinks?.length && <Backlinks {...{ currentId: id, backLinks }} /> */}
         {!data ? <Waveform /> : <CommentBoxMaybe show={stacked} title={data?.[id]?.name} />}
         {/* !stacked && <CommentBox {...{ title }} /> */}
-      </Container>
+      </div>
     ),
     [stacked, id, source, data],
   )
 
+  const bgLight = stackData?.highlighted ? 'bg-red-100' : 'bg-white'
+  const bgDark = stackData?.highlighted ? 'bg-red-100' : 'bg-black'
   return (
-    <Flex
-      w="75ch"
+    <div
+      className={`sticky flex w-[75ch]
+      flex-grow overflow-y-scroll scroll-smooth p-4 transition-all
+      ${stacked ? 'justify-start' : 'justify-between'}
+      h-full
+       ${bgLight}
+      dark:bg-black
+      `}
       ref={ref}
-      sx={{
-        padding: 4,
-        backgroundColor: colorMode === 'dark' ? 'dark.primary' : 'white',
-        left: `${obstructedPageWidth * (index || 0)}px`,
-        right: `${-noteWidth + (obstructedPageWidth * ((stackedNotes?.length ?? 0) - index) || 0)}`,
+      // sx={{
+      //   padding: 4,
+      //   backgroundColor: colorMode === 'dark' ? 'dark.primary' : 'white',
+      //   // maxH: '95vh',
+      //   position: 'sticky',
+      //   flexGrow: 1,
+      //   overflowY: 'scroll',
+      //   scrollBehavior: 'smooth',
+
+      style={{
         transition:
           'box-shadow 100ms linear, opacity 75ms linear, transform 200ms cubic-bezier(0.19, 1, 0.22, 1), background-color 0.3s ease',
-        // maxH: '95vh',
-        position: 'sticky',
-        flexGrow: 1,
-        overflowY: 'scroll',
-        scrollBehavior: 'smooth',
+        left: `${obstructedPageWidth * (index || 0)}px`,
+        right: `${
+          -noteWidth + (obstructedPageWidth * ((stackedNotes?.length ?? 0) - index) || 0)
+        }px`,
+        //   left: `${obstructedPageWidth * (index || 0)}px`,
+        //   right: `${
+        //     -noteWidth + (obstructedPageWidth * ((stackedNotes?.length ?? 0) - index) || 0)
+        //   }px`,
         ...stackedNoteStyle,
         ...overlayStyle,
         ...obstructedStyle,
         ...highlightedStyle,
       }}
-      justifyContent={stacked ? 'flex-start' : 'space-between'}
-      height="full"
+      // }}
+      //   justifyContent={stacked ? 'flex-start' : 'space-between'}
+      //  height="full"
     >
       {stacked && (
-        <Flex>
+        <div className="justify-bottom flex align-bottom">
           <CloseButton onClick={removeNote} />
-          <Heading
-            size="md"
+          <h1
+            className={`text-md text-regular ] top-0 left-0 bottom-0 overflow-hidden bg-transparent decoration-0 ${
+              stackData?.obstructed ? 'opacity-1' : 'opacity-0'
+            } pointer-events-none absolute mt-14 whitespace-nowrap transition-colors transition-opacity`}
+            // size="md"
             // TODO: do not inline all the stacked note styles
-            sx={{
-              textDecoration: 'none',
-              fontSize: '17px',
+            style={{
+              width: `${obstructedPageWidth ?? 0}px`,
+              // textDecoration: 'none',
+              // fontSize: '17px',
               lineHeight: `${obstructedPageWidth}px`,
-              fontWeight: '500',
-              marginTop: 14,
-              top: '0px',
-              bottom: '0px',
-              left: '0px',
-              position: 'absolute',
-              backgroundColor: 'transparent',
-              width: `${obstructedPageWidth}px`,
+              // fontWeight: '500',
+              // marginTop: 14,
+              // top: '0px',
+              // bottom: '0px',
+              // left: '0px',
+              // position: 'absolute',
+              // backgroundColor: 'transparent',
+              // width: `${obstructedPageWidth}px`,
               writingMode: 'vertical-lr',
               textOrientation: 'sideways',
-              overflow: 'hidden',
-              opacity: stackData?.obstructed ? 1 : 0,
-              transition: 'color 0.3s ease, opacity 0.1s ease',
-              pointerEvents: 'none',
-              whiteSpace: 'nowrap',
+              // overflow: 'hidden',
+              // opacity: stackData?.obstructed ? 1 : 0,
+              // transition: 'color 0.3s ease, opacity 0.1s ease',
+              // pointerEvents: 'none',
+              // whiteSpace: 'nowrap',
             }}
           >
             {data?.[id]?.name ?? id}
-          </Heading>
-        </Flex>
+          </h1>
+        </div>
       )}
       {Note}
       {!stacked && <OutlineBox {...{ headings: toc, commits }} />}
-    </Flex>
+    </div>
   )
 })
 

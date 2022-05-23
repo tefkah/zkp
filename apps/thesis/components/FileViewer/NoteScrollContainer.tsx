@@ -104,8 +104,8 @@ export const NoteScrollContainer = (props: FilePageProps) => {
       transition="width 100ms cubic-bezier(0.19, 1, 0.22, 1)"
       spacing={0}
       // flex={1}
-      //      justifyContent={stackedNotes?.length ? 'flex-start' : 'space-between'}
-      justifyContent="space-between"
+      justifyContent={stackedNotes?.length ? 'flex-start' : 'center'}
+      // justifyContent="space-between"
       height="100%"
     >
       <BaseNote

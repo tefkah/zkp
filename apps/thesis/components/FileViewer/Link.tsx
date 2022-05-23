@@ -54,11 +54,7 @@ export const PreviewLink = (props: LinkProps) => {
   //  const { data: text } = useSWR(backlink ? `/api/file/byId/${id}` : null)
 
   if (!href) {
-    return (
-      <Text as="span" display="inline" className={href} color="base.700" cursor="not-allowed">
-        {children}
-      </Text>
-    )
+    return <span className="inline cursor-not-allowed text-slate-700">{children}</span>
   }
 
   return (
@@ -81,11 +77,11 @@ export const PreviewLink = (props: LinkProps) => {
             <ParsedOrg type="popover" text={text?.file} currentId={currentId} />
         </Box> */
 
-          <Text as="span">
+          <span>
             <NodeLink key={title} currentId={currentId} href={href}>
               {children}
             </NodeLink>
-          </Text>
+          </span>
         )}
       </PopoverTrigger>
       <Portal>

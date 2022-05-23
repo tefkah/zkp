@@ -43,18 +43,18 @@ export const FilePage = (props: MDFilePageProps) => {
         <title>{`${title || name} | Thomas Thesis`}</title>
       </Head>
 
-      <Box w="100vw" h="100vh" overflowX="hidden">
-        <Flex h="full" w="100vw">
+      <div className="h-[100vh] w-[100vw] overflow-x-hidden">
+        <div className="flex h-full w-[100vw]">
           <CustomSideBar fileList={fileList} />
-          <Box h="full" flex="1 1 auto" overflow="hidden">
+          <div className="h-full flex-auto overflow-hidden">
             <Header />
-            <Box h="full" as="main">
+            <main className="h-full">
               <NoteScrollContainer source={source} id={slug} toc={[]} commits={{}} />
-            </Box>
-          </Box>
-        </Flex>
+            </main>
+          </div>
+        </div>
         <Footer />
-      </Box>
+      </div>
     </>
   )
 }

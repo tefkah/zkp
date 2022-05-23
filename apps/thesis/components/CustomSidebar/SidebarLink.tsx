@@ -41,32 +41,30 @@ export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
           event.preventDefault()
         }}
       >
-        <HStack alignItems="baseline">
-          {/* <Icon as={BsFileEarmarkText} color={iconColor} mt={1} height={3} /> */}
-          <Text
-            _groupHover={{ color: 'primary' }}
-            fontWeight={isActive ? '600' : '400'}
-            // color={isActive ? currentColor : textColor}
-            // color="gray.800"
-            transition="color 0.15s"
-            fontSize={14}
-            textTransform="capitalize"
-            noOfLines={1}
-            pl={3}
-          >
-            {slug ? (
-              <Link passHref href={`/${slug}`} key={name}>
-                <LinkOverlay href={`/${slug}`} tabIndex={0}>
-                  <Text as="span" tabIndex={0}>
-                    {name}
-                  </Text>
-                </LinkOverlay>
-              </Link>
-            ) : (
-              <Text>{name}</Text>
-            )}
-          </Text>
-        </HStack>
+        <p
+          className={`group-hover:text-red-500 ${
+            isActive ? 'font-bold' : 'font-regular'
+          } transition-colors capitalize truncate pl-3 text-sm`}
+          //            _groupHover={{ color: 'primary' }}
+          //           fontWeight={isActive ? '600' : '400'}
+          // color={isActive ? currentColor : textColor}
+          // color="gray.800"
+          //          transition="color 0.15s"
+          //         fontSize={14}
+          //        textTransform="capitalize"
+          //       noOfLines={1}
+          //      pl={3}
+        >
+          {slug ? (
+            <Link passHref href={`/${slug}`} key={name}>
+              <LinkOverlay href={`/${slug}`} tabIndex={0}>
+                <span tabIndex={0}>{name}</span>
+              </LinkOverlay>
+            </Link>
+          ) : (
+            <Text>{name}</Text>
+          )}
+        </p>
       </LinkBox>
     </Tooltip>
   )
