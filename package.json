@@ -64,6 +64,7 @@
     "react-scroll": "^1.8.4",
     "react-use": "^17.3.2",
     "readdirp": "^3.6.0",
+    "redis-om": "^0.3.3",
     "regenerator-runtime": "0.13.7",
     "rehype-citation": "^0.4.0",
     "rehype-katex": "6.0.2",

@@ -1,6 +1,5 @@
-import { Popover as HeadlessPopover, Transition } from '@headlessui/react'
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid'
-import { Fragment, useState, useRef, ReactNode } from 'react'
+import { useState, useRef, ReactNode, Fragment } from 'react'
 import { Float } from 'headlessui-float-react'
 import Link from 'next/link'
 
@@ -27,6 +26,7 @@ export const Popover = (props: PopoverProps) => {
     }
 
     if (!shouldRender) {
+      console.log("I'm going to render the children")
       setShouldRender(true)
     }
 
@@ -50,7 +50,8 @@ export const Popover = (props: PopoverProps) => {
     >
       {/* <HeadlessPopover as="span" className="relative"> */}
       <Float
-        strategy="fixed"
+        as="span"
+        strategy="absolute"
         enter="transition ease-out duration-200"
         enterFrom="opacity-0 translate-y-8"
         enterTo="opacity-100 translate-y-0"
@@ -91,7 +92,7 @@ export const Popover = (props: PopoverProps) => {
         </span>
         {/* </Link> */}
         {/* <HeadlessPopover.Panel */}
-        <div
+        <span
           onMouseEnter={open}
           onMouseLeave={delayClose}
           //  className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl"
@@ -100,10 +101,10 @@ export const Popover = (props: PopoverProps) => {
             <Float.Arrow className="absolute h-5 w-5 rotate-45 border border-gray-200 bg-white " />
           )}
           <div className="max-h-lg max-w-md overflow-y-scroll rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-            {shouldRender && children}
+            {children}
           </div>
           {/* </HeadlessPopover.Panel> */}
-        </div>
+        </span>
       </Float>
       {/* </HeadlessPopover> */}
     </span>

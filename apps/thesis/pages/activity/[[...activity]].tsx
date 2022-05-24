@@ -1,12 +1,19 @@
 import { Link as ChakraLink, Box, useColorMode, VStack, HStack } from '@chakra-ui/react'
-import { ReactElement, useState } from 'react'
+import { ReactElement, Suspense, useState } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
+import { ChaoticOrbit } from '@uiball/loaders'
 import { getListOfCommitsWithStats } from '../../utils/getListOfCommitsWithStats'
 import { CommitList } from '../../components/Commits/CommitList'
 import { CommitPerDateLog, DateCommit } from '../../types'
-import { HistoryGraph } from '../../components/HistoryGraph'
+// import { HistoryGraph } from '../../components/HistoryGraph'
 import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
+
+const HistoryGraph = dynamic(() => import('../../components/HistoryGraph/HistoryGraph'), {
+  ssr: false,
+  suspense: true,
+})
 
 export interface SlimCommit {
   oid: string
@@ -20,6 +27,7 @@ export interface SlimCommit {
 interface ActivityPageProps {
   log: CommitPerDateLog
 }
+
 const findCommitXDaysAgo = (log: DateCommit[], days: number): string => {
   const today = new Date()
   const unixTime = days * 3600 * 24 * 1000
@@ -36,9 +44,12 @@ const findCommitXDaysAgo = (log: DateCommit[], days: number): string => {
 export const ActivityPage = (props: ActivityPageProps) => {
   const { log } = props
   const [diffs, setDiffs] = useState<{ commit1: string; commit2: string }>()
+
   const theme = useColorMode()
   const dark = theme.colorMode === 'dark'
+
   const reverseLogValues = Object.values(log).reverse()
+
   return (
     <>
       <Head>
@@ -46,7 +57,9 @@ export const ActivityPage = (props: ActivityPageProps) => {
       </Head>
       <VStack justifyContent="center" spacing={6} mt={20}>
         <Box w="80%" height={100} backgroundColor={dark ? 'dark.secondary' : 'gray.50'}>
-          <HistoryGraph data={log} dark={dark} diffs={diffs} setDiffs={setDiffs} />
+          <Suspense fallback={<ChaoticOrbit />}>
+            <HistoryGraph data={log} dark={dark} diffs={diffs} setDiffs={setDiffs} />
+          </Suspense>
         </Box>
         <HStack spacing={5}>
           <Link
@@ -79,6 +92,7 @@ export const ActivityPage = (props: ActivityPageProps) => {
 }
 
 export default ActivityPage
+
 export const getStaticPaths = async () => ({ paths: ['/activity'], fallback: 'blocking' })
 
 export const getStaticProps = async () => {

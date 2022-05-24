@@ -1,7 +1,6 @@
 // import { Point, ResponsiveLine } from '@nivo/line'
-import { LineSvgProps, Point } from '@nivo/line'
 import { parse } from 'date-fns'
-import dynamic from 'next/dynamic'
+import { Point, ResponsiveLine } from '@nivo/line'
 import React, { useCallback, useMemo } from 'react'
 import { DateCommit, CommitDatum, CommitPerDateLog } from '../../types'
 import { Tooltip } from './Tooltip'
@@ -13,9 +12,9 @@ interface Props {
   dark: boolean
 }
 
-const ResponsiveLine = dynamic<LineSvgProps>(() =>
-  import('@nivo/line').then((module) => module.ResponsiveLine),
-)
+// const ResponsiveLine = dynamic<LineSvgProps>(() =>
+//   import('@nivo/line').then((module) => module.ResponsiveLine),
+// )
 
 export const HistoryGraph = (props: Props) => {
   const { data, diffs, setDiffs } = props
@@ -87,7 +86,7 @@ export const HistoryGraph = (props: Props) => {
       curve="monotoneX"
       enableArea
       enableGridY={false}
-      yScale={{ min: -500, max: 'auto', type: 'linear' }}
+      yScale={{ min: -500, max: 10000, type: 'linear' }}
       xScale={{ type: 'time' }}
       axisBottom={{
         format: (value: Date) => value.toISOString(),
@@ -99,3 +98,5 @@ export const HistoryGraph = (props: Props) => {
     />
   )
 }
+
+export default HistoryGraph

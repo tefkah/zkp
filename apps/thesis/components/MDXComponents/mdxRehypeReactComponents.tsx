@@ -179,15 +179,15 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
       return <section className={className as string}>{kids}</section>
     },
     img: (img) => (
-      <div className="w-full p-8">
+      <span className="w-full p-8">
         <Image
           layout="responsive"
           width={500}
           height={500}
           alt={img.alt || 'An image without alt-text: sorry!'}
-          src={(img.src as string).replace(/\.\/media\//g, '/media/')}
+          src={(img.src as string).replace(/\.+\/media\//, '/media/')}
         />
-      </div>
+      </span>
     ),
   } as MDXComponents
   return components

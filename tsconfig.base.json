@@ -10,7 +10,10 @@
     "importHelpers": true,
     "target": "esnext",
     "module": "NodeNext",
-    "lib": ["es2021", "DOM"],
+    "lib": [
+      "es2021",
+      "DOM"
+    ],
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -21,10 +24,22 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@zkp/popover": ["libs/popover/src/index.ts"],
-      "try-catch": ["libs/utils/try-catch/src/index.ts"],
-      "zkp-editor": ["libs/zkp-editor/src/index.ts"]
+      "@zkp/popover": [
+        "libs/popover/src/index.ts"
+      ],
+      "try-catch": [
+        "libs/utils/try-catch/src/index.ts"
+      ],
+      "zkp-editor": [
+        "libs/zkp-editor/src/index.ts"
+      ],
+      "@zkp/redis": [
+        "libs/redis/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
