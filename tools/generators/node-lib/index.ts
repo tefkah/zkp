@@ -133,7 +133,7 @@ const updateProject = (tree: Tree, options: NormalizedSchema) => {
 
   project.targets = project.targets || {}
   project.targets.build = {
-    executor: '@nrwl/node:package',
+    executor: `@nrwl/js:${options.compiler}`,
     outputs: ['{options.outputPath}'],
     options: {
       outputPath: `dist/${libsDir}/${options.projectDirectory}`,

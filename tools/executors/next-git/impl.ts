@@ -1,7 +1,7 @@
 import type { ExecutorContext } from '@nrwl/devkit'
 
 import nextBuildExecutor from '@nrwl/next/src/executors/build/build.impl'
-import { FileReplacement } from '@nrwl/next/src/utils/types'
+import { FileReplacement } from '@zkp/types'
 import { exec } from 'child_process'
 
 import { promisify } from 'util'

@@ -2623,6 +2623,13 @@
     slash "^3.0.0"
     strip-ansi "^6.0.0"
 
+"@jest/create-cache-key-function@^27.4.2":
+  version "27.5.1"
+  resolved "https://registry.yarnpkg.com/@jest/create-cache-key-function/-/create-cache-key-function-27.5.1.tgz#7448fae15602ea95c828f5eceed35c202a820b31"
+  integrity sha512-dmH1yW+makpTSURTy8VzdUwFnfQh1G8R+DxO2Ho2FFmBbKFEVm+3jWdvFhE2VqB/LATCTokkP0dotjyQyw5/AQ==
+  dependencies:
+    "@jest/types" "^27.5.1"
+
 "@jest/environment@^27.5.1":
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-27.5.1.tgz#d7425820511fe7158abbecc010140c3fd3be9c74"
@@ -3368,7 +3375,7 @@
     rxjs "^6.5.4"
     tslib "^2.3.0"
 
-"@nrwl/js@14.1.7":
+"@nrwl/js@14.1.7", "@nrwl/js@^14.1.7":
   version "14.1.7"
   resolved "https://registry.yarnpkg.com/@nrwl/js/-/js-14.1.7.tgz#40c2a70640c9203b5b23375eafd112f5d5429a66"
   integrity sha512-1rHwHC/G69eWIOyw2v9edDhHnT0iB0YBifLvRpPlqDq6kcoy4/2qwlEvKFbwn1691tMBl5gSnppOPmRxwqFIjw==
@@ -5247,6 +5254,16 @@
   dependencies:
     source-map-support "^0.5.21"
 
+"@swc/cli@^0.1.57":
+  version "0.1.57"
+  resolved "https://registry.yarnpkg.com/@swc/cli/-/cli-0.1.57.tgz#a9c424de5a217ec20a4b7c2c0e5c343980537e83"
+  integrity sha512-HxM8TqYHhAg+zp7+RdTU69bnkl4MWdt1ygyp6BDIPjTiaJVH6Dizn2ezbgDS8mnFZI1FyhKvxU/bbaUs8XhzQg==
+  dependencies:
+    commander "^7.1.0"
+    fast-glob "^3.2.5"
+    slash "3.0.0"
+    source-map "^0.7.3"
+
 "@swc/core-android-arm-eabi@1.2.189":
   version "1.2.189"
   resolved "https://registry.yarnpkg.com/@swc/core-android-arm-eabi/-/core-android-arm-eabi-1.2.189.tgz#a8060c2ec7bd93bd9907c3059c44a832eda57b6d"
@@ -5312,7 +5329,7 @@
   resolved "https://registry.yarnpkg.com/@swc/core-win32-x64-msvc/-/core-win32-x64-msvc-1.2.189.tgz#eeb127740952e3dd5cae2866c2da60346fed457b"
   integrity sha512-Nge8Z/ZkAp5p5No50yBDpBG7+ZYaVWGSuwtPj6OJe7orzvDCEm9GgcVE6J9GEjbclSWlCH8B8lUe17GaKRZHbg==
 
-"@swc/core@^1.2.172", "@swc/core@^1.2.173":
+"@swc/core@^1.2.172", "@swc/core@^1.2.173", "@swc/core@^1.2.189":
   version "1.2.189"
   resolved "https://registry.yarnpkg.com/@swc/core/-/core-1.2.189.tgz#8db88e809764e5b3b2be3fcac0da9d9d957e1056"
   integrity sha512-S5cKX4ECMSfW78DLFgnlilJZgjrFRYwPslrrwpLl3gpwh+Qo72/Mhn71u7G/5xXW+T/xW5GwPccHfCk+k72uUg==
@@ -5330,6 +5347,20 @@
     "@swc/core-win32-arm64-msvc" "1.2.189"
     "@swc/core-win32-ia32-msvc" "1.2.189"
     "@swc/core-win32-x64-msvc" "1.2.189"
+
+"@swc/helpers@~0.3.3":
+  version "0.3.15"
+  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.3.15.tgz#02abb377c91c39e0a6034f1161870c18621b9129"
+  integrity sha512-rpZHDdzwhfe06gF98SUAi7TfI344zKb1Pd2D9gxUMTNnhMobDHrv2UiVVcbDXmkx84U5AaXJmBrmfT9g1TPasQ==
+  dependencies:
+    tslib "^2.4.0"
+
+"@swc/jest@0.2.20":
+  version "0.2.20"
+  resolved "https://registry.yarnpkg.com/@swc/jest/-/jest-0.2.20.tgz#2bddb4348fb730296b86cdcd96748be131b11395"
+  integrity sha512-5qSUBYY1wyIMn7p0Vl9qqV4hMI69oJwZCIPUpBsTFWN2wlwn6RDugzdgCn+bLXVYh+Cxi8bJcZ1uumDgsoL+FA==
+  dependencies:
+    "@jest/create-cache-key-function" "^27.4.2"
 
 "@tailwindcss/typography@^0.5.2":
   version "0.5.2"
@@ -8351,7 +8382,7 @@ commander@^6.2.0, commander@^6.2.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-6.2.1.tgz#0792eb682dfbc325999bb2b84fddddba110ac73c"
   integrity sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA==
 
-commander@^7.0.0, commander@^7.2.0:
+commander@^7.0.0, commander@^7.1.0, commander@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
   integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
@@ -10634,7 +10665,7 @@ fast-glob@^2.2.6:
     merge2 "^1.2.3"
     micromatch "^3.1.10"
 
-fast-glob@^3.0.3, fast-glob@^3.2.11, fast-glob@^3.2.7, fast-glob@^3.2.9:
+fast-glob@^3.0.3, fast-glob@^3.2.11, fast-glob@^3.2.5, fast-glob@^3.2.7, fast-glob@^3.2.9:
   version "3.2.11"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.11.tgz#a1172ad95ceb8a16e20caa5c5e56480e5129c1d9"
   integrity sha512-xrO3+1bxSo3ZVHAnqzyuewYT6aMFHRAd4Kcs92MAonjwQZLsK9d0SF1IyQ3k5PoirxTW0Oe/RqFgMQ6TcNE5Ew==
@@ -18609,15 +18640,15 @@ sisteransi@^1.0.5:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
   integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
+slash@3.0.0, slash@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
+  integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
+
 slash@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-2.0.0.tgz#de552851a1759df3a8f206535442f5ec4ddeab44"
   integrity sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==
-
-slash@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
-  integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
 slate-history@^0.66.0:
   version "0.66.0"
@@ -19907,10 +19938,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@~4.6.4:
-  version "4.6.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.4.tgz#caa78bbc3a59e6a5c510d35703f6a09877ce45e9"
-  integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
+typescript@^4.8.0-dev.20220524:
+  version "4.8.0-dev.20220524"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.0-dev.20220524.tgz#1c7b94f048507f1536abdfc33111407b60e8491e"
+  integrity sha512-g0n+G9LjQriWUgYDWX3uk5/CToV8aV/Oh3fWF/dR8GI0kNG3xWYcJBdbjdBFe7PJmYCY83VvIW5tGnuK4rHB7w==
 
 uglify-js@^3.1.4:
   version "3.15.4"
