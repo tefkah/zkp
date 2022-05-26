@@ -2,7 +2,7 @@
 
 // from Giscus
 
-import { GCreateDiscussionInput } from '../../types'
+import { GCreateDiscussionInput } from '@zkp/types'
 
 export const createDiscussion = async (
   repo: string,

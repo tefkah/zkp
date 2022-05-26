@@ -1,5 +1,5 @@
 import slugger from 'github-slugger'
-import { NoteHeading } from '../types'
+import { NoteHeading } from '@zkp/types'
 
 // see https://github.com/hashicorp/next-mdx-remote/issues/53#issuecomment-725906664
 export const getTableOfContents = (orgContent: string) => {

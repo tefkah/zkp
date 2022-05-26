@@ -6,7 +6,7 @@ import { nl } from 'date-fns/locale'
 import React from 'react'
 import Link from 'next/link'
 import { FaGithub } from 'react-icons/fa'
-import { SlimCommit } from '../../types'
+import { SlimCommit } from '@zkp/types'
 import { CompareButton } from './CompareButton'
 
 interface CommitProps extends SlimCommit {

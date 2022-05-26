@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { usePersistantDisclosure } from '../../hooks/usePersistantDisclosure'
-import { FileLeaf, isFolder, RecursiveFolder } from '../../types'
+import { FileLeaf, isFolder, RecursiveFolder } from '@zkp/types'
 import { SidebarLink } from './SidebarLink'
 
 export interface SubMenuProps {

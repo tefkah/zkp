@@ -1,5 +1,4 @@
 {
-  "root": "apps/thesis",
   "sourceRoot": "apps/thesis",
   "projectType": "application",
   "targets": {

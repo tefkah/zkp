@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-export function useScrollSpy(selectors: string[], options?: IntersectionObserverInit) {
+export const useScrollSpy = (selectors: string[], options?: IntersectionObserverInit) => {
   const [activeId, setActiveId] = React.useState<string>()
   const observer = React.useRef<IntersectionObserver | null>(null)
   React.useEffect(() => {
@@ -10,7 +10,7 @@ export function useScrollSpy(selectors: string[], options?: IntersectionObserver
       entries.forEach((entry) => {
         if (entry?.isIntersecting) {
           // TODO: scrollspy can't decide between two candidates.
-          // @ts-expect-error
+          // @ts-expect-error this does not work for some reason
           setActiveId(entry.target.getAttribute('id'))
         }
       })

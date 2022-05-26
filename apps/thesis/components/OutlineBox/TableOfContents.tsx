@@ -8,7 +8,7 @@ import {
   BoxProps,
   HStack,
 } from '@chakra-ui/react'
-import { NoteHeading } from '../../types'
+import { NoteHeading } from '@zkp/types'
 import { useScrollSpy } from '../../hooks/useScrollSpy'
 
 interface TableOfContentProps extends BoxProps {

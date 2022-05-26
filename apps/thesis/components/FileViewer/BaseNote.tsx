@@ -6,7 +6,7 @@ import { Waveform } from '@uiball/loaders'
 import dynamic from 'next/dynamic'
 // import { AiOutlineConsoleSql } from 'react-icons/ai'
 
-// import { NoteHeading, CommitPerDateLog, CSLCitation, StackState } from '../../types'
+// import { NoteHeading, CommitPerDateLog, CSLCitation, StackState } from '@zkp/types'
 // import { OrgFileData } from '../../utils/IDIndex/getDataFromFile'
 // import { FilesData } from '../../utils/IDIndex/getFilesData'
 // import { parseTime } from '../../utils/parseTime'
@@ -17,7 +17,7 @@ import { OutlineBox } from '../OutlineBox/OutlineBox'
 // import { Citations } from './Citations'
 import { useNotes } from '../../stores/noteStore'
 import { MDXNote } from './MDXNote'
-import { FilePageProps } from '../../types'
+import { FilePageProps } from '@zkp/types'
 // import CommentBoxMaybe from '../Comments/CommentBoxMaybe'
 export interface NoteProps extends FilePageProps {
   // stackData?: StackState

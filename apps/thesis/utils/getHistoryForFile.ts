@@ -1,4 +1,4 @@
-import { SlimCommit } from '../types'
+import { SlimCommit } from '@zkp/types'
 import { consolidateCommitsPerDay } from './getListOfCommitsWithStats'
 
 export interface FileHistory {

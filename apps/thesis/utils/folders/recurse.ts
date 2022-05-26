@@ -1,5 +1,5 @@
 import { convert } from 'unist-util-is'
-import { FileLeaf, RecursiveFolder, CompareFn, DataBy } from '../../types'
+import { FileLeaf, RecursiveFolder, CompareFn, DataBy } from '@zkp/types'
 import { defaultSort } from './sorts'
 
 const isFile = convert<FileLeaf>('file')

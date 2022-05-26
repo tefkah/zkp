@@ -1,6 +1,6 @@
 import { Button } from '@chakra-ui/react'
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa'
-import { Sorts } from '../../types'
+import { Sorts } from '@zkp/types'
 
 interface SortButtonProps {
   sort: Sorts

@@ -15,7 +15,7 @@ import {
   Icon,
 } from '@chakra-ui/react'
 import { handleCommentClick } from '../../utils/giscus/adapter'
-import { Reaction, IComment, IReply } from '../../types'
+import { Reaction, IComment, IReply } from '@zkp/types'
 import { updateCommentReaction } from '../../utils/giscus/reactions'
 import { toggleUpvote } from '../../services/github/toggleUpvote'
 import { CommentBox } from './CommentBox'
@@ -90,7 +90,7 @@ export const Comment = ({
         minW={0}
         borderRadius="md"
         borderWidth={1}
-        className={`w-full min-w-0 border rounded-md color-bg-primary ${
+        className={`color-bg-primary w-full min-w-0 rounded-md border ${
           comment.viewerDidAuthor ? 'color-box-border-info' : 'color-border-primary'
         }`}
       >
@@ -118,11 +118,11 @@ export const Comment = ({
                     height="30"
                     // alt={`@${comment.author.login}`}
                   />
-                  <Text as="span" fontWeight="semibold" className="font-semibold link-primary">
+                  <Text as="span" fontWeight="semibold" className="link-primary font-semibold">
                     {comment.author.login}
                   </Text>
                 </HStack>
-                <ChakraLink isExternal ml={2} href={comment.url} className="ml-2 link-secondary">
+                <ChakraLink isExternal ml={2} href={comment.url} className="link-secondary ml-2">
                   <time
                     // whiteSpace="nowrap"
                     className="whitespace-nowrap"
@@ -142,7 +142,7 @@ export const Comment = ({
                   fontSize="xs"
                   borderWidth={1}
                   borderRadius="md"
-                  className={`px-1 ml-1 capitalize border rounded-md
+                  className={`ml-1 rounded-md border px-1 capitalize
                     `}
                   bgColor={comment.viewerDidAuthor ? 'color-box-border-info' : 'color-label-border'}
                 >
@@ -223,7 +223,7 @@ export const Comment = ({
               ) : null}
             </HStack>
             <Box mr={4} whiteSpace="nowrap" className="gsc-comment-replies-count">
-              <Text as="span" fontSize="sm" className="text-xs color-text-tertiary">
+              <Text as="span" fontSize="sm" className="color-text-tertiary text-xs">
                 {comment.replyCount} replies
               </Text>
             </Box>
@@ -252,7 +252,7 @@ export const Comment = ({
                 pl={4}
                 mb={2}
                 alignItems="center"
-                className="flex items-center h-8 pl-4 mb-2"
+                className="mb-2 flex h-8 items-center pl-4"
               >
                 <Flex justifyContent="center" alignItems="center" flex="shrink" mr="9px" w="29px">
                   <Icon as={KebabHorizontalIcon} width="full" rotate="90" />

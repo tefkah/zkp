@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { noteStyle } from '../NoteStyle'
-import { CSLCitation } from '../../types'
+import { CSLCitation } from '@zkp/types'
 
 interface CitationProps {
   csl: CSLCitation[]

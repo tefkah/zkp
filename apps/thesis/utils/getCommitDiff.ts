@@ -4,7 +4,7 @@ import fs from 'fs'
 import * as Diff from 'diff'
 import { Change } from 'diff'
 import { extname } from 'path'
-import { FileDiff } from '../types'
+import { FileDiff } from '@zkp/types'
 import { GIT_DIR, NEXT_PUBLIC_NOTE_DIR } from './paths'
 
 const bufferToString = async (tree: WalkerEntry) => {

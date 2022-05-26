@@ -14,7 +14,7 @@ import {
   HStack,
   PopoverTrigger as OrigPopoverTrigger,
 } from '@chakra-ui/react'
-import { IReactionGroups, Reaction, Reactions } from '../../types'
+import { IReactionGroups, Reaction, Reactions } from '@zkp/types'
 import { toggleReaction } from '../../services/github/toggleReaction'
 
 export const PopoverTrigger: React.FC<{ children: React.ReactNode }> = OrigPopoverTrigger
@@ -101,7 +101,7 @@ export const ReactButtons = ({
         <Text as="span" w={4} pr={4} h={4} display="inline-block">
           {Reactions[key]}
         </Text>
-        <Text as="span" fontSize="sm" ml="2px" px={1} className="text-xs ml-[2px] px-1">
+        <Text as="span" fontSize="sm" ml="2px" px={1} className="ml-[2px] px-1 text-xs">
           {count}
         </Text>
       </Button>

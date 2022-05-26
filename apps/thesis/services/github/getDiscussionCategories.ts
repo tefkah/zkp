@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { GDiscussionCategory, GError } from '../../types'
+import { GDiscussionCategory, GError } from '@zkp/types'
 
 const GITHUB_GRAPHQL_API_URL = 'https://api.github.com/graphql'
 const GET_DISCUSSION_CATEGORIES_QUERY = `

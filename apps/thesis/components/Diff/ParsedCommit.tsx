@@ -1,5 +1,5 @@
 import { Skeleton } from '@chakra-ui/react'
-import { Diff } from '../../types'
+import { Diff } from '@zkp/types'
 // TODO: Port diffs to MDX
 import { ParsedDiff } from '../../services/thesis/parseDiff'
 import { DiffBox } from './DiffBox'

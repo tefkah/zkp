@@ -1,6 +1,6 @@
 import { Box, Divider, Heading, HStack, LinkBox, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
-import { Edge, MilestoneNode, NearestMilestoneData } from '../../types'
+import { Edge, MilestoneNode, NearestMilestoneData } from '@zkp/types'
 import { IssueLabels } from './Labels'
 import { Milestone } from './Milestone'
 import { IssueStatus } from './Status'

@@ -2,7 +2,7 @@ import { Text, VStack, HStack, IconButton, useColorModeValue } from '@chakra-ui/
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { useMemo } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
-import { DataBy, Sorts } from '../../types'
+import { DataBy, Sorts } from '@zkp/types'
 import { usePersistantDisclosure } from '../../hooks/usePersistantDisclosure'
 
 import { Collapse } from './Collapse'

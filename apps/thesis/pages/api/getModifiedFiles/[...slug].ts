@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { diffToString } from '../../../services/thesis/parseDiff'
-import { FileDiff } from '../../../types'
+import { FileDiff } from '@zkp/types'
 import { getFileStateChanges } from '../../../utils/getFileStateChanges'
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {

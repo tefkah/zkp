@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { ReactButtons } from './ReactButtons'
 import { updateCommentReaction } from '../../utils/giscus/reactions'
-import { Reaction, IReply } from '../../types'
+import { Reaction, IReply } from '@zkp/types'
 
 import { handleCommentClick } from '../../utils/giscus/adapter'
 import { markdownToReact } from './md'
@@ -77,7 +77,7 @@ export const Reply = ({ reply, onReplyUpdate }: IReplyProps) => {
                     alignItems="center"
                     className="flex items-center"
                   >
-                    <Text as="span" fontWeight="semibold" className="font-semibold link-primary">
+                    <Text as="span" fontWeight="semibold" className="link-primary font-semibold">
                       {reply.author.login}
                     </Text>
                   </ChakraLink>
@@ -88,7 +88,7 @@ export const Reply = ({ reply, onReplyUpdate }: IReplyProps) => {
                   </ChakraLink>
                 </HStack>
                 {reply.authorAssociation !== 'NONE' ? (
-                  <Flex ml={2} fontSize="sm" className="hidden ml-2 text-xs sm:inline-flex">
+                  <Flex ml={2} fontSize="sm" className="ml-2 hidden text-xs sm:inline-flex">
                     <Tag
                       fontWeight="semibold"
                       size="sm"
@@ -96,7 +96,7 @@ export const Reply = ({ reply, onReplyUpdate }: IReplyProps) => {
                       px={1}
                       borderWidth={1}
                       borderRadius="md"
-                      className={`px-1 ml-1 capitalize border rounded-md ${
+                      className={`ml-1 rounded-md border px-1 capitalize ${
                         reply.viewerDidAuthor ? 'color-box-border-info' : 'color-label-border'
                       }`}
                     >

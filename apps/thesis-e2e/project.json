@@ -1,5 +1,4 @@
 {
-  "root": "apps/thesis-e2e",
   "sourceRoot": "apps/thesis-e2e/src",
   "projectType": "application",
   "targets": {

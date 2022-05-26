@@ -3,7 +3,7 @@ import { join } from 'path'
 import readdirp from 'readdirp'
 import { DATA_DIR, NEXT_PUBLIC_NOTE_DIR } from '../paths'
 import { slugify } from '../slug'
-import { DataBy } from '../../types'
+import { DataBy } from '@zkp/types'
 
 export const getFreshDataBySlug = async (noteDir = NEXT_PUBLIC_NOTE_DIR) => {
   const rawDir = await readdirp.promise(noteDir, { alwaysStat: true })

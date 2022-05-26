@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import { getDiscussion, GetDiscussionParams } from '../queries/getDiscussion'
 
-export function useDiscussion(props: GetDiscussionParams, options?: IntersectionObserverInit) {
+export const useDiscussion = (props: GetDiscussionParams, options?: IntersectionObserverInit) => {
   const fetcher = async (resource: string, options: {}) => getDiscussion(props, data?.token)
 
   const { data, error } = useSWR('/api/auth/gha')

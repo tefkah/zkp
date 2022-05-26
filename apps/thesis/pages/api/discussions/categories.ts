@@ -1,6 +1,6 @@
 // Adapted from https://github.com/giscus/giscus/blob/main/pages/api/discussions/categories.ts
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ICategories, IError } from '../../../types'
+import { ICategories, IError } from '@zkp/types'
 import { getAppAccessToken } from '../../../queries/getAccessToken'
 import { getDiscussionCategories } from '../../../services/github/getDiscussionCategories'
 

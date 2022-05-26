@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic'
 import { ChaoticOrbit } from '@uiball/loaders'
 import { getListOfCommitsWithStats } from '../../utils/getListOfCommitsWithStats'
 import { CommitList } from '../../components/Commits/CommitList'
-import { CommitPerDateLog, DateCommit } from '../../types'
+import { CommitPerDateLog, DateCommit } from '@zkp/types'
 // import { HistoryGraph } from '../../components/HistoryGraph'
 import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
 

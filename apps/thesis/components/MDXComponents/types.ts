@@ -1,4 +1,4 @@
-import { MDXComponents } from 'mdx/types'
+import { MDXComponents } from '@zkp/types'
 
 export type MDXProps<T extends keyof JSX.IntrinsicElements = 'div'> = React.ComponentProps<
   Exclude<MDXComponents[T], undefined>

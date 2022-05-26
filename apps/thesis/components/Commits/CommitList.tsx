@@ -2,7 +2,7 @@ import { Box, Flex, Icon, Text, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { BsRecordCircle } from 'react-icons/bs'
 import { format, parse } from 'date-fns'
-import { CommitPerDateLog, DateCommit } from '../../types'
+import { CommitPerDateLog, DateCommit } from '@zkp/types'
 import { CommitListByDate } from './CommitListByDate'
 
 interface CommitListProps {

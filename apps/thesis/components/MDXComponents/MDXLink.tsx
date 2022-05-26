@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ReactNode } from 'react'
 import { Text } from '@chakra-ui/react'
 import { PreviewLink } from '../FileViewer'
-import { MDXComp } from './types'
+import { MDXComp } from '@zkp/types'
 
 // @ts-expect-error Yeah hthe types are all over the frigging place here
 export const MDXLinkBase: MDXComp<'a'> = (

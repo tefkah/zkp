@@ -1,5 +1,5 @@
-import { DiscussionQuery, PaginationParams } from '../types'
-import { GUser, GRepositoryDiscussion, GError, GMultipleErrors } from '../types'
+import { DiscussionQuery, PaginationParams } from '@zkp/types'
+import { GUser, GRepositoryDiscussion, GError, GMultipleErrors } from '@zkp/types'
 import { parseRepoWithOwner } from '../utils/giscus/utils'
 
 const GITHUB_GRAPHQL_API_URL = 'https://api.github.com/graphql'

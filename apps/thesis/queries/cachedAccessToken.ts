@@ -1,4 +1,4 @@
-import { InstallationAccessToken } from '../types'
+import { InstallationAccessToken } from '@zkp/types'
 
 export const SUPABASE_INSTALLATION_ACCESS_TOKENS_URL = `${process.env.SUPABASE_URL}/rest/v1/${process.env.SUPABASE_INSTALLATION_ACCESS_TOKENS_TABLE}`
 

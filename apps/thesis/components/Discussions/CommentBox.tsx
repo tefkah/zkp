@@ -19,7 +19,7 @@ import {
   Avatar,
 } from '@chakra-ui/react'
 import { adaptComment, adaptReply } from '../../utils/giscus/adapter'
-import { IComment, IReply, IUser } from '../../types'
+import { IComment, IReply, IUser } from '@zkp/types'
 import { addDiscussionComment } from '../../services/github/addDiscussionComment'
 import { addDiscussionReply } from '../../services/github/addDiscussionReply'
 import { markdownToReact } from './md'
@@ -102,7 +102,7 @@ export const CommentBox = ({
   return !isReply || isReplyOpen ? (
     <form
       className={`color-bg-primary color-border-primary gsc-comment-box${
-        isReply ? '' : ' border rounded'
+        isReply ? '' : ' rounded border'
       }`}
       onSubmit={(event) => {
         event.preventDefault()
@@ -225,7 +225,7 @@ export const CommentBox = ({
           justifyContent="center"
           flexShrink={0}
           href={viewer.url}
-          className="flex items-center flex-shrink-0"
+          className="flex flex-shrink-0 items-center"
         >
           <Avatar
             src={viewer.avatarUrl}

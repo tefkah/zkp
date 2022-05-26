@@ -1,7 +1,7 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { Reaction } from '../../types'
-import { IComment, IGiscussion, IReactionGroups, IReply } from '../../types'
+import { Reaction } from '@zkp/types'
+import { IComment, IGiscussion, IReactionGroups, IReply } from '@zkp/types'
 
 const updateReactionGroups = (reactionGroups: IReactionGroups, reaction: Reaction) => {
   const diff = reactionGroups[reaction].viewerHasReacted ? -1 : 1

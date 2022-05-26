@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { GReply } from '../../types'
+import { GReply } from '@zkp/types'
 
 const GITHUB_GRAPHQL_API_URL = 'https://api.github.com/graphql'
 

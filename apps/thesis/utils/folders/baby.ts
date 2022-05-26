@@ -1,4 +1,4 @@
-import { RecursiveFolder } from '../../types'
+import { RecursiveFolder } from '@zkp/types'
 
 export const recursePathPlain = (thing: RecursiveFolder, splitPath: string[]): RecursiveFolder => {
   if (!splitPath?.length) {

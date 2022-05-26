@@ -1,7 +1,7 @@
 // @ts-nocheck
 import merge from 'lodash/merge'
 import { convert } from 'unist-util-is'
-import { FileList } from '../../types'
+import { FileList } from '@zkp/types'
 
 const isFile = convert('file')
 

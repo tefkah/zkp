@@ -2,7 +2,7 @@
 import { parse } from 'date-fns'
 import { Point, ResponsiveLine } from '@nivo/line'
 import React, { useCallback, useMemo } from 'react'
-import { DateCommit, CommitDatum, CommitPerDateLog } from '../../types'
+import { DateCommit, CommitDatum, CommitPerDateLog } from '@zkp/types'
 import { Tooltip } from './Tooltip'
 
 interface Props {

@@ -1,4 +1,4 @@
-import { CompareFn, FileLeaf, NextJSCompatibleStats, RecursiveFolder } from '../../types'
+import { CompareFn, FileLeaf, NextJSCompatibleStats, RecursiveFolder } from '@zkp/types'
 
 export interface SortFuncArgs {
   /**

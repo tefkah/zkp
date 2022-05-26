@@ -2,7 +2,7 @@
 
 // from Giscus
 
-import { ICategories, IError } from '../../types'
+import { ICategories, IError } from '@zkp/types'
 
 export const getCategories = async (repo: string) => {
   const result: ICategories | IError = await fetch(
