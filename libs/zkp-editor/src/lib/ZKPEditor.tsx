@@ -23,7 +23,7 @@ import {
 import parseOrg from 'uniorg-parse'
 import orgToSlate from './uniorgToSlatePlugin'
 import unified from 'unified'
-import { SlateMarkdownElement, SlateMarkdownLeaf, SlateNodes } from './types'
+import { SlateMarkdownElement, SlateMarkdownLeaf, SlateNodes } from '@zkp/types'
 
 // type CustomElement = { type: 'paragraph'; children: CustomText[] }
 // type CustomText = { text: string; bold?: true }

@@ -1,5 +1,4 @@
 {
-  "root": "libs/zkp-editor",
   "sourceRoot": "libs/zkp-editor/src",
   "projectType": "library",
   "tags": [],

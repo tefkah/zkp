@@ -1,0 +1,15 @@
+{
+  "ts-node": {
+    // Do not forget to `npm i -D tsconfig-paths`
+    "require": ["tsconfig-paths/register"],
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "NodeNext",
+      "target": "ESNext"
+    },
+    "esm": true,
+    "swc": true
+  },
+  "extends": "../../tsconfig.base.json",
+  "include": ["./index.ts"]
+}

@@ -3,11 +3,13 @@
   "projects": {
     "popover": "libs/popover",
     "popover-e2e": "apps/popover-e2e",
+    "redis": "libs/redis",
+    "scripts": "libs/scripts",
     "thesis": "apps/thesis",
     "thesis-e2e": "apps/thesis-e2e",
+    "types": "libs/types",
     "utils-try-catch": "libs/utils/try-catch",
     "zkp-editor": "libs/zkp-editor",
-    "zkp-editor-e2e": "apps/zkp-editor-e2e",
-    "redis": "libs/redis"
+    "zkp-editor-e2e": "apps/zkp-editor-e2e"
   }
 }

@@ -1,5 +1,14 @@
 {
   "compileOnSave": false,
+  "ts-node": {
+    "require": ["tsconfig-paths/register"],
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "NodeNext",
+      "target": "ESNext"
+    },
+    "esm": true
+  },
   "compilerOptions": {
     "rootDir": ".",
     "sourceMap": true,
@@ -10,10 +19,7 @@
     "importHelpers": true,
     "target": "esnext",
     "module": "NodeNext",
-    "lib": [
-      "es2021",
-      "DOM"
-    ],
+    "lib": ["es2021", "DOM"],
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -24,22 +30,16 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@zkp/popover": [
-        "libs/popover/src/index.ts"
-      ],
-      "try-catch": [
-        "libs/utils/try-catch/src/index.ts"
-      ],
-      "zkp-editor": [
-        "libs/zkp-editor/src/index.ts"
-      ],
-      "@zkp/redis": [
-        "libs/redis/src/index.ts"
-      ]
+      "@zkp/popover": ["libs/popover/src/index.ts"],
+      "@zkp/redis": ["libs/redis/src/index.ts"],
+      "@zkp/scripts": ["libs/scripts/src/index.ts"],
+      "@zkp/thesis": ["apps/thesis"],
+      "@zkp/types": ["libs/types/src/index.ts"],
+      "test-test": ["libs/test/src/index.ts"],
+      "test-testt": ["libs/test/src/index.ts"],
+      "try-catch": ["libs/utils/try-catch/src/index.ts"],
+      "zkp-editor": ["libs/zkp-editor/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

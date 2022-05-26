@@ -1,39 +1,28 @@
 {
-  "root": "libs/utils/try-catch",
   "sourceRoot": "libs/utils/try-catch/src",
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:package",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "executor": "@nrwl/js:swc",
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/utils/try-catch",
         "tsConfig": "libs/utils/try-catch/tsconfig.lib.json",
         "packageJson": "libs/utils/try-catch/package.json",
         "main": "libs/utils/try-catch/src/index.ts",
-        "assets": [
-          "libs/utils/try-catch/*.md"
-        ]
+        "assets": ["libs/utils/try-catch/*.md"]
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/utils/try-catch/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/utils/try-catch/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/utils/try-catch"
-      ],
+      "outputs": ["coverage/libs/utils/try-catch"],
       "options": {
         "jestConfig": "libs/utils/try-catch/jest.config.ts",
         "passWithNoTests": true
