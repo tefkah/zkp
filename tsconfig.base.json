@@ -30,13 +30,13 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
+      "@zkp/git": ["libs/git/src/index.ts"],
+      "@zkp/paths": ["libs/paths/src/index.ts"],
       "@zkp/popover": ["libs/popover/src/index.ts"],
       "@zkp/redis": ["libs/redis/src/index.ts"],
       "@zkp/scripts": ["libs/scripts/src/index.ts"],
       "@zkp/thesis": ["apps/thesis"],
       "@zkp/types": ["libs/types/src/index.ts"],
-      "test-test": ["libs/test/src/index.ts"],
-      "test-testt": ["libs/test/src/index.ts"],
       "try-catch": ["libs/utils/try-catch/src/index.ts"],
       "zkp-editor": ["libs/zkp-editor/src/index.ts"]
     }

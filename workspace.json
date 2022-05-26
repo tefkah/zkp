@@ -1,6 +1,8 @@
 {
   "version": 2,
   "projects": {
+    "git": "libs/git",
+    "paths": "libs/paths",
     "popover": "libs/popover",
     "popover-e2e": "apps/popover-e2e",
     "redis": "libs/redis",

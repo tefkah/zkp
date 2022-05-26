@@ -1,5 +1,5 @@
 const config = {
-  displayName: '@zkp/scripts',
+  displayName: '@zkp/paths',
   preset: '../../jest.preset.ts',
   globals: {
     'ts-jest': {
@@ -13,7 +13,7 @@ const config = {
   },
   transformIgnorePatterns: [],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libs/scripts',
+  coverageDirectory: '../../coverage/libs/@zkp/paths',
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
