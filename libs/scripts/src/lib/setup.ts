@@ -3,6 +3,7 @@ import fs from 'fs'
 import { rm, rmdir, unlink } from 'fs/promises'
 import { join } from 'path'
 import * as http from 'isomorphic-git/http/node/index.js'
+import {Commit} from "@zkp/types"
 
 import { mdxDataBySlug } from '@zkp/thesis'
 import { getListOfCommitsWithStats } from '@zkp/thesis'

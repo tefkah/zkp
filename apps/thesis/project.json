@@ -44,7 +44,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/thesis"],
       "options": {
-        "jestConfig": "apps/thesis/jest.config.ts",
+        "jestConfig": "apps/thesis/jest.config.js",
         "passWithNoTests": true
       }
     },

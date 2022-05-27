@@ -24,7 +24,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/utils/try-catch"],
       "options": {
-        "jestConfig": "libs/utils/try-catch/jest.config.ts",
+        "jestConfig": "libs/utils/try-catch/jest.config.js",
         "passWithNoTests": true
       }
     }

@@ -1,4 +1,4 @@
-import { zkpScripts } from './@zkp/scripts'
+import { zkpScripts } from './scripts'
 
 describe('zkpScripts', () => {
   it('should work', () => {

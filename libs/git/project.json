@@ -27,7 +27,7 @@
       "options": {
         "jestConfig": "libs/git/jest.config.js",
         "passWithNoTests": true,
-        "tsconfig": "libs/git/tsconfig.spec.json"
+        "tsConfig": "libs/git/tsconfig.spec.json"
       }
     }
   },
