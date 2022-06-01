@@ -1,3 +1,5 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "tailwindCSS.experimental.configFile": "libs/zkp-editor/tailwind.config.js"
 }

@@ -60,7 +60,8 @@
         "uiFramework": "@storybook/react",
         "outputPath": "dist/storybook/zkp-editor",
         "config": {
-          "configFolder": "libs/zkp-editor/.storybook"
+          "configFolder": "libs/zkp-editor/.storybook/",
+          "configPath": "libs/zkp-editor/.storybook/main.cjs"
         }
       },
       "configurations": {

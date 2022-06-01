@@ -9,10 +9,7 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "incremental": true,
-    "types": [
-      "jest",
-      "node"
-    ],
+    "types": ["jest", "node"],
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext"
@@ -23,11 +20,8 @@
     "**/*.tsx",
     "next-env.d.ts",
     "**/[*].tsx",
-    "**/[...*].tsx"
+    "**/[...*].tsx",
+    "jest.config.js"
   ],
-  "exclude": [
-    "node_modules",
-    "jest.config.ts",
-    "**/katexSlatePlugin.tsx"
-  ]
+  "exclude": ["node_modules", "jest.config.js", "**/katexSlatePlugin.tsx"]
 }

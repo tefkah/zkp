@@ -1,6 +1,6 @@
-import rootMain from '../../../.storybook/main'
+const rootMain = require('../../../.storybook/main')
 
-const config = {
+module.exports = {
   ...rootMain,
 
   core: { ...rootMain.core, builder: 'webpack5' },
@@ -22,5 +22,3 @@ const config = {
     return config
   },
 }
-
-export default config

@@ -1,18 +1,4 @@
-import { Story, Meta } from '@storybook/react'
-import { Descendant } from 'slate'
-import { mdxSlate } from './mdx/mdxToSlate'
-import { SearchHighlightingExample } from './ZKPEditor'
-
-export default {
-  component: SearchHighlightingExample,
-  title: 'SearchHighlightingExample',
-} as Meta
-
-const Template: Story = (args) => <SearchHighlightingExample {...args} />
-
-export const Primary = Template.bind({})
-
-const rawText = `---
+---
 title: II. Idealizations
 tags:
   - chapter
@@ -33,7 +19,7 @@ ctime: 20210701194946
 
 # On Idealizations
 
-## Idealization is the salient feature of models
+## Idealization is the salient feature of models 
 
 As mentioned previously, instead of focusing on the general process of abstraction by examining the relation between physical models and "reality", we will look at a specific feature of the practice of modeling which, as I will argue, best exemplifies the problems with drawing boundaries: idealization.
 
@@ -41,11 +27,11 @@ As mentioned previously, instead of focusing on the general process of abstracti
 
 For the purposes at hand, we don't need to identify all the necessary and sufficient conditions for counting something as an idealization. Instead, we can simply focus on a single crucial feature: they _falsely_ represent one or more aspects of the real world in order to ease calculation or reasoning ==(are these all the things people do with models? reasoning is pretty broad so should be safe)==. This mirrors the major issue with boundary drawing/discretization, namely that some boundary is drawn in order to facilitate reasoning about some object or concept, when identifying or justifying that boundary is difficult. The shared difficulty, then, consists in justifying either the use or reality of such simplifications.
 
-However, while one of key features of idealizations is that they intentionally distort some aspect of the target system,
+However, while one of key features of idealizations is that they intentionally distort some aspect of the target system, 
 
 {/* common descriptions of idealization specifically include the fact that they introduce a _false_ description, */}
 
-we should not assume that the boundary drawing problem necessarily introduces false descriptions, as doing so would beg the question. Instead we will take the by-now familiar stance of examining _how, if at all_ the use of idealizations is justified
+we should not assume that the boundary drawing problem necessarily introduces false descriptions, as doing so would beg the question. Instead we will take the by-now familiar stance of examining _how, if at all_ the use of idealizations is justified 
 {/*in physics?*/}
 , and hopefully extrapolate from there.
 
@@ -56,7 +42,7 @@ Characterizations of idealizations are abound in the literature, although few da
 - Approximation: proposition which sort of describes the target
 - Idealization: model whose properties sort of describe the target
 
-Norton's standard example is a ball falling through the atmosphere. We have an excellent formula for calculating the velocity $v(t)$ starting at $v=t=0$ as$v(t)=\\frac{g}{k}(1-\\exp(-kt))=gt-\\frac{gkt^2}{2}+\\frac{gk^2t^3}{6}-\\ldots$
+Norton's standard example is a ball falling through the atmosphere. We have an excellent formula for calculating the velocity $v(t)$ starting at $v=t=0$ as$v(t)=\frac{g}{k}(1-\exp(-kt))=gt-\frac{gkt^2}{2}+\frac{gk^2t^3}{6}-\ldots$
 where $g$ is the acceleration due to gravity, and $k$ a friction coefficient.
 
 As any physics student knows, it is often convenient to leave out the influence of air resistance. Setting $k=0$ yields $v(t)=gt$.
@@ -69,15 +55,14 @@ In this example, the difference between an approximation and an idealization is 
 
 
 {/** TODO:  Write up a proper analysis of Streven's classification of idealizations.
-    *
+    * 
     * labels: write, big
-    * milestones:
+    * milestones: 
     */}
-
+ 
 
 
 {/* ### Why do we not consider the target system an idealization? It's also a model */}
-
 
 
 
@@ -104,11 +89,11 @@ As promised, infinite idealizations run into more obvious problems more quickly:
 	* labels: write
 	*/}
 
-
+	
 
 {/**
 	* TODO: Expand the current literature review on infinite idealizations with at least one more source
-	* labels: write
+	* labels: write 
 	*/}
 
 
@@ -123,7 +108,7 @@ First in @Norton2012 and more in depth in @Norton2014, Norton describes his unea
 
 This characterization somewhat goes against the spirit of what Norton intends to argue, namely that such infinite idealizations are not idealizations at all, but can only be sensibly understood as _approximations_ as defined above. For "the essential starting point of the notion of idealization is that we have a consistently describable system, even if it is fictitious." [@Norton2014, pp. 200]  We should however not assume such strong requirements for idealizations, as whether "being consistently describable" is a good feature for a model to have _is_ what is under discussion. For now we will refer to these systems as infinite idealizations.
 
-Norton furthermore distinguishes between _well-behaved_ and _ill-behaved idealizations_.[^well-behaved] _Ill-behaved_ idealizations are infinite idealizations whose limit system (the system with the parameter set to zero or infinity) does not match with target system in some way. This mismatch can take two forms [@Norton2012, (3.2, 3.3)]: the limit system might not exist, e.g., an infinite sphere, or the limit system might have a property which conflicts with a property of the target system. For the former, if we define a sphere as all points which are equidistant from some other point, then an infinite sphere does not exist, as there are no points at infinity. ($\\mathbb{R}=(-\\infty, \\infty)$ not $[-\\infty,\\infty]$) For the latter, Norton imagines modeling an arbitrarily long ellipsoid as an infinite cylinder. While they look similar, the ratio of surface to volume for an ellipsoid is different from that for a cylinder, so the idealization has a fundamental mismatch.
+Norton furthermore distinguishes between _well-behaved_ and _ill-behaved idealizations_.[^well-behaved] _Ill-behaved_ idealizations are infinite idealizations whose limit system (the system with the parameter set to zero or infinity) does not match with target system in some way. This mismatch can take two forms [@Norton2012, (3.2, 3.3)]: the limit system might not exist, e.g., an infinite sphere, or the limit system might have a property which conflicts with a property of the target system. For the former, if we define a sphere as all points which are equidistant from some other point, then an infinite sphere does not exist, as there are no points at infinity. ($\mathbb{R}=(-\infty, \infty)$ not $[-\infty,\infty]$) For the latter, Norton imagines modeling an arbitrarily long ellipsoid as an infinite cylinder. While they look similar, the ratio of surface to volume for an ellipsoid is different from that for a cylinder, so the idealization has a fundamental mismatch.
 
 
 {/**
@@ -138,16 +123,16 @@ In short: for Norton infinite idealization simply is the end result of the proce
 
 @Strevens2019a defines infinite idealization (or “asymptotic idealizations” as he calls them, we will stick with infinite here) slightly differently than Norton. Luckily, Strevens does provide a clear definition, which is in contrast to what he calls a “simple” idealization, which "is achieved by the straightforward operation of setting some parameter or parameters in the model to non-actual values, often zero". A clear example is the air-resistance coefficient above. At first, he contrasts this straightforwardly with infinite idealizations in the Nortonian sense, as “in \[infinite\] idealization, by contrast, a fiction is introduced by taking some sort of limit”. We will take this definition to be identical to Norton's.
 
-However, later on in the paper Strevens adds another layer to the definition,
+However, later on in the paper Strevens adds another layer to the definition, 
 {/*TODO: find a good quote for Strevens adding another layer to the definition for idealizations*/}
- namely that scientists use infinite idealizations when it is not possible to use a simple idealization to directly set the relevant property to zero (or infinity)
+ namely that scientists use infinite idealizations when it is not possible to use a simple idealization to directly set the relevant property to zero (or infinity) 
 {/*TODO: Clarify the distinction between infinite and "normal" idealizations for Strevens*/}
-. Furthermore, he adds, “\[Infinite\] idealization is an interesting proposition, then, only in those cases where a simple substitution cannot be performed, which is to say only in those cases where a veridical model for mathematical reasons falls apart or otherwise behaves badly at the limiting value.” While Strevens later argues why these interesting cases (Norton's mismatches) _do_ make sense, we do not have to concern us with evaluating their correctness just yet, we simply need to note that Strevens makes the same distinction as Norton here.
+. Furthermore, he adds, “\[Infinite\] idealization is an interesting proposition, then, only in those cases where a simple substitution cannot be performed, which is to say only in those cases where a veridical model for mathematical reasons falls apart or otherwise behaves badly at the limiting value.” While Strevens later argues why these interesting cases (Norton's mismatches) _do_ make sense, we do not have to concern us with evaluating their correctness just yet, we simply need to note that Strevens makes the same distinction as Norton here. 
 
 Then, we can define
 
 >[!definition] **Infinite Idealization (Strevens):**
->
+> 
 > An infinite idealization is made by performing a limiting operation on a system, taking some "extrapolation" parameter (such as length, number, volume) to either zero or infinity **in order to set some other parameter to zero or infinity.** The infinite idealization is the system with the extrapolation parameter and the relevant paramenter set to either zero or infinity (dont' need to be the same). However, sometimes these systems misbehave, **which is interesting**.
 _(bold to highlight differences with Norton)_
 
@@ -172,7 +157,7 @@ Strevens -- and Norton less explicitly -- the discussion is presented as being a
 2) _Infinite Idealization_.
    An infinite idealization is one in which a limit is taken in order to set a parameter.
 
-Note that no reference has been made to whether or not it affects another parameter, or whether the limit operation is successful. I argue that this is first and foremost the distinction between these idealizations, and that other qualities should be discussed separately. (I am not sure whether idealizations can be split up neatly into two disjoint sets like these (I'm not sure if that can be done at all, see [@WEBER2010]), but i'll just treat it like it does)
+Note that no reference has been made to whether or not it affects another parameter, or whether the limit operation is successful. I argue that this is first and foremost the distinction between these idealizations, and that other qualities should be discussed separately. (I am not sure whether idealizations can be split up neatly into two disjoint sets like these (I'm not sure if that can be done at all, see [@WEBER2010]), but i'll just treat it like it does) 
 
 This is a distinction based on _method_: _how_ is the idealization achieved? The idealized system might end up the same in some cases, but the operation is the relevant piece.
 
@@ -237,26 +222,3 @@ What is clear is how infinite idealizations (the interesting ones at least) diff
 [^well-behaved]: Again, Norton actually does not consider ill-behaved idealizations to be idealizations at all, but for now we shall simply pretend he does in order to compare his stance.
 
 [^infinitesimal]: (or zero, in case of infinitesimal idealizations. While there might be some differences between the two, for now I will assume they behave the same.)
-`
-
-const initialValue: Descendant[] = [
-  {
-    type: 'paragraph',
-    children: [
-      {
-        text: 'This is editable text that you can search. As you search, it looks for matching strings of text, and adds ',
-      },
-      { text: 'decorations', bold: true },
-      { text: ' to them in realtime.' },
-    ],
-  },
-  {
-    type: 'paragraph',
-    children: [{ text: 'Try it out for yourself by typing in the search box above!' }],
-  },
-]
-
-const text = mdxSlate(rawText)
-console.log(text)
-// Primary.args = { text }
-Primary.args = { text, rawText }
