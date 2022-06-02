@@ -1,22 +1,33 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid'
-import { useState, useRef, ReactNode, Fragment } from 'react'
+import { useState, useRef, ReactNode, DetailedHTMLProps, ButtonHTMLAttributes } from 'react'
 import { Float } from 'headlessui-float-react'
 import Link from 'next/link'
 
-export interface PopoverProps {
+export interface PopoverPropsBase {
   href?: string
   hover?: boolean
-  title: string
   children: ReactNode
   arrow?: boolean
   chevron?: boolean
   lazy?: boolean
+  portal?: boolean
 }
 
+export interface PopoverPropsButton extends PopoverPropsBase {
+  button: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+  title?: undefined
+}
+export interface PopoverPropsSpan extends PopoverPropsBase {
+  title: string | React.ReactElement
+  button?: undefined
+}
+
+export type PopoverProps = PopoverPropsSpan | PopoverPropsButton
+
 export const Popover = (props: PopoverProps) => {
-  const { href, hover, chevron, title, children, arrow, lazy } = props
+  const { href, button, portal, hover, chevron, title, children, arrow, lazy } = props
   const [show, setShow] = useState(false)
-  const [shouldRender, setShouldRender] = useState(!lazy)
+  // const [shouldRender, setShouldRender] = useState(!lazy)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const open = () => {
@@ -25,10 +36,10 @@ export const Popover = (props: PopoverProps) => {
       timer.current = null
     }
 
-    if (!shouldRender) {
-      console.log("I'm going to render the children")
-      setShouldRender(true)
-    }
+    // if (!shouldRender) {
+    //   console.log("I'm going to render the children")
+    //   setShouldRender(true)
+    // }
 
     setShow(true)
   }
@@ -43,41 +54,45 @@ export const Popover = (props: PopoverProps) => {
     }, 150)
   }
 
+  const toggle = () => {
+    setShow(!show)
+  }
+
   return (
-    <span
-      // className="fixed top-16 max-w-sm px-4"
-      className="relative inline-flex"
+    // <span className="relative inline-flex">
+    <Float
+      as="span"
+      strategy="absolute"
+      enter="transition ease-out duration-200"
+      enterFrom="opacity-0 translate-y-8"
+      enterTo="opacity-100 translate-y-0"
+      leave="transition ease-in duration-150"
+      leaveFrom="opacity-100 translate-y-0"
+      leaveTo="opacity-0 translate-y-8"
+      placement="bottom-start"
+      offset={15}
+      shift={6}
+      flip={1}
+      arrow={arrow}
+      portal={portal ?? true}
+      show={show}
     >
-      {/* <HeadlessPopover as="span" className="relative"> */}
-      <Float
-        as="span"
-        strategy="absolute"
-        enter="transition ease-out duration-200"
-        enterFrom="opacity-0 translate-y-8"
-        enterTo="opacity-100 translate-y-0"
-        leave="transition ease-in duration-150"
-        leaveFrom="opacity-100 translate-y-0"
-        leaveTo="opacity-0 translate-y-8"
-        placement="bottom-start"
-        offset={15}
-        shift={6}
-        flip={1}
-        arrow={arrow}
-        portal
-        show={show}
-      >
-        {/* <Link
-            href={href ?? '#'}
-            passHref
-            // onClick={(e) => e.preventDefault()}
-            // ref={buttonRef}
-          > */}
+      {button ? (
+        <button
+          {...(hover ? { onMouseEnter: open, onMouseLeave: delayClose } : {})}
+          {...button}
+          onClick={toggle}
+          type="button"
+          aria-label={button['aria-label']}
+          className={button.className ?? ``}
+        />
+      ) : (
         <span
           onMouseEnter={open}
           onMouseLeave={delayClose}
           className={`
                 ${show ? '' : 'text-opacity-90'}
-                group inline-flex items-center rounded-md text-base font-medium text-orange-300 text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+                group inline-flex items-center rounded-md text-base font-medium  hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
         >
           <Link href={href ?? '#'} passHref>
             <a>{title}</a>
@@ -90,23 +105,21 @@ export const Popover = (props: PopoverProps) => {
             />
           )}
         </span>
-        {/* </Link> */}
-        {/* <HeadlessPopover.Panel */}
-        <span
-          onMouseEnter={open}
-          onMouseLeave={delayClose}
-          //  className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl"
-        >
-          {arrow && (
-            <Float.Arrow className="absolute h-5 w-5 rotate-45 border border-gray-200 bg-white " />
-          )}
-          <div className="max-h-lg max-w-md overflow-y-scroll rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-            {children}
-          </div>
-          {/* </HeadlessPopover.Panel> */}
-        </span>
-      </Float>
-      {/* </HeadlessPopover> */}
-    </span>
+      )}
+      <span
+        onMouseEnter={open}
+        onMouseLeave={delayClose}
+        className="relative z-50"
+        //  className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl"
+      >
+        {arrow && (
+          <Float.Arrow className="absolute h-5 w-5 rotate-45 border border-gray-200 bg-white " />
+        )}
+        <div className="max-h-lg max-w-md overflow-y-scroll rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+          {children}
+        </div>
+      </span>
+    </Float>
+    // </span>
   )
 }

@@ -30,6 +30,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
+      "@zkp/discus": ["libs/discus/src/index.ts"],
       "@zkp/git": ["libs/git/src/index.ts"],
       "@zkp/paths": ["libs/paths/src/index.ts"],
       "@zkp/popover": ["libs/popover/src/index.ts"],
@@ -37,6 +38,7 @@
       "@zkp/scripts": ["libs/scripts/src/index.ts"],
       "@zkp/thesis": ["apps/thesis"],
       "@zkp/types": ["libs/types/src/index.ts"],
+      "@zkp/ui": ["libs/ui/src/index.ts"],
       "try-catch": ["libs/utils/try-catch/src/index.ts"],
       "zkp-editor": ["libs/zkp-editor/src/index.ts"]
     }

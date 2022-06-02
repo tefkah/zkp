@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "discus": "libs/discus",
     "git": "libs/git",
     "paths": "libs/paths",
     "popover": "libs/popover",
@@ -10,6 +11,7 @@
     "thesis": "apps/thesis",
     "thesis-e2e": "apps/thesis-e2e",
     "types": "libs/types",
+    "ui": "libs/ui",
     "utils-try-catch": "libs/utils/try-catch",
     "zkp-editor": "libs/zkp-editor",
     "zkp-editor-e2e": "apps/zkp-editor-e2e"

@@ -1,4 +1,4 @@
-import { Popover } from './popover'
+import { Popover } from '@zkp/popover'
 
 const solutions = [
   {

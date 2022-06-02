@@ -3,7 +3,9 @@
   "affected": {
     "defaultBase": "main"
   },
-  "cli": {},
+  "cli": {
+    "defaultCollection": "@nrwl/next"
+  },
   "implicitDependencies": {
     "package.json": {
       "dependencies": "*",
@@ -15,7 +17,13 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e", "build-storybook"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e",
+          "build-storybook"
+        ]
       }
     }
   },
