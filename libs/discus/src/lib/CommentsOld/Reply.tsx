@@ -3,15 +3,15 @@
 import { useCallback } from 'react'
 import { useColorModeValue, Link as ChakraLink } from '@chakra-ui/react'
 import { ReactButtons } from './ReactButtons'
-import { updateCommentReaction as defaultUpdateCommentReaction } from '../utils/giscus/reactions'
+import { updateCommentReaction as defaultUpdateCommentReaction } from '../../utils/giscus/reactions'
 import { Reaction, IReply } from '@zkp/types'
 
-import { handleCommentClick } from '../utils/giscus/adapter'
+import { handleCommentClick } from '../../utils/giscus/adapter'
 
 import {
   isoToDate as formatDate,
   isoToDateDistance as formatDateDistance,
-} from '../utils/parseTime'
+} from '../../utils/parseTime'
 import { CommentBody } from './CommentBody'
 
 export interface ReplyProps {

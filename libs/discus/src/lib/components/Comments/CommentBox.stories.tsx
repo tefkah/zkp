@@ -1,22 +1,22 @@
 import { Story, Meta } from '@storybook/react'
-import { IReply } from '@zkp/types'
+import { ICommentBox } from '@zkp/types'
 import NextAuth from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
-import { Reply, ReplyProps } from './Reply'
-import '../../'
+import { CommentBox, CommentBoxProps } from './CommentBox'
+import '../../..'
 
 export default {
-  component: Reply,
-  title: 'Reply',
+  component: CommentBox,
+  title: 'CommentBox',
 } as Meta
 
-const Template: Story<ReplyProps> = (args) => (
+const Template: Story<CommentBoxProps> = (args) => (
   <SessionProvider>
-    <Reply {...args} />
+    <CommentBox {...args} />
   </SessionProvider>
 )
 
-const defaultReply = {
+const defaultCommentBox = {
   id: 'sathts',
   author: {
     avatarUrl: 'https://avatars.githubusercontent.com/u/21983833?s=40&v=4',
@@ -48,11 +48,11 @@ const defaultReply = {
   },
 
   replyToId: 'ashtaisht',
-} as IReply
+} as ICommentBox
 
 export const Primary = Template.bind({})
 Primary.args = {
-  reply: defaultReply,
-  onReplyUpdate: async () => {},
+  reply: defaultCommentBox,
+  onCommentBoxUpdate: async () => {},
   updateCommentReaction: (reply: any, reaction: any) => reply,
 }

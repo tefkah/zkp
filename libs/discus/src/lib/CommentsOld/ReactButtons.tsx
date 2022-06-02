@@ -14,7 +14,7 @@ import {
   PopoverTrigger as OrigPopoverTrigger,
 } from '@chakra-ui/react'
 import { IReactionGroups, Reaction, Reactions } from '@zkp/types'
-import { toggleReaction } from '../services/github/toggleReaction'
+import { toggleReaction } from '../../services/github/toggleReaction'
 import { Popover } from '@zkp/popover'
 
 export const PopoverTrigger: React.FC<{ children: React.ReactNode }> = OrigPopoverTrigger

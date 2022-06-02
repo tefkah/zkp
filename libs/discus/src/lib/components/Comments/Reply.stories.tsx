@@ -3,7 +3,7 @@ import { IReply } from '@zkp/types'
 import NextAuth from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 import { Reply, ReplyProps } from './Reply'
-import '../../'
+import '../../..'
 
 export default {
   component: Reply,

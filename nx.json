@@ -17,13 +17,7 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e",
-          "build-storybook"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e", "build-storybook"]
       }
     }
   },
@@ -39,6 +33,19 @@
     "@nrwl/react": {
       "application": {
         "babel": true
+      },
+      "libary": {
+        "compiler": "swc",
+        "style": "none",
+        "setParserOptionsProject": true,
+        "buildable": true
+      },
+      "component": {
+        "project": "ui",
+        "export": true,
+        "pascalCaseFiles": true,
+        "pascalCaseDirectory": true,
+        "style": "none"
       }
     },
     "@nrwl/next": {

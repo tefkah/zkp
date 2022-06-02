@@ -1,8 +1,6 @@
 import { Story, Meta } from '@storybook/react'
-import NextAuth from 'next-auth'
-import { SessionProvider } from 'next-auth/react'
 import { ReplyBoxContents, ReplyBoxContentsProps } from './ReplyBoxContents'
-import '../../'
+import '../../..'
 
 export default {
   component: ReplyBoxContents,

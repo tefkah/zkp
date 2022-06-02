@@ -19,10 +19,10 @@ import {
   HStack,
   Avatar,
 } from '@chakra-ui/react'
-import { adaptComment, adaptReply } from '../utils/giscus/adapter'
+import { adaptComment, adaptReply } from '../../utils/giscus/adapter'
 import { IComment, IReply, IUser } from '@zkp/types'
-import { addDiscussionComment } from '../services/github/addDiscussionComment'
-import { addDiscussionReply } from '../services/github/addDiscussionReply'
+import { addDiscussionComment } from '../../services/github/addDiscussionComment'
+import { addDiscussionReply } from '../../services/github/addDiscussionReply'
 import { MarkdownToReact } from './md'
 import { ReplyBoxContents } from './ReplyBoxContents'
 

@@ -3,7 +3,7 @@
 import { useCallback } from 'react'
 import useSWR from 'swr'
 import { Giscus } from './Giscus'
-import { createDiscussion } from '../services/giscus/createDiscussion'
+import { createDiscussion } from '../../services/giscus/createDiscussion'
 
 interface IWidgetProps {
   origin: string

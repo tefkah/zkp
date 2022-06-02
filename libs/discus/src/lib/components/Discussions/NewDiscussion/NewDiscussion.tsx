@@ -26,16 +26,16 @@ import {
 import { PlusIcon } from '@primer/octicons-react'
 import React, { useState } from 'react'
 
-import { CategoryData } from '../queries/getDiscussion'
-import { createDiscussion } from '../services/github/createDiscussion'
+import { CategoryData } from '../../../queries/getDiscussion'
+import { createDiscussion } from '../../../services/github/createDiscussion'
 
 export const PopoverTrigger: React.FC<{ children: React.ReactNode }> = OrigPopoverTrigger
-interface Props {
+export interface NewDiscussionProps {
   discussionCategories: CategoryData
   token: string
 }
 
-export const NewDiscussion = (props: Props) => {
+export const NewDiscussion = (props: NewDiscussionProps) => {
   const { discussionCategories, token } = props
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [category, setCategory] = useState<{ id: string; emoji: any; name: string }>({

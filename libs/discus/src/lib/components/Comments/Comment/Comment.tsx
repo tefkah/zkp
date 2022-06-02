@@ -1,4 +1,4 @@
-import { CommentBody } from './CommentBody'
+import { CommentBody } from '../CommentBody'
 // ported from the great https://github.com/giscus/giscus
 
 import { ArrowUpIcon, KebabHorizontalIcon } from '@primer/octicons-react'
@@ -15,18 +15,18 @@ import {
   HStack,
   Icon,
 } from '@chakra-ui/react'
-import { handleCommentClick } from '../utils/giscus/adapter'
+import { handleCommentClick } from '../../../utils/giscus/adapter'
 import { Reaction, IComment, IReply } from '@zkp/types'
-import { updateCommentReaction } from '../utils/giscus/reactions'
-import { toggleUpvote } from '../services/github/toggleUpvote'
-import { CommentBox } from './CommentBox'
-import { ReactButtons } from './ReactButtons'
-import { Reply } from './Reply'
-import { MarkdownToReact } from './md'
+import { updateCommentReaction } from '../../../utils/giscus/reactions'
+import { toggleUpvote } from '../../../services/github/toggleUpvote'
+import { CommentBox } from '../CommentBox'
+import { ReactButtons } from '../ReactButtons'
+import { Reply } from '../Reply'
+import { MarkdownToReact } from '../md'
 import {
   isoToDate as formatDate,
   isoToDateDistance as formatDateDistance,
-} from '../utils/parseTime'
+} from '../../../utils/parseTime'
 // import Image from 'next/image'
 
 interface ICommentProps {

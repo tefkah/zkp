@@ -18,9 +18,9 @@ import { formatDistance, parseISO } from 'date-fns'
 import Link from 'next/link'
 import React from 'react'
 import { VscCircleFilled } from 'react-icons/vsc'
-import { CommentEdge, DiscussionNode } from '../queries/getDiscussion'
+import { CommentEdge, DiscussionNode } from '../../../queries/getDiscussion'
 
-interface Props {
+export interface DiscussionCardProps {
   node: DiscussionNode
   lastVisit: string
   commentCount: number
@@ -28,7 +28,12 @@ interface Props {
   totalCount: number
 }
 
-export const DiscussionCard = ({ node, lastVisit, commentCount, replyCount }: Props) => {
+export const DiscussionCard = ({
+  node,
+  lastVisit,
+  commentCount,
+  replyCount,
+}: DiscussionCardProps) => {
   const {
     title,
     updatedAt,

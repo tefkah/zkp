@@ -1,7 +1,7 @@
 import { Alert, AlertIcon, Box, Text } from '@chakra-ui/react'
 import React from 'react'
 import useSWR from 'swr'
-import { Widget } from '../Discussions/Widget'
+import { Widget } from '../Comments/Widget'
 import '../styles/base.css'
 interface Props {
   title: string
