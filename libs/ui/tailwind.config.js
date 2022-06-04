@@ -4,8 +4,10 @@ const { createGlobPatternsForDependencies } = require('@nrwl/react/tailwind')
 // const { createGlobPatternsForDependencies } = import('@nrwl/react/tailwind.js')
 
 const typography = require('@tailwindcss/typography')
+const forms = require('@tailwindcss/forms')
 
 module.exports = {
+  presets: [require('../../tailwind-workspace-preset.js')],
   content: [
     join(__dirname, '**/*!(*.spec).{ts,tsx,html}'),
     ...createGlobPatternsForDependencies(__dirname),
@@ -13,5 +15,5 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [typography],
+  plugins: [typography, forms],
 }

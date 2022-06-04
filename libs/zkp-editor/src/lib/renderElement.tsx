@@ -6,6 +6,7 @@ import { RenderElementProps } from 'slate-react'
 export const renderElement = (props: RenderElementProps) => {
   const { attributes, children, element } = props
 
+  console.log(element)
   switch (element.type) {
     case 'paragraph':
       return <p {...attributes}>{children}</p>

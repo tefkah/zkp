@@ -1,17 +1,17 @@
 import { IComment, IReply } from '@zkp/types'
 import dynamic from 'next/dynamic'
 import { MouseEvent as ReactMouseEvent } from 'react'
-import { MarkdownToReactProps } from '../md'
+import { MarkdownToReactProps } from '../Md/MarkdownToReact'
 // import { markdownToReact } from './md'
 
-interface CommentBodyProps {
+export interface CommentBodyProps {
   handleCommentClick: (event: ReactMouseEvent<HTMLElement, MouseEvent>) => void
   hidden: boolean
   comment: IComment | IReply
 }
 
 const MarkdownToReact = dynamic<MarkdownToReactProps>(() =>
-  import('../md').then((module) => module.MarkdownToReact),
+  import('../Md/MarkdownToReact').then((module) => module.MarkdownToReact),
 )
 
 export const CommentBody = ({ handleCommentClick, hidden, comment }: CommentBodyProps) => {

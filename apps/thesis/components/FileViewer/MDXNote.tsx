@@ -12,7 +12,7 @@ export const MDXNote = (props: MDXNoteProps) => {
   const { currentId, source } = props
   const comps = useMemo(() => createMdxRehypeReactCompents(currentId), [currentId])
   return (
-    <article className="prose prose-slate">
+    <article className="prose prose-slate dark:prose-invert">
       <MDXRemote {...source} components={comps} />
     </article>
   )

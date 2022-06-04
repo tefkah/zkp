@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/react'
 import { Descendant } from 'slate'
-import { mdxSlate } from './mdx/mdxToSlate'
+import { mdxSlate } from './transformers/mdx/mdxToSlate'
 import { PlateEditor } from './PlateEditor'
 
 export default {

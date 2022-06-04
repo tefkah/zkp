@@ -1,5 +1,7 @@
 // ported from the great https://github.com/giscus/giscus
 
+import { ToggleUpvoteBody, ToggleUpvoteResponse } from '@zkp/types'
+
 const TOGGLE_UPVOTE_QUERY = (mode: 'Add' | 'Remove') => `
   mutation($upvoteInput: ${mode}UpvoteInput!) {
     toggleUpvote: ${mode.toLowerCase()}Upvote(input: $upvoteInput) {
@@ -8,20 +10,6 @@ const TOGGLE_UPVOTE_QUERY = (mode: 'Add' | 'Remove') => `
       }
     }
   }`
-
-export interface ToggleUpvoteBody {
-  upvoteInput: { subjectId: string }
-}
-
-export interface ToggleUpvoteResponse {
-  data: {
-    toggleUpvote: {
-      subject: {
-        upvoteCount: number
-      }
-    }
-  }
-}
 
 export const toggleUpvote = async (
   params: ToggleUpvoteBody,

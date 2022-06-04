@@ -9,4 +9,4 @@ export default {
 const Template: Story<ContainerProps> = (args) => <Container {...args} />
 
 export const Primary = Template.bind({})
-Primary.args = {}
+Primary.args = { children: 'AAAAAAAAAAAAaa' }

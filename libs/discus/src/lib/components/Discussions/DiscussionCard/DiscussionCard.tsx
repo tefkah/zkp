@@ -1,24 +1,12 @@
 // ported from the great https://github.com/giscus/giscus
 
-import {
-  Text,
-  Box,
-  Heading,
-  HStack,
-  Icon,
-  LinkBox,
-  LinkOverlay,
-  Tooltip,
-  VStack,
-  Container,
-  useColorModeValue,
-} from '@chakra-ui/react'
+import { Tooltip } from '@chakra-ui/react'
 import { CommentDiscussionIcon } from '@primer/octicons-react'
+import { CommentEdge, DiscussionNode } from '@zkp/types'
+import { Container } from '@zkp/ui'
 import { formatDistance, parseISO } from 'date-fns'
 import Link from 'next/link'
-import React from 'react'
 import { VscCircleFilled } from 'react-icons/vsc'
-import { CommentEdge, DiscussionNode } from '../../../queries/getDiscussion'
 
 export interface DiscussionCardProps {
   node: DiscussionNode
@@ -53,80 +41,64 @@ export const DiscussionCard = ({
   const newComments = comments.totalCount - (commentCount || 0)
   const newReplies = totalReplyCount - (replyCount || 0)
 
-  const light = useColorModeValue('gray.100', 'gray.700')
-  const lighter = 'back'
-  const text = useColorModeValue('gray.500', 'gray.200')
+  // const light = useColorModeValue('gray.100', 'gray.700')
+  // const lighter = 'back'
+  // const text = useColorModeValue('gray.500', 'gray.200')
 
   return (
-    <Box key={title} w="full">
-      <LinkBox
-        w="full"
-        p={4}
-        as={VStack}
-        alignItems="flex-start"
-        // borderWidth={1}
-        borderRadius="md"
-        transition="color 0.2s"
-        _hover={{
-          color: 'primary',
-          backgroundColor: lighter,
-        }}
-      >
-        <HStack w="full" alignItems="center" justifyContent="space-between">
-          <HStack alignItems="baseline">
-            <Heading maxW="60ch" size="md" fontWeight="600">
+    <div className="w-full" key={title}>
+      <div className="item-start flex w-full flex-col gap-2 rounded-md p-4 transition-colors hover:bg-slate-100 hover:text-red-500 dark:hover:bg-slate-700">
+        <div className="flex w-full items-center justify-between gap-2">
+          <div className="flex items-baseline gap-2">
+            <h2 className="text-md truncate font-semibold">
               <Link passHref href={`/discussions/${title}`}>
-                <LinkOverlay>{title}</LinkOverlay>
+                <a>{title}</a>
               </Link>
-            </Heading>
+            </h2>
             {isUpdated && (
-              <Box>
-                <Icon mb={1} as={VscCircleFilled} color="primary" />
-              </Box>
+              <div>
+                <VscCircleFilled />
+              </div>
             )}
-          </HStack>
-          <Box>
+          </div>
+          <div>
             <Tooltip label={description}>
-              <HStack borderWidth={1} py="2px" borderRadius="2xl" bg={light} px={3}>
-                <Box fontSize="sm" dangerouslySetInnerHTML={{ __html: emojiHTML }} />
-                <Text fontSize="sm" color={text} fontWeight="semibold">
-                  {name}
-                </Text>
-              </HStack>
+              <div className="border-1 flex gap-2 rounded-2xl bg-slate-100 px-2 py-1 dark:bg-slate-900">
+                <div className="text-sm" dangerouslySetInnerHTML={{ __html: emojiHTML }} />
+                <p className="text-sm font-semibold text-slate-500 dark:text-slate-200">{name}</p>
+              </div>
             </Tooltip>
-          </Box>
-        </HStack>
-        <HStack alignItems="baseline" w="full" justifyContent="space-between">
-          <Box>
-            <Container py={2} px={0}>
-              {body}
-            </Container>
-          </Box>
-          <HStack alignItems="center">
-            <Text>{totalCommentsandReplies}</Text>
-            <Box>
-              <Icon as={CommentDiscussionIcon} />
-            </Box>
-          </HStack>
-        </HStack>
-        <HStack alignItems="bottom" spacing={4} w="full" justifyContent="space-between">
-          <Text fontSize="sm" color="gray.500">
+          </div>
+        </div>
+        <div className="flex w-full items-baseline justify-between gap-2">
+          <Container className="px-y px-0">
+            <p>{body}</p>
+          </Container>
+          <div className="flex items-center gap-2">
+            <p>{totalCommentsandReplies}</p>
+            <div>
+              <CommentDiscussionIcon />
+            </div>
+          </div>
+        </div>
+        <div className="items-bottom flex w-full justify-between gap-4">
+          <p className="color-slate-500 text-sm">
             Updated {formatDistance(parseISO(updatedAt), new Date(), { addSuffix: true })}
-          </Text>
-          <VStack color="gray.400" fontWeight="semibold" alignItems="flex-end" spacing={0}>
+          </p>
+          <div className="flex flex-col items-end font-semibold text-slate-400">
             {newComments && (
-              <Text fontSize="xs">{`${newComments} new ${
+              <p className="text-xs">{`${newComments} new ${
                 newComments > 1 ? 'comments' : 'comment'
-              }`}</Text>
+              }`}</p>
             )}
             {newReplies && (
-              <Text fontSize="xs">{`${newReplies} new ${
+              <p className="text-xs">{`${newReplies} new ${
                 newReplies > 1 ? 'replies' : 'reply'
-              }`}</Text>
+              }`}</p>
             )}
-          </VStack>
-        </HStack>
-      </LinkBox>
-    </Box>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

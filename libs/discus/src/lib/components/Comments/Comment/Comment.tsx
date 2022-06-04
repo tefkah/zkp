@@ -22,7 +22,7 @@ import { toggleUpvote } from '../../../services/github/toggleUpvote'
 import { CommentBox } from '../CommentBox'
 import { ReactButtons } from '../ReactButtons'
 import { Reply } from '../Reply'
-import { MarkdownToReact } from '../md'
+import { MarkdownToReact } from '../Md/MarkdownToReact'
 import {
   isoToDate as formatDate,
   isoToDateDistance as formatDateDistance,

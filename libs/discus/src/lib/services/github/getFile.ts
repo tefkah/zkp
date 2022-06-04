@@ -1,28 +1,9 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { GError } from '@zkp/types'
+import { ContentsResponse, GError } from '@zkp/types'
 
 // eslint-disable-next-line prefer-destructuring
 const GITHUB_REPOS_API_URL = process.env.GITHUB_REPOS_API_URL
-
-interface ContentsResponse {
-  name: string
-  path: string
-  sha: string
-  size: number
-  url: string
-  html_url: string
-  git_url: string
-  download_url: string
-  type: string
-  content: string
-  encoding: string
-  _links: {
-    self: string
-    git: string
-    html: string
-  }
-}
 
 export const getFile = async (repoWithOwner: string, path: string, token?: string) => {
   const response = await fetch(`${GITHUB_REPOS_API_URL}/${repoWithOwner}/contents/${path}`, {

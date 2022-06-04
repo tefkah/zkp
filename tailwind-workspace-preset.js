@@ -1,9 +1,17 @@
+// @ts-check
+
+/**
+ * @type {import('tailwindcss/tailwind-config').TailwindConfig}
+ **/
+
 module.exports = {
+  darkMode: 'class',
   theme: {
     extend: {},
   },
   variants: {
     extend: {},
   },
-  plugins: [require('@tailwindcss/typography')],
+  // @ts-expect-error shush
+  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
 }

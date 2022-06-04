@@ -1,3 +1,3 @@
-export * from './lib/Test'
-export * from './lib/Container/Container'
+export * from './lib/Tabs'
+export * from './lib/Container'
 export * from './lib/ui'

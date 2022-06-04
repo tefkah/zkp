@@ -4,7 +4,7 @@ import { ColorModeScript } from '@chakra-ui/react'
 export default class Document extends NextDocument {
   render() {
     return (
-      <Html style={{ overflowY: 'hidden' }}>
+      <Html style={{ overflowY: 'hidden' }} className="transition-colors">
         <Head>
           {/* <link
             href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"

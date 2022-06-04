@@ -1,89 +1,13 @@
-import { DiscussionQuery, PaginationParams } from '@zkp/types'
+import {
+  DiscussionQuery,
+  GetDiscussionParams,
+  GetDiscussionResponse,
+  PaginationParams,
+} from '@zkp/types'
 import { GUser, GRepositoryDiscussion, GError, GMultipleErrors } from '@zkp/types'
 import { parseRepoWithOwner } from '../utils/giscus/utils'
 
 const GITHUB_GRAPHQL_API_URL = 'https://api.github.com/graphql'
-
-export interface DiscussionList {
-  data: Data
-}
-
-interface Data {
-  repository: Repository
-}
-
-interface Repository {
-  discussions: Discussions
-}
-
-interface Discussions {
-  edges: DiscussionEdge[]
-}
-
-export interface DiscussionEdge {
-  cursor: string
-  node: DiscussionNode
-}
-
-export interface DiscussionNode {
-  body: string
-  title: string
-  updatedAt: string
-  category: Category
-  author: Author
-  comments: Comments
-}
-interface Comments {
-  totalCount: number
-  edges: CommentEdge[]
-}
-
-export interface CommentEdge {
-  node: CommentNode
-}
-
-interface CommentNode {
-  replies: Replies
-}
-interface Replies {
-  totalCount: number
-}
-
-interface Author {
-  avatarUrl: string
-  login: string
-  url: string
-}
-
-interface Category {
-  name: string
-  description: string
-  emojiHTML: string
-}
-
-export interface CategoryData {
-  data: Data
-}
-
-interface Data {
-  repository: Repository
-}
-
-interface Repository {
-  discussionCategories: DiscussionCategories
-}
-
-interface DiscussionCategories {
-  nodes: Node[]
-}
-
-interface Node {
-  emoji: string
-  emojiHTML: string
-  id: string
-  name: string
-  description: string
-}
 
 export const CATEGORY_LIST_QUERY = `
 {
@@ -256,29 +180,6 @@ const GET_DISCUSSION_QUERY = (type: 'term' | 'number' | 'list') => `
     }
     ${type === 'term' ? SEARCH_QUERY : type === 'list' ? GENERAL_QUERY : SPECIFIC_QUERY}
   }`
-
-export interface GetDiscussionParams extends PaginationParams, DiscussionQuery {}
-
-interface SearchResponse {
-  data: {
-    viewer: GUser
-    search: {
-      discussionCount: number
-      nodes: Array<GRepositoryDiscussion>
-    }
-  }
-}
-
-interface SpecificResponse {
-  data: {
-    viewer: GUser
-    repository: {
-      discussion: GRepositoryDiscussion
-    }
-  }
-}
-
-export type GetDiscussionResponse = SearchResponse | SpecificResponse
 
 export async function getDiscussion(
   params: GetDiscussionParams,

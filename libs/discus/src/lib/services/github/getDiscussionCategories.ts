@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { GDiscussionCategory, GError } from '@zkp/types'
+import { GError, GetDiscussionCategoriesParams, GetDiscussionCategoriesResponse } from '@zkp/types'
 
 const GITHUB_GRAPHQL_API_URL = 'https://api.github.com/graphql'
 const GET_DISCUSSION_CATEGORIES_QUERY = `
@@ -20,23 +20,6 @@ const GET_DISCUSSION_CATEGORIES_QUERY = `
       }
     }
   }`
-
-export interface GetDiscussionCategoriesParams {
-  repo: string
-}
-
-export interface GetDiscussionCategoriesResponse {
-  data: {
-    search: {
-      nodes: Array<{
-        id: string
-        discussionCategories: {
-          nodes: GDiscussionCategory[]
-        }
-      }>
-    }
-  }
-}
 
 export const getDiscussionCategories = async (
   params: GetDiscussionCategoriesParams,

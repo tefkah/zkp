@@ -17,7 +17,7 @@ const node: DiscussionCardProps['node'] = {
     avatarUrl: 'https://avatars.githubusercontent.com/u/21983833?s=40&v=4',
   },
   title: 'Discussion 1',
-  updatedAt: '',
+  updatedAt: '2021-11-03T10:15:30Z',
   body: 'Wow, this sure is some Markdown \n ###hey',
   comments: { totalCount: 22, edges: [] },
   category: { emojiHTML: '🧐', description: 'Thinky', name: 'Thinky' },

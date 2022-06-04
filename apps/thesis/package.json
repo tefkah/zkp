@@ -1,7 +1,6 @@
 {
   "name": "zkp",
   "license": "GPL-3-0-or-later",
-  "type": "module",
   "scripts": {
     "dev": "next",
     "build": "yarn setup && next build",

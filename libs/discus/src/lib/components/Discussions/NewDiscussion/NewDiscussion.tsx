@@ -26,7 +26,7 @@ import {
 import { PlusIcon } from '@primer/octicons-react'
 import React, { useState } from 'react'
 
-import { CategoryData } from '../../../queries/getDiscussion'
+import { CategoryData } from '@zkp/types'
 import { createDiscussion } from '../../../services/github/createDiscussion'
 
 export const PopoverTrigger: React.FC<{ children: React.ReactNode }> = OrigPopoverTrigger
@@ -55,6 +55,7 @@ export const NewDiscussion = (props: NewDiscussionProps) => {
   }
 
   const nodes = discussionCategories?.data?.repository?.discussionCategories?.nodes || []
+
   return (
     <Popover {...{ isOpen, onOpen, onClose }} closeOnBlur={false}>
       <PopoverTrigger>
@@ -68,9 +69,9 @@ export const NewDiscussion = (props: NewDiscussionProps) => {
         <PopoverBody>
           <VStack spacing={2} alignItems="flex-start">
             <Heading size="sm">Title*</Heading>
-            <Input value={title} onChange={(v) => setTitle(v.target.value)} />
+            <Input value={title} onChange={(v: any) => setTitle(v?.target?.value)} />
             <Heading size="sm">Description</Heading>
-            <Textarea value={body} onChange={(v) => setBody(v.target.value)} />
+            <Textarea value={body} onChange={(v: any) => setBody(v.target.value)} />
             <Heading size="sm">Category*</Heading>
             <Menu>
               <MenuButton rightIcon={<ChevronDownIcon />} as={Button}>

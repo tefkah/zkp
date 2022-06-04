@@ -1,66 +1,102 @@
-/*
-  This example requires Tailwind CSS v2.0+
+export interface TabsProps {
+  categories: Category
+}
+export interface Category {
+  Recent: Recent[]
+  Popular: Recent[]
+  Trending: Recent[]
+}
 
-  This example requires some changes to your config:
+interface Recent {
+  id: number
+  title: string
+  date: string
+  commentCount: number
+  shareCount: number
+}
 
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-const tabs = [
-  { name: 'My Account', href: '#', current: false },
-  { name: 'Company', href: '#', current: false },
-  { name: 'Team Members', href: '#', current: true },
-  { name: 'Billing', href: '#', current: false },
-]
+import { Fragment, useState } from 'react'
+import { Tab, Transition } from '@headlessui/react'
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export const Tabs = () => {
+export const Tabs = ({ categories: cats }: TabsProps) => {
+  let [categories] = useState(cats)
+
   return (
-    <div>
-      <div className="sm:hidden">
-        <label htmlFor="tabs" className="sr-only">
-          Select a tab
-        </label>
-        {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
-        <select
-          id="tabs"
-          name="tabs"
-          className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-          defaultValue={tabs.find((tab) => tab.current).name}
-        >
-          {tabs.map((tab) => (
-            <option key={tab.name}>{tab.name}</option>
-          ))}
-        </select>
-      </div>
-      <div className="hidden sm:block">
-        <nav className="flex space-x-4" aria-label="Tabs">
-          {tabs.map((tab) => (
-            <a
-              key={tab.name}
-              href={tab.href}
-              className={classNames(
-                tab.current ? 'bg-gray-100 text-gray-700' : 'text-gray-500 hover:text-gray-700',
-                'rounded-md px-3 py-2 text-sm font-medium',
-              )}
-              aria-current={tab.current ? 'page' : undefined}
-            >
-              {tab.name}
-            </a>
-          ))}
-        </nav>
-      </div>
+    <div className="w-full max-w-md px-2 py-16 sm:px-0">
+      <Tab.Group>
+        {({ selectedIndex }) => (
+          <>
+            <Tab.List className="relative flex space-x-1 rounded-xl bg-slate-100 p-1">
+              {Object.keys(categories).map((category, index) => (
+                <Tab
+                  key={category}
+                  className={({ selected }) => {
+                    return classNames(
+                      'relative w-full rounded-lg bg-transparent py-2.5  text-sm font-medium leading-5 transition-colors focus:outline-none focus:outline-hidden',
+                      selected ? 'text-blue-600' : 'text-slate-600',
+                      // selected
+                      //   ? 'bg-white shadow'
+                      //   : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
+                    )
+                  }}
+                >
+                  <span className="relative z-10">{category}</span>
+                </Tab>
+              ))}
+              <div
+                className={classNames(
+                  'absolute left-0 min-h-[80%] rounded-xl bg-white shadow-md transition-transform duration-150 ease-in',
+                  ' border-2 border-blue-300 ',
+                )}
+                style={{
+                  transitionTimingFunction: 'cubic-bezier(0.42, 0.0, 1.0, 1.0)',
+                  transform: `translate(${100 * selectedIndex}%,0)`,
+                  width: `${100 / (Object.keys(categories).length ?? 1)}%`,
+                }}
+              ></div>
+            </Tab.List>
+            {/* <Tab.Panels className="mt-2">
+              {Object.values(categories).map((posts: Category[keyof Category], idx) => (
+                <Tab.Panel
+                  key={idx}
+                  className={classNames(
+                    'rounded-xl bg-white p-3',
+                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                  )}
+                >
+                  <ul>
+                    {posts.map((post) => (
+                      <li key={post.id} className="relative rounded-md p-3 hover:bg-gray-100">
+                        <h3 className="text-sm font-medium leading-5">{post.title}</h3>
+
+                        <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
+                          <li>{post.date}</li>
+                          <li>&middot;</li>
+                          <li>{post.commentCount} comments</li>
+                          <li>&middot;</li>
+                          <li>{post.shareCount} shares</li>
+                        </ul>
+
+                        <a
+                          href="#"
+                          className={classNames(
+                            'absolute inset-0 rounded-md',
+                            'ring-blue-400 focus:z-10 focus:outline-none focus:ring-2',
+                          )}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </Tab.Panel>
+              ))}
+            </Tab.Panels> */}
+          </>
+        )}
+      </Tab.Group>
     </div>
   )
 }

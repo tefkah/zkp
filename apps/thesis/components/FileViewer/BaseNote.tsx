@@ -25,7 +25,7 @@ export interface NoteProps extends FilePageProps {
   // ref?: any
 }
 
-const CommentBoxMaybe = dynamic(() => import('../Comments/CommentBoxMaybe'), { ssr: false })
+const CommentBoxMaybe = dynamic<>(() => import('@zkp/discus'), { ssr: false })
 
 export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   const { index, toc, stackedNotes, source, id, commits } = props

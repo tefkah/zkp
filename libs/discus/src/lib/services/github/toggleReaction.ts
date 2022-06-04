@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { Reaction } from '@zkp/types'
+import { ToggleReactionBody, ToggleReactionResponse } from '@zkp/types'
 
 const TOGGLE_REACTION_QUERY = (mode: 'add' | 'remove') => `
   mutation($content: ReactionContent!, $subjectId: ID!) {
@@ -11,22 +11,6 @@ const TOGGLE_REACTION_QUERY = (mode: 'add' | 'remove') => `
       }
     }
   }`
-
-export interface ToggleReactionBody {
-  content: Reaction
-  subjectId: string
-}
-
-export interface ToggleReactionResponse {
-  data: {
-    toggleReaction: {
-      reaction: {
-        content: Reaction
-        id: string
-      }
-    }
-  }
-}
 
 export const toggleReaction = async (
   params: ToggleReactionBody,

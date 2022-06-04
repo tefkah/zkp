@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 
-import DiscussionCard from './DiscussionCard'
+import { DiscussionCard } from './DiscussionCard'
 
 describe('DiscussionCard', () => {
   it('should render successfully', () => {

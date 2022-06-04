@@ -1,5 +1,6 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
 
-  "tailwindCSS.experimental.configFile": "libs/zkp-editor/tailwind.config.js"
+  "tailwindCSS.experimental.configFile": "libs/zkp-editor/tailwind.config.js",
+  "exportall.config.folderListener": ["/libs/types/src/lib/github"]
 }

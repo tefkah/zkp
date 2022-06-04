@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 
-import NewDiscussion from './NewDiscussion'
+import { NewDiscussion } from './NewDiscussion'
 
 describe('NewDiscussion', () => {
   it('should render successfully', () => {
