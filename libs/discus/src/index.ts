@@ -1,3 +1,6 @@
 export * from './lib/utils'
 export * from './lib/services'
 export * from './lib/queries'
+export * from './lib/components/Comments/Widget'
+export * from './lib/components/Discussions/DiscussionCard'
+export * from './lib/components/Discussions/NewDiscussion'

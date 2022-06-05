@@ -15,14 +15,13 @@ export const CommentBox = (props: Props) => {
   const { data } = useSWR('/api/auth/goodemail')
   if (data && data.access) {
     return (
-      <Box mt={20}>
-        <Alert my={10} borderRadius="md" status="info">
-          <AlertIcon />
-          <Text as="em">
+      <div className="mt-20">
+        <p className="my-10 rounded-md bg-red-200 p-4 text-slate-800 dark:bg-red-700 dark:text-slate-200">
+          <em>
             If you see this, this means you are my supervisor. No one else (except for Thomas) is
-            able to see this.
-          </Text>
-        </Alert>
+          </em>
+        </p>
+
         <Widget
           repo="ThomasFKJorna/thesis-discussions"
           repoId="R_kgDOGiFakw"
@@ -32,7 +31,7 @@ export const CommentBox = (props: Props) => {
           origin=""
           description=""
         />
-      </Box>
+      </div>
     )
   }
   return (

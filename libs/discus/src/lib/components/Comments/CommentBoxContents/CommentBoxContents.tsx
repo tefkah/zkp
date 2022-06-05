@@ -1,18 +1,19 @@
 import {
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
+  // Tabs,
+  // TabList,
+  // Tab,
+  // TabPanels,
+  // TabPanel,
   Textarea,
   HStack,
-  Button,
+  // Button,
   Text,
   Avatar,
   Link as ChakraLink,
 } from '@chakra-ui/react'
 import { MarkGithubIcon } from '@primer/octicons-react'
 import { IUser } from '@zkp/types'
+import { Button, Tabs } from '@zkp/ui'
 import dynamic from 'next/dynamic'
 import React from 'react'
 import { MarkdownToReactProps } from '../Md/MarkdownToReact'
@@ -56,8 +57,96 @@ export const CommentBoxContents = ({
           handleSubmit()
         }}
       >
-        <Tabs className="rounded-sm" borderRadius="sm" variant="enclosed">
-          <TabList className="border-0 pt-2" pt={2} borderWidth={0}>
+        <Tabs
+          className="rounded-sm"
+          tabs={[
+            {
+              title: 'Write',
+              contents: (
+                <>
+                  <textarea
+                    className={
+                      'max-h-[500px] min-h-[100px] w-full rounded-md border-2 border-slate-200 py-2 disabled:cursor-not-allowed'
+                    }
+                    // w="full"
+                    // py={2}
+                    // minH="100px"
+                    // maxH="500px"
+                    // _disabled={{
+                    //   cursor: 'notAllowed',
+                    // }}
+                    onChange={(event) => setInput(event.target.value)}
+                    value={input}
+                  />
+                  <div className="align-center my-2 flex justify-between gap-2">
+                    <p className="text-sm font-semibold text-slate-400">
+                      Markdown and L
+                      <>
+                        <span
+                          style={{
+                            textTransform: 'uppercase',
+                            fontSize: '0.75em',
+                            verticalAlign: '0.25em',
+                            marginLeft: '-0.36em',
+                            marginRight: '-0.15em',
+                            lineHeight: '1ex',
+                          }}
+                        >
+                          a
+                        </span>
+                        T
+                        <span
+                          style={{
+                            textTransform: 'uppercase',
+                            verticalAlign: ' -0.25em',
+                            marginLeft: '-0.1667em',
+                            marginRight: ' -0.125em',
+                            lineHeight: '1ex',
+                          }}
+                        >
+                          e
+                        </span>
+                      </>
+                      X math input supported
+                    </p>
+                    {token ? (
+                      <div className="flex gap-2">
+                        {isReply && (
+                          <Button
+                            //  bgColor="background"
+                            onClick={reset}
+                          >
+                            Cancel
+                          </Button>
+                        )}
+                        <Button
+                          // variant="ghoster"
+                          type="submit"
+                          disabled={(token && !input.trim()) || isSubmitting}
+                        >
+                          {isReply ? 'Reply' : 'Comment'}
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button onClick={() => signIn()}>
+                        {<MarkGithubIcon />} Sign in with GitHub
+                      </Button>
+                    )}
+                  </div>
+                </>
+              ),
+            },
+            {
+              title: 'Preview',
+              contents: [
+                <div className="prose">
+                  <MarkdownToReact>{input}</MarkdownToReact>
+                </div>,
+              ],
+            },
+          ]}
+        >
+          {/* <TabList className="border-0 pt-2" pt={2} borderWidth={0}>
             <Tab
               color="gray.500"
               fontWeight="500"
@@ -93,81 +182,14 @@ export const CommentBoxContents = ({
             </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel px={0}>
-              <textarea
-                className={
-                  'max-h-[500px] min-h-[100px] w-full rounded-md border-2 border-slate-500 py-2 disabled:cursor-not-allowed'
-                }
-                // w="full"
-                // py={2}
-                // minH="100px"
-                // maxH="500px"
-                // _disabled={{
-                //   cursor: 'notAllowed',
-                // }}
-                onChange={(event) => setInput(event.target.value)}
-                value={input}
-              />
-              <div className="align-center my-2 flex justify-between gap-2">
-                <p className="text-sm font-semibold text-slate-400">
-                  Markdown and L
-                  <>
-                    <span
-                      style={{
-                        textTransform: 'uppercase',
-                        fontSize: '0.75em',
-                        verticalAlign: '0.25em',
-                        marginLeft: '-0.36em',
-                        marginRight: '-0.15em',
-                        lineHeight: '1ex',
-                      }}
-                    >
-                      a
-                    </span>
-                    T
-                    <span
-                      style={{
-                        textTransform: 'uppercase',
-                        verticalAlign: ' -0.25em',
-                        marginLeft: '-0.1667em',
-                        marginRight: ' -0.125em',
-                        lineHeight: '1ex',
-                      }}
-                    >
-                      e
-                    </span>
-                  </>
-                  X math input supported
-                </p>
-                {token ? (
-                  <div className="flex gap-2">
-                    {isReply && (
-                      <Button bgColor="background" onClick={reset}>
-                        Cancel
-                      </Button>
-                    )}
-                    <Button
-                      variant="ghoster"
-                      type="submit"
-                      disabled={(token && !input.trim()) || isSubmitting}
-                    >
-                      {isReply ? 'Reply' : 'Comment'}
-                    </Button>
-                  </div>
-                ) : (
-                  <Button leftIcon={<MarkGithubIcon />} onClick={() => signIn()}>
-                    Sign in with GitHub
-                  </Button>
-                )}
-              </div>
-            </TabPanel>
+            <TabPanel px={0}> */}
+          {/* </TabPanel>
             <TabPanel
               className="prose mb-20 min-h-[105px] pt-6 pb-4"
               // pt={6} pb={4} mb={20} minH="105px"
             >
-              <MarkdownToReact>{input}</MarkdownToReact>
             </TabPanel>
-          </TabPanels>
+          </TabPanels> */}
         </Tabs>
       </form>
     </>

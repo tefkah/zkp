@@ -10,9 +10,7 @@ const config = {
   testEnvironment: 'node',
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
-    '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nrwl/next/babel'] }],
-    //'^.+\\.[tj]sx?$': 'ts-jest',
-    //  '^.+\\.ne$': 'jest-transform-nearley',
+    '^.+\\.[tj]sx?$': ['@swc/jest'],
   },
   transformIgnorePatterns: [],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
@@ -23,4 +21,5 @@ const config = {
   },
 }
 
-export default config
+// export default config
+module.exports = config

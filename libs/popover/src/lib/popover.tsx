@@ -62,7 +62,7 @@ export const Popover = (props: PopoverProps) => {
     // <span className="relative inline-flex">
     <Float
       as="span"
-      strategy="absolute"
+      strategy="fixed"
       enter="transition ease-out duration-200"
       enterFrom="opacity-0 translate-y-8"
       enterTo="opacity-100 translate-y-0"

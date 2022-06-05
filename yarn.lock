@@ -5958,10 +5958,10 @@
   dependencies:
     tslib "^2.4.0"
 
-"@swc/jest@0.2.20":
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/@swc/jest/-/jest-0.2.20.tgz#2bddb4348fb730296b86cdcd96748be131b11395"
-  integrity sha512-5qSUBYY1wyIMn7p0Vl9qqV4hMI69oJwZCIPUpBsTFWN2wlwn6RDugzdgCn+bLXVYh+Cxi8bJcZ1uumDgsoL+FA==
+"@swc/jest@0.2.21":
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/@swc/jest/-/jest-0.2.21.tgz#e8c4e234016a914f4cfbb7d75844860a250c1d1c"
+  integrity sha512-/+NcExiZbxXANNhNPnIdFuGq62CeumulLS1bngwqIXd8H7d96LFUfrYzdt8tlTwLMel8tFtQ5aRjzVkyOTyPDw==
   dependencies:
     "@jest/create-cache-key-function" "^27.4.2"
 
@@ -6310,10 +6310,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@27.4.1":
-  version "27.4.1"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-27.4.1.tgz#185cbe2926eaaf9662d340cc02e548ce9e11ab6d"
-  integrity sha512-23iPJADSmicDVrWk+HT58LMJtzLAnB2AgIzplQuq/bSrGaxCrlvRFjGbXmamnnk/mAmCdLStiGqggu28ocUyiw==
+"@types/jest@28.1.1":
+  version "28.1.1"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-28.1.1.tgz#8c9ba63702a11f8c386ee211280e8b68cb093cd1"
+  integrity sha512-C2p7yqleUKtCkVjlOur9BWVA4HgUQmEj/HWCt5WzZ5mLXrWnyIfl0wGuArc+kBXsy0ZZfLp+7dywB4HtSVYGVA==
   dependencies:
     jest-matcher-utils "^27.0.0"
     pretty-format "^27.0.0"
@@ -6422,10 +6422,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.35.tgz#635b7586086d51fb40de0a2ec9d1014a5283ba4a"
   integrity sha512-vu1SrqBjbbZ3J6vwY17jBs8Sr/BKA+/a/WtjRG+whKg1iuLFOosq872EXS0eXWILdO36DHQQeku/ZcL6hz2fpg==
 
-"@types/node@16.11.7":
-  version "16.11.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.7.tgz#36820945061326978c42a01e56b61cd223dfdc42"
-  integrity sha512-QB5D2sqfSjCmTuWcBWyJ+/44bcjO7VbjSbOE0ucoVbAsSNQc4Lt6QkgkVXkTDwkL4z/beecZNDvVX15D4P8Jbw==
+"@types/node@17.0.40":
+  version "17.0.40"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.40.tgz#76ee88ae03650de8064a6cf75b8d95f9f4a16090"
+  integrity sha512-UXdBxNGqTMtm7hCwh9HtncFVLrXoqA3oJW30j6XWp5BH/wu3mVeaxo7cq5benFdBw34HB3XDT2TRPI7rXZ+mDg==
 
 "@types/node@^14.0.10", "@types/node@^14.14.31":
   version "14.18.16"
@@ -13420,6 +13420,11 @@ hash.js@^1.0.0, hash.js@^1.0.3:
   dependencies:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
+
+hashlru@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/hashlru/-/hashlru-2.3.0.tgz#5dc15928b3f6961a2056416bb3a4910216fdfb51"
+  integrity sha512-0cMsjjIC8I+D3M44pOQdsy0OHXGLVz6Z0beRuufhKa0KfaD2wGwAev6jILzXsd3/vpnNQJmWyZtIILqM1N+n5A==
 
 hast-to-hyperscript@^10.0.0:
   version "10.0.1"
@@ -20840,10 +20845,10 @@ slate-history@^0.66.0:
   dependencies:
     is-plain-object "^5.0.0"
 
-slate-react@^0.79.0:
-  version "0.79.0"
-  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.79.0.tgz#4a5cf458b8f7568d9a313d3786569623dd52454e"
-  integrity sha512-uPzYArGwHKq4QvpzRvP/DVvsDgB2Zw6x9Som/hJWaydu18r0Vp2vmgHL0Dbc4EU6pUNV6o83XbBJLLEwISzBHQ==
+slate-react@^0.81.0:
+  version "0.81.0"
+  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.81.0.tgz#248eb688ce01f23680ce2554625fd60676614962"
+  integrity sha512-bwryad4EvOmc7EFKb8aGg9DWNDh3KvToaggGieIgGTTbHJYHc9ADFC3A87Ittlpd5XUVopR0MpChQ3g3ODyvqw==
   dependencies:
     "@types/is-hotkey" "^0.1.1"
     "@types/lodash" "^4.14.149"
@@ -20854,10 +20859,10 @@ slate-react@^0.79.0:
     scroll-into-view-if-needed "^2.2.20"
     tiny-invariant "1.0.6"
 
-slate@^0.78.0:
-  version "0.78.0"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.78.0.tgz#cd0328d22b0a99c543987d2a2dd30903bb950ee9"
-  integrity sha512-VwQ0RafT3JPf9SFrXI02Dh3S4Iz9en7d1nn50C/LJjjqjfgv+a2ORbgWMdYjhycPYldaxJwcI3OpP9D1g4SXEg==
+slate@^0.81.0:
+  version "0.81.0"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.81.0.tgz#2b58a72d2510a0e4158e1ce69cf4ee95d2d035c4"
+  integrity sha512-VKHeZ/PMeYorIeRiJWYT78kd5MkLdfKiVpPrUfdj6ZMLYYfIhnb8zIZdP5Jp9GaFYM3g+oZw+Pm9HCJstfQJ9A==
   dependencies:
     immer "^9.0.6"
     is-plain-object "^5.0.0"
@@ -21648,6 +21653,13 @@ synchronous-promise@^2.0.15:
   version "2.0.15"
   resolved "https://registry.yarnpkg.com/synchronous-promise/-/synchronous-promise-2.0.15.tgz#07ca1822b9de0001f5ff73595f3d08c4f720eb8e"
   integrity sha512-k8uzYIkIVwmT+TcglpdN50pS2y1BDcUnBPK9iJeGu0Pl1lOI8pD6wtzgw91Pjpe+RxtTncw32tLxs/R0yNL2Mg==
+
+tailwind-merge@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-1.2.1.tgz#a9a10f7ac54cb79cfa14268f1fecbb0248e08acc"
+  integrity sha512-kWfy/u91XoE408Kb42HQd1krdiZjw2sbSWjE1C/lXXXsbK+6dhTpnd37DHrwNP6ofKj5/HKXlY/jTjPYgPxSsw==
+  dependencies:
+    hashlru "^2.3.0"
 
 tailwindcss@^3.0.24:
   version "3.0.24"

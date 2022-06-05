@@ -42,21 +42,10 @@ const defaultCateory = {
       shareCount: 12,
     },
   ],
-  Trending: [
-    {
-      id: 1,
-      title: 'Ask Me Anything: 10 answers to your questions about coffee',
-      date: '2d ago',
-      commentCount: 9,
-      shareCount: 5,
-    },
-    {
-      id: 2,
-      title: "The worst advice we've ever heard about coffee",
-      date: '4d ago',
-      commentCount: 1,
-      shareCount: 2,
-    },
-  ],
 }
-Primary.args = { categories: defaultCateory }
+
+const tabs = [
+  { title: 'Write', contents: 'aa' },
+  { title: 'Preview', contents: 'ooo' },
+]
+Primary.args = { tabs }

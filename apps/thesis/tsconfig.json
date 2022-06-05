@@ -23,5 +23,5 @@
     "**/[...*].tsx",
     "jest.config.js"
   ],
-  "exclude": ["node_modules", "jest.config.js", "**/katexSlatePlugin.tsx"]
+  "exclude": ["node_modules", "**/katexSlatePlugin.tsx"]
 }

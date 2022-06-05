@@ -8,7 +8,6 @@ import { signIn, useSession } from 'next-auth/react'
 import {
   Text,
   Textarea,
-  Button,
   Link as ChakraLink,
   Tabs,
   TabPanels,

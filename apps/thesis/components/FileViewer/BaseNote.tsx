@@ -11,13 +11,14 @@ import dynamic from 'next/dynamic'
 // import { FilesData } from '../../utils/IDIndex/getFilesData'
 // import { parseTime } from '../../utils/parseTime'
 import { useRouter } from 'next/router'
+import { FilePageProps } from '@zkp/types'
+import { WidgetProps } from '@zkp/discus'
 import { OutlineBox } from '../OutlineBox/OutlineBox'
 // import { ProcessedOrg } from '../ProcessedOrg'
 // import { Backlinks } from './Backlinks'
 // import { Citations } from './Citations'
 import { useNotes } from '../../stores/noteStore'
 import { MDXNote } from './MDXNote'
-import { FilePageProps } from '@zkp/types'
 // import CommentBoxMaybe from '../Comments/CommentBoxMaybe'
 export interface NoteProps extends FilePageProps {
   // stackData?: StackState
@@ -25,7 +26,9 @@ export interface NoteProps extends FilePageProps {
   // ref?: any
 }
 
-const CommentBoxMaybe = dynamic<>(() => import('@zkp/discus'), { ssr: false })
+const Widget = dynamic<WidgetProps>(() => import('@zkp/discus').then((module) => module.Widget), {
+  ssr: false,
+})
 
 export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   const { index, toc, stackedNotes, source, id, commits } = props
@@ -121,7 +124,20 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         </VStack> */}
         <MDXNote source={source} currentId={id} />
         {/* backLinks?.length && <Backlinks {...{ currentId: id, backLinks }} /> */}
-        {!data ? <Waveform /> : <CommentBoxMaybe show={stacked} title={data?.[id]?.name} />}
+        {!data ? (
+          <Waveform />
+        ) : (
+          <Widget
+            // show={stacked}
+            repo="ThomasFKJorna/thesis-discussions"
+            repoId="R_kgDOGiFakw"
+            category="Feedback"
+            categoryId="DIC_kwDOGiFak84CASa-"
+            term={data?.[id]?.name}
+            origin=""
+            description=""
+          />
+        )}
         {/* !stacked && <CommentBox {...{ title }} /> */}
       </div>
     ),
