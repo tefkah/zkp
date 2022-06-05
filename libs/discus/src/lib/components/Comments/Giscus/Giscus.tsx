@@ -1,20 +1,5 @@
 /* eslint-disable no-nested-ternary */
 // ported from the great https://github.com/giscus/giscus
-/**
- * TODO: Export Giscus functionality to its own sublibary
- */
-import {
-  Link as ChakraLink,
-  Box,
-  Text,
-  Heading,
-  Flex,
-  Button,
-  VStack,
-  Container,
-  HStack,
-  Icon,
-} from '@chakra-ui/react'
 import { Waveform } from '@uiball/loaders'
 import { useSession } from 'next-auth/react'
 import { useCookies } from 'react-cookie'
@@ -24,6 +9,8 @@ import { useFrontBackDiscussion } from '../../../services/giscus/discussions'
 import { Comment } from '../Comment/Comment'
 import { CommentBox } from '../CommentBox'
 import { ReactButtons } from '../ReactButtons'
+import { Button, Container } from '@zkp/ui'
+import Link from 'next/link'
 
 export interface GiscusProps {
   onDiscussionCreateRequest?: () => Promise<string>
@@ -95,67 +82,68 @@ export const Giscus = ({
   }, [data])
 
   return (
-    <VStack w="full" alignItems="flex-start" spacing={10}>
+    <div className="flex w-full flex-col items-start gap-10">
       {full && data.discussion.body && (
-        <Box>
-          <Container p={0}>{data.discussion.body}</Container>
-        </Box>
+        <div>
+          <Container className="p-0">{data.discussion.body}</Container>
+        </div>
       )}
-      <Box w="full">
-        <Flex flexDir="column">
-          <HStack
-            alignItems="center"
-            spacing={4}
-            className="gsc-header"
-            justifyContent="flex-start"
-            flex="auto"
-            pb={2}
-            whiteSpace="nowrap"
+      <div className="w-full">
+        <div className="flex flex-col">
+          <div
+            // alignItems="center"
+            // spacing={4}
+            // className="gsc-header"
+            // justifyContent="flex-start"
+            // flex="auto"
+            // pb={2}
+            // whiteSpace="nowrap"
+            className="gsc-header flex flex-auto items-center justify-start gap-4 whitespace-nowrap pb-2"
           >
             {!data.isLoading && (shouldCreateDiscussion || !data.error) ? (
-              <Flex fontSize="sm">
+              <div className="flex text-sm">
                 <ReactButtons
                   subjectId={data.discussion.id}
                   reactionGroups={data.discussion.reactions}
                   onReact={updateReactions}
                   onDiscussionCreateRequest={handleDiscussionCreateRequest}
                 />
-              </Flex>
+              </div>
             ) : null}
-            <Heading mr={2} fontWeight="regular" size="sm" as="h4" className="gsc-comments-count">
+            <h4 className="gsc-comments-count mr2 text-sm font-normal">
               {shouldCreateDiscussion && !data.totalCommentCount ? (
                 '0 Comments'
               ) : data.error && !data.backData ? (
                 'Something went wrong'
               ) : data.isLoading ? (
-                <HStack spacing={4} as="span" alignItems="center">
-                  <Waveform /> <Text>Loading Comments</Text>
-                </HStack>
+                <span className="flex items-center gap-4">
+                  <Waveform /> <p>Loading Comments</p>
+                </span>
               ) : (
-                <ChakraLink href={data.discussion.url} isExternal className="color-text-primary">
-                  {`${data.totalCommentCount} comments`}
-                </ChakraLink>
+                <Link href={data.discussion.url} passHref>
+                  <a className="color-text-primary">{`${data.totalCommentCount} comments`}</a>
+                </Link>
               )}
-            </Heading>
+            </h4>
             {shouldShowReplyCount ? (
-              <HStack alignItems="center">
-                <Heading fontSize="sm" fontWeight="semibold" as="h4">
-                  <Icon as={VscCircleFilled} />
-                </Heading>
-                <Heading
-                  mr={2}
-                  size="md"
-                  as="h4"
-                  fontWeight="semibold"
-                  className="gsc-replies-count"
+              <div className="ml-2 flex items-center gap-2">
+                <h4 className="text-sm font-semibold">
+                  <VscCircleFilled />
+                </h4>
+                <h4
+                  // mr={2}
+                  // size="md"
+                  // as="h4"
+                  // fontWeight="semibold"
+                  className="gsc-replies-count text-md mr-2 font-semibold"
                 >
-                  {`${data.totalReplyCount} replies`}
-                </Heading>
-              </HStack>
+                  {`${data.totalReplyCount} ${data.totalReplyCount === 1 ? 'reply' : 'replies'}`}
+                </h4>
+              </div>
             ) : null}
-          </HStack>
+          </div>
 
-          <Flex flexDir="column" className="gsc-timeline">
+          <div className="gsc-timeline flex flex-col">
             {!data.isLoading
               ? data.frontComments.map((comment) => (
                   <Comment
@@ -180,34 +168,29 @@ export const Giscus = ({
               : null}
 
             {data.numHidden > 0 ? (
-              <Flex
-                justifyContent="center"
-                py={2}
-                my={4}
-                bg="center"
-                bgRepeat="x"
-                className="pagination-loader-container gsc-pagination"
+              <div
+                // bg="center"
+                // bgRepeat="x"
+                className="pagination-loader-container gsc-pagination my-4 flex justify-center py-2"
               >
                 <Button
-                  display="flex"
-                  flexDir="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  px={6}
-                  py={2}
-                  fontSize="sm"
+                  // display="flex"
+                  // flexDir="column"
+                  // justifyContent="center"
+                  // alignItems="center"
+                  // px={6}
+                  // py={2}
+                  // fontSize="sm"
+                  className="flex flex-col items-center justify-center px-6 py-2 text-sm"
                   onClick={increaseSize}
                   disabled={data.isLoadingMore}
                 >
-                  <Text
-                    as="span"
-                    className="color-text-secondary"
-                  >{`${data.numHidden} hidden comments`}</Text>
-                  <Text as="span" className="color-text-link font-semibold">
+                  <span className="color-text-secondary">{`${data.numHidden} hidden comments`}</span>
+                  <span className="color-text-link font-semibold">
                     {data.isLoadingMore ? 'Loading' : 'Load more'}…
-                  </Text>
+                  </span>
                 </Button>
-              </Flex>
+              </div>
             ) : null}
 
             {!data.isLoading
@@ -232,16 +215,16 @@ export const Giscus = ({
                   />
                 ))
               : null}
-          </Flex>
+          </div>
 
           {shouldShowCommentBox ? (
             <>
-              <Box
-                my={4}
-                fontSize="sm"
-                borderTop={2}
-                className="gsc-comment-box-separator color-border-primary"
-                color="grey.700"
+              <div
+                // my={4}
+                // fontSize="sm"
+                // borderTop={2}
+                className="gsc-comment-box-separator color-border-primary my-4 border-t-2 text-sm text-slate-700"
+                // color="grey.700"
               />
               <CommentBox
                 viewer={data.viewer}
@@ -253,8 +236,8 @@ export const Giscus = ({
               />
             </>
           ) : null}
-        </Flex>
-      </Box>
-    </VStack>
+        </div>
+      </div>
+    </div>
   )
 }

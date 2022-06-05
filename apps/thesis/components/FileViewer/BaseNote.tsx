@@ -221,7 +221,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         </div>
       )}
       {Note}
-      {!stacked && <OutlineBox {...{ headings: toc, commits }} />}
+      {/* {!stacked && <OutlineBox {...{ headings: toc, commits }} />} */}
     </div>
   )
 })

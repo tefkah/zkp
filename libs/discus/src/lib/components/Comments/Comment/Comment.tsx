@@ -4,17 +4,7 @@ import { CommentBody } from '../CommentBody'
 import { ArrowUpIcon, KebabHorizontalIcon } from '@primer/octicons-react'
 import { ReactElement, ReactNode, useCallback, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import {
-  Text,
-  Tag,
-  Box,
-  Button,
-  Link as ChakraLink,
-  Flex,
-  Avatar,
-  HStack,
-  Icon,
-} from '@chakra-ui/react'
+import { Button, Icon } from '@chakra-ui/react'
 import { handleCommentClick } from '../../../utils/giscus/adapter'
 import { Reaction, IComment, IReply } from '@zkp/types'
 import { updateCommentReaction } from '../../../utils/giscus/reactions'
@@ -27,6 +17,8 @@ import {
   isoToDate as formatDate,
   isoToDateDistance as formatDateDistance,
 } from '../../../utils/parseTime'
+import Link from 'next/link'
+import Image from 'next/image'
 // import Image from 'next/image'
 
 interface ICommentProps {
@@ -97,40 +89,45 @@ export const Comment = ({
       >
         {!comment.isMinimized ? (
           <div className="flex w-full items-center  justify-between px-4">
-            <HStack
-              w="full"
-              justifyContent="space-between"
-              pt={2}
-              alignItems="center"
-              className="gsc-comment-author"
+            <div
+              // w="full"
+              // justifyContent="space-between"
+              // pt={2}
+              // alignItems="center"
+              className="gsc-comment-author flex w-full items-center justify-between gap-2 pt-2"
             >
-              <div className="flex">
-                <HStack
-                  as={ChakraLink}
-                  spacing={2}
-                  alignItems="center"
-                  isExternal
-                  href={comment.author.url}
-                  className="gsc-comment-author-avatar"
-                >
-                  <Avatar
-                    src={comment.author.avatarUrl}
-                    width="30"
-                    height="30"
-                    // alt={`@${comment.author.login}`}
-                  />
-                  <span className="link-primary font-semibold">{comment.author.login}</span>
-                </HStack>
-                <ChakraLink isExternal ml={2} href={comment.url} className="link-secondary ml-2">
-                  <time
-                    // whiteSpace="nowrap"
-                    className="whitespace-nowrap"
-                    title={formatDate(comment.createdAt)}
-                    dateTime={comment.createdAt}
+              <div className="flex items-center">
+                <Link passHref href={comment.author.url}>
+                  <a
+                    // as={ChakraLink}
+                    // spacing={2}
+                    // alignItems="center"
+                    // isExternal
+                    className="gsc-comment-author-avatar flex items-center gap-2 rounded-full"
                   >
-                    {formatDateDistance(comment.createdAt)}
-                  </time>
-                </ChakraLink>
+                    <Image
+                      src={comment.author.avatarUrl}
+                      width="30"
+                      className="rounded-full"
+                      height="30"
+                      alt={`@${comment.author.login}`}
+                    />
+                    <span className="link-primary font-semibold">{comment.author.login}</span>
+                  </a>
+                </Link>
+                <Link href={comment.url} passHref>
+                  {/* <Link isExternal ml={2} href={comment.url} className="link-secondary ml-2"> */}
+                  <a className="link-secondary ml-2">
+                    <time
+                      // whiteSpace="nowrap"
+                      className="whitespace-nowrap"
+                      title={formatDate(comment.createdAt)}
+                      dateTime={comment.createdAt}
+                    >
+                      {formatDateDistance(comment.createdAt)}
+                    </time>
+                  </a>
+                </Link>
               </div>
               {comment.authorAssociation !== 'NONE' ? (
                 <span
@@ -141,7 +138,7 @@ export const Comment = ({
                   {comment.authorAssociation}
                 </span>
               ) : null}
-            </HStack>
+            </div>
             <div className="flex">
               {comment.lastEditedAt ? (
                 <Button
@@ -162,13 +159,13 @@ export const Comment = ({
             // justifyContent="space-between"
             // alignItems="center"
             // mb="3"
-            className="gsc-comment-footer mb-3 items-center justify-between"
+            className="gsc-comment-footer mb-3 flex items-center justify-between"
           >
             <div
               // ml={4}
               // alignItems="start"
               // justifyContent="end"
-              className="gsc-comment-reactions ml-4 flex items-start justify-end"
+              className="gsc-comment-reactions ml-4 flex items-center justify-end gap-2"
             >
               <Button
                 borderRadius="xl"
@@ -194,9 +191,9 @@ export const Comment = ({
                 />
               ) : null}
             </div>
-            <Box mr={4} whiteSpace="nowrap" className="gsc-comment-replies-count">
+            <div className="gsc-comment-replies-count mr-4 whitespace-nowrap">
               <span>{comment.replyCount} replies</span>
-            </Box>
+            </div>
           </div>
         ) : null}
         {comment.replies.length > 0 ? (
@@ -224,9 +221,16 @@ export const Comment = ({
                 // alignItems="center"
                 className="mb-2 flex h-8 items-center pl-4"
               >
-                <Flex justifyContent="center" alignItems="center" flex="shrink" mr="9px" w="29px">
+                <div
+                  // justifyContent="center"
+                  // alignItems="center"
+                  // flex="shrink"
+                  // mr="9px"
+                  // w="29px"
+                  className="mr-[9px] flex w-[29px] flex-shrink items-center justify-center"
+                >
                   <Icon as={KebabHorizontalIcon} width="full" rotate="90" />
-                </Flex>
+                </div>
 
                 {hasNextPage ? (
                   <Button variant="link" onClick={incrementBackPage}>
@@ -235,13 +239,11 @@ export const Comment = ({
                 ) : null}
 
                 {hasUnfetchedReplies ? (
-                  <ChakraLink
-                    href={comment.url}
-                    className="color-text-link hover:underline"
-                    isExternal
-                  >
-                    See {remainingReplies} previous replies on GitHub
-                  </ChakraLink>
+                  <Link passHref href={comment.url}>
+                    <a className="color-text-link hover:underline">
+                      See {remainingReplies} previous replies on GitHub
+                    </a>
+                  </Link>
                 ) : null}
               </div>
             ) : null}

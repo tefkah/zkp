@@ -236,10 +236,9 @@ export const useFrontBackDiscussion = (query: DiscussionQuery, token?: string) =
   const increaseSize = useCallback(() => setSize(size + 1), [setSize, size])
 
   const numHidden =
-    backData?.discussion?.totalCommentCount ??
-    0 -
-      (backData?.discussion?.comments?.length ?? 0) -
-      (frontData?.reduce((prev, g) => prev + (g.discussion.comments?.length ?? 0), 0) ?? 0)
+    (backData?.discussion?.totalCommentCount ?? 0) -
+    (backData?.discussion?.comments?.length ?? 0) -
+    (frontData?.reduce((prev, g) => prev + (g.discussion.comments?.length ?? 0), 0) ?? 0)
 
   const reactionCount = backData?.discussion?.reactionCount
   const totalCommentCount = backData?.discussion?.totalCommentCount

@@ -1,21 +1,7 @@
-import {
-  // Tabs,
-  // TabList,
-  // Tab,
-  // TabPanels,
-  // TabPanel,
-  Textarea,
-  HStack,
-  // Button,
-  Text,
-  Avatar,
-  Link as ChakraLink,
-} from '@chakra-ui/react'
 import { MarkGithubIcon } from '@primer/octicons-react'
 import { IUser } from '@zkp/types'
 import { Button, Tabs } from '@zkp/ui'
 import dynamic from 'next/dynamic'
-import React from 'react'
 import { MarkdownToReactProps } from '../Md/MarkdownToReact'
 export interface CommentBoxContentsProps {
   isReply: boolean
@@ -78,7 +64,7 @@ export const CommentBoxContents = ({
                     onChange={(event) => setInput(event.target.value)}
                     value={input}
                   />
-                  <div className="align-center my-2 flex justify-between gap-2">
+                  <div className="align-center my-2 flex items-center justify-between gap-2">
                     <p className="text-sm font-semibold text-slate-400">
                       Markdown and L
                       <>
@@ -128,8 +114,11 @@ export const CommentBoxContents = ({
                         </Button>
                       </div>
                     ) : (
-                      <Button onClick={() => signIn()}>
-                        {<MarkGithubIcon />} Sign in with GitHub
+                      <Button
+                        className="flex min-w-fit gap-2 bg-slate-200 text-slate-700 hover:bg-slate-300"
+                        onClick={() => signIn()}
+                      >
+                        {<MarkGithubIcon />} Sign in
                       </Button>
                     )}
                   </div>
