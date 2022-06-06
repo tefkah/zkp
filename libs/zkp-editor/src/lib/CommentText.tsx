@@ -1,5 +1,6 @@
+import { CommentThread } from '@zkp/discus'
 import { Float } from 'headlessui-float-react'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 
 interface CommentTextInterface {
   children: React.ReactNode
@@ -7,9 +8,10 @@ interface CommentTextInterface {
 
 export const CommentText = (props: CommentTextInterface) => {
   const [open, setOpen] = useState(false)
+
   return (
     <Float
-      as="span"
+      as={Fragment}
       strategy="absolute"
       enter="transition ease-out duration-200"
       enterFrom="opacity-0 translate-y-8"
@@ -33,8 +35,12 @@ export const CommentText = (props: CommentTextInterface) => {
       >
         {props.children}
       </span>
-      <div className="max-h-lg max-w-md overflow-y-scroll rounded-lg p-4 shadow-lg ring-1 ring-black ring-opacity-5">
-        Ayy it's ya boy
+      <div
+        onMouseEnter={() => setOpen((open) => true)}
+        onMouseLeave={() => setOpen((open) => false)}
+        className="max-h-lg max-w-md overflow-y-scroll rounded-lg bg-white p-4 shadow-lg ring-1 ring-black ring-opacity-5"
+      >
+        <CommentThread title="iii.-anyons" />
       </div>
     </Float>
   )

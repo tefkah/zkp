@@ -12,7 +12,6 @@ import { toggleUpvote } from '../../../services/github/toggleUpvote'
 import { CommentBox } from '../CommentBox'
 import { ReactButtons } from '../ReactButtons'
 import { Reply } from '../Reply'
-import { MarkdownToReact } from '../Md/MarkdownToReact'
 import {
   isoToDate as formatDate,
   isoToDateDistance as formatDateDistance,
@@ -152,7 +151,9 @@ export const Comment = ({
             </div>
           </div>
         ) : null}
-        <CommentBody handleCommentClick={handleCommentClick} hidden={hidden} comment={comment} />
+        <div className="px-4">
+          <CommentBody handleCommentClick={handleCommentClick} hidden={hidden} comment={comment} />
+        </div>
         {children}
         {!comment.isMinimized && onCommentUpdate ? (
           <div

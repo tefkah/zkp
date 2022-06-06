@@ -5,12 +5,12 @@ import { useSession } from 'next-auth/react'
 import { useCookies } from 'react-cookie'
 import { useEffect } from 'react'
 import { VscCircleFilled } from 'react-icons/vsc'
-import { useFrontBackDiscussion } from '../../../services/giscus/discussions'
 import { Comment } from '../Comment/Comment'
 import { CommentBox } from '../CommentBox'
 import { ReactButtons } from '../ReactButtons'
 import { Button, Container } from '@zkp/ui'
 import Link from 'next/link'
+import { useFrontBackDiscussion } from '../../../hooks/useFrontBackDiscussion'
 
 export interface GiscusProps {
   onDiscussionCreateRequest?: () => Promise<string>

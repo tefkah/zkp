@@ -52,7 +52,7 @@ export const CommentBoxContents = ({
                 <>
                   <textarea
                     className={
-                      'max-h-[500px] min-h-[100px] w-full rounded-md border-2 border-slate-200 py-2 disabled:cursor-not-allowed'
+                      'max-h-[500px] min-h-[100px] w-full rounded-md border-2 border-slate-200 p-2 disabled:cursor-not-allowed'
                     }
                     // w="full"
                     // py={2}
@@ -128,7 +128,7 @@ export const CommentBoxContents = ({
             {
               title: 'Preview',
               contents: [
-                <div className="prose">
+                <div className="prose-sm">
                   <MarkdownToReact>{input}</MarkdownToReact>
                 </div>,
               ],

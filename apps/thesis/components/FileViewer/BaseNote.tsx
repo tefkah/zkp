@@ -12,7 +12,7 @@ import dynamic from 'next/dynamic'
 // import { parseTime } from '../../utils/parseTime'
 import { useRouter } from 'next/router'
 import { FilePageProps } from '@zkp/types'
-import { WidgetProps } from '@zkp/discus'
+import { CommentThreadProps, WidgetProps } from '@zkp/discus'
 import { OutlineBox } from '../OutlineBox/OutlineBox'
 // import { ProcessedOrg } from '../ProcessedOrg'
 // import { Backlinks } from './Backlinks'
@@ -26,9 +26,12 @@ export interface NoteProps extends FilePageProps {
   // ref?: any
 }
 
-const Widget = dynamic<WidgetProps>(() => import('@zkp/discus').then((module) => module.Widget), {
-  ssr: false,
-})
+const Widget = dynamic<CommentThreadProps>(
+  () => import('@zkp/discus').then((module) => module.CommentThread),
+  {
+    ssr: false,
+  },
+)
 
 export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   const { index, toc, stackedNotes, source, id, commits } = props
@@ -129,13 +132,14 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         ) : (
           <Widget
             // show={stacked}
-            repo="ThomasFKJorna/thesis-discussions"
-            repoId="R_kgDOGiFakw"
-            category="Feedback"
-            categoryId="DIC_kwDOGiFak84CASa-"
-            term={data?.[id]?.name}
-            origin=""
-            description=""
+            // repo="ThomasFKJorna/thesis-discussions"
+            // repoId="R_kgDOGiFakw"
+            // category="Feedback"
+            // categoryId="DIC_kwDOGiFak84CASa-"
+            // term={data?.[id]?.name}
+            // origin=""
+            // description=""
+            title={data?.[id]?.name}
           />
         )}
         {/* !stacked && <CommentBox {...{ title }} /> */}

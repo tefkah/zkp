@@ -1,6 +1,7 @@
 // ported from the great https://github.com/giscus/giscus
 
 import { useCallback } from 'react'
+import Image from 'next/image'
 import { useColorModeValue, Link as ChakraLink } from '@chakra-ui/react'
 import { ReactButtons } from '../ReactButtons'
 import { updateCommentReaction as defaultUpdateCommentReaction } from '../../../utils/giscus/reactions'
@@ -13,6 +14,7 @@ import {
   isoToDateDistance as formatDateDistance,
 } from '../../../utils/parseTime'
 import { CommentBody } from '../CommentBody'
+import Link from 'next/link'
 
 export interface ReplyProps {
   reply: IReply
@@ -44,28 +46,29 @@ export const Reply = ({
         // left="30px"
         // h="full"
         // top="0"
-        className="gsc-tl-line absolute left-8 top-0 h-full w-[2px] flex-shrink bg-gray-400"
+        className="gsc-tl-line absolute left-6 top-2 h-[90%] w-[2px] flex-shrink bg-gray-200"
       />
       <div className="items-top flex py-2 pl-2">
         <div className="gsc-reply-author-avatar relative z-10 shrink-0">
-          <a
-            // isExternal
-            href={reply.author.url}
-            // display="flex"
-            // alignItems="center"
-            className="flex items-center"
-          >
-            <img
-              src={reply.author.avatarUrl}
-              width="30"
-              height="30"
-              className="rounded-full"
-              alt={`Picture of ${reply.author.login}`}
-              // alt={`@${reply.author.login}`}
-            />
-          </a>
+          <Link href={reply.author.url} passHref>
+            <a
+              // isExternal
+              // display="flex"
+              // alignItems="center"
+              className="flex items-center"
+            >
+              <Image
+                src={reply.author.avatarUrl}
+                width="30"
+                height="30"
+                className="rounded-full"
+                alt={`Picture of ${reply.author.login}`}
+                // alt={`@${reply.author.login}`}
+              />
+            </a>
+          </Link>
         </div>
-        <div className="ml-4 w-full min-w-0">
+        <div className="mx-4 w-full min-w-0">
           {!hidden ? (
             <div className="gsc-reply-header flex items-center">
               <div className="gsc-reply-author flex w-96 items-center justify-between">
@@ -141,7 +144,12 @@ export const Reply = ({
               )
             }
           </div> */}
-          <CommentBody hidden={!!hidden} comment={reply} handleCommentClick={handleCommentClick} />
+          <CommentBody
+            reply
+            hidden={!!hidden}
+            comment={reply}
+            handleCommentClick={handleCommentClick}
+          />
           {!hidden ? (
             <div className="gsc-reply-reactions">
               <ReactButtons

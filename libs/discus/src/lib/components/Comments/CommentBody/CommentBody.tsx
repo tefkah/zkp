@@ -8,16 +8,17 @@ export interface CommentBodyProps {
   handleCommentClick: (event: ReactMouseEvent<HTMLElement, MouseEvent>) => void
   hidden: boolean
   comment: IComment | IReply
+  reply?: boolean
 }
 
 const MarkdownToReact = dynamic<MarkdownToReactProps>(() =>
   import('../Md/MarkdownToReact').then((module) => module.MarkdownToReact),
 )
 
-export const CommentBody = ({ handleCommentClick, hidden, comment }: CommentBodyProps) => {
+export const CommentBody = ({ handleCommentClick, hidden, comment, reply }: CommentBodyProps) => {
   return (
     <div
-      className={`prose markdown p-4 gsc-comment-content${
+      className={`${reply ? 'prose-sm' : 'prose'} markdown py-4 gsc-comment-content${
         comment.isMinimized ? ' minimized color-bg-tertiary border-color-primary' : ''
       }`}
       onClick={handleCommentClick}

@@ -66,7 +66,7 @@ export const Tabs = ({ tabs, className }: TabsProps) => {
                   key={idx}
                   className={classNames(
                     'rounded-xl bg-white',
-                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-red-400 focus:outline-none focus:ring-2',
                   )}
                 >
                   {tab.contents}

@@ -1,16 +1,15 @@
-import { Alert, AlertIcon, Box, Text } from '@chakra-ui/react'
 import React from 'react'
 import useSWR from 'swr'
 import { Widget } from '../Comments/Widget'
-import '../styles/base.css'
-interface Props {
+
+export interface CommentThreadProps {
   title: string
-  repo: string
-  category: string
+  repo?: string
+  category?: string
   categoryId?: string
 }
 
-export const CommentBox = (props: Props) => {
+export const CommentThread = (props: CommentThreadProps) => {
   const { title } = props
   const { data } = useSWR('/api/auth/goodemail')
   if (data && data.access) {
