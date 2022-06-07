@@ -29,7 +29,6 @@ export interface GReactionGroup {
 interface GBaseComment {
   id: string
   author: GRepositoryDiscussionAuthor
-  viewerDidAuthor: boolean
   createdAt: string
   url: string
   authorAssociation: GCommentAuthorAssociation
@@ -39,6 +38,12 @@ interface GBaseComment {
   bodyHTML: string
   body: string
   reactionGroups: GReactionGroup[]
+  viewerCanDelete: boolean
+  viewerCanUpdate: boolean
+  viewerCanUnmarkAsAnswer: boolean
+  viewerCanMarkAsAnswer: boolean
+  viewerCanMinimize: boolean
+  viewerDidAuthor: boolean
 }
 
 export interface GReply extends GBaseComment {

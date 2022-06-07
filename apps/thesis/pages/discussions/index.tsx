@@ -28,7 +28,6 @@ interface Props {
 export const DiscussionsPage = (props: Props) => {
   const { access, token, discussionCategories } = props
 
-  console.log(token)
   // TODO: Create a version of useDiscussion which can have data loaded through getStatic/getServerSide props
   const { data, isLoading } = useDiscussion({
     first: 10,
@@ -60,6 +59,7 @@ export const DiscussionsPage = (props: Props) => {
       )),
     [data],
   )
+
   return (
     access && (
       <>

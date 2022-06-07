@@ -22,16 +22,17 @@ export interface GiscusProps {
   full?: boolean
 }
 
-export const Giscus = ({
+export const SingleGiscusComment = ({
   repo,
   term,
   number,
+  commentID,
   category,
   full,
   onDiscussionCreateRequest,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onError,
-}: GiscusProps) => {
+}: GiscusProps & { commentID: string }) => {
   const { data: session } = useSession()
 
   const token = session?.accessToken as string
@@ -43,31 +44,27 @@ export const Giscus = ({
     increaseSize,
     backMutators,
     frontMutators,
-    isNotFound,
-    error,
     isLoading,
-    totalReplyCount,
-    frontComments,
-    numHidden,
-    isLoadingMore,
-    backComments,
-    totalCommentCount,
-    backData,
+    error,
     discussion,
-    viewer,
-    isLocked,
     isRateLimited,
+    isLocked,
+    totalCommentCount,
+    totalReplyCount,
+    backData,
+    isNotFound,
+    viewer,
     ...data
   } = useFrontBackDiscussion(query, token)
 
   // const [cookies, setCookie] = useCookies<string>([])
   //  useEffect(() => {
-  //    console.log(
-  //    if (error && onError) {
-  //      console.log(
-  //     onError(.error?.message as string)
+  //    console.log(data)
+  //    if (data.error && onError) {
+  //      console.log(data)
+  //     onError(data?.error?.message as string)
   //    }
-  //  }, [error, onError])
+  //  }, [data.error, onError])
 
   const handleDiscussionCreateRequest = async () => {
     const id = onDiscussionCreateRequest ? await onDiscussionCreateRequest() : ''
@@ -78,48 +75,34 @@ export const Giscus = ({
   }
 
   const shouldCreateDiscussion = isNotFound && !number
-  //  const shouldShowBranding = !!discussion.url
+  //  const shouldShowBranding = !!data.discussion.url
 
-  const isoaded = !error && !isNotFound && !isLoading
+  const isDataLoaded = !error && !isNotFound && !isLoading
 
-  const shouldShowReplyCount = isoaded && totalReplyCount > 0
+  const shouldShowReplyCount = isDataLoaded && totalReplyCount > 0
 
   const shouldShowCommentBox =
     (isRateLimited && !token) || (!isLoading && !isLocked && (!error || (isNotFound && !number)))
 
   // useEffect(() => {
-  //   if (isoaded) e
+  //   if (isDataLoaded) {
   //     setCookie('visit', {
   //       ...cookies.visit,
   //       [term]: {
   //         lastVisit: new Date().toISOString(),
-  //         totalCount: totalCommentCount || 0 + totalReplyCount || 0,
-  //         commentCount: totalCommentCount || 0,
-  //         replyCount: totalReplyCount || 0,
+  //         totalCount: data.totalCommentCount || 0 + data.totalReplyCount || 0,
+  //         commentCount: data.totalCommentCount || 0,
+  //         replyCount: data.totalReplyCount || 0,
   //       },
   //     })
   //   }
-  // }, [)
+  // }, [data])
 
   return (
     <div className="flex w-full flex-col items-start gap-10">
-      {full && discussion.body && (
-        <div>
-          <Container className="p-0">{discussion.body}</Container>
-        </div>
-      )}
       <div className="w-full">
         <div className="flex flex-col">
-          <div
-            // alignItems="center"
-            // spacing={4}
-            // className="gsc-header"
-            // justifyContent="flex-start"
-            // flex="auto"
-            // pb={2}
-            // whiteSpace="nowrap"
-            className="gsc-header flex flex-auto items-center justify-start gap-4 whitespace-nowrap pb-2"
-          >
+          <div className="gsc-header flex flex-auto items-center justify-start gap-4 whitespace-nowrap pb-2">
             {!isLoading && (shouldCreateDiscussion || !error) ? (
               <div className="flex text-sm">
                 <ReactButtons
@@ -165,7 +148,7 @@ export const Giscus = ({
 
           <div className="gsc-timeline flex flex-col">
             {!isLoading
-              ? frontComments.map((comment) => (
+              ? data.frontComments.map((comment) => (
                   <Comment
                     key={comment.id}
                     comment={comment}
@@ -182,14 +165,12 @@ export const Giscus = ({
                       ) : undefined
                     }
                     onCommentUpdate={frontMutators.updateComment}
-                    onCommentDelete={frontMutators.deleteComment}
                     onReplyUpdate={frontMutators.updateReply}
-                    onReplyDelete={frontMutators.deleteReply}
                   />
                 ))
               : null}
 
-            {numHidden > 0 ? (
+            {/* {data.numHidden > 0 ? (
               <div
                 // bg="center"
                 // bgRepeat="x"
@@ -205,18 +186,18 @@ export const Giscus = ({
                   // fontSize="sm"
                   className="flex flex-col items-center justify-center px-6 py-2 text-sm"
                   onClick={increaseSize}
-                  disabled={isLoadingMore}
+                  disabled={data.isLoadingMore}
                 >
-                  <span className="color-text-secondary">{`${numHidden} hidden comments`}</span>
+                  <span className="color-text-secondary">{`${data.numHidden} hidden comments`}</span>
                   <span className="color-text-link font-semibold">
-                    {isLoadingMore ? 'Loading' : 'Load more'}…
+                    {data.isLoadingMore ? 'Loading' : 'Load more'}…
                   </span>
                 </Button>
               </div>
-            ) : null}
+            ) : null} */}
 
             {!isLoading
-              ? backComments?.map((comment) => (
+              ? data.backComments?.map((comment) => (
                   <Comment
                     key={comment.id}
                     comment={comment}
@@ -234,8 +215,6 @@ export const Giscus = ({
                     }
                     onCommentUpdate={backMutators.updateComment}
                     onReplyUpdate={backMutators.updateReply}
-                    onCommentDelete={backMutators.deleteComment}
-                    onReplyDelete={backMutators.deleteReply}
                   />
                 ))
               : null}

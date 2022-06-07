@@ -13,4 +13,8 @@ export interface DiscussionQuery {
   term: string
   number?: number
   category: string
+  /**
+   * When passed, filters the incoming data to only a certain comment in that discussion, by its id.
+   */
+  commentID?: string
 }

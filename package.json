@@ -28,6 +28,7 @@
     "@nivo/core": "^0.79.0",
     "@nivo/line": "^0.79.1",
     "@nrwl/next": "14.1.7",
+    "@octokit/graphql": "^4.8.0",
     "@primer/octicons-react": "^17.2.0",
     "@swc/helpers": "~0.3.3",
     "@tailwindcss/typography": "^0.5.2",

@@ -18,6 +18,9 @@ import {
 } from '../../../utils/parseTime'
 import Link from 'next/link'
 import Image from 'next/image'
+import { getViewportPointFromEvent } from 'framer-motion/types/events/event-info'
+import { deleteComment } from '../../../services/github/deleteComment'
+import { EditMenu } from '../EditMenu'
 // import Image from 'next/image'
 
 interface ICommentProps {
@@ -25,7 +28,9 @@ interface ICommentProps {
   comment: IComment
   replyBox?: ReactElement<typeof CommentBox>
   onCommentUpdate: (newComment: IComment, promise: Promise<unknown>) => void
+  onCommentDelete: (comment: IComment, promise: Promise<unknown>) => void
   onReplyUpdate?: (newReply: IReply, promise: Promise<unknown>) => void
+  onReplyDelete?: (reply: IReply, promise: Promise<unknown>) => void
 }
 
 export const Comment = ({
@@ -33,7 +38,9 @@ export const Comment = ({
   comment,
   replyBox,
   onCommentUpdate,
+  onCommentDelete,
   onReplyUpdate,
+  onReplyDelete,
 }: ICommentProps) => {
   const [backPage, setBackPage] = useState(0)
 
@@ -73,6 +80,11 @@ export const Comment = ({
     )
   }, [comment, onCommentUpdate, token])
 
+  const canEdit = comment.viewerCanUpdate
+  const canDelete = comment.viewerCanDelete
+  const canMinimize = !comment.isMinimized && comment.viewerCanMinimize
+
+  console.log(canDelete, canEdit, canMinimize)
   const hidden = !!comment.deletedAt || comment.isMinimized
 
   return (
@@ -137,6 +149,14 @@ export const Comment = ({
                   {comment.authorAssociation}
                 </span>
               ) : null}
+              <EditMenu
+                handleDelete={() =>
+                  onCommentDelete(comment, deleteComment({ commentID: comment.id }, token))
+                }
+                canDelete={canDelete}
+                canEdit={canEdit}
+                canMinimize={canMinimize}
+              />
             </div>
             <div className="flex">
               {comment.lastEditedAt ? (
@@ -251,7 +271,15 @@ export const Comment = ({
 
             {onReplyUpdate
               ? replies.map((reply) => (
-                  <Reply key={reply.id} reply={reply} onReplyUpdate={onReplyUpdate} />
+                  <Reply
+                    key={reply.id}
+                    reply={reply}
+                    onReplyUpdate={onReplyUpdate}
+                    onReplyDelete={() => {
+                      onReplyDelete &&
+                        onReplyDelete(reply, deleteComment({ commentID: reply.id }, token))
+                    }}
+                  />
                 ))
               : null}
           </div>

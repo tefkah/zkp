@@ -3,7 +3,6 @@ import { CommentBoxContents } from '../CommentBoxContents/CommentBoxContents'
 /* eslint-disable @typescript-eslint/no-shadow */
 // ported from the great https://github.com/giscus/giscus
 
-import { MarkGithubIcon } from '@primer/octicons-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import { adaptComment, adaptReply } from '../../../utils/giscus/adapter'
@@ -18,6 +17,7 @@ export interface CommentBoxProps {
   // eslint-disable-next-line react/no-unused-prop-types
   context?: string
   replyToId?: string
+  defaultText?: string
   onSubmit: (comment: IComment | IReply) => void
   onDiscussionCreateRequest?: () => Promise<string>
 }
@@ -28,8 +28,9 @@ export const CommentBox = ({
   replyToId,
   onSubmit,
   onDiscussionCreateRequest,
+  defaultText,
 }: CommentBoxProps) => {
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState(defaultText || '')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isReplyOpen, setIsReplyOpen] = useState(false)
   const { data: session } = useSession()

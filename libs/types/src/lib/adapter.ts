@@ -38,6 +38,11 @@ interface IBaseComment {
   isMinimized: boolean
   body: string
   reactions: IReactionGroups
+  viewerCanDelete: boolean
+  viewerCanUpdate: boolean
+  viewerCanUnmarkAsAnswer: boolean
+  viewerCanMarkAsAnswer: boolean
+  viewerCanMinimize: boolean
 }
 
 export interface IReply extends IBaseComment {

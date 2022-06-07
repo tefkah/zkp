@@ -31,6 +31,7 @@ const get = async (req: NextApiRequest, res: NextApiResponse<IGiscussion | IErro
   }
 
   const userToken = req.headers.authorization?.split('Bearer ')[1]
+
   let token = userToken
   if (!token) {
     try {

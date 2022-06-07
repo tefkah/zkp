@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import useSWR from 'swr'
 import { Giscus } from '../Giscus'
 import { createGiscussion } from '../../../services/giscus/createGiscussion'
+import { useSession } from 'next-auth/react'
 
 export interface WidgetProps {
   origin: string
@@ -28,7 +29,10 @@ export const Widget = ({
   description,
   full,
 }: WidgetProps) => {
-  const { data: token } = useSWR('/api/auth/gha')
+  //  const { data: token } = useSWR('/api/auth/gha')
+  const { data: session, status } = useSession()
+  const token = session?.accessToken
+
   const handleDiscussionCreateRequest = async () =>
     createGiscussion(repo, {
       repositoryId: repoId,

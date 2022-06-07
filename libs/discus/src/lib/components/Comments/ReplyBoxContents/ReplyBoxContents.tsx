@@ -33,6 +33,7 @@ export const ReplyBoxContents = ({ viewer, handleReplyOpen }: ReplyBoxContentsPr
               src={viewer.avatarUrl}
               width="30"
               height="30" // alt={`@${viewer.login}`}
+              className="rounded-full"
             />
           </a>
         </Link>

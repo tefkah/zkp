@@ -15,16 +15,21 @@ import {
 } from '../../../utils/parseTime'
 import { CommentBody } from '../CommentBody'
 import Link from 'next/link'
+import { EditMenu } from '../EditMenu'
+import { deleteComment } from '../../../services/github/deleteComment'
 
 export interface ReplyProps {
   reply: IReply
   onReplyUpdate: (newReply: IReply, promise: Promise<unknown>) => void
+  onReplyDelete: () => void
+  //(reply: IReply, promise: Promise<unknown>) => void
   updateCommentReaction?: typeof defaultUpdateCommentReaction
 }
 
 export const Reply = ({
   reply,
   onReplyUpdate,
+  onReplyDelete,
   updateCommentReaction = defaultUpdateCommentReaction,
 }: ReplyProps) => {
   const updateReactions = useCallback(
@@ -108,7 +113,7 @@ export const Reply = ({
                   </div>
                 ) : null}
               </div>
-              <div className="flex w-full flex-row-reverse pr-4">
+              <div className="flex w-full flex-row-reverse items-center pr-4">
                 {reply.lastEditedAt ? (
                   <button
                     className="color-text-secondary gsc-reply-edited"
@@ -117,6 +122,7 @@ export const Reply = ({
                     Edited
                   </button>
                 ) : null}
+                <EditMenu handleDelete={onReplyDelete} canDelete={reply.viewerCanDelete} />
                 <ReactButtons
                   reactionGroups={reply.reactions}
                   subjectId={reply.id}

@@ -33,6 +33,7 @@ async function getInstallationId(repoWithOwner: string): Promise<number> {
 export async function getAppAccessToken(repoWithOwner: string): Promise<string> {
   const installationId =
     parseInt(process.env.DISCUSSIONS_INSTALL_ID || '') || (await getInstallationId(repoWithOwner))
+
   if (!installationId)
     throw {
       message:
@@ -42,12 +43,14 @@ export async function getAppAccessToken(repoWithOwner: string): Promise<string> 
     }
 
   const cachedToken = await getCachedAccessToken(installationId)
+
   if (cachedToken) return cachedToken
 
   const response = await fetch(GITHUB_ACCESS_TOKEN_URL(installationId), {
     method: 'POST',
     headers: getHeaders(),
   })
+
   if (!response.ok)
     throw {
       message: 'Failed fetching access token',

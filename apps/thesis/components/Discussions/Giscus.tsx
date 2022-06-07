@@ -203,7 +203,7 @@ export const Giscus = ({
                     as="span"
                     className="color-text-secondary"
                   >{`${data.numHidden} hidden comments`}</Text>
-                  <Text as="span" className="font-semibold color-text-link">
+                  <Text as="span" className="color-text-link font-semibold">
                     {data.isLoadingMore ? 'Loading' : 'Load more'}…
                   </Text>
                 </Button>
@@ -236,13 +236,7 @@ export const Giscus = ({
 
           {shouldShowCommentBox ? (
             <>
-              <Box
-                my={4}
-                fontSize="sm"
-                borderTop={2}
-                className="gsc-comment-box-separator color-border-primary"
-                color="grey.700"
-              />
+              <div className="gsc-comment-box-separator color-border-primary my-4 border-t-2 text-sm text-gray-700" />
               <CommentBox
                 viewer={data.viewer}
                 discussionId={data.discussion.id}

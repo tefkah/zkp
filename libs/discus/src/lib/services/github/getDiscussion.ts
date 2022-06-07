@@ -43,6 +43,11 @@ const DISCUSSION_QUERY = `
         url
       }
       viewerDidAuthor
+      viewerCanDelete
+      viewerCanUpdate
+      viewerCanUnmarkAsAnswer
+      viewerCanMarkAsAnswer
+      viewerCanMinimize
       createdAt
       url
       authorAssociation
@@ -67,6 +72,11 @@ const DISCUSSION_QUERY = `
             url
           }
           viewerDidAuthor
+          viewerCanDelete
+          viewerCanUpdate
+          viewerCanUnmarkAsAnswer
+          viewerCanMarkAsAnswer
+          viewerCanMinimize
           createdAt
           url
           authorAssociation

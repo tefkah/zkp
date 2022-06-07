@@ -3,6 +3,13 @@ import { useState, useMemo, useCallback } from 'react'
 import { SWRConfig } from 'swr'
 import { cleanParams, fetcher } from '../utils'
 import useSWRInfinite from 'swr/infinite'
+import { deleteReply } from './deleteReply'
+import { deleteComment } from './deleteComment'
+import { updateReply } from './updateReply'
+import { addNewComment } from './addNewComment'
+import { addNewReply } from './addNewReply'
+import { updateDiscussion } from './updateDiscussion'
+import { updateComment } from './updateComment'
 
 export const useDiscussion = (
   query: DiscussionQuery,
@@ -10,11 +17,12 @@ export const useDiscussion = (
   pagination: PaginationParams = {},
 ) => {
   const [errorStatus, setErrorStatus] = useState(0)
+
   const urlParams = new URLSearchParams(cleanParams({ ...query, ...pagination }))
 
   const headers = useMemo(() => {
-    const header = token ? { Authorization: `Bearer ${token}` } : {}
-    return { header }
+    const headers = token ? { Authorization: `Bearer ${token}` } : {}
+    return { headers }
   }, [token])
 
   const getKey = (pageIndex: number, previousPageData?: IGiscussion) => {
@@ -53,97 +61,6 @@ export const useDiscussion = (
     setErrorStatus(0) // Clear error
   }
 
-  const addNewComment = useCallback(
-    (comment: IComment) => {
-      if (!data) return mutate()
-      const firstPage = data.slice(0, data.length - 1)
-      const [lastPage] = data.slice(-1)
-      mutate(
-        [
-          ...firstPage,
-          {
-            ...lastPage,
-            discussion: {
-              ...lastPage.discussion,
-              comments: [...(lastPage.discussion?.comments || []), comment],
-            },
-          },
-        ],
-        false,
-      )
-      return mutate()
-    },
-    [data, mutate],
-  )
-
-  const addNewReply = useCallback(
-    (reply: IReply) => {
-      const newData = data?.map((page) => ({
-        ...page,
-        discussion: {
-          ...page.discussion,
-          comments: page.discussion.comments.map((comment) =>
-            comment.id === reply.replyToId
-              ? { ...comment, replies: [...comment.replies, reply] }
-              : comment,
-          ),
-        },
-      }))
-      mutate(newData, false)
-      return mutate()
-    },
-    [data, mutate],
-  )
-
-  const updateDiscussion = useCallback(
-    (newDiscussions: IGiscussion[], promise?: Promise<unknown>) =>
-      mutate(newDiscussions, !promise).then(() => promise?.then(() => mutate())),
-    [mutate],
-  )
-
-  const updateComment = useCallback(
-    (newComment: IComment, promise?: Promise<unknown>) =>
-      mutate(
-        data?.map((page) => ({
-          ...page,
-          discussion: {
-            ...page.discussion,
-            comments: page.discussion.comments.map((comment) =>
-              comment.id === newComment.id ? newComment : comment,
-            ),
-          },
-        })),
-        !promise,
-      ).then(() => promise?.then(() => mutate())),
-    [data, mutate],
-  )
-
-  const updateReply = useCallback(
-    (newReply: IReply, promise?: Promise<unknown>) =>
-      mutate(
-        data?.map((page) => ({
-          ...page,
-          discussion: {
-            ...page.discussion,
-            comments: page.discussion.comments.map((comment) =>
-              comment.id === newReply.replyToId
-                ? {
-                    ...comment,
-                    replies: comment.replies.map((reply) =>
-                      reply.id === newReply.id ? newReply : reply,
-                    ),
-                  }
-                : comment,
-            ),
-          },
-        })),
-        !promise,
-      )
-        .then(() => promise?.then(() => mutate()))
-        .catch((e) => console.error(e)),
-    [data, mutate],
-  )
-
   return {
     data: data ?? [],
     error,
@@ -153,11 +70,13 @@ export const useDiscussion = (
     isLoading: !error && !data,
     isError: !!error,
     mutators: {
-      addNewComment,
-      addNewReply,
-      updateDiscussion,
-      updateComment,
-      updateReply,
+      addNewComment: addNewComment({ data, mutate }),
+      addNewReply: addNewReply({ data, mutate }),
+      updateDiscussion: updateDiscussion({ mutate }),
+      updateComment: updateComment({ mutate, data }),
+      updateReply: updateReply({ mutate, data }),
+      deleteComment: deleteComment({ mutate, data }),
+      deleteReply: deleteReply({ mutate, data }),
       mutate,
     },
   }

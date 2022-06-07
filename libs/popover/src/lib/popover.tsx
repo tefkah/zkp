@@ -1,11 +1,12 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import { useState, useRef, ReactNode, DetailedHTMLProps, ButtonHTMLAttributes } from 'react'
-import { Float } from 'headlessui-float-react'
+import { Float, FloatProps } from 'headlessui-float-react'
 import Link from 'next/link'
 
 export interface PopoverPropsBase {
   href?: string
   hover?: boolean
+  placement?: FloatProps['placement']
   children: ReactNode
   arrow?: boolean
   chevron?: boolean
@@ -25,7 +26,7 @@ export interface PopoverPropsSpan extends PopoverPropsBase {
 export type PopoverProps = PopoverPropsSpan | PopoverPropsButton
 
 export const Popover = (props: PopoverProps) => {
-  const { href, button, portal, hover, chevron, title, children, arrow, lazy } = props
+  const { href, button, placement, portal, hover, chevron, title, children, arrow, lazy } = props
   const [show, setShow] = useState(false)
   // const [shouldRender, setShouldRender] = useState(!lazy)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -69,7 +70,7 @@ export const Popover = (props: PopoverProps) => {
       leave="transition ease-in duration-150"
       leaveFrom="opacity-100 translate-y-0"
       leaveTo="opacity-0 translate-y-8"
-      placement="bottom-start"
+      placement={placement || 'bottom-start'}
       offset={15}
       shift={6}
       flip={1}

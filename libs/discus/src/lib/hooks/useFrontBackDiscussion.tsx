@@ -5,6 +5,7 @@ import { useDiscussion } from './useDiscussion'
 
 export const useFrontBackDiscussion = (query: DiscussionQuery, token?: string) => {
   const backDiscussion = useDiscussion(query, token, { last: 15 })
+
   const {
     data: backkData,
     isLoading: isBackLoading,
