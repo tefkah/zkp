@@ -60,6 +60,7 @@ export const PreviewLink = (props: LinkProps) => {
 
   return (
     <HeadlessPopover
+      placement="top"
       title={children}
       span={{
         className: 'text-red-500',

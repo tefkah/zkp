@@ -19,6 +19,7 @@ export interface PopoverPropsBase {
   arrow?: boolean
   chevron?: boolean
   lazy?: boolean
+  autoPlacement?: boolean
   portal?: boolean
 }
 
@@ -36,8 +37,20 @@ export interface PopoverPropsSpan extends PopoverPropsBase {
 export type PopoverProps = PopoverPropsSpan | PopoverPropsButton
 
 export const Popover = (props: PopoverProps) => {
-  const { span, href, button, placement, portal, hover, chevron, title, children, arrow, lazy } =
-    props
+  const {
+    span,
+    href,
+    autoPlacement,
+    button,
+    placement,
+    portal,
+    hover,
+    chevron,
+    title,
+    children,
+    arrow,
+    lazy,
+  } = props
   const [show, setShow] = useState(false)
   // const [shouldRender, setShouldRender] = useState(!lazy)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -76,15 +89,16 @@ export const Popover = (props: PopoverProps) => {
       as="span"
       strategy="fixed"
       enter="transition ease-out duration-200"
-      enterFrom="opacity-0 translate-y-8"
+      enterFrom="opacity-0 translate-y-15"
       enterTo="opacity-100 translate-y-0"
-      leave="transition ease-in duration-150"
+      leave="transition ease-in duration-15"
       leaveFrom="opacity-100 translate-y-0"
       leaveTo="opacity-0 translate-y-8"
       placement={placement || 'bottom-start'}
       offset={15}
       shift={6}
-      flip={1}
+      // flip={1}
+      {...(autoPlacement ? { autoPlacement: true } : { flip: 1 })}
       arrow={arrow}
       portal={portal ?? true}
       show={show}
@@ -138,9 +152,9 @@ export const Popover = (props: PopoverProps) => {
         //  className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl"
       >
         {arrow && (
-          <Float.Arrow className="absolute h-5 w-5 rotate-45 border border-gray-200 bg-white " />
+          <Float.Arrow /> //className="absolute h-5 w-5 rotate-45 border border-gray-200 bg-white " />
         )}
-        <div className="max-h-lg max-w-md overflow-y-scroll rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+        <div className="max-h-lg h-80 max-w-sm overflow-y-scroll rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
           {children}
         </div>
       </span>

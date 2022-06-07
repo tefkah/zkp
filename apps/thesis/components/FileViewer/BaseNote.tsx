@@ -19,6 +19,7 @@ import { OutlineBox } from '../OutlineBox/OutlineBox'
 // import { Citations } from './Citations'
 import { useNotes } from '../../stores/noteStore'
 import { MDXNote } from './MDXNote'
+import { Button } from '@zkp/ui'
 // import CommentBoxMaybe from '../Comments/CommentBoxMaybe'
 export interface NoteProps extends FilePageProps {
   // stackData?: StackState
@@ -66,16 +67,16 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
     )
   }
 
-  const { colorMode } = useColorMode()
+  // const { colorMode } = useColorMode()
   const stackData = getStackStateById(id)
   const { data } = useSWR(`/data/dataBySlug.json`)
 
   const stackedNoteStyle: CSSObject = stacked
     ? {
-        borderStyle: 'solid',
-        borderLeftWidth: '1px',
-        flexShrink: '0',
-        width: '75ch',
+        // borderStyle: 'solid',
+        // borderLeftWidth: '1px',
+        // flexShrink: '0',
+        // width: '75ch',
       }
     : {}
 
@@ -149,15 +150,17 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   )
 
   const bgLight = stackData?.highlighted ? 'bg-red-100' : 'bg-white'
-  const bgDark = stackData?.highlighted ? 'bg-red-100' : 'bg-black'
+  // const bgDark = stackData?.highlighted ? 'bg-red-100' : 'bg-black'
   return (
     <div
       className={`sticky flex w-[75ch]
       flex-grow overflow-y-scroll scroll-smooth p-4 transition-all
-      ${stacked ? 'justify-start' : 'justify-between'}
+      ${stacked ? 'flex-shrink-0 justify-start border-l-[1px]' : 'justify-between'}
       h-full
        ${bgLight}
       dark:bg-black
+      ${stackData?.highlighted ? 'bg-red-50' : ''}
+      ${stackData?.overlay ? 'shadow-xl' : ''}
       `}
       ref={ref}
       // sx={{
@@ -180,18 +183,23 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         //   right: `${
         //     -noteWidth + (obstructedPageWidth * ((stackedNotes?.length ?? 0) - index) || 0)
         //   }px`,
-        ...stackedNoteStyle,
+        // ...stackedNoteStyle,
         ...overlayStyle,
         ...obstructedStyle,
-        ...highlightedStyle,
+        // ...highlightedStyle,
       }}
       // }}
       //   justifyContent={stacked ? 'flex-start' : 'space-between'}
       //  height="full"
     >
       {stacked && (
-        <div className="justify-bottom flex align-bottom">
-          <CloseButton onClick={removeNote} />
+        <div className="justify-bottom align-center flex flex-col">
+          <Button
+            className="bg-transparent p-1 text-red-300 hover:bg-red-100 hover:text-red-500"
+            onClick={removeNote}
+          >
+            x
+          </Button>
           <h1
             className={`text-md text-regular ] top-0 left-0 bottom-0 overflow-hidden bg-transparent decoration-0 ${
               stackData?.obstructed ? 'opacity-1' : 'opacity-0'

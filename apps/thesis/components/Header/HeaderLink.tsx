@@ -1,4 +1,3 @@
-import { Link as ChakraLink } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -41,9 +40,9 @@ export const HeaderLink = (props: Props) => {
     <Link href={href} passHref>
       <a
         href={href}
-        className={`p-2 relative after:contents-[" "] after:absolute after:bottom-0 after:left-0 after:bg-red-500 ${
+        className={`after:contents-[" "] relative p-2 after:absolute after:bottom-0 after:left-0 after:bg-red-500 ${
           active ? 'after:w-full' : 'after:w-0'
-        }  after:h-1 transition-all hover:after:w-full duration-300 after:transition-all`}
+        }  transition-all duration-300 after:h-1 after:transition-all hover:after:w-full`}
         // _hover={{ _after: { width: '100%' } }}
       >
         {children}

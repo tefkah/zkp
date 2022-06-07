@@ -100,15 +100,12 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
     // ol: OrderedList,
     // li: ListItem,
     blockquote: ({ children, ...quote }) => {
-      console.log(quote)
-      console.log(children)
       // @ts-expect-error idk what to tell you an it's an array
       const [, possibleCallout, ...restOfQuote] = children || []
 
       const [callout, ...restOfCallout] = possibleCallout?.props?.children || []
       if (callout && typeof callout === 'string' && callout.match(/\[!.*?\]/)) {
         const calloutType = callout.replace(/\[!(.*?)\]/, '$1')
-        console.log(restOfQuote)
         return (
           <blockquote
             className="my-8 mr-8 overflow-clip border-red-100 bg-red-50 p-4"
@@ -185,7 +182,7 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
           width={500}
           height={500}
           alt={img.alt || 'An image without alt-text: sorry!'}
-          src={(img.src as string).replace(/\.+\/media\//, '/media/')}
+          src={`/media/${(img.src as string).replace(/\.+\/media\//, '')}`}
         />
       </span>
     ),
