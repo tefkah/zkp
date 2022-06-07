@@ -101,7 +101,7 @@ export const CustomSideBar = (props: Props) => {
               Modified
             </SortButton>
           </HStack>
-          <VStack pl={4} alignItems="flex-start">
+          <VStack pl={4} alignItems="flex-start" tabIndex={-1} className="focus-visible:bg-red-900">
             {folderList?.children?.map((folderOrFile) => {
               if (folderOrFile.type === 'folder') {
                 return (

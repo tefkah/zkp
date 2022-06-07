@@ -5,13 +5,13 @@
 /* eslint-disable react/display-name */
 import {
   Link as ChakraLink,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  Portal,
-  Text,
-  Container,
+  // Popover,
+  // PopoverArrow,
+  // PopoverBody,
+  // PopoverContent,
+  // Portal,
+  // Text,
+  // Container,
   PopoverTrigger as OrigPopoverTrigger,
 } from '@chakra-ui/react'
 import { Popover as HeadlessPopover } from '@zkp/popover'
@@ -59,7 +59,20 @@ export const PreviewLink = (props: LinkProps) => {
   }
 
   return (
-    <HeadlessPopover title={children} href={href} arrow lazy>
+    <HeadlessPopover
+      title={children}
+      span={{
+        className: 'text-red-500',
+        children: (
+          <NodeLink href={href} currentId={currentId}>
+            {children}
+          </NodeLink>
+        ),
+      }}
+      href={href}
+      arrow
+      lazy
+    >
       <div className="bg-white p-4">
         <PopoverPreview href={href} id={currentId} />
       </div>

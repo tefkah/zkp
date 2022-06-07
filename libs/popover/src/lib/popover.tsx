@@ -1,7 +1,15 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid'
-import { useState, useRef, ReactNode, DetailedHTMLProps, ButtonHTMLAttributes } from 'react'
+import {
+  useState,
+  useRef,
+  ReactNode,
+  DetailedHTMLProps,
+  ButtonHTMLAttributes,
+  HTMLAttributes,
+} from 'react'
 import { Float, FloatProps } from 'headlessui-float-react'
 import Link from 'next/link'
+import { twMerge } from 'tailwind-merge'
 
 export interface PopoverPropsBase {
   href?: string
@@ -16,17 +24,20 @@ export interface PopoverPropsBase {
 
 export interface PopoverPropsButton extends PopoverPropsBase {
   button: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+  span?: undefined
   title?: undefined
 }
 export interface PopoverPropsSpan extends PopoverPropsBase {
   title: string | React.ReactElement
+  span?: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>
   button?: undefined
 }
 
 export type PopoverProps = PopoverPropsSpan | PopoverPropsButton
 
 export const Popover = (props: PopoverProps) => {
-  const { href, button, placement, portal, hover, chevron, title, children, arrow, lazy } = props
+  const { span, href, button, placement, portal, hover, chevron, title, children, arrow, lazy } =
+    props
   const [show, setShow] = useState(false)
   // const [shouldRender, setShouldRender] = useState(!lazy)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -87,6 +98,19 @@ export const Popover = (props: PopoverProps) => {
           aria-label={button['aria-label']}
           className={button.className ?? ``}
         />
+      ) : span ? (
+        <span
+          onMouseEnter={open}
+          onMouseLeave={delayClose}
+          className={twMerge(
+            `
+                ${show ? '' : 'text-opacity-90'}
+                group inline-flex items-center rounded-md text-base font-medium  hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`,
+            span.className,
+          )}
+        >
+          {span.children}
+        </span>
       ) : (
         <span
           onMouseEnter={open}
