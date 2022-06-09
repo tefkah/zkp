@@ -1,5 +1,4 @@
 // import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { Box, VStack, useDisclosure } from '@chakra-ui/react'
 import { FileLeaf, isFolder, RecursiveFolder } from '@zkp/types'
 import { Disclosure } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -30,7 +29,7 @@ export const SubMenu = (props: SubMenuProps) => {
   //  const currentColor = 'primary' // useColorModeValue('black', 'white')
 
   return (
-    <Box key={folderName}>
+    <div key={folderName} className="w-full">
       {/* <Container mt={4} mb={4}>
         <HStack alignItems="center">
           <Button
@@ -80,7 +79,7 @@ export const SubMenu = (props: SubMenuProps) => {
                   }}
                   transition={{ duration: 0.3 }}
                   exit={{ height: 0 }}
-                  className="overflow-clip"
+                  className="w-full overflow-clip"
                 >
                   <div
                     // pl={4}
@@ -89,7 +88,7 @@ export const SubMenu = (props: SubMenuProps) => {
                     // pr="5%"
                     // alignItems="flex-start"
                     // spacing={1}
-                    className="flex flex-col items-start gap-1 py-2 pl-2 pb-3 pr-[5%]"
+                    className="flex w-full flex-col items-start gap-1 py-2 pl-2 pb-3 pr-[5%]"
                   >
                     {files?.map((fileOrFolder) => {
                       const { name, slug } = fileOrFolder
@@ -114,7 +113,7 @@ export const SubMenu = (props: SubMenuProps) => {
         {/* </Transition> */}
       </Disclosure>
       {/* </Collapse> */}
-    </Box>
+    </div>
   )
 }
 

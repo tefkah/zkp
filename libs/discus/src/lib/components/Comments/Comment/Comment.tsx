@@ -84,6 +84,7 @@ export const Comment = ({
   const canDelete = comment.viewerCanDelete
   const canMinimize = !comment.isMinimized && comment.viewerCanMinimize
 
+  const isEditing = false
   console.log(canDelete, canEdit, canMinimize)
   const hidden = !!comment.deletedAt || comment.isMinimized
 
@@ -172,7 +173,15 @@ export const Comment = ({
           </div>
         ) : null}
         <div className="px-4">
-          <CommentBody handleCommentClick={handleCommentClick} hidden={hidden} comment={comment} />
+          {isEditing ? (
+            <CommentBox onSubmit={() => {}} defaultText={comment.body} />
+          ) : (
+            <CommentBody
+              handleCommentClick={handleCommentClick}
+              hidden={hidden}
+              comment={comment}
+            />
+          )}
         </div>
         {children}
         {!comment.isMinimized && onCommentUpdate ? (

@@ -29,6 +29,7 @@ export const Widget = ({
   full,
 }: IWidgetProps) => {
   const { data: token } = useSWR('/api/auth/gha')
+
   const handleDiscussionCreateRequest = async () =>
     createDiscussion(repo, {
       repositoryId: repoId,

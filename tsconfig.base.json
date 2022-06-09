@@ -2,22 +2,27 @@
   "compileOnSave": false,
   "ts-node": {
     "require": ["tsconfig-paths/register"],
-    "transpileOnly": true,
+    //"transpileOnly": true,
     "compilerOptions": {
       "module": "NodeNext",
-      "target": "ESNext"
+      "target": "ESNext",
+      "moduleResolution": "NodeNext"
     },
-    "esm": true
+    "esm": true,
+    "swc": true
+    // "experimentalResolverFeatures": true,
+    // "experimentalSpecificierResolution": "node"
+    // "preferTsExts": true
   },
   "compilerOptions": {
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "esnext",
+    "target": "ESNext",
     "module": "NodeNext",
     "lib": ["es2021", "DOM"],
     "skipLibCheck": true,
@@ -40,7 +45,9 @@
       "@zkp/types": ["libs/types/src/index.ts"],
       "@zkp/ui": ["libs/ui/src/index.ts"],
       "try-catch": ["libs/utils/try-catch/src/index.ts"],
-      "zkp-editor": ["libs/zkp-editor/src/index.ts"]
+      "zkp-editor": ["libs/zkp-editor/src/index.ts"],
+      "@zkp/slugify": ["libs/utils/slugify/src/index.ts"],
+      "@zkp/mdx": ["libs/utils/mdx/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

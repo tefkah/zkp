@@ -9,10 +9,14 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "incremental": true,
-    "types": ["jest", "node"],
+    "types": [
+      "jest",
+      "node"
+    ],
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext"
+    "module": "esnext",
+    "moduleResolution": "node"
   },
   "include": [
     "**/*.ts",
@@ -21,7 +25,11 @@
     "next-env.d.ts",
     "**/[*].tsx",
     "**/[...*].tsx",
-    "jest.config.js"
+    "jest.config.js",
+    "../../libs/discus/src/lib/services/giscus/filterDiscussionsByCommentID.ts"
   ],
-  "exclude": ["node_modules", "**/katexSlatePlugin.tsx"]
+  "exclude": [
+    "node_modules",
+    "**/katexSlatePlugin.tsx"
+  ]
 }

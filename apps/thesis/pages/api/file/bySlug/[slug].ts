@@ -42,6 +42,7 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
     // const file = await fs.readFile(join(NEXT_PUBLIC_NOTE_DIR, path), 'utf8')
     const result = await mdxSerialize(file, BIB_PATH)
     console.log(result)
+    res.setHeader('Cache-Control', 's-max-age=36000, stale-while-revalidate=100000')
     res.status(200)
     res.json({ ...result })
   } catch (err) {

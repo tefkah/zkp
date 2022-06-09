@@ -3,13 +3,20 @@ import fs from 'fs'
 import { rm, rmdir, unlink } from 'fs/promises'
 import { join } from 'path'
 import * as http from 'isomorphic-git/http/node/index.js'
-import {Commit} from "@zkp/types"
+import { Commit } from '@zkp/types'
 
-import { mdxDataBySlug } from '@zkp/thesis'
-import { getListOfCommitsWithStats } from '@zkp/thesis'
+import { getListOfCommitsWithStats } from '../../../git/src/lib/getListOfCommitsWithStats.ts'
+import { mdxDataBySlug } from '../../../utils/mdx/src/lib/mdxDataBySlug.ts'
 import * as dotenv from 'dotenv'
-import { repo, appDir, gitDir, noteDir, dataDir } from '@zkp/thesis'
-import { flattenAndSlugifyNotes } from '@zkp/thesis'
+
+import {
+  BASE_URL as repo,
+  APP_DIR as appDir,
+  GIT_DIR as gitDir,
+  NEXT_PUBLIC_NOTE_DIR as noteDir,
+  DATA_DIR as dataDir,
+} from '../../../paths/src/lib/paths.ts'
+import { flattenAndSlugifyNotes } from './flattenAndSlugifyNotes.ts'
 
 dotenv.config()
 

@@ -14,6 +14,8 @@
     "ui": "libs/ui",
     "utils-try-catch": "libs/utils/try-catch",
     "zkp-editor": "libs/zkp-editor",
-    "zkp-editor-e2e": "apps/zkp-editor-e2e"
+    "zkp-editor-e2e": "apps/zkp-editor-e2e",
+    "utils-slugify": "libs/utils/slugify",
+    "utils-mdx": "libs/utils/mdx"
   }
 }

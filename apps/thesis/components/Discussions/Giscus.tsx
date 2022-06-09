@@ -72,6 +72,7 @@ export const Giscus = ({
   const shouldCreateDiscussion = data.isNotFound && !number
   //  const shouldShowBranding = !!data.discussion.url
 
+
   const isDataLoaded = !data.error && !data.isNotFound && !data.isLoading
 
   const shouldShowReplyCount = isDataLoaded && data.totalReplyCount > 0

@@ -29,7 +29,7 @@ export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
       <a
         onMouseEnter={() => setHighlightedNote(name)}
         onMouseLeave={() => unHighlightNotes()}
-        className={`py-[2px] hover:text-red-500 ${
+        className={`w-full py-[2px] hover:text-red-500 ${
           isActive ? 'bg-red-50 font-bold' : 'font-light'
         } truncate pl-8 text-sm capitalize transition-colors`}
       >
