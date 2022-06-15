@@ -71,31 +71,12 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   const stackData = getStackStateById(id)
   const { data } = useSWR(`/data/dataBySlug.json`)
 
-  const stackedNoteStyle: CSSObject = stacked
-    ? {
-        // borderStyle: 'solid',
-        // borderLeftWidth: '1px',
-        // flexShrink: '0',
-        // width: '75ch',
-      }
-    : {}
-
-  const highlightedStyle: CSSObject = stackData?.highlighted
-    ? {
-        backgroundColor: 'brand.100',
-      }
-    : {}
-  const overlayStyle: CSSObject = stackData?.overlay
-    ? {
-        boxShadow: '2xl',
-      }
-    : {}
-  const obstructedStyle: CSSObject = stackData?.obstructed ? {} : {}
+  // const obstructedStyle: CSSObject = stackData?.obstructed ? {} : {}
 
   const Note = useMemo(
     () => (
       <div
-        className={`container flex w-[75ch] flex-grow flex-col justify-between py-8 ${
+        className={`container flex w-[90ch] flex-grow flex-col justify-between py-8 ${
           stackData?.obstructed ? 'opacity-0' : 'opacity-1'
         }`}
       >
@@ -153,7 +134,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   // const bgDark = stackData?.highlighted ? 'bg-red-100' : 'bg-black'
   return (
     <div
-      className={`sticky flex w-[75ch]
+      className={`sticky flex w-[90ch]
       flex-grow overflow-y-scroll scroll-smooth p-4 transition-all
       ${stacked ? 'flex-shrink-0 justify-start border-l-[1px]' : 'justify-between'}
       h-full
@@ -184,8 +165,6 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         //     -noteWidth + (obstructedPageWidth * ((stackedNotes?.length ?? 0) - index) || 0)
         //   }px`,
         // ...stackedNoteStyle,
-        ...overlayStyle,
-        ...obstructedStyle,
         // ...highlightedStyle,
       }}
       // }}
@@ -204,28 +183,12 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
             className={`text-md text-regular ] top-0 left-0 bottom-0 overflow-hidden bg-transparent decoration-0 ${
               stackData?.obstructed ? 'opacity-1' : 'opacity-0'
             } pointer-events-none absolute mt-14 whitespace-nowrap transition-colors transition-opacity`}
-            // size="md"
             // TODO: do not inline all the stacked note styles
             style={{
               width: `${obstructedPageWidth ?? 0}px`,
-              // textDecoration: 'none',
-              // fontSize: '17px',
               lineHeight: `${obstructedPageWidth}px`,
-              // fontWeight: '500',
-              // marginTop: 14,
-              // top: '0px',
-              // bottom: '0px',
-              // left: '0px',
-              // position: 'absolute',
-              // backgroundColor: 'transparent',
-              // width: `${obstructedPageWidth}px`,
               writingMode: 'vertical-lr',
               textOrientation: 'sideways',
-              // overflow: 'hidden',
-              // opacity: stackData?.obstructed ? 1 : 0,
-              // transition: 'color 0.3s ease, opacity 0.1s ease',
-              // pointerEvents: 'none',
-              // whiteSpace: 'nowrap',
             }}
           >
             {data?.[id]?.name ?? id}

@@ -16,6 +16,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  // @ts-expect-error shush
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
 }

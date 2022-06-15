@@ -27,7 +27,7 @@ import remarkMath from 'remark-math'
 import remarkGFM from 'remark-gfm'
 // @ts-expect-error no types :()
 import remarkWikiLink from 'remark-wiki-link'
-import { slugify } from '../../utils/slug'
+import { slugify } from '@zkp/slugify'
 import { PreviewLink } from '../../components/FileViewer/Link'
 import { findCiteId, findCiteTitle } from '../../utils/findCiteData'
 import { FilesData } from '../../utils/IDIndex/getFilesData'

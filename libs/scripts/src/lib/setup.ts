@@ -1,12 +1,10 @@
 import { clone } from 'isomorphic-git'
 import fs from 'fs'
 import { rm, rmdir, unlink } from 'fs/promises'
-import { join } from 'path'
 import * as http from 'isomorphic-git/http/node/index.js'
-import { Commit } from '@zkp/types'
 
-import { getListOfCommitsWithStats } from '../../../git/src/lib/getListOfCommitsWithStats.ts'
-import { mdxDataBySlug } from '../../../utils/mdx/src/lib/mdxDataBySlug.ts'
+import { getListOfCommitsWithStats } from '@zkp/git'
+import { mdxDataBySlug } from '@zkp/mdx'
 import * as dotenv from 'dotenv'
 
 import {
@@ -15,8 +13,8 @@ import {
   GIT_DIR as gitDir,
   NEXT_PUBLIC_NOTE_DIR as noteDir,
   DATA_DIR as dataDir,
-} from '../../../paths/src/lib/paths.ts'
-import { flattenAndSlugifyNotes } from './flattenAndSlugifyNotes.ts'
+} from '@zkp/paths'
+import { flattenAndSlugifyNotes } from './flattenAndSlugifyNotes'
 
 dotenv.config()
 

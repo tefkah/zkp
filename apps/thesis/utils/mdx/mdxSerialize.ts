@@ -7,7 +7,7 @@ import remarkGFM from 'remark-gfm'
 import remarkWikiLink from 'remark-wiki-link'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import rehypeKatex from 'rehype-katex'
-import { slugify } from '../slug'
+import { slugify } from '@zkp/slugify'
 
 export const mdxSerialize = async (
   input: string,

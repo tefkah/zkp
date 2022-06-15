@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { Reactions } from './github'
+import { Reactions } from './github/index.js'
 
 export interface IUser {
   avatarUrl: string

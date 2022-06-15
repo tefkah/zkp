@@ -10,7 +10,7 @@ import { DataBy, MDFilePageProps } from '@zkp/types'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { CustomSideBar } from '../components/CustomSidebar'
-import { mdxSerialize } from '../utils/mdx/mdxSerialize'
+import { mdxSerialize } from '@zkp/mdx'
 import { BIB_PATH, DATA_DIR, NEXT_PUBLIC_NOTE_DIR } from '../utils/paths'
 import { NoteScrollContainer } from '../components/FileViewer/NoteScrollContainer'
 

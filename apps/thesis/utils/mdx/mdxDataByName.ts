@@ -2,8 +2,8 @@ import { Stats } from 'fs'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import readdirp from 'readdirp'
+import { slugify } from '@zkp/slugify'
 import { DATA_DIR, NEXT_PUBLIC_NOTE_DIR } from '../paths'
-import { slugify } from '../slug'
 
 // TODO: Make the dataBy... files inherit from the same function
 export const mdxDataByName = async () => {

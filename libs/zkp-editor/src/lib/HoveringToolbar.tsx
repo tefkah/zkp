@@ -1,10 +1,5 @@
 import { MouseEventHandler, MutableRefObject, useCallback, useEffect, useMemo, useRef } from 'react'
 import { ReactEditor, useFocused, useSelected, useSlate, useSlateStatic } from 'slate-react'
-import { Editor, Range } from 'slate'
-import { FormatButton } from './FormatButton'
-import { Float } from 'headlessui-float-react'
-import { json } from 'stream/consumers'
-import { computePosition, Middleware, MiddlewareArguments, offset } from '@floating-ui/react-dom'
 import { useWindowScroll } from '@mantine/hooks'
 import { nanoid } from 'nanoid'
 

@@ -41,7 +41,6 @@
       "@zkp/popover": ["libs/popover/src/index.ts"],
       "@zkp/redis": ["libs/redis/src/index.ts"],
       "@zkp/scripts": ["libs/scripts/src/index.ts"],
-      "@zkp/thesis": ["apps/thesis"],
       "@zkp/types": ["libs/types/src/index.ts"],
       "@zkp/ui": ["libs/ui/src/index.ts"],
       "try-catch": ["libs/utils/try-catch/src/index.ts"],

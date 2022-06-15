@@ -1,4 +1,4 @@
-import { GenericMutationBody } from './mutations'
+import { GenericMutationBody } from './mutations.js'
 
 export interface DeleteCommentBody extends GenericMutationBody {
   commentID: string

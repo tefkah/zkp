@@ -1,8 +1,8 @@
 import { readFile, writeFile, rename } from 'fs/promises'
 import { extname, join } from 'path'
 import readdirp from 'readdirp'
-import { NEXT_PUBLIC_NOTE_DIR } from '../../../paths/src/lib/paths.ts'
-import { slugify } from '../../../utils/slugify/src/lib/slugify.ts'
+import { NEXT_PUBLIC_NOTE_DIR } from '@zkp/paths'
+import { slugify } from '@zkp/slugify'
 
 export const flattenAndSlugifyNotes = async ({ notedir = NEXT_PUBLIC_NOTE_DIR }) => {
   const files = await readdirp.promise(notedir, {

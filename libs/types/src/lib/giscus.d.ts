@@ -2,7 +2,7 @@
 
 // import { AvailableLanguage } from '../i18n'
 // import { Theme } from '../variables'
-import { IReactionGroups, IUser } from './adapter'
+import { IReactionGroups, IUser } from './adapter.js'
 
 export interface ITokenRequest {
   session: string

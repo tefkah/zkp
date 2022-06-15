@@ -1,7 +1,7 @@
 import { Box, Heading, VStack, useColorModeValue } from '@chakra-ui/react'
 import { useMemo } from 'react'
 // import { FilesData } from '../../utils/IDIndex/getFilesData'
-import { slugify } from '../../utils/slug'
+import { slugify } from '@zkp/slugify'
 import { PreviewLink } from './Link'
 
 interface Props {

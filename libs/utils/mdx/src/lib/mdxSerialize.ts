@@ -1,6 +1,7 @@
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import remarkMath from 'remark-math'
+//@ts-expect-error booo
 import rehypeCitation from 'rehype-citation'
 import remarkGFM from 'remark-gfm'
 // @ts-expect-error no types

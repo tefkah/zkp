@@ -1,5 +1,5 @@
-import { DiscussionQuery, PaginationParams } from '../common'
-import { GRepositoryDiscussion, GUser } from './githubGiscus'
+import { DiscussionQuery, PaginationParams } from '../common.js'
+import { GRepositoryDiscussion, GUser } from './githubGiscus.js'
 
 export interface GetDiscussionParams extends PaginationParams, DiscussionQuery {}
 

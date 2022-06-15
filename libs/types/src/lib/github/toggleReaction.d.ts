@@ -1,4 +1,4 @@
-import { Reaction } from './githubGiscus'
+import { Reaction } from './githubGiscus.js'
 
 export interface ToggleReactionBody {
   content: Reaction

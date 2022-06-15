@@ -1,5 +1,5 @@
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { DataBy } from '../notes'
+import { DataBy } from '../notes.js'
 
 export interface MDFilePageProps {
   source: MDXRemoteSerializeResult<Record<string, any>>

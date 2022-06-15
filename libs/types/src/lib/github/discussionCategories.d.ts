@@ -1,4 +1,4 @@
-import { GDiscussionCategory } from './githubGiscus'
+import { GDiscussionCategory } from './githubGiscus.js'
 
 export interface GetDiscussionCategoriesParams {
   repo: string

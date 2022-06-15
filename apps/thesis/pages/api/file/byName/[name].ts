@@ -2,9 +2,8 @@ import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs/promises'
 import { join } from 'path'
-import { mdxDataByName } from '../../../../utils/mdx/mdxDataByName'
-import { BIB_PATH, NEXT_PUBLIC_NOTE_DIR } from '../../../../utils/paths'
-import { mdxSerialize } from '../../../../utils/mdx/mdxSerialize'
+import { mdxDataByName, mdxSerialize } from '@zkp/mdx'
+import { BIB_PATH, NEXT_PUBLIC_NOTE_DIR } from '@zkp/paths'
 
 export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   req: NextApiRequest,
