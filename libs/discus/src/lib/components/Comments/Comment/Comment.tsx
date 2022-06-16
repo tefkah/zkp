@@ -184,7 +184,7 @@ export const Comment = ({
           )}
         </div>
         {children}
-        {!comment.isMinimized && onCommentUpdate ? (
+        {!comment.isMinimized ? (
           <div
             // justifyContent="space-between"
             // alignItems="center"
@@ -228,12 +228,12 @@ export const Comment = ({
         ) : null}
         {comment.replies.length > 0 ? (
           <div
-            style={{
-              '.gsc-reply:first-child > .gsc-tl-line': {
-                top: '16px',
-                height: 'calc(100% - 16px)',
-              },
-            }}
+            // style={{
+            //   '.gsc-reply:first-child > .gsc-tl-line': {
+            //     top: '16px',
+            //     height: 'calc(100% - 16px)',
+            //   },
+            // }}
             // pt={2}
             // borderWidth={1}
             // bgColor="gray.50"

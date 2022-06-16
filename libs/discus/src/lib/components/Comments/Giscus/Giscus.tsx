@@ -2,8 +2,6 @@
 // ported from the great https://github.com/giscus/giscus
 import { Waveform } from '@uiball/loaders'
 import { useSession } from 'next-auth/react'
-import { useCookies } from 'react-cookie'
-import { useEffect } from 'react'
 import { VscCircleFilled } from 'react-icons/vsc'
 import { Comment } from '../Comment/Comment'
 import { CommentBox } from '../CommentBox'

@@ -1,7 +1,7 @@
 // @ts-check
 
 /**
- * @type {import('tailwindcss/tailwind-config').TailwindConfig}
+ * @type {import('tailwindcss').Config}
  **/
 
 // @ts-expect-error shush

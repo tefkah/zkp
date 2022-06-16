@@ -164,6 +164,7 @@ export const SingleGiscusComment = ({
                         />
                       ) : undefined
                     }
+                    onCommentDelete={backMutators.deleteComment}
                     onCommentUpdate={frontMutators.updateComment}
                     onReplyUpdate={frontMutators.updateReply}
                   />
@@ -213,6 +214,7 @@ export const SingleGiscusComment = ({
                         />
                       ) : undefined
                     }
+                    onCommentDelete={backMutators.deleteComment}
                     onCommentUpdate={backMutators.updateComment}
                     onReplyUpdate={backMutators.updateReply}
                   />

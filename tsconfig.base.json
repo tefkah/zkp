@@ -23,7 +23,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ESNext",
-    "module": "NodeNext",
+    "module": "ESNext",
     "lib": ["es2021", "DOM"],
     "skipLibCheck": true,
     "strict": true,

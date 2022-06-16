@@ -134,52 +134,7 @@ export const CommentBoxContents = ({
               ],
             },
           ]}
-        >
-          {/* <TabList className="border-0 pt-2" pt={2} borderWidth={0}>
-            <Tab
-              color="gray.500"
-              fontWeight="500"
-              //className="selected:rounded-lg"
-
-              className="p-2 font-semibold text-slate-500 focus:rounded-lg focus:border-2 focus:border-slate-200 focus:font-bold focus:text-red-500"
-              _selected={{
-                borderWidth: 2,
-                borderRadius: 'lg',
-                // borderBottomWidth: 0,
-                borderColor: 'gray.200',
-                backgroundColor: 'foreground',
-                fontWeight: 'semibold',
-                color: 'primary',
-              }}
-            >
-              Write
-            </Tab>
-            <Tab
-              className="p-2 font-semibold text-slate-500 focus:rounded-lg focus:border-2 focus:border-slate-200 focus:font-bold focus:text-red-500"
-              color="gray.500"
-              fontWeight="500"
-              _selected={{
-                borderWidth: 2,
-                borderRadius: 'lg',
-                borderColor: 'gray.200',
-                backgroundColor: 'foreground',
-                fontWeight: 'semibold',
-                color: 'primary',
-              }}
-            >
-              Preview
-            </Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel px={0}> */}
-          {/* </TabPanel>
-            <TabPanel
-              className="prose mb-20 min-h-[105px] pt-6 pb-4"
-              // pt={6} pb={4} mb={20} minH="105px"
-            >
-            </TabPanel>
-          </TabPanels> */}
-        </Tabs>
+        />
       </form>
     </>
   )

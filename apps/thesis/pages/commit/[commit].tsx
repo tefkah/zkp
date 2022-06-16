@@ -20,13 +20,13 @@ import { GoMarkGithub } from 'react-icons/go'
 import { IoIosGitCompare } from 'react-icons/io'
 import { format } from 'date-fns'
 import Head from 'next/head'
+import { Commit } from '@zkp/types'
+import { Giscus } from '@zkp/discus'
+import { DATA_DIR } from '@zkp/paths'
 import { DiffBox } from '../../components/Diff/DiffBox'
 import { ParsedDiff } from '../../services/thesis/parseDiff'
-import { Commit } from '@zkp/types'
 import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
 import { BasicLayout } from '../../components/Layouts/BasicLayout'
-import { DATA_DIR } from '../../utils/paths'
-import { Giscus } from '../../components/Discussions/Giscus'
 
 export const ParsedCommits = (commitData: Commit) =>
   commitData?.files?.map((file) => {

@@ -1,7 +1,7 @@
 export * from './cachedAccessToken'
 export * from './discussions'
 export * from './getAccessToken'
-export * from './getDiscussion'
+// export * from './getDiscussion'
 export * from './getGHAAccessToken'
 export * from './getJWTToken'
 export * from './lastUpdatedIssue'

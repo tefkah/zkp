@@ -96,9 +96,7 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
       )
     },
 
-    // ul: UnorderedList,
-    // ol: OrderedList,
-    // li: ListItem,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     blockquote: ({ children, ...quote }) => {
       // @ts-expect-error idk what to tell you an it's an array
       const [, possibleCallout, ...restOfQuote] = children || []

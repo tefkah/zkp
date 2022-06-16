@@ -1,6 +1,6 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
-import { MDXComponents } from '@zkp/types'
-import { MDXComp, MDXProps } from '@zkp/types'
+import { MDXComponents } from 'mdx/types'
+import { MDXComp, MDXProps } from './types'
 
 export interface WithIdProps {
   /**

@@ -2,5 +2,8 @@
   "typescript.tsdk": "node_modules/typescript/lib",
 
   "tailwindCSS.experimental.configFile": "libs/zkp-editor/tailwind.config.js",
-  "exportall.config.folderListener": ["/libs/types/src/lib/github"]
+  "exportall.config.folderListener": ["/libs/types/src/lib/github"],
+  "omnisharp.autoStart": false,
+  "atlascode.bitbucket.contextMenus.enabled": false,
+  "nxConsole.enableGenerateFromContextMenu": false
 }
