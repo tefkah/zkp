@@ -9,6 +9,7 @@ import * as dotenv from 'dotenv'
 
 import {
   BASE_URL as repo,
+  REMOTE as remoteUrl,
   APP_DIR as appDir,
   GIT_DIR as gitDir,
   NEXT_PUBLIC_NOTE_DIR as noteDir,
@@ -16,11 +17,11 @@ import {
 } from '@zkp/paths'
 import { flattenAndSlugifyNotes } from './flattenAndSlugifyNotes'
 
-dotenv.config()
+dotenv.config({ path: '../../../../.env' })
 
 const args = process.argv
 const setup = async ({
-  remote = repo,
+  remote = remoteUrl,
   //  appdir = appDir,
   gitdir = gitDir,
   notedir = noteDir,
@@ -63,12 +64,11 @@ const setup = async ({
   // await fs.promises.writeFile(join(dataDir, 'dataByTitle.json'), JSON.stringify(dataByTitle))
   // await fs.promises.writeFile(join(dataDir, 'dataByCite.json'), JSON.stringify(dataByCite))
 }
-//setup(readArgs)
-console.log(process.env.DATA_DIR)
+
 setup({
-  remote: args?.[2],
+  remote: args?.[2] || process.env.REMOTE,
   // appdir: args?.[3],
-  gitdir: args?.[4],
-  notedir: args?.[5],
-  datadir: args?.[6],
+  gitdir: args?.[4] || process.env.GIT_DIR,
+  notedir: args?.[5] || process.env.NOTE_DIR,
+  datadir: args?.[6] || process.env.DATA_DIR,
 })
