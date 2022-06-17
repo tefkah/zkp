@@ -1,4 +1,4 @@
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import { CommitPerDateLog, NoteHeading } from '@zkp/types'
 import { CommitList } from '../Commits/CommitList'
 import { TableOfContent } from './TableOfContents'

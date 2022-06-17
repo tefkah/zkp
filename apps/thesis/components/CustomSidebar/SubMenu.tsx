@@ -2,9 +2,9 @@
 import { FileLeaf, isFolder, RecursiveFolder } from '@zkp/types'
 import { Disclosure } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { SidebarLink } from './SidebarLink'
 import { Button } from '@zkp/ui'
-import { ArrowRightIcon, ChevronRightIcon, TriangleRightIcon } from '@primer/octicons-react'
+import { TriangleRightIcon } from '@primer/octicons-react'
+import { SidebarLink } from './SidebarLink'
 
 export interface SubMenuProps {
   folderName: string
@@ -12,6 +12,7 @@ export interface SubMenuProps {
   defaultIsOpen?: boolean
 }
 export const SubMenu = (props: SubMenuProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { folderName, foldersOrFiles: files, defaultIsOpen } = props
   //  const router = useRouter()
   // const shouldOpen = !!files?.find(

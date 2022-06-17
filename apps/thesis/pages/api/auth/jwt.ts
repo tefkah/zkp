@@ -1,5 +1,5 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-import { getJWT } from '../../../queries/getJWTToken'
+import { getJWT } from '@zkp/discus'
 
 const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   req.statusCode = 200

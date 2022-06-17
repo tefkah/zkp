@@ -51,6 +51,7 @@ export const NormalLink = (props: NormalLinkProps) => {
 }
 
 export const PreviewLink = (props: LinkProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { backlink, href, title, children, currentId } = props
   //  const { data: text } = useSWR(backlink ? `/api/file/byId/${id}` : null)
 

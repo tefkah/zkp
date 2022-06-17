@@ -2,8 +2,7 @@
 // ported from the great https://github.com/giscus/giscus
 
 import { MouseEvent as ReactMouseEvent } from 'react'
-import { IReactionGroups } from '@zkp/types'
-import { GComment, GReactionGroup, GReply, GRepositoryDiscussion, GUser } from '@zkp/types'
+import { IReactionGroups , GComment, GReactionGroup, GReply, GRepositoryDiscussion, GUser } from '@zkp/types'
 import { clipboardCopy } from './utils'
 
 const COPY_BUTTON_HTML = `

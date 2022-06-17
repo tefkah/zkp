@@ -1,5 +1,4 @@
 import shallow from 'zustand/shallow'
-import { Container, HStack, LinkBox, LinkOverlay, Text, Tooltip } from '@chakra-ui/react'
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -25,7 +24,8 @@ export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
   )
   // TODO: Actually make this keyboard navigable
   return slug ? (
-    <Link href={`/${slug}`}>
+    <Link href={`/${slug}`} passHref>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a
         onMouseEnter={() => setHighlightedNote(name)}
         onMouseLeave={() => unHighlightNotes()}

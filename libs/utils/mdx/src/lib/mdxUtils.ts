@@ -10,9 +10,3 @@ export const postFilePaths = async () =>
     // Only include md(x) files
     .filter((entry) => /\.mdx?$/.test(entry.path))
     .map((entry) => entry.path)
-
-// export const postFilePaths = async () =>
-//   (await readdirp.promise(POSTS_PATH))
-//     // Only include md(x) files
-//     .filter((path) => /\.mdx?$/.test(path.path))
-//     .map((path) => path.path.split('/'))

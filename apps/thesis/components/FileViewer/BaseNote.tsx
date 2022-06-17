@@ -1,5 +1,4 @@
 import shallow from 'zustand/shallow'
-import { CSSObject, useColorMode, CloseButton } from '@chakra-ui/react'
 import React, { useMemo } from 'react'
 import useSWR from 'swr'
 import { Waveform } from '@uiball/loaders'
@@ -12,14 +11,13 @@ import dynamic from 'next/dynamic'
 // import { parseTime } from '../../utils/parseTime'
 import { useRouter } from 'next/router'
 import { FilePageProps } from '@zkp/types'
-import { CommentThreadProps, WidgetProps } from '@zkp/discus'
-import { OutlineBox } from '../OutlineBox/OutlineBox'
+import { CommentThreadProps } from '@zkp/discus'
 // import { ProcessedOrg } from '../ProcessedOrg'
 // import { Backlinks } from './Backlinks'
 // import { Citations } from './Citations'
+import { Button } from '@zkp/ui'
 import { useNotes } from '../../stores/noteStore'
 import { MDXNote } from './MDXNote'
-import { Button } from '@zkp/ui'
 // import CommentBoxMaybe from '../Comments/CommentBoxMaybe'
 export interface NoteProps extends FilePageProps {
   // stackData?: StackState
@@ -35,6 +33,7 @@ const Widget = dynamic<CommentThreadProps>(
 )
 
 export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { index, toc, stackedNotes, source, id, commits } = props
 
   const stacked = (stackedNotes?.length ?? 0) > 1

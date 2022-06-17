@@ -15,7 +15,7 @@ export const Index = () => (
         content="An interactive Master's thesis in the philosophy of science."
       />
     </Head>
-    <div className="bg-slate-200">
+    <div>
       <VStack>
         <Hero title="Thomas' Personal Panopticon" />
         <Main>

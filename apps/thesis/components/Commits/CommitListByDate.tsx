@@ -1,7 +1,7 @@
 import React from 'react'
 import { Divider, VStack } from '@chakra-ui/layout'
-import { Commit } from './Commit'
 import { SlimCommit } from '@zkp/types'
+import { Commit } from './Commit'
 
 interface Props {
   commits: SlimCommit[]

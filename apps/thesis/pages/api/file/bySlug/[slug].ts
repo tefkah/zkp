@@ -1,7 +1,5 @@
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-// import { mdxDataBySlug } from '../../../../utils/mdx/mdxDataBySlug'
-import { deslugify } from '@zkp/slugify'
 import { BIB_PATH } from '@zkp/paths'
 import { mdxSerialize } from '@zkp/mdx'
 
@@ -25,12 +23,8 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   // console.dir(dataBySlug, { depth: null })
   //  const bo= await dataBySlug.json()
   const ur = `${url?.replace(/(.)$/, '$1')}/notes/${slug}`
-  console.log(ur)
   const bod = await fetch(ur)
-  console.log(`${deslugify(slug)}.md`)
   const file = Buffer.from(await bod.arrayBuffer()).toString('utf-8')
-  console.log('======FILE=======')
-  console.log(file)
   // const data = await mdxDataBySlug()
   // const path = data?.[slug]?.path
 
@@ -41,12 +35,10 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   try {
     // const file = await fs.readFile(join(NEXT_PUBLIC_NOTE_DIR, path), 'utf8')
     const result = await mdxSerialize(file, BIB_PATH)
-    console.log(result)
     res.setHeader('Cache-Control', 's-max-age=36000, stale-while-revalidate=100000')
     res.status(200)
     res.json({ ...result })
   } catch (err) {
-    console.error(err)
     res.status(500)
     res.json({ err })
   }

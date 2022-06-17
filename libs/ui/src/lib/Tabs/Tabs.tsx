@@ -1,3 +1,7 @@
+import React, { Fragment, useState } from 'react'
+import { Tab } from '@headlessui/react'
+import { twMerge } from 'tailwind-merge'
+
 export interface TabsProps {
   tabs: { title: string; contents: React.ReactNode }[]
   className: string
@@ -14,10 +18,6 @@ interface Recent {
   commentCount: number
   shareCount: number
 }
-
-import React, { Fragment, useState } from 'react'
-import { Tab, Transition } from '@headlessui/react'
-import { twMerge } from 'tailwind-merge'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')

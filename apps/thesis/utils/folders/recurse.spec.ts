@@ -2,14 +2,14 @@ import { u } from 'unist-builder'
 import { fileListReducer } from './recurse'
 import { red } from './baby'
 
-const sortedPathsObj = [
-  { folders: ['q'] },
-  { folders: ['a'] },
-  { folders: ['a', 'b'] },
-  { folders: ['a', 'b', 'c'] },
-  { folders: ['b'] },
-  { folders: ['b', 'a', 'c'] },
-]
+// const sortedPathsObj = [
+//   { folders: ['q'] },
+//   { folders: ['a'] },
+//   { folders: ['a', 'b'] },
+//   { folders: ['a', 'b', 'c'] },
+//   { folders: ['b'] },
+//   { folders: ['b', 'a', 'c'] },
+// ]
 
 const realisticTestObj = [
   { folders: ['QLastTopFolder'], name: 'qfile', slug: 'qfile' },

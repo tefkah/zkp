@@ -1,4 +1,4 @@
-import { Text, VStack, HStack, IconButton, useColorModeValue } from '@chakra-ui/react'
+import { IconButton, useColorModeValue } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { useMemo } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
@@ -76,7 +76,7 @@ export const CustomSideBar = (props: Props) => {
           className="z-1 item-start flex h-[100vh] w-[100vw] flex-col items-start gap-2 overflow-scroll bg-slate-50 pl-1 dark:bg-slate-800 md:w-96"
         >
           <div
-            //backgroundColor="back"
+            // backgroundColor="back"
             // pl={4}
             // w="full"
             // alignItems="center"
@@ -94,7 +94,7 @@ export const CustomSideBar = (props: Props) => {
               color={unemph}
             />
 
-            <Text color={unemph}>Files</Text>
+            <p className="text-slate-300 dark:text-slate-700">Files</p>
             <SortButton {...{ sort, setSort, values: ['alpha', 'reverseAlpha'] }}>Aa</SortButton>
             <SortButton {...{ sort, setSort, values: ['created', 'reverseCreated'] }}>
               Created

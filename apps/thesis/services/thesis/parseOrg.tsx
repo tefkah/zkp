@@ -1,11 +1,12 @@
+/* eslint-disable */
 // @ts-nocheck shhh
 import { unified } from 'unified'
 // import createStream from 'unified-stream'
-import uniorgParse from 'uniorg-parse'
-import uniorg2rehype from 'uniorg-rehype'
-import uniorgSlug from 'uniorg-slug'
-import extractKeywords from 'uniorg-extract-keywords'
-import attachments from 'uniorg-attach'
+// import uniorgParse from 'uniorg-parse'
+// import uniorg2rehype from 'uniorg-rehype'
+// import uniorgSlug from 'uniorg-slug'
+// import extractKeywords from 'uniorg-extract-keywords'
+// import attachments from 'uniorg-attach'
 // rehypeHighlight does not have any types
 // add error thing here
 // import highlight from 'rehype-highlight'
@@ -14,12 +15,10 @@ import attachments from 'uniorg-attach'
 import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.css'
 import rehype2react, { Options } from 'rehype-react'
-import { visit } from 'unist-util-visit'
 
 import React, { ReactNode, useMemo } from 'react'
 import { Box, Heading, ListItem, OrderedList, Tag, Text, UnorderedList } from '@chakra-ui/react'
 // import { noteStyle } from '../components/NoteStyle'
-import { Keyword, OrgData, OrgNode, Paragraph, SpecialBlock } from 'uniorg'
 import Link from 'next/link'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'

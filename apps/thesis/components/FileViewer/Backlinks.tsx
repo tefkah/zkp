@@ -1,4 +1,3 @@
-import { Box, Heading, VStack, useColorModeValue } from '@chakra-ui/react'
 import { useMemo } from 'react'
 // import { FilesData } from '../../utils/IDIndex/getFilesData'
 import { slugify } from '@zkp/slugify'
@@ -15,7 +14,6 @@ interface Props {
 export const Backlinks = (props: Props) => {
   const { currentId, backLinks } = props
 
-  const background = useColorModeValue('brand.50', 'brand.100')
   const links = useMemo(
     () =>
       backLinks.map((link) => {
@@ -42,9 +40,7 @@ export const Backlinks = (props: Props) => {
       <h2 className="text-md text-red-700" color="brand.700">
         References to this note
       </h2>
-      <VStack mt={4} spacing={4} alignItems="flex-start">
-        {links}
-      </VStack>
+      <div className="mt-4 flex flex-col items-start gap-4">{links}</div>
     </div>
   )
 }

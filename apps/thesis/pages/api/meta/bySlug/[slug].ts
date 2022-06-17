@@ -1,6 +1,6 @@
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-import { mdxDataBySlug } from '../../../../utils/mdx/mdxDataBySlug'
+import { mdxDataBySlug } from '@zkp/mdx'
 
 export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   req: NextApiRequest,

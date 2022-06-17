@@ -14,7 +14,7 @@ const nextConfig = {
   swcMinify: true,
   experimental: { nftTracing: true, topLevelAwait: true },
   experiments: { topLevelAwait: true },
-  staticPageGenerationTimeout: 120,
+  staticPageGenerationTimeout: 180,
   webpack(config, { dev }) {
     if (dev) {
       config.devtool = 'cheap-module-source-map'

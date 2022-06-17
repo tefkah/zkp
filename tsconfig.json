@@ -1,7 +1,7 @@
 {
   // this is just for tsx
   "extends": "./tsconfig.base.json",
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "apps/thesis/components/MDXComponents/types.tsx"],
   "compilerOptions": {
     "baseUrl": "."
   }

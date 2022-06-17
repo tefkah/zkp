@@ -1,6 +1,6 @@
-const nxPreset = require('@nrwl/jest/preset')
+import nxPreset from '@nrwl/jest/preset'
 
-module.exports = {
+export default {
   ...nxPreset,
   globals: {
     'ts-jest': {

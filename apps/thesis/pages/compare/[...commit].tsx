@@ -3,12 +3,12 @@ import React, { ReactElement } from 'react'
 import { format } from 'date-fns'
 import { IoIosGitCompare } from 'react-icons/io'
 import { GoMarkGithub } from 'react-icons/go'
-import { consolidateCommitsPerDay } from '../../utils/getListOfCommitsWithStats'
+import { consolidateCommitsPerDay } from '@zkp/git'
 
+import { BASE_URL } from '@zkp/paths'
 import { CommitList } from '../../components/Commits'
 import { BasicLayout } from '../../components/Layouts'
 import { DiffList } from '../../components/Diff'
-import { BASE_URL } from '../../utils/paths'
 
 interface FileCommit {
   oid: string

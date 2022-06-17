@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import shallow from 'zustand/shallow'
-import { useNotes } from '../../stores/noteStore'
 import { ReactNode } from 'react'
+import { useNotes } from '../../stores/noteStore'
 
 export interface NodeLinkProps {
   href: string
@@ -77,6 +77,7 @@ export const NodeLink = (props: NodeLinkProps) => {
     //   //  _focus={{ outlineColor: highlightColor }}
     // >
     <Link passHref href={href}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <a
         // as="span"
         // role="link"

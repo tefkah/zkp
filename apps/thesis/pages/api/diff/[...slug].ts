@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getCommitDiffForSingleFile } from '../../../utils/getCommitDiff'
-import { diffToString } from '../../../services/thesis/parseDiff'
 import { FileDiff } from '@zkp/types'
+import { getCommitDiffForSingleFile } from '@zkp/git'
+import { diffToString } from '../../../services/thesis/parseDiff'
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { slug } = req.query

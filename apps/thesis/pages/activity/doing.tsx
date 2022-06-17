@@ -1,10 +1,10 @@
 import Head from 'next/head'
+import { NearestMilestoneData } from '@zkp/types'
+import { getAppAccessToken } from '@zkp/discus'
 import { IssueList } from '../../components/Doing/IssueList'
 import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
 import { nearestMilestoneWithIssues } from '../../queries/milestones'
-import makeGenericGraphQlRequest from '../../queries/makeGenericGraphQLRequest'
-import { getAppAccessToken } from '../../queries/getAccessToken'
-import { NearestMilestoneData } from '@zkp/types'
+import { makeGenericGraphQlRequest } from '../../queries/makeGenericGraphQLRequest'
 
 interface Props {
   milestoneContent: NearestMilestoneData

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getAppAccessToken } from '../../../queries/getAccessToken'
+import { getAppAccessToken } from '@zkp/discus'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   req.statusCode = 200

@@ -4,9 +4,11 @@ import Link from 'next/link'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import { ChaoticOrbit } from '@uiball/loaders'
-import { getListOfCommitsWithStats } from '../../utils/getListOfCommitsWithStats'
-import { CommitList } from '../../components/Commits/CommitList'
 import { CommitPerDateLog, DateCommit } from '@zkp/types'
+import { readFile } from 'fs/promises'
+import { join } from 'path'
+import { DATA_DIR } from '@zkp/paths'
+import { CommitList } from '../../components/Commits/CommitList'
 // import { HistoryGraph } from '../../components/HistoryGraph'
 import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
 
@@ -15,14 +17,14 @@ const HistoryGraph = dynamic(() => import('../../components/HistoryGraph/History
   suspense: true,
 })
 
-export interface SlimCommit {
-  oid: string
-  message: string
-  date: number
-  additions: number
-  deletions: number
-  files: any[]
-}
+// export interface SlimCommit {
+//   oid: string
+//   message: string
+//   date: number
+//   additions: number
+//   deletions: number
+//   files: any[]
+// }
 
 interface ActivityPageProps {
   log: CommitPerDateLog
@@ -96,9 +98,9 @@ export default ActivityPage
 export const getStaticPaths = async () => ({ paths: ['/activity'], fallback: 'blocking' })
 
 export const getStaticProps = async () => {
-  const { dataPerDate } = await getListOfCommitsWithStats()
+  const { dataPerDate } = JSON.parse(await readFile(join(DATA_DIR, 'gitPerData.json'), 'utf8'))
 
-  return { props: { log: dataPerDate }, revalidate: 60 }
+  return { props: { log: dataPerDate }, revalidate: 3600 }
 }
 
 ActivityPage.getLayout = (page: ReactElement) => <ActivityLayout>{page}</ActivityLayout>

@@ -1,6 +1,6 @@
 import { clone } from 'isomorphic-git'
 import fs from 'fs'
-import { rm, rmdir, unlink } from 'fs/promises'
+import { rm } from 'fs/promises'
 import * as http from 'isomorphic-git/http/node/index.js'
 
 import { getListOfCommitsWithStats } from '@zkp/git'
@@ -20,6 +20,7 @@ import { flattenAndSlugifyNotes } from './flattenAndSlugifyNotes'
 dotenv.config({ path: '../../../../.env' })
 
 const args = process.argv
+
 const setup = async ({
   remote = remoteUrl,
   //  appdir = appDir,
@@ -55,7 +56,9 @@ const setup = async ({
   })
 
   await getListOfCommitsWithStats('', '', notedir, gitdir, datadir)
-  await mdxDataBySlug(datadir, notedir)
+  console.log({ datadir, notedir })
+  const mdxData = await mdxDataBySlug(datadir, notedir)
+  console.log('Done creating MDX data')
   await flattenAndSlugifyNotes({ notedir })
   // const dataById = await getFilesData('id', noteDir)
   // const dataByTitle = await getFilesData('title', noteDir)

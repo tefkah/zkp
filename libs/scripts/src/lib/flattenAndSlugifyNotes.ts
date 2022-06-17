@@ -9,7 +9,6 @@ export const flattenAndSlugifyNotes = async ({ notedir = NEXT_PUBLIC_NOTE_DIR })
     fileFilter: ['*.md', '*.mdx', '*.png', '*.jpg', '*.svg'],
   })
 
-  console.dir(files, { depth: null })
   const renamedFiles = []
 
   for (const file of files) {
@@ -20,5 +19,5 @@ export const flattenAndSlugifyNotes = async ({ notedir = NEXT_PUBLIC_NOTE_DIR })
   }
 
   await Promise.all(renamedFiles)
-  console.log('Done!')
+  console.log('Done flattening and slugifying!')
 }

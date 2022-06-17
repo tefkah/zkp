@@ -6,10 +6,10 @@ import { slugify } from '@zkp/slugify'
 import { DataBy } from '@zkp/types'
 
 export const getFreshDataBySlug = async (noteDir = NEXT_PUBLIC_NOTE_DIR) => {
-  const rawDir = await readdirp.promise(noteDir, { alwaysStat: true })
+  const rawDir = await readdirp.promise(noteDir, { alwaysStat: true, directoryFilter: ['!*/git'] })
   // Only include md(x) files
   return rawDir
-    .filter((entry) => !/\.\w{1,6}$/.test(entry.path))
+    .filter((entry) => /\w*\.\w{1,6}$/.test(entry.path))
     .reduce((acc, curr) => {
       const name = curr.basename.replace(/\.mdx?$/, '')
       const slug = slugify(name)
@@ -37,17 +37,12 @@ export const mdxDataBySlug = async (
   dataDir = DATA_DIR,
   noteDir = NEXT_PUBLIC_NOTE_DIR,
 ): Promise<DataBy> => {
-  if (process.env.ALWAYS_FRESH !== 'true' && process.env.NODE_ENV !== 'production') {
-    const data = await getFreshDataBySlug(noteDir)
-    return data
-  }
+  // if (process.env.NODE === 'development') {
+  //   const data = await getFreshDataBySlug(noteDir)
+  //   return data
+  // }
   const datapath = join(dataDir, 'dataBySlug.json')
-  try {
-    const data = JSON.parse(await readFile(datapath, 'utf8'))
-    return data
-  } catch (e) {
-    const data = await getFreshDataBySlug(noteDir)
-    await writeFile(datapath, JSON.stringify(data))
-    return data
-  }
+  const data = await getFreshDataBySlug(noteDir)
+  await writeFile(datapath, JSON.stringify(data))
+  return data
 }

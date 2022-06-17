@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { resolve } from 'path'
 import readdirp from 'readdirp'
 import { getDataFromFile, OrgFileData } from './getDataFromFile'
@@ -15,6 +16,7 @@ export const getFilesData = async (by?: 'id' | 'title' | 'cite') => {
   })
 
   const fileData = {} as FilesData
+  // eslint-disable-next-line no-restricted-syntax
   for (const entry of files) {
     const { path } = entry
 

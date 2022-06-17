@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Box } from '@chakra-ui/react'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { useMemo } from 'react'
 import { createMdxRehypeReactCompents } from '../MDXComponents'

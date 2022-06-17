@@ -23,9 +23,9 @@ import Head from 'next/head'
 import { Commit } from '@zkp/types'
 import { Giscus } from '@zkp/discus'
 import { DATA_DIR } from '@zkp/paths'
+import { getCommits, tryReadJSON } from '@zkp/git'
 import { DiffBox } from '../../components/Diff/DiffBox'
 import { ParsedDiff } from '../../services/thesis/parseDiff'
-import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
 import { BasicLayout } from '../../components/Layouts/BasicLayout'
 
 export const ParsedCommits = (commitData: Commit) =>
@@ -144,15 +144,7 @@ export const CommitPage = (props: Props) => {
 
 export const getStaticPaths = async () => {
   const commitList = await getCommits()
-  const commitIndexList = commitList
-    .filter(
-      (commit) =>
-        ![
-          '72031577baf73d00536f369657a4bc9c8c5518f0',
-          '8a8d96b1a6ae75dd17f7462c31695823189f6f14',
-        ].includes(commit.oid),
-    )
-    .map((commit) => ({ params: { commit: commit.oid } }))
+  const commitIndexList = commitList.map((commit) => ({ params: { commit: commit.oid } }))
   return {
     paths: commitIndexList,
     fallback: 'blocking',
@@ -171,7 +163,7 @@ export const getStaticProps = async (props: StaticProps) => {
 
   const commitData = commits.filter((c: Commit) => c.oid === commit)?.[0] || {}
 
-  return { props: { commitData }, revalidate: 60 }
+  return { props: { commitData } }
 }
 
 CommitPage.getLayout = (page: ReactElement) => <BasicLayout>{page}</BasicLayout>

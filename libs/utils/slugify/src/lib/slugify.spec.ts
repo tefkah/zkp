@@ -1,7 +1,7 @@
-import { slugify } from './slugify'
+import { slugify, deslugify } from './slugify'
 
 describe('zkpSlugify', () => {
   it('should work', () => {
-    expect(slugify('aashta_ashts')).toEqual('aashta-ashts')
+    expect(slugify('aashta-ashts')).toEqual('aashta_ashts')
   })
 })

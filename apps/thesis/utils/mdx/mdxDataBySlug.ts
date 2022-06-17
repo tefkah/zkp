@@ -1,9 +1,9 @@
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 import readdirp from 'readdirp'
-import { DATA_DIR, NEXT_PUBLIC_NOTE_DIR } from '../paths'
 import { slugify } from '@zkp/slugify'
 import { DataBy } from '@zkp/types'
+import { DATA_DIR, NEXT_PUBLIC_NOTE_DIR } from '../paths'
 
 export const getFreshDataBySlug = async (noteDir = NEXT_PUBLIC_NOTE_DIR) => {
   const rawDir = await readdirp.promise(noteDir, { alwaysStat: true })

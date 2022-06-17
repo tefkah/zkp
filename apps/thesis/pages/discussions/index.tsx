@@ -5,13 +5,12 @@ import Head from 'next/head'
 import { useMemo } from 'react'
 import { useCookies } from 'react-cookie'
 import { ChaoticOrbit } from '@uiball/loaders'
+import { DiscussionCard, NewDiscussion } from '@zkp/discus'
+import { CategoryData, DiscussionEdge } from '@zkp/types'
 import { ViewGithub } from '../../components/Buttons/ViewGithub'
-import { NewDiscussion } from '../../components/Discussions/NewDiscussion'
 import { BasicLayout } from '../../components/Layouts'
 import { useDiscussion } from '../../hooks/useDiscussion'
-import { CategoryData, CATEGORY_LIST_QUERY, DiscussionEdge } from '../../queries/getDiscussion'
-import makeGenericGraphQlRequest from '../../queries/makeGenericGraphQLRequest'
-import { DiscussionCard } from '../../components/Discussions/DiscussionCard'
+import { makeGenericGraphQlRequest, CATEGORY_LIST_QUERY } from '../../queries'
 
 export interface Discussions {
   title: string
