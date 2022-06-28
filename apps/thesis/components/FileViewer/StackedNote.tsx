@@ -20,6 +20,7 @@ export const StackedNote = (props: StackedNoteProps) => {
   return file ? (
     <BaseNote
       source={file?.source}
+      meta={file?.frontMatter as any}
       id={id}
       // id={meta.title}
       toc={[]}

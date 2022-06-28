@@ -6,10 +6,14 @@ import { slugify } from '@zkp/slugify'
 import { DataBy } from '@zkp/types'
 
 export const getFreshDataBySlug = async (noteDir = NEXT_PUBLIC_NOTE_DIR) => {
-  const rawDir = await readdirp.promise(noteDir, { alwaysStat: true, directoryFilter: ['!*/git'] })
+  const rawDir = await readdirp.promise(noteDir, {
+    alwaysStat: true,
+    directoryFilter: ['!*/git', '!Archive', '!Components'],
+    fileFilter: ['!.*'],
+  })
   // Only include md(x) files
   return rawDir
-    .filter((entry) => /\w*\.\w{1,6}$/.test(entry.path))
+    .filter((entry) => /\.mdx?$/.test(entry.path))
     .reduce((acc, curr) => {
       const name = curr.basename.replace(/\.mdx?$/, '')
       const slug = slugify(name)

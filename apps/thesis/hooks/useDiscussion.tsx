@@ -1,5 +1,6 @@
 import useSWR from 'swr'
-import { getDiscussion, GetDiscussionParams } from '@zkp/discus'
+import { getDiscussion, GetDiscussionParams } from '../queries/getDiscussionPageDiscussion'
+// import { getDiscussion, GetDiscussionParams } from '@zkp/discus'
 
 export const useDiscussion = (props: GetDiscussionParams) => {
   const { data, error } = useSWR('/api/auth/gha')

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+// import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -37,16 +37,16 @@ export const HeaderLink = (props: Props) => {
   const router = useRouter()
   const active = isActive(router?.asPath, children as string)
   return (
-    <Link href={href} passHref>
-      <a
-        href={href}
-        className={`after:contents-[" "] relative p-2 after:absolute after:bottom-0 after:left-0 after:bg-red-500 ${
-          active ? 'after:w-full' : 'after:w-0'
-        }  transition-all duration-300 after:h-1 after:transition-all hover:after:w-full`}
-        // _hover={{ _after: { width: '100%' } }}
-      >
-        {children}
-      </a>
-    </Link>
+    //  <Link href={href} passHref>
+    <a
+      href={href}
+      className={`after:contents-[" "] relative p-2 after:absolute after:bottom-0 after:left-0 after:bg-red-500 ${
+        active ? 'after:w-full' : 'after:w-0'
+      }  transition-all duration-300 after:h-1 after:transition-all hover:after:w-full`}
+      // _hover={{ _after: { width: '100%' } }}
+    >
+      {children}
+    </a>
+    // </Link>
   )
 }

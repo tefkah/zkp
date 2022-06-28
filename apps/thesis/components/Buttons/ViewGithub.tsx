@@ -1,4 +1,5 @@
-import { useColorModeValue, Text, HStack, LinkOverlay } from '@chakra-ui/react'
+import { useColorModeValue, Text, HStack } from '@chakra-ui/react'
+import Link from 'next/link'
 import React from 'react'
 import { FaGithub } from 'react-icons/fa'
 
@@ -18,8 +19,7 @@ export const ViewGithub = (props: Props) => {
       transition="color 0.1s"
     >
       <HStack as="span">
-        <LinkOverlay
-          isExternal
+        <Link
           // TODO: Update viewgithub button with environment var
           href={
             // eslint-disable-next-line no-nested-ternary
@@ -29,14 +29,18 @@ export const ViewGithub = (props: Props) => {
               ? `https://github.com/ThomasFKJorna/${repo}/${slug}`
               : `https://github.com/ThomasFKJorna/thesis-writing/${slug}`
           }
+          passHref
         >
-          <FaGithub />
-        </LinkOverlay>
-        {text && (
-          <Text fontSize="xs" fontWeight="bold" as="span">
-            {text}
-          </Text>
-        )}
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a className="flex gap-2">
+            <FaGithub />
+            {text && (
+              <Text fontSize="xs" fontWeight="bold" as="span">
+                {text}
+              </Text>
+            )}
+          </a>
+        </Link>
       </HStack>
     </Text>
   )

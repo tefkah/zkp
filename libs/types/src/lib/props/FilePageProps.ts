@@ -6,6 +6,11 @@ import { NoteHeading } from '../notes.js'
  * Props for the file page
  */
 export type FilePageProps = {
+  meta?: {
+    tags: string[]
+    mtime: string | number
+    ctime: string | number
+  }
   /**
    * The source for the current page
    */

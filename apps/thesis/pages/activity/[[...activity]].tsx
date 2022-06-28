@@ -98,8 +98,10 @@ export default ActivityPage
 export const getStaticPaths = async () => ({ paths: ['/activity'], fallback: 'blocking' })
 
 export const getStaticProps = async () => {
-  const { dataPerDate } = JSON.parse(await readFile(join(DATA_DIR, 'gitPerData.json'), 'utf8'))
+  console.log(DATA_DIR)
+  const dataPerDate = JSON.parse(await readFile(join(DATA_DIR, 'gitPerDate.json'), 'utf8'))
 
+  console.log(dataPerDate)
   return { props: { log: dataPerDate }, revalidate: 3600 }
 }
 

@@ -22,8 +22,8 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
     return
   }
   try {
-    res.status(200)
     res.setHeader('Cache-Control', 's-max-age=36000, stale-while-revalidate=100000')
+    res.status(200)
     res.json(data)
   } catch (err) {
     res.status(500)

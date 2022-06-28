@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { join } from 'path'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { catchPromise } from 'try-catch'
 
 import { GetStaticProps } from 'next'
 import { readFile } from 'fs/promises'
@@ -70,7 +71,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: 'blocking',
   }
 }
 
@@ -84,12 +85,12 @@ export const getStaticProps: GetStaticProps = async ({
   const input = await readFile(join(NEXT_PUBLIC_NOTE_DIR, file), 'utf8')
   const bibliography = join(BIB_PATH)
 
-  const { frontMatter, source } = await mdxSerialize(input, bibliography)
+  const [{ frontMatter, source }, error] = await catchPromise(mdxSerialize(input, bibliography))
 
   const props = {
     slug: file,
     name,
-    source,
+    ...(error ? { source: 'Whoops' } : { source }),
     frontMatter,
     fileList: data,
   }

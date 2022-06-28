@@ -35,6 +35,7 @@ export const DiscussionsPage = (props: Props) => {
     category: '',
     list: true,
   })
+  console.log(data)
 
   // TODO: Deny access using middleware instead of client side functions
   if (!access) {
@@ -44,7 +45,7 @@ export const DiscussionsPage = (props: Props) => {
   const [cookies, setCookie] = useCookies(['visit'])
   if (!cookies.visit) setCookie('visit', {})
 
-  const { lastVisit, commentCount, replyCount, totalCount } = cookies.visit
+  const { lastVisit, commentCount, replyCount, totalCount } = cookies?.visit || {}
 
   const discussionList = useMemo(
     () =>

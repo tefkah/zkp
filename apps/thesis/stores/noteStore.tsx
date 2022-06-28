@@ -59,8 +59,8 @@ export const useNotes = create(
     {
       stackedNotesState: {},
       scrollContainer: null,
-      noteWidth: 600,
-      obstructedOffset: 120,
+      noteWidth: 100,
+      obstructedOffset: 40,
       obstructedPageWidth: 40,
     },
     (set, get) => ({

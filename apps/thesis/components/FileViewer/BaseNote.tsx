@@ -34,8 +34,10 @@ const Widget = dynamic<CommentThreadProps>(
 
 export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { index, toc, stackedNotes, source, id, commits } = props
+  const { index, toc, stackedNotes, source, id, commits, meta } = props
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { tags, ctime, mtime } = meta || {}
   const stacked = (stackedNotes?.length ?? 0) > 1
   const router = useRouter()
 
@@ -75,18 +77,25 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   const Note = useMemo(
     () => (
       <div
-        className={`container flex w-[90ch] flex-grow flex-col justify-between py-8 ${
+        className={`container flex ${
+          stacked ? 'w-[90ch]' : 'w-[55ch]'
+        } flex-grow flex-col justify-between py-8 ${
           stackData?.obstructed ? 'opacity-0' : 'opacity-1'
         }`}
       >
-        {/*         <HStack my={2} spacing={2}>
-          {!tags?.includes('chapter') &&
-            tags?.map((tag: string) => (
-              <Tag key={tag} size="sm" variant="outline">
-                {tag}
-              </Tag>
-            ))}
-        </HStack> */}
+        {tags && (
+          <div className="my-2 flex gap-2">
+            {!tags?.includes('chapter') &&
+              tags?.map((tag: string) => (
+                <div
+                  key={tag}
+                  className="rounded-full bg-slate-200 p-2 text-xs font-bold text-slate-600"
+                >
+                  {tag}
+                </div>
+              ))}
+          </div>
+        )}
         {/*         <VStack mb={4} spacing={0.5} alignItems="flex-start">
           {ctime && (
             <Text fontSize={12} color="gray.500">
@@ -133,9 +142,11 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
   // const bgDark = stackData?.highlighted ? 'bg-red-100' : 'bg-black'
   return (
     <div
-      className={`sticky flex w-[90ch]
+      className={`sticky flex
       flex-grow overflow-y-scroll scroll-smooth p-4 transition-all
-      ${stacked ? 'flex-shrink-0 justify-start border-l-[1px]' : 'justify-between'}
+      ${
+        stacked ? 'w-[55ch] flex-shrink-0 justify-start border-l-[1px]' : 'w-[90ch] justify-between'
+      }
       h-full
        ${bgLight}
       dark:bg-black

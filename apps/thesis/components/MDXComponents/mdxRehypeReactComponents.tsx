@@ -119,15 +119,11 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
               {restOfCallout && <p className="my-2 text-lg text-red-600">{restOfCallout}</p>}
             </div>
             <div className="bg-red-50 px-4 py-4">
-              {restOfQuote.map((thing, index) => {
+              {restOfQuote.map((thing) => {
                 if (thing === '\n') return null
                 if (thing?.type?.name === 'p') {
                   return (
-                    <p
-                      className="text-sm text-red-800"
-                      color="brand.900"
-                      key={thing?.props?.children?.join('') || index}
-                    >
+                    <p className="text-sm text-red-800" color="brand.900" key={thing.toString()}>
                       {thing.props.children}
                     </p>
                   )

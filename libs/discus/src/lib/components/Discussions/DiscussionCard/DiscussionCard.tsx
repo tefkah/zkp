@@ -71,9 +71,9 @@ export const DiscussionCard = ({
           </div>
         </div>
         <div className="flex w-full items-baseline justify-between gap-2">
-          <Container className="px-y px-0">
+          <div className="px-y flex justify-start px-0">
             <p>{body}</p>
-          </Container>
+          </div>
           <div className="flex items-center gap-2">
             <p>{totalCommentsandReplies}</p>
             <div>
@@ -86,12 +86,12 @@ export const DiscussionCard = ({
             Updated {formatDistance(parseISO(updatedAt), new Date(), { addSuffix: true })}
           </p>
           <div className="flex flex-col items-end font-semibold text-slate-400">
-            {newComments && (
+            {newComments > 0 && (
               <p className="text-xs">{`${newComments} new ${
                 newComments > 1 ? 'comments' : 'comment'
               }`}</p>
             )}
-            {newReplies && (
+            {newReplies > 0 && (
               <p className="text-xs">{`${newReplies} new ${
                 newReplies > 1 ? 'replies' : 'reply'
               }`}</p>

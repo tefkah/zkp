@@ -53,7 +53,10 @@ export const CommitPage = (props: Props) => {
   const headerColor = 'back'
   const parsedText = ParsedCommits(commitData)
 
-  const formattedDate = format(new Date(date * 1000), "MMMM do, yyyy 'at' hh:mm")
+  const formattedDate = format(
+    date ? new Date(date * 1000) : new Date(),
+    "MMMM do, yyyy 'at' hh:mm",
+  )
   return (
     <>
       <Head>
@@ -105,7 +108,7 @@ export const CommitPage = (props: Props) => {
           <Text>
             Showing{' '}
             <Text as="span" fontWeight="bold">
-              {parsedText.length} changed {parsedText.length > 1 ? 'files' : 'file'}
+              {parsedText?.length || 0} changed {parsedText?.length > 1 ? 'files' : 'file'}
             </Text>{' '}
             with
             <Text
