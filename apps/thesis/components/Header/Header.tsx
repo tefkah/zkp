@@ -1,33 +1,17 @@
 import React from 'react'
-import {
-  chakra,
-  Flex,
-  HStack,
-  Icon,
-  IconButton,
-  Link,
-  useColorMode,
-  useColorModeValue,
-  useDisclosure,
-  CloseButton,
-  VStack,
-  Button,
-} from '@chakra-ui/react'
-import { useViewportScroll } from 'framer-motion'
-import { FaMoon, FaSun } from 'react-icons/fa'
-import { AiFillGithub, AiOutlineMenu, AiFillHome, AiOutlineInbox } from 'react-icons/ai'
-import { BsFillCameraVideoFill } from 'react-icons/bs'
+// import { FaMoon, FaSun } from 'react-icons/fa'
+import { AiFillGithub } from 'react-icons/ai'
 import { HiAcademicCap } from 'react-icons/hi'
 import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { HeaderLink } from './HeaderLink'
 
 export const Header = () => {
-  const mobileNav = useDisclosure()
+  // const mobileNav = useDisclosure()
 
   const { data: session } = useSession()
-  const { toggleColorMode: toggleMode } = useColorMode()
-  const text = useColorModeValue('dark', 'light')
-  const SwitchIcon = useColorModeValue(FaMoon, FaSun)
+  // const { toggleColorMode: toggleMode } = useColorMode()
+  // const SwitchIcon = useColorModeValue(FaMoon, FaSun)
 
   // const ref = React.useRef<any>()
   // const [y, setY] = React.useState(0)
@@ -54,15 +38,10 @@ export const Header = () => {
       <div className="mx-[auto] h-12">
         <div className="mx-6 flex h-full items-center justify-between">
           <div className="flex items-center gap-1">
-            <Link href="/">
-              <Icon
-                as={HiAcademicCap}
-                display="block"
-                transition="color 0.2s"
-                w="5"
-                h="5"
-                _hover={{ color: 'gray.600' }}
-              />
+            <Link href="/" passHref>
+              <span className="block h-5 w-5 transition-colors hover:text-slate-600">
+                <HiAcademicCap />
+              </span>
             </Link>
             <div className="flex items-center gap-1 px-4">
               <HeaderLink href="/iii.-anyons">Thesis</HeaderLink>
@@ -74,40 +53,33 @@ export const Header = () => {
 
           <div className="flex max-w-[824px] items-center justify-end text-slate-400">
             <div className="flex hidden items-center gap-5 md:flex">
-              <Link
-                isExternal
+              <a
                 aria-label="Go to this website's GitHub page"
                 href="https://github.com/ThomasFKJorna/thesis-visualization"
               >
-                <Icon
-                  as={AiFillGithub}
-                  display="block"
-                  transition="color 0.2s"
-                  w="5"
-                  h="5"
-                  _hover={{ color: 'gray.600' }}
-                />
-              </Link>
+                <span className="block h-5 w-5 transition-colors hover:text-slate-600">
+                  <AiFillGithub />
+                </span>
+              </a>
             </div>
-            <IconButton
+            {/* <IconButton
               size="md"
               fontSize="lg"
-              aria-label={`Switch to ${text} mode`}
+              aria-label="Switch to dark/light mode"
               variant="ghost"
               color="current"
               ml={{ base: '0', md: '3' }}
               onClick={toggleMode}
               icon={<SwitchIcon />}
-            />
-            <IconButton
+            /> */}
+            {/* <IconButton
               display={{ base: 'flex', md: 'none' }}
               aria-label="Open menu"
               fontSize="20px"
               color={useColorModeValue('dark.secondary', 'inherit')}
               variant="ghost"
               icon={<AiOutlineMenu />}
-              onClick={mobileNav.onOpen}
-            />
+            /> */}
           </div>
         </div>
       </div>
