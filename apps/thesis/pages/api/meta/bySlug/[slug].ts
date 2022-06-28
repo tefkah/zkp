@@ -1,6 +1,7 @@
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-import { mdxDataBySlug } from '@zkp/mdx'
+// import { mdxDataBySlug } from '@zkp/mdx'
+import { BASE_URL } from '@zkp/paths'
 
 export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   req: NextApiRequest,
@@ -14,7 +15,8 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
 
   // const { file } = props.params
 
-  const allData = await mdxDataBySlug()
+  const allData = await (await fetch(`${BASE_URL}/data/dataBySlug.json`)).json()
+  // mdxDataBySlug()
   const data = allData?.[slug]
 
   if (!data) {

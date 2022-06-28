@@ -1,4 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react'
+// import { ChakraProvider } from '@chakra-ui/react'
 import { SessionProvider, signIn, useSession } from 'next-auth/react'
 import { AppProps } from 'next/app'
 import React from 'react'
@@ -7,7 +7,7 @@ import type { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
 import { CookiesProvider } from 'react-cookie'
 import { fetcher } from '../utils/fetchers/fetcher'
-import theme from '../theme'
+// import theme from '../theme'
 import '../styles/globals.css'
 import 'katex/dist/katex.css'
 
@@ -45,13 +45,13 @@ export const ZKP = ({ Component, pageProps }: AppPropsWithLayoutAndAuth) => {
       <CookiesProvider>
         <SessionProvider session={pageProps.session}>
           <SWRConfig value={{ fetcher }}>
-            <ChakraProvider theme={theme}>
-              {Component.auth ? (
-                <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
-              ) : (
-                getLayout(<Component {...pageProps} />)
-              )}
-            </ChakraProvider>
+            {/* <ChakraProvider theme={theme}> */}
+            {Component.auth ? (
+              <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
+            ) : (
+              getLayout(<Component {...pageProps} />)
+            )}
+            {/* </ChakraProvider> */}
           </SWRConfig>
         </SessionProvider>
       </CookiesProvider>

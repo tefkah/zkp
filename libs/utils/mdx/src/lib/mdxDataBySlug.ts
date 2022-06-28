@@ -8,8 +8,8 @@ import { DataBy } from '@zkp/types'
 export const getFreshDataBySlug = async (noteDir = NEXT_PUBLIC_NOTE_DIR) => {
   const rawDir = await readdirp.promise(noteDir, {
     alwaysStat: true,
-    directoryFilter: ['!*/git', '!Archive', '!Components', '!.obsidian'],
-    fileFilter: ['!.*', '!.obsidian*'],
+    directoryFilter: ['!*/git', '!Archive', '!Components'], // '!.obsidian', '!.obsidian*'],
+    fileFilter: ['!.*'], //, '!.obsidian*'],
   })
   // Only include md(x) files
   return rawDir
