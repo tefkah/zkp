@@ -23,7 +23,7 @@ import Head from 'next/head'
 import { Commit } from '@zkp/types'
 import { Giscus } from '@zkp/discus'
 import { DATA_DIR } from '@zkp/paths'
-import { getCommits, tryReadJSON } from '@zkp/git'
+import { tryReadJSON } from '@zkp/git'
 import { DiffBox } from '../../components/Diff/DiffBox'
 import { ParsedDiff } from '../../services/thesis/parseDiff'
 import { BasicLayout } from '../../components/Layouts/BasicLayout'
@@ -145,20 +145,20 @@ export const CommitPage = (props: Props) => {
   )
 }
 
-export const getStaticPaths = async () => {
-  const commitList = await getCommits()
-  const commitIndexList = commitList.map((commit) => ({ params: { commit: commit.oid } }))
-  return {
-    paths: commitIndexList,
-    fallback: 'blocking',
-  }
-}
+// export const getStaticPaths = async () => {
+//   const commitList = await getCommits()
+//   const commitIndexList = commitList.map((commit) => ({ params: { commit: commit.oid } }))
+//   return {
+//     paths: commitIndexList,
+//     fallback: 'blocking',
+//   }
+// }
 
 export interface StaticProps {
   params: { commit: string }
 }
 
-export const getStaticProps = async (props: StaticProps) => {
+export const getServerSideProps = async (props: StaticProps) => {
   const { commit } = props.params
 
   const commits = await tryReadJSON(join(DATA_DIR, 'git.json'))
