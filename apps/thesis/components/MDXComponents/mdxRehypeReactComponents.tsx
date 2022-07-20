@@ -69,8 +69,8 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
       const { href, className, alias, children } = node
       if (href?.includes('http')) {
         return (
-          <Link href={href as string} passHref>
-            <a href={href}>{children as ReactNode}</a>
+          <Link href={href as string} shallow>
+            {children as ReactNode}
           </Link>
         )
       }
@@ -78,8 +78,8 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
       if (['footnum', 'footref'].includes(className as string)) {
         return (
           <span className="font-bold text-red-500">
-            <Link href={href as string}>
-              <a href="href">{children as ReactNode}</a>
+            <Link href={href as string} shallow>
+              {children as ReactNode}
             </Link>
           </span>
         )
