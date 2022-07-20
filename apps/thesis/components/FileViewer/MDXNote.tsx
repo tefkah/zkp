@@ -11,6 +11,7 @@ export interface MDXNoteProps {
 export const MDXNote = (props: MDXNoteProps) => {
   const { currentId, source } = props
   const comps = useMemo(() => createMdxRehypeReactCompents(currentId), [currentId])
+
   try {
     return (
       <article className="prose prose-slate dark:prose-invert">
