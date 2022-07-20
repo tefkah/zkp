@@ -24,7 +24,7 @@ export const Header = () => {
 
   return (
     <header
-      className="z-1 sticky top-0 overflow-y-hidden bg-white shadow-sm transition-shadow"
+      className="sticky top-0 z-10 overflow-y-hidden bg-white transition-shadow"
       // zIndex={1}
       // ref={ref}
       // pos="sticky"

@@ -16,9 +16,17 @@ const nextConfig = {
   experiments: { topLevelAwait: true },
   staticPageGenerationTimeout: 180,
   webpack(config, { dev }) {
-    if (dev) {
-      config.devtool = 'cheap-module-source-map'
-    }
+    // if (dev) {
+    //   config.devtool = 'cheap-module-source-map'
+    // }
+    config.module.rules = [
+      ...config.module.rules,
+      // ensure our libs barrel files don't constitute imports
+      {
+        test: /.*libs\/.*src\/.*index.ts/i,
+        sideEffects: false,
+      },
+    ]
     return config
   },
   images: { domains: ['avatars.githubusercontent.com'] },

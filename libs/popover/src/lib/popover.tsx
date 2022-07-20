@@ -8,7 +8,7 @@ import {
   HTMLAttributes,
   Fragment,
 } from 'react'
-import { Float, FloatProps } from 'headlessui-float-react'
+import { Float, FloatProps } from '@headlessui-float/react'
 import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 

@@ -6,7 +6,7 @@ import { DATA_DIR, NEXT_PUBLIC_NOTE_DIR } from '@zkp/paths'
 import { slugify } from '@zkp/slugify'
 
 // TODO: Make the dataBy... files inherit from the same function
-export const mdxDataByName = async () => {
+const mdxDataByName = async () => {
   const datapath = join(DATA_DIR, 'dataByName.json')
   try {
     const data = JSON.parse(await readFile(datapath, 'utf8'))
@@ -46,3 +46,5 @@ export const mdxDataByName = async () => {
     return data
   }
 }
+
+export default mdxDataByName

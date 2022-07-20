@@ -5,5 +5,8 @@
   "exportall.config.folderListener": ["/libs/types/src/lib/github"],
   "omnisharp.autoStart": false,
   "atlascode.bitbucket.contextMenus.enabled": false,
-  "nxConsole.enableGenerateFromContextMenu": false
+  "nxConsole.enableGenerateFromContextMenu": false,
+  "files.watcherExclude": {
+    "**/node_modules/": true
+  }
 }

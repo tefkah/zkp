@@ -10,7 +10,7 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   res: NextApiResponse,
 ) => {
   const { name } = req.query
-  if (Array.isArray(name)) {
+  if (Array.isArray(name) || !name) {
     res.status(404)
     return
   }

@@ -18,7 +18,7 @@ import {
 } from '../../../utils/parseTime'
 import Link from 'next/link'
 import Image from 'next/image'
-import { getViewportPointFromEvent } from 'framer-motion/types/events/event-info'
+// import { getViewportPointFromEvent } from 'framer-motion/types/events/event-info'
 import { deleteComment } from '../../../services/github/deleteComment'
 import { EditMenu } from '../EditMenu'
 // import Image from 'next/image'

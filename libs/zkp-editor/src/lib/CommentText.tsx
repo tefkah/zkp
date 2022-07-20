@@ -1,5 +1,5 @@
 import { CommentThread } from '@zkp/discus'
-import { Float } from 'headlessui-float-react'
+import { Float } from '@headlessui-float/react'
 import { Fragment, useState } from 'react'
 
 interface CommentTextInterface {

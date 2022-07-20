@@ -6,7 +6,7 @@ import { NEXT_PUBLIC_NOTE_DIR } from '../../../../utils/paths'
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query
-  if (Array.isArray(id)) {
+  if (Array.isArray(id) || !id) {
     res.status(404)
     return
   }

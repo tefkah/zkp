@@ -6,6 +6,7 @@
   "author": "Thomas F. K. Jorna <hello@tefkah.com>",
   "type": "module",
   "description": "mdx",
+  "sideEffects": false,
   "keywords": [
     "unified",
     "abstract",

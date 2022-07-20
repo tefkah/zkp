@@ -12,7 +12,7 @@ export const getFreshDataBySlug = async (noteDir = NEXT_PUBLIC_NOTE_DIR) => {
     fileFilter: ['!.*'], //, '!.obsidian*'],
   })
   // Only include md(x) files
-  return rawDir
+  const data = rawDir
     .filter((entry) => /\.mdx?$/.test(entry.path))
     .reduce((acc, curr) => {
       const name = curr.basename.replace(/\.mdx?$/, '')
@@ -34,10 +34,12 @@ export const getFreshDataBySlug = async (noteDir = NEXT_PUBLIC_NOTE_DIR) => {
       }
       return acc
     }, {} as DataBy)
+
+  return data
 }
 
 // TODO: Make the dataBy... files inherit from the same function
-export const mdxDataBySlug = async (
+const mdxDataBySlug = async (
   dataDir = DATA_DIR,
   noteDir = NEXT_PUBLIC_NOTE_DIR,
 ): Promise<DataBy> => {
@@ -50,3 +52,5 @@ export const mdxDataBySlug = async (
   await writeFile(datapath, JSON.stringify(data))
   return data
 }
+
+export default mdxDataBySlug

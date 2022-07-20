@@ -21,7 +21,9 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "thesis:build",
-        "dev": true
+        "dev": true,
+        "port": 4200,
+        "hostname": "localhost"
       },
       "configurations": {
         "development": {

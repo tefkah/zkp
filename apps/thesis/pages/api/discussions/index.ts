@@ -18,10 +18,10 @@ const get = async (req: NextApiRequest, res: NextApiResponse<IGiscussion | IErro
   const params = {
     repo: req.query.repo as string,
     term: req.query.term as string,
-    number: +req.query.number,
+    number: Number(req?.query?.number) || undefined,
     category: req.query.category as string,
-    first: +req.query.first,
-    last: +req.query.last,
+    first: Number(req?.query?.first) || undefined,
+    last: Number(req?.query?.last) || undefined,
     after: req.query.after as string,
     before: req.query.before as string,
     commentId: req.query.commentId as string,

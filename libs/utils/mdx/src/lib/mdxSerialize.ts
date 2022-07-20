@@ -8,8 +8,9 @@ import remarkWikiLink from 'remark-wiki-link'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import rehypeKatex from 'rehype-katex'
 import { slugify } from '@zkp/slugify'
+import { Pluggable } from 'unified'
 
-export const mdxSerialize = async (
+const mdxSerialize = async (
   input: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   bibliography?: string,
@@ -24,22 +25,37 @@ export const mdxSerialize = async (
     aliasDivider: '|',
   }
   try {
+    console.log(process.env.NEXT_RUNTIME)
+    const citation = (
+      // process.env.NEXT_RUNTIME !== 'experimental-edge'
+        // ?
+         [
+            [
+              rehypeCitation,
+              {
+                bibliography,
+                csl: 'apa',
+              },
+            ],
+          ]
+        // : []
+    ) as Pluggable<any[]>[]
+    const rehypePlugins = [rehypeKatex, ...citation]
+
     const mdxSource = await serialize(content, {
       // Optionally pass remark/rehype plugins
       mdxOptions: {
         remarkPlugins: [remarkMath, remarkGFM, [remarkWikiLink, wikiLinkOptions]],
 
-        rehypePlugins: [
-          rehypeKatex,
-          [
-            rehypeCitation,
-            {
-              bibliography,
-              csl: 'apa',
-              // inlineClass: 'citation',
-            },
-          ],
-        ],
+        rehypePlugins,
+        // [
+        //   rehypeCitation,
+        //   {
+        //     bibliography,
+        //     csl: 'apa',
+        //     // inlineClass: 'citation',
+        //   },
+        // ],
       },
       scope: data,
     })
@@ -53,3 +69,5 @@ export const mdxSerialize = async (
     `)
   }
 }
+
+export default mdxSerialize

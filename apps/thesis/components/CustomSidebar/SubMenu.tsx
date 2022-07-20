@@ -2,7 +2,6 @@
 import { FileLeaf, isFolder, RecursiveFolder } from '@zkp/types'
 import { Disclosure } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Button } from '@zkp/ui'
 import { TriangleRightIcon } from '@primer/octicons-react'
 import { SidebarLink } from './SidebarLink'
 
@@ -52,7 +51,7 @@ export const SubMenu = (props: SubMenuProps) => {
         {({ open }: { open: boolean }) => (
           <>
             <Disclosure.Button
-              as={Button}
+              // as={Button}
               className="gap-2 bg-transparent px-1 text-slate-800 hover:bg-slate-100 dark:text-slate-200"
             >
               <TriangleRightIcon

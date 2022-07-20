@@ -1,6 +1,5 @@
 // Parse a diff baby
 
-import { Box } from '@chakra-ui/react'
 import { Change } from 'diff'
 import { FileDiff } from '@zkp/types'
 import { ParsedOrg } from './parseOrg'

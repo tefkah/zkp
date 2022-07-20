@@ -1,9 +1,13 @@
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-import { BIB_PATH } from '@zkp/paths'
-import { mdxSerialize } from '@zkp/mdx'
+import { BIB_URL } from '@zkp/urls'
+import mdxSerialize from '@zkp/mdxSerialize'
 
-export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
+// export const config = {
+//   runtime: 'experimental-edge',
+// }
+
+const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
@@ -13,6 +17,7 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
     return
   }
 
+  console.log(process.env.NEXT_RUNTIME)
   // const { file } = props.params
   const url =
     process.env.NODE_ENV === 'production'
@@ -34,8 +39,8 @@ export const handler: NextApiHandler<MDXRemoteSerializeResult> = async (
   }
   try {
     // const file = await fs.readFile(join(NEXT_PUBLIC_NOTE_DIR, path), 'utf8')
-    const result = await mdxSerialize(file, BIB_PATH)
-    res.setHeader('Cache-Control', 's-max-age=36000, stale-while-revalidate=100000')
+    const result = await mdxSerialize(file, BIB_URL)
+    // res.setHeader('Cache-Control', 's-max-age=36000, stale-while-revalidate=100000')
     res.status(200)
     res.json({ ...result })
   } catch (err) {
