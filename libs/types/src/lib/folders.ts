@@ -21,6 +21,7 @@ export const isFolder = (
 ): fileOrFolder is RecursiveFolder => Object.hasOwnProperty.call(fileOrFolder, 'children')
 export interface FileLeaf {
   type: 'file'
+  // path: string
   name: string
   slug: string
   stats: NextJSCompatibleStats

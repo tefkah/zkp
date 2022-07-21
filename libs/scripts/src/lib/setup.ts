@@ -1,10 +1,10 @@
 import { clone } from 'isomorphic-git'
 import fs from 'fs'
-import { rm } from 'fs/promises'
+import { rm, writeFile } from 'fs/promises'
 import * as http from 'isomorphic-git/http/node/index.js'
 
 import { getListOfCommitsWithStats } from '@zkp/git'
-import { mdxDataBySlug } from '@zkp/mdx'
+import { findAllBacklinks, mdxDataBySlug } from '@zkp/mdx'
 import * as dotenv from 'dotenv'
 
 import {
@@ -16,6 +16,8 @@ import {
   DATA_DIR as dataDir,
 } from '@zkp/paths'
 import { flattenAndSlugifyNotes } from './flattenAndSlugifyNotes'
+import { deslugify } from '@zkp/slugify'
+import { join } from 'path'
 
 dotenv.config({ path: '../../../../.env' })
 
@@ -60,6 +62,40 @@ const setup = async ({
   const mdxData = await mdxDataBySlug(datadir, notedir)
   console.log('Done creating MDX data')
   await flattenAndSlugifyNotes({ notedir })
+
+  /**
+   * Read the notedir once more and add to the mdxData the files that are not in the mdxData as a new entry but with empty stats
+   * We infer the name of the file from the first wikilink in the file
+   */
+
+  const backlinks = await findAllBacklinks({ directory: notedir })
+
+  const files = fs.readdirSync(notedir)
+  files.forEach((file) => {
+    if (!mdxData[file]) {
+      mdxData[file] = {
+        slug: file,
+        name: `${file?.at(0)?.toUpperCase() || ''}${deslugify(file.slice(1))}`,
+        folders: [],
+        path: `${notedir}/${file}`,
+        stats: {} as any,
+        basename: file,
+        fullPath: `${notedir}/${file}`,
+      }
+    }
+  })
+
+  Object.entries(backlinks).forEach(([file, backlinks]) => {
+    if (!mdxData[file]) {
+      console.log(file)
+      return
+    }
+    mdxData[file].backlinks = backlinks
+  })
+
+  const datapath = join(dataDir, 'dataBySlug.json')
+  await writeFile(datapath, JSON.stringify(mdxData))
+
   // const dataById = await getFilesData('id', noteDir)
   // const dataByTitle = await getFilesData('title', noteDir)
   // const dataByCite = await getFilesData('cite', noteDir)

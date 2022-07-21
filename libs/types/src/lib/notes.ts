@@ -61,5 +61,17 @@ export interface DataBy {
     folders: string[]
     path: string
     slug: string
+    backlinks?: Backlink[]
   }
+}
+
+export interface Backlinks {
+  [k: string]: Backlink[]
+}
+export interface Backlink {
+  link: string
+  sentences?: string[] | undefined
+  slug: string
+  name?: string | undefined
+  // }
 }
