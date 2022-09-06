@@ -1,4 +1,4 @@
-import { aaa } from './badFindAll'
+import { aaa } from './findAllBacklinks'
 import { getAllBacklinks, getAllLinkedTexts } from './getAllLinkedTexts'
 ;(async () => {
   console.log(

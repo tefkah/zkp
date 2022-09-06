@@ -1,5 +1,6 @@
-const { getJestProjects } = require('@nrwl/jest');
+// const { getJestProjects } = require('@nrwl/jest');
+import { getJestProjects } from '@nrwl/jest'
 
-module.exports = {
+export default {
   projects: getJestProjects(),
-};
+}

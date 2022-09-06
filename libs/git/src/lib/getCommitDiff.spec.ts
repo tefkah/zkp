@@ -1,5 +1,6 @@
+import { GIT_DIR, NEXT_PUBLIC_NOTE_DIR } from '@zkp/paths'
 import { u } from 'unist-builder'
-import { getCommitDiffForSingleFile } from './getCommitDiff'
+import { getCommitDiff, getCommitDiffForSingleFile } from './getCommitDiff'
 
 describe('diff api', () => {
   //   const [commit1, commit2] = [
@@ -7,8 +8,8 @@ describe('diff api', () => {
   //     'dac9e2cf1d2d9964e7ddb375b692c71326776b64',
   //   ]
   const [commit1, commit2] = [
-    '4cb1dd47256b7f9947af03c82672c567173003d1',
-    '635c1974031c9ba51e275c308ac38617bd8b5b46',
+    'e51023451325d184f4235d26fef02820334084ef',
+    '5e1db91faaeb9fa8edc85295ce72d8fdc5733195',
   ]
   // it('diffs', async () => {
   //   const x = await getModifiedCommitDiff(commit1, commit2, 'notes', 'notes/git')
@@ -16,14 +17,24 @@ describe('diff api', () => {
   // })
 
   it('can diff one file', async () => {
+    // console.log(NEXT_PUBLIC_NOTE_DIR)
+    // console.log({ GIT_DIR })
     const diffForOneFile = await getCommitDiffForSingleFile(
       commit1,
       commit2,
       undefined,
       undefined,
-      '.github/workflows/vercel.yml',
+      'Topological Space.md',
     )
-    expect(diffForOneFile).toBeDefined()
+    const diffForTwoFile = await getCommitDiff(
+      commit1,
+      commit2,
+      undefined,
+      undefined,
+      // 'Topological Space.md',
+    )
+    // console.log(diffForTwoFile)
+    expect(diffForOneFile.length).toBeGreaterThan(0)
 
     // [
     //   {
@@ -95,6 +106,7 @@ describe('diff api', () => {
       undefined,
       file,
     )
-    expect(diffForOneFile).toBeDefined()
+    console.log(diffForOneFile)
+    expect(diffForOneFile.length).toBeGreaterThan(0)
   })
 })

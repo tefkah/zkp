@@ -1,6 +1,6 @@
 const config = {
   displayName: '@zkp/git',
-  preset: '../../jest.preset.ts',
+  preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',

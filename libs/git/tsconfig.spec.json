@@ -12,9 +12,11 @@
     "**/*.test.tsx",
     "**/*.spec.tsx",
     "**/*.test.js",
+    "**/*.config.ts",
     "**/*.spec.js",
     "**/*.test.jsx",
     "**/*.spec.jsx",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "jest.config.js"
   ]
 }

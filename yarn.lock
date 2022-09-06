@@ -22866,6 +22866,11 @@ warning@^4.0.2:
   dependencies:
     loose-envify "^1.0.0"
 
+wasm-git@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/wasm-git/-/wasm-git-0.0.8.tgz#158ab12c30a475ef8ced6d7bce93c149d5ee1492"
+  integrity sha512-JxT07IUQMJ4l9Sk/BHqyH3xZ0XtoAcCB4zQrDW3aHq5dwDT8OpXxhGwCcLcrl09T/j7MI7XbwqwkK7R86+T57w==
+
 watchpack-chokidar2@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/watchpack-chokidar2/-/watchpack-chokidar2-2.0.1.tgz#38500072ee6ece66f3769936950ea1771be1c957"
@@ -23523,10 +23528,10 @@ zustand@^3.7.2:
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.7.2.tgz#7b44c4f4a5bfd7a8296a3957b13e1c346f42514d"
   integrity sha512-PIJDIZKtokhof+9+60cpockVOq05sJzHCriyvaLBmEJixseQ1a5Kdov6fWZfWOu5SK9c+FhH1jU0tntLxRJYMA==
 
-zustand@^4.0.0-rc.1:
-  version "4.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.0.0-rc.3.tgz#690fef2c91b106bd6376452cba2b1533267747f9"
-  integrity sha512-vc7TKQJC6T8lx5EupnuUTWXahuRLYjrK9oWLvY+u65ZkLDjocgxDGMrl5VBuxyjXCXyJ3kquN3l/Y2yUj5ZDEg==
+zustand@^4.0.0-rc.3:
+  version "4.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.0.0-rc.4.tgz#ed0e0f1fa3e1c7d0d9021739d862d88048d845da"
+  integrity sha512-BP35Rq40GBTKKtYyjLuZogzXGh289xqO8U8ivGIK43nRqURD2dEEImkUci1/jWRUz7J1OPJkUZuNySCho801gQ==
   dependencies:
     use-sync-external-store "1.2.0"
 

@@ -6,6 +6,6 @@
     "types": ["node"],
     "composite": true
   },
-  "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.js"],
-  "include": ["**/*.ts", "jest.config.js"]
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
+  "include": ["**/*.ts", "jest.config.ts"]
 }

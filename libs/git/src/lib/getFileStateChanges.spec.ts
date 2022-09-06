@@ -9,6 +9,7 @@ describe('getFileStateChanges', () => {
     ]
     const status = await getFileStateChanges(commit1, commit2)
     const changed = status.filter((f: any) => f.type !== 'equal')
+    console.log(changed)
     expect(changed).toEqual([{ path: '/.github/workflows/vercel.yml', type: 'modify' }])
   })
   it('finds additions', async () => {

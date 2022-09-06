@@ -22,6 +22,8 @@ export interface DiffMapProps {
 const diffMap = async (props: DiffMapProps): Promise<FileDiff | void> => {
   const { filepath, trees, type, justStats } = props
   const [tree1, tree2] = trees
+
+  // console.log(props)
   if (type === 'equal') {
     return
   }
@@ -43,6 +45,7 @@ const diffMap = async (props: DiffMapProps): Promise<FileDiff | void> => {
 
   // ignore unmodified files
   if ((await tree1?.oid()) === (await tree2?.oid())) return
+
   if (!tree1 || !tree2) {
     // TODO count the words
     const added = tree2 ? true : undefined

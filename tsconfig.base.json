@@ -1,9 +1,7 @@
 {
   "compileOnSave": false,
   "ts-node": {
-    "require": [
-      "tsconfig-paths/register"
-    ],
+    "require": ["tsconfig-paths/register"],
     "compilerOptions": {
       "module": "NodeNext",
       "target": "ESNext",
@@ -22,10 +20,7 @@
     "importHelpers": true,
     "target": "ESNext",
     "module": "ESNext",
-    "lib": [
-      "es2021",
-      "DOM"
-    ],
+    "lib": ["es2021", "DOM"],
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -36,55 +31,22 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@zkp/discus": [
-        "libs/discus/src/index.ts"
-      ],
-      "@zkp/git": [
-        "libs/git/src/index.ts"
-      ],
-      "@zkp/mdx": [
-        "libs/utils/mdx/src/index.ts"
-      ],
-      "@zkp/mdxSerialize": [
-        "libs/utils/mdx/src/lib/mdxSerialize.ts"
-      ],
-      "@zkp/paths": [
-        "libs/paths/src/index.ts"
-      ],
-      "@zkp/popover": [
-        "libs/popover/src/index.ts"
-      ],
-      "@zkp/redis": [
-        "libs/redis/src/index.ts"
-      ],
-      "@zkp/scripts": [
-        "libs/scripts/src/index.ts"
-      ],
-      "@zkp/slugify": [
-        "libs/utils/slugify/src/index.ts"
-      ],
-      "@zkp/types": [
-        "libs/types/src/index.ts"
-      ],
-      "@zkp/ui": [
-        "libs/ui/src/index.ts"
-      ],
-      "@zkp/urls": [
-        "libs/paths/src/lib/urls.ts"
-      ],
-      "try-catch": [
-        "libs/utils/try-catch/src/index.ts"
-      ],
-      "zkp-editor": [
-        "libs/zkp-editor/src/index.ts"
-      ],
-      "@zkp/folders": [
-        "libs/utils/folders/src/index.ts"
-      ]
+      "@zkp/discus": ["libs/discus/src/index.ts"],
+      "@zkp/git": ["libs/git/src/index.ts"],
+      "@zkp/mdx": ["libs/utils/mdx/src/index.ts"],
+      "@zkp/mdxSerialize": ["libs/utils/mdx/src/lib/mdxSerialize.ts"],
+      "@zkp/paths": ["libs/paths/src/index.ts"],
+      "@zkp/popover": ["libs/popover/src/index.ts"],
+      "@zkp/redis": ["libs/redis/src/index.ts"],
+      "@zkp/scripts": ["libs/scripts/src/index.ts"],
+      "@zkp/slugify": ["libs/utils/slugify/src/index.ts"],
+      "@zkp/types": ["libs/types/src/index.ts"],
+      "@zkp/ui": ["libs/ui/src/index.ts"],
+      "@zkp/urls": ["libs/paths/src/lib/urls.ts"],
+      "try-catch": ["libs/utils/try-catch/src/index.ts"],
+      "zkp-editor": ["libs/zkp-editor/src/index.ts"],
+      "@zkp/folders": ["libs/utils/folders/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
