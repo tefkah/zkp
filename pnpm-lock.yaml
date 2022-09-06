@@ -182,10 +182,10 @@ specifiers:
   uniorg-rehype: ^0.5.4
   uniorg-slug: ^0.5.4
   unist-builder: ^3.0.0
+  unist-util-is: ^5.1.1
   unist-util-visit: ^4.1.1
   url-loader: ^4.1.1
   use-local-storage-state: ^18.1.1
-  wasm-git: ^0.0.8
   webpack-cli: ^4.10.0
   zustand: ^4.1.1
 
@@ -286,9 +286,9 @@ dependencies:
   uniorg-parse: 0.5.3
   uniorg-rehype: 0.5.4
   uniorg-slug: 0.5.4
+  unist-util-is: 5.1.1
   unist-util-visit: 4.1.1
   use-local-storage-state: 18.1.1_biqbaboplfbrettd7655fr4n2y
-  wasm-git: 0.0.8
   zustand: 4.1.1_immer@9.0.15+react@18.2.0
 
 devDependencies:
@@ -25332,10 +25332,6 @@ packages:
     resolution: {integrity: sha512-ts/8E8l5b7kY0vlWLewOkDXMmPdLcVV4GmOQLyxuSswIJsweeFZtAsMF7k1Nszz+TYBQrlYRmzOnr398y1JemQ==}
     dependencies:
       makeerror: 1.0.12
-
-  /wasm-git/0.0.8:
-    resolution: {integrity: sha512-JxT07IUQMJ4l9Sk/BHqyH3xZ0XtoAcCB4zQrDW3aHq5dwDT8OpXxhGwCcLcrl09T/j7MI7XbwqwkK7R86+T57w==}
-    dev: false
 
   /watchpack-chokidar2/2.0.1:
     resolution: {integrity: sha512-nCFfBIPKr5Sh61s4LPpy1Wtfi0HE8isJ3d2Yb5/Ppw2P2B/3eVSEBjKfN0fmHJSK14+31KwMKmcrzs2GM4P0Ww==}
