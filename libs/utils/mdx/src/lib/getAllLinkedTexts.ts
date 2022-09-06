@@ -56,7 +56,6 @@ export const getAllBacklinks = async (directory: string) => {
   const forwardLinks = await Promise.all(
     files.map(async (file) => {
       const { basename, path } = file
-      console.log(path)
       const links = await getAllLinkedTexts(join(directory, path))
       return {
         slug: basename,
@@ -64,7 +63,6 @@ export const getAllBacklinks = async (directory: string) => {
       }
     }),
   )
-  console.log(forwardLinks)
 
   /**
    * Invert the forward links to create a backlinks
@@ -96,7 +94,6 @@ export const getAllBacklinks = async (directory: string) => {
 
 export const getRelevantBacklinkPassages = async (link: string, text: string) => {
   const sentences = text.match(/^.*?\[\[.*?(\|.*?)?\]\].*?$/gm)!
-  console.log(text, sentences, link)
   const relevantSentence = sentences
     ?.filter((sentence) => {
       return sentence.includes(`[[${slugify(link)}`)

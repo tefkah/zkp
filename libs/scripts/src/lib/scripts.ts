@@ -9,9 +9,7 @@ const proc = unified().use(remarkParse).use(remarkRehype).use(rehypeStringify)
 
 async function main() {
   const file = await proc.process('# Hey')
-  console.log(String(file))
   catchPromise((async () => 'cheese')())
-  //  console.log(NEXT_PUBLIC_NOTE_DIR)
 }
 
 main()

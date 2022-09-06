@@ -4,7 +4,7 @@
   "license": "GPL-3-0-or-later",
   "scripts": {
     "start": "nx serve",
-    "build": "yarn setup && nx build thesis --prod --verbose",
+    "build": "pnpm run setup && pnpm nx build thesis --production --verbose",
     "test": "nx test",
     "scriptx": "TS_NODE_PROJECT=libs/scripts/tsconfig.json ts-node-esm --project=libs/scripts/tsconfig.json --swc",
     "scriptp": "TS_NODE_PROJECT=tsconfig.base.json NODE_OPTIONS=\"-r ts-node/register --loader ts-node/esm\" ts-node-esm --swc -P tsconfig.base.json  -r tsconfig-paths/register",

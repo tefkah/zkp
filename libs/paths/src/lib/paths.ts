@@ -3,12 +3,13 @@ import { config } from 'dotenv'
 
 const cwd = process.cwd()
 // console.log(process.env.NODE_ENV)
-process.env.NODE_ENV !== 'production' && config({ path: join(cwd, '../../../../.env') })
+// process.env.NODE_ENV !== 'production' &&
+config({ path: join(cwd, '../../../../.env') })
 
 // console.log(process.env.CURRENT_FOLDER)
 export const APP_DIR = join(
   cwd,
-  ...(process.env.CURRENT_FOLDER ? [process.env.CURRENT_FOLDER] : ['apps', 'zkp']),
+  ...(process.env.CURRENT_FOLDER ? [process.env.CURRENT_FOLDER] : ['apps', 'thesis']),
 )
 // console.log(APP_DIR)
 export const NEXT_PUBLIC_NOTE_DIR = join(

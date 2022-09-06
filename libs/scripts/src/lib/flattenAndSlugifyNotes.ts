@@ -31,7 +31,6 @@ export const flattenAndSlugifyNotes = async ({ notedir = NEXT_PUBLIC_NOTE_DIR })
   await Promise.all(renamedFiles)
 
   const backlinks = await findAllBacklinks({ directory: notedir })
-  console.log(backlinks)
 
   const complete = await Promise.all(
     Object.entries(backlinks).map(async ([slug, links]) => {
@@ -46,6 +45,5 @@ export const flattenAndSlugifyNotes = async ({ notedir = NEXT_PUBLIC_NOTE_DIR })
       return appendFile(path, '\n\n## Backlinks \n\n' + backs)
     }),
   )
-  console.log(complete)
   console.log('Done flattening and slugifying!')
 }

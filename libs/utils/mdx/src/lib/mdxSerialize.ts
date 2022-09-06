@@ -25,21 +25,18 @@ const mdxSerialize = async (
     aliasDivider: '|',
   }
   try {
-    console.log(process.env.NEXT_RUNTIME)
-    const citation = (
-      // process.env.NEXT_RUNTIME !== 'experimental-edge'
-        // ?
-         [
-            [
-              rehypeCitation,
-              {
-                bibliography,
-                csl: 'apa',
-              },
-            ],
-          ]
-        // : []
-    ) as Pluggable<any[]>[]
+    const citation = // process.env.NEXT_RUNTIME !== 'experimental-edge'
+    // ?
+    [
+      [
+        rehypeCitation,
+        {
+          bibliography,
+          csl: 'apa',
+        },
+      ],
+    ] as // : []
+    Pluggable<any[]>[]
     const rehypePlugins = [rehypeKatex, ...citation]
 
     const mdxSource = await serialize(content, {

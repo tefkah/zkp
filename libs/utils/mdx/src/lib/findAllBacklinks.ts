@@ -20,7 +20,6 @@ export const findAllBacklinks = async ({
   const forwardLinks = await Promise.all(
     files.map(async (file) => {
       const { basename, path } = file
-      // console.log(path)
       const links = await getAllLinkedTexts(join(directory, path))
       return {
         slug: basename,

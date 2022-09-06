@@ -51,14 +51,13 @@ const setup = async ({
   await clone({
     fs,
     http,
-    url: 'https://github.com/thomasfkjorna/thesis-writing',
+    url: 'https://github.com/tefkah/thesis-writing',
     dir: notedir,
     gitdir: gitdir,
     remote: 'notes',
   })
 
   await getListOfCommitsWithStats('', '', notedir, gitdir, datadir)
-  console.log({ datadir, notedir })
   const mdxData = await mdxDataBySlug(datadir, notedir)
   console.log('Done creating MDX data')
   await flattenAndSlugifyNotes({ notedir })
@@ -72,7 +71,7 @@ const setup = async ({
 
   const files = fs.readdirSync(notedir)
   files.forEach((file) => {
-    if (!mdxData[file]) {
+    if (!mdxData[file] && /\.mdx?$/.test(file)) {
       mdxData[file] = {
         slug: file,
         name: `${file?.at(0)?.toUpperCase() || ''}${deslugify(file.slice(1))}`,
@@ -87,7 +86,6 @@ const setup = async ({
 
   Object.entries(backlinks).forEach(([file, backlinks]) => {
     if (!mdxData[file]) {
-      console.log(file)
       return
     }
     mdxData[file].backlinks = backlinks
