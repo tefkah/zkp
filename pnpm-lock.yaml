@@ -113,6 +113,7 @@ specifiers:
   jest: ^29.0.2
   jest-fetch-mock: ^3.0.3
   jsonwebtoken: ^8.5.1
+  katex: ^0.16.2
   lodash: ^4.17.21
   mdast-util-mdx: ^2.0.0
   nanoid: ^4.0.0
@@ -233,6 +234,7 @@ dependencies:
   immer: 9.0.15
   isomorphic-git: 1.21.0
   jsonwebtoken: 8.5.1
+  katex: 0.16.2
   lodash: 4.17.21
   nanoid: 4.0.0
   next: 12.2.5_vyk55zyolcaieh7zfm7nf7uva4
