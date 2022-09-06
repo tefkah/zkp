@@ -109,6 +109,7 @@
     "uniorg-parse": "^0.5.3",
     "uniorg-rehype": "^0.5.4",
     "uniorg-slug": "^0.5.4",
+    "unist-util-visit": "^4.1.1",
     "use-local-storage-state": "^18.1.1",
     "wasm-git": "^0.0.8",
     "zustand": "^4.1.1"

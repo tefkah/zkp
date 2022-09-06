@@ -182,6 +182,7 @@ specifiers:
   uniorg-rehype: ^0.5.4
   uniorg-slug: ^0.5.4
   unist-builder: ^3.0.0
+  unist-util-visit: ^4.1.1
   url-loader: ^4.1.1
   use-local-storage-state: ^18.1.1
   wasm-git: ^0.0.8
@@ -285,6 +286,7 @@ dependencies:
   uniorg-parse: 0.5.3
   uniorg-rehype: 0.5.4
   uniorg-slug: 0.5.4
+  unist-util-visit: 4.1.1
   use-local-storage-state: 18.1.1_biqbaboplfbrettd7655fr4n2y
   wasm-git: 0.0.8
   zustand: 4.1.1_immer@9.0.15+react@18.2.0
