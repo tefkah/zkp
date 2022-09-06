@@ -145,6 +145,7 @@ specifiers:
   rehype-citation: ^0.4.0
   rehype-katex: 6.0.2
   rehype-mathjax: 4.0.2
+  rehype-parse: ^8.0.4
   rehype-react: 7.1.1
   rehype-stringify: ^9.0.3
   rehype-url-inspector: ^2.0.2
@@ -255,6 +256,7 @@ dependencies:
   rehype-citation: 0.4.0
   rehype-katex: 6.0.2
   rehype-mathjax: 4.0.2
+  rehype-parse: 8.0.4
   rehype-react: 7.1.1_@types+react@18.0.18
   rehype-stringify: 9.0.3
   rehype-url-inspector: 2.0.2
@@ -25229,7 +25231,7 @@ packages:
     resolution: {integrity: sha512-JDxPlTbZrZCQXogGheBHjbRWjESSPEak770XwWPfw5mTc1v1nWGLB/apzZxsx8a0SJVfF8HK8ql8RD308vXRUw==}
     dependencies:
       '@types/unist': 2.0.6
-      vfile: 5.3.2
+      vfile: 5.3.4
     dev: false
 
   /vfile-matter/3.0.1:

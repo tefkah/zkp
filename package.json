@@ -80,6 +80,7 @@
     "rehype-citation": "^0.4.0",
     "rehype-katex": "6.0.2",
     "rehype-mathjax": "4.0.2",
+    "rehype-parse": "^8.0.4",
     "rehype-react": "7.1.1",
     "rehype-stringify": "^9.0.3",
     "rehype-url-inspector": "^2.0.2",
