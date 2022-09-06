@@ -18,7 +18,7 @@ export const doSomethingAtFileStateChange = ({
   filename?: string
   fileStateFun?: (
     filepath: string,
-    trees: [WalkerEntry, WalkerEntry],
+    trees: [WalkerEntry | null, WalkerEntry | null],
     state: FileStates,
   ) => Promise<{ [key: string]: any } | undefined>
 }) =>

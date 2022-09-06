@@ -1,4 +1,4 @@
-import { DotsVerticalIcon } from '@heroicons/react/solid'
+import { EllipsisVerticalIcon } from '@heroicons/react/24/solid'
 import { Popover } from '@zkp/popover'
 import { Button } from '@zkp/ui'
 
@@ -36,7 +36,7 @@ export const EditMenu = (props: EditMenuProps) => {
   return (
     <Popover
       placement="bottom-end"
-      button={{ children: <DotsVerticalIcon />, className: 'h-6 w-4 text-slate-600' }}
+      button={{ children: <EllipsisVerticalIcon />, className: 'h-6 w-4 text-slate-600' }}
     >
       <div className="w-40 bg-white dark:bg-slate-700">
         <ul>

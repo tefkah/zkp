@@ -4,7 +4,6 @@ import { Text } from '@chakra-ui/react'
 import { PreviewLink } from '../FileViewer'
 import { MDXComp } from './types'
 
-//// @ts-expect-error Yeah hthe types are all over the frigging place here
 export const MDXLinkBase: MDXComp<'a'> = (
   props: React.ComponentProps<'a'> & { currentId: string; alias?: string },
 ) => {
@@ -31,7 +30,7 @@ export const MDXLinkBase: MDXComp<'a'> = (
   }
 
   const title = alias
-  return <a>{href}</a>
+  return <a href={href}>{href}</a>
   return (
     <PreviewLink
       currentId={currentId}

@@ -25,10 +25,7 @@ export const CustomSideBar = (props: Props) => {
   })
   const unemph = useColorModeValue('gray.700', 'gray.300')
 
-  const [sort, setSort] = useLocalStorageState<Sorts>('sidebarSort', {
-    defaultValue: 'alpha',
-    ssr: true,
-  })
+  const [sort, setSort] = useLocalStorageState<Sorts>('sidebarSort', { defaultValue: 'alpha' })
 
   const folderList = useMemo(
     () => fileListReducer(Object.values(fileList), sorts[sort]),

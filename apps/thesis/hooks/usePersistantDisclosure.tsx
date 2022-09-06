@@ -18,7 +18,6 @@ export const usePersistantDisclosure = (storageKey: string, props: UseDisclosure
   const onClosePropCallbackRef = useCallbackRef(onCloseProp)
   const [isOpenState, setIsOpen] = useLocalStorageState(storageKey, {
     defaultValue: props.defaultIsOpen || false,
-    ssr: true,
   })
   const [isControlled, isOpen] = useControllableProp(isOpenProp, isOpenState)
 
