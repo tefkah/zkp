@@ -1,6 +1,6 @@
 // ported from the great https://github.com/giscus/giscus
 
-import { Reactions } from './github'
+import { Reactions } from './github/index.js'
 
 export interface IUser {
   avatarUrl: string
@@ -38,6 +38,11 @@ interface IBaseComment {
   isMinimized: boolean
   body: string
   reactions: IReactionGroups
+  viewerCanDelete: boolean
+  viewerCanUpdate: boolean
+  viewerCanUnmarkAsAnswer: boolean
+  viewerCanMarkAsAnswer: boolean
+  viewerCanMinimize: boolean
 }
 
 export interface IReply extends IBaseComment {

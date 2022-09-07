@@ -1,20 +1,30 @@
 import { clone } from 'isomorphic-git'
 import fs from 'fs'
-import { rm, rmdir, unlink } from 'fs/promises'
-import { join } from 'path'
+import { rm, writeFile } from 'fs/promises'
 import * as http from 'isomorphic-git/http/node/index.js'
 
-import { mdxDataBySlug } from '@zkp/thesis'
-import { getListOfCommitsWithStats } from '@zkp/thesis'
+import { getListOfCommitsWithStats } from '@zkp/git'
+import { findAllBacklinks, mdxDataBySlug } from '@zkp/mdx'
 import * as dotenv from 'dotenv'
-import { repo, appDir, gitDir, noteDir, dataDir } from '@zkp/thesis'
-import { flattenAndSlugifyNotes } from '@zkp/thesis'
 
-dotenv.config()
+import {
+  BASE_URL as repo,
+  REMOTE as remoteUrl,
+  APP_DIR as appDir,
+  GIT_DIR as gitDir,
+  NEXT_PUBLIC_NOTE_DIR as noteDir,
+  DATA_DIR as dataDir,
+} from '@zkp/paths'
+import { flattenAndSlugifyNotes } from './flattenAndSlugifyNotes'
+import { deslugify } from '@zkp/slugify'
+import { join } from 'path'
+
+dotenv.config({ path: '../../../../.env' })
 
 const args = process.argv
+
 const setup = async ({
-  remote = repo,
+  remote = remoteUrl,
   //  appdir = appDir,
   gitdir = gitDir,
   notedir = noteDir,
@@ -41,15 +51,49 @@ const setup = async ({
   await clone({
     fs,
     http,
-    url: 'https://github.com/thomasfkjorna/thesis-writing',
+    url: 'https://github.com/tefkah/thesis-writing',
     dir: notedir,
     gitdir: gitdir,
     remote: 'notes',
   })
 
   await getListOfCommitsWithStats('', '', notedir, gitdir, datadir)
-  await mdxDataBySlug(datadir, notedir)
+  const mdxData = await mdxDataBySlug(datadir, notedir)
+  console.log('Done creating MDX data')
   await flattenAndSlugifyNotes({ notedir })
+
+  /**
+   * Read the notedir once more and add to the mdxData the files that are not in the mdxData as a new entry but with empty stats
+   * We infer the name of the file from the first wikilink in the file
+   */
+
+  const backlinks = await findAllBacklinks({ directory: notedir })
+
+  const files = fs.readdirSync(notedir)
+  files.forEach((file) => {
+    if (!mdxData[file] && /\.mdx?$/.test(file)) {
+      mdxData[file] = {
+        slug: file,
+        name: `${file?.at(0)?.toUpperCase() || ''}${deslugify(file.slice(1))}`,
+        folders: [],
+        path: `${notedir}/${file}`,
+        stats: {} as any,
+        basename: file,
+        fullPath: `${notedir}/${file}`,
+      }
+    }
+  })
+
+  Object.entries(backlinks).forEach(([file, backlinks]) => {
+    if (!mdxData[file]) {
+      return
+    }
+    mdxData[file].backlinks = backlinks
+  })
+
+  const datapath = join(dataDir, 'dataBySlug.json')
+  await writeFile(datapath, JSON.stringify(mdxData))
+
   // const dataById = await getFilesData('id', noteDir)
   // const dataByTitle = await getFilesData('title', noteDir)
   // const dataByCite = await getFilesData('cite', noteDir)
@@ -57,12 +101,11 @@ const setup = async ({
   // await fs.promises.writeFile(join(dataDir, 'dataByTitle.json'), JSON.stringify(dataByTitle))
   // await fs.promises.writeFile(join(dataDir, 'dataByCite.json'), JSON.stringify(dataByCite))
 }
-//setup(readArgs)
-console.log(process.env.DATA_DIR)
+
 setup({
-  remote: args?.[2],
+  remote: args?.[2] || process.env.REMOTE,
   // appdir: args?.[3],
-  gitdir: args?.[4],
-  notedir: args?.[5],
-  datadir: args?.[6],
+  gitdir: args?.[4] || process.env.GIT_DIR,
+  notedir: args?.[5] || process.env.NOTE_DIR,
+  datadir: args?.[6] || process.env.DATA_DIR,
 })

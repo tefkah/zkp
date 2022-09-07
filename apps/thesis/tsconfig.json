@@ -15,7 +15,8 @@
     ],
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext"
+    "module": "esnext",
+    "moduleResolution": "node"
   },
   "include": [
     "**/*.ts",
@@ -23,11 +24,12 @@
     "**/*.tsx",
     "next-env.d.ts",
     "**/[*].tsx",
-    "**/[...*].tsx"
+    "**/[...*].tsx",
+    "jest.config.js",
+    "../../libs/discus/src/lib/services/giscus/filterDiscussionsByCommentID.ts"
   ],
   "exclude": [
     "node_modules",
-    "jest.config.ts",
     "**/katexSlatePlugin.tsx"
   ]
 }

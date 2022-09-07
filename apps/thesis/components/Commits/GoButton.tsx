@@ -21,7 +21,7 @@ export const GoButton = ({
       onClick={() => setCompair([])}
     />
   ) : (
-    <Link prefetch={false} passHref href={`/compare/${compair[0]}/${oid}`}>
+    <Link prefetch={false} passHref href={`/compare/${compair?.[0] || 'main'}/${oid}`}>
       <IconButton icon={<ArrowRightIcon />} aria-label="Compare" size="xs">
         <ArrowRightIcon h={6} p={1} />
       </IconButton>

@@ -64,6 +64,20 @@ export const Story = () => {
   )
 }
 
+export const Simple = () => {
+  return (
+    <div className="my-96">
+      <Popover portal={false} title="Heyyy">
+        <div>
+          <button>click</button>
+          <button>click</button>
+          <button>click</button>
+        </div>
+      </Popover>
+    </div>
+  )
+}
+
 export default Story
 
 function IconOne() {

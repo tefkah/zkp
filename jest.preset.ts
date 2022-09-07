@@ -1,6 +1,6 @@
-const nxPreset = require('@nrwl/jest/preset')
+import nxPreset from '@nrwl/jest/preset'
 
-module.exports = {
+export default {
   ...nxPreset,
   globals: {
     'ts-jest': {
@@ -10,10 +10,10 @@ module.exports = {
   },
   testEnvironment: 'node',
   transform: {
-    '^.+\\.[tj]sx?$': 'ts-jest',
+    '^.+\\.[tj]sx?$': ['@swc/jest'],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  extensionsToTreatAsEsm: ['.ts'],
+  // extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },

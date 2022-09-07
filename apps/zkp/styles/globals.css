@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container {
+    @apply mx-auto w-full max-w-[60ch] px-4;
+  }
+  .container-center {
+    @apply flex flex-col align-middle;
+  }
+  /* ... */
+}

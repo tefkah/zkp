@@ -6,7 +6,7 @@ import { NEXT_PUBLIC_NOTE_DIR } from '../../../../utils/paths'
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { cite } = req.query
-  if (Array.isArray(cite)) {
+  if (Array.isArray(cite) || !cite) {
     res.status(404)
     return
   }

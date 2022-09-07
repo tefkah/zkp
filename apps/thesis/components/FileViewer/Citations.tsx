@@ -18,8 +18,8 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { noteStyle } from '../NoteStyle'
 import { CSLCitation } from '@zkp/types'
+import { noteStyle } from '../NoteStyle'
 
 interface CitationProps {
   csl: CSLCitation[]

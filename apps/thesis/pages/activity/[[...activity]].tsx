@@ -1,28 +1,34 @@
 import { Link as ChakraLink, Box, useColorMode, VStack, HStack } from '@chakra-ui/react'
-import { ReactElement, Suspense, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
-import { ChaoticOrbit } from '@uiball/loaders'
-import { getListOfCommitsWithStats } from '../../utils/getListOfCommitsWithStats'
-import { CommitList } from '../../components/Commits/CommitList'
+// import { ChaoticOrbit } from '@uiball/loaders'
 import { CommitPerDateLog, DateCommit } from '@zkp/types'
+import { readFile } from 'fs/promises'
+import { join } from 'path'
+import { DATA_DIR } from '@zkp/paths'
+import { CommitList } from '../../components/Commits/CommitList'
 // import { HistoryGraph } from '../../components/HistoryGraph'
 import { ActivityLayout } from '../../components/Layouts/ActivityLayout'
+import { HistoryGraphProps } from '../../components/HistoryGraph/HistoryGraph'
 
-const HistoryGraph = dynamic(() => import('../../components/HistoryGraph/HistoryGraph'), {
-  ssr: false,
-  suspense: true,
-})
+const HistoryGraph = dynamic<HistoryGraphProps>(
+  () => import('../../components/HistoryGraph/HistoryGraph').then((mod) => mod.HistoryGraph),
+  {
+    ssr: false,
+    // suspense: true,
+  },
+)
 
-export interface SlimCommit {
-  oid: string
-  message: string
-  date: number
-  additions: number
-  deletions: number
-  files: any[]
-}
+// export interface SlimCommit {
+//   oid: string
+//   message: string
+//   date: number
+//   additions: number
+//   deletions: number
+//   files: any[]
+// }
 
 interface ActivityPageProps {
   log: CommitPerDateLog
@@ -57,9 +63,9 @@ export const ActivityPage = (props: ActivityPageProps) => {
       </Head>
       <VStack justifyContent="center" spacing={6} mt={20}>
         <Box w="80%" height={100} backgroundColor={dark ? 'dark.secondary' : 'gray.50'}>
-          <Suspense fallback={<ChaoticOrbit />}>
-            <HistoryGraph data={log} dark={dark} diffs={diffs} setDiffs={setDiffs} />
-          </Suspense>
+          {/* <Suspense fallback={<ChaoticOrbit />}> */}
+          <HistoryGraph data={log} dark={dark} diffs={diffs} setDiffs={setDiffs} />
+          {/* </Suspense> */}
         </Box>
         <HStack spacing={5}>
           <Link
@@ -96,9 +102,11 @@ export default ActivityPage
 export const getStaticPaths = async () => ({ paths: ['/activity'], fallback: 'blocking' })
 
 export const getStaticProps = async () => {
-  const { dataPerDate } = await getListOfCommitsWithStats()
+  console.log(DATA_DIR)
+  const dataPerDate = JSON.parse(await readFile(join(DATA_DIR, 'gitPerDate.json'), 'utf8'))
 
-  return { props: { log: dataPerDate }, revalidate: 60 }
+  console.log(dataPerDate)
+  return { props: { log: dataPerDate }, revalidate: 3600 }
 }
 
 ActivityPage.getLayout = (page: ReactElement) => <ActivityLayout>{page}</ActivityLayout>

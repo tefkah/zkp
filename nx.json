@@ -3,7 +3,9 @@
   "affected": {
     "defaultBase": "main"
   },
-  "cli": {},
+  "cli": {
+    "defaultCollection": "@nrwl/next"
+  },
   "implicitDependencies": {
     "package.json": {
       "dependencies": "*",
@@ -31,6 +33,19 @@
     "@nrwl/react": {
       "application": {
         "babel": true
+      },
+      "libary": {
+        "compiler": "swc",
+        "style": "none",
+        "setParserOptionsProject": true,
+        "buildable": true
+      },
+      "component": {
+        "project": "ui",
+        "export": true,
+        "pascalCaseFiles": true,
+        "pascalCaseDirectory": true,
+        "style": "none"
       }
     },
     "@nrwl/next": {

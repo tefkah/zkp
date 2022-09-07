@@ -20,13 +20,13 @@ import { GoMarkGithub } from 'react-icons/go'
 import { IoIosGitCompare } from 'react-icons/io'
 import { format } from 'date-fns'
 import Head from 'next/head'
+import { Commit } from '@zkp/types'
+import { Giscus } from '@zkp/discus'
+import { DATA_DIR } from '@zkp/paths'
+import { tryReadJSON } from '@zkp/git'
 import { DiffBox } from '../../components/Diff/DiffBox'
 import { ParsedDiff } from '../../services/thesis/parseDiff'
-import { Commit } from '@zkp/types'
-import { getCommits, tryReadJSON } from '../../utils/getListOfCommitsWithStats'
 import { BasicLayout } from '../../components/Layouts/BasicLayout'
-import { DATA_DIR } from '../../utils/paths'
-import { Giscus } from '../../components/Discussions/Giscus'
 
 export const ParsedCommits = (commitData: Commit) =>
   commitData?.files?.map((file) => {
@@ -53,7 +53,10 @@ export const CommitPage = (props: Props) => {
   const headerColor = 'back'
   const parsedText = ParsedCommits(commitData)
 
-  const formattedDate = format(new Date(date * 1000), "MMMM do, yyyy 'at' hh:mm")
+  const formattedDate = format(
+    date ? new Date(date * 1000) : new Date(),
+    "MMMM do, yyyy 'at' hh:mm",
+  )
   return (
     <>
       <Head>
@@ -105,7 +108,7 @@ export const CommitPage = (props: Props) => {
           <Text>
             Showing{' '}
             <Text as="span" fontWeight="bold">
-              {parsedText.length} changed {parsedText.length > 1 ? 'files' : 'file'}
+              {parsedText?.length || 0} changed {parsedText?.length > 1 ? 'files' : 'file'}
             </Text>{' '}
             with
             <Text
@@ -142,28 +145,20 @@ export const CommitPage = (props: Props) => {
   )
 }
 
-export const getStaticPaths = async () => {
-  const commitList = await getCommits()
-  const commitIndexList = commitList
-    .filter(
-      (commit) =>
-        ![
-          '72031577baf73d00536f369657a4bc9c8c5518f0',
-          '8a8d96b1a6ae75dd17f7462c31695823189f6f14',
-        ].includes(commit.oid),
-    )
-    .map((commit) => ({ params: { commit: commit.oid } }))
-  return {
-    paths: commitIndexList,
-    fallback: 'blocking',
-  }
-}
+// export const getStaticPaths = async () => {
+//   const commitList = await getCommits()
+//   const commitIndexList = commitList.map((commit) => ({ params: { commit: commit.oid } }))
+//   return {
+//     paths: commitIndexList,
+//     fallback: 'blocking',
+//   }
+// }
 
 export interface StaticProps {
   params: { commit: string }
 }
 
-export const getStaticProps = async (props: StaticProps) => {
+export const getServerSideProps = async (props: StaticProps) => {
   const { commit } = props.params
 
   const commits = await tryReadJSON(join(DATA_DIR, 'git.json'))
@@ -171,7 +166,7 @@ export const getStaticProps = async (props: StaticProps) => {
 
   const commitData = commits.filter((c: Commit) => c.oid === commit)?.[0] || {}
 
-  return { props: { commitData }, revalidate: 60 }
+  return { props: { commitData } }
 }
 
 CommitPage.getLayout = (page: ReactElement) => <BasicLayout>{page}</BasicLayout>

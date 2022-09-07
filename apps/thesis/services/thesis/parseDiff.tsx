@@ -1,6 +1,5 @@
 // Parse a diff baby
 
-import { Box } from '@chakra-ui/react'
 import { Change } from 'diff'
 import { FileDiff } from '@zkp/types'
 import { ParsedOrg } from './parseOrg'
@@ -31,9 +30,5 @@ export const ParsedDiff = (props: Props) => {
   const { diff } = props
   const diffString = typeof diff === 'string' ? diff : diffToString(diff)
   // TODO: Separate fake from real ids
-  return (
-    <Box>
-      <ParsedOrg currentId="AAA FAKE ID" text={diffString} />
-    </Box>
-  )
+  return <ParsedOrg currentId="AAA FAKE ID" text={diffString} />
 }

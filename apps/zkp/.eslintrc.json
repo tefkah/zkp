@@ -1,0 +1,32 @@
+{
+  "extends": [
+    "plugin:@nrwl/nx/react-typescript",
+    "next",
+    "next/core-web-vitals",
+    "../../.eslintrc.json"
+  ],
+  "ignorePatterns": ["**/katexSlatePlugin.tsx", "!**/*", "**/katexSlatePlugin.tsx"],
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+      "excludedFiles": ["postcss.config.js", "next.config.js", "tailwind.config.js"],
+      "parserOptions": {
+        "project": "apps/zkp/tsconfig.json"
+      },
+      "rules": {
+        "@next/next/no-html-link-for-pages": ["error", "apps/zkp/pages"]
+      }
+    },
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    }
+  ],
+  "env": {
+    "jest": true
+  }
+}

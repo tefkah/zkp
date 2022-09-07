@@ -1,0 +1,35 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+
+  // "compilerOptions": {
+  //   "paths": {
+  //     "@zkp/discus": ["../../discus/src/index.ts"],
+  //     "@zkp/git": ["../../git/src/index.ts"],
+  //     "@zkp/paths": ["../../paths/src/index.ts"],
+  //     "@zkp/urls": ["../../paths/src/lib/urls.ts"],
+  //     "@zkp/popover": ["../../popover/src/index.ts"],
+  //     "@zkp/redis": ["../../redis/src/index.ts"],
+  //     "@zkp/scripts": ["../../scripts/src/index.ts"],
+  //     "@zkp/types": ["../../types/src/index.ts"],
+  //     "@zkp/ui": ["../../ui/src/index.ts"],
+  //     "try-catch": ["../../utils/try-catch/src/index.ts"],
+  //     "zkp-editor": ["../../zkp-editor/src/index.ts"],
+  //     "@zkp/slugify": ["../../utils/slugify/src/index.ts"],
+  //     "@zkp/mdx": ["../../utils/mdx/src/index.ts"],
+  //     "@zkp/mdxSerialize": ["../../utils/mdx/src/lib/mdxSerialize.ts"]
+  //   }
+  // },
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { Text, VStack, HStack, IconButton, useColorModeValue } from '@chakra-ui/react'
+import { IconButton, useColorModeValue } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { useMemo } from 'react'
 import useLocalStorageState from 'use-local-storage-state'
@@ -25,10 +25,7 @@ export const CustomSideBar = (props: Props) => {
   })
   const unemph = useColorModeValue('gray.700', 'gray.300')
 
-  const [sort, setSort] = useLocalStorageState<Sorts>('sidebarSort', {
-    defaultValue: 'alpha',
-    ssr: true,
-  })
+  const [sort, setSort] = useLocalStorageState<Sorts>('sidebarSort', { defaultValue: 'alpha' })
 
   const folderList = useMemo(
     () => fileListReducer(Object.values(fileList), sorts[sort]),
@@ -64,25 +61,27 @@ export const CustomSideBar = (props: Props) => {
           borderRightWidth: 1,
         }}
       >
-        <VStack
-          zIndex={{ base: 1, md: 1 }}
-          pl={1}
-          backgroundColor="back"
-          alignItems="flex-start"
-          overflowX="hidden"
-          overflowY="scroll"
-          w={{ base: '100vw', md: '100%' }}
-          h="100vh"
+        <div
+          // zIndex={{ base: 1, md: 1 }}
+          // pl={1}
+          // backgroundColor="back"
+          // alignItems="flex-start"
+          // overflowX="hidden"
+          // overflowY="scroll"
+          // w={{ base: '100vw', md: '100%' }}
+          // h="100vh"
+          className="z-1 item-start flex h-[100vh] w-[100vw] flex-col items-start gap-2 overflow-scroll bg-slate-50 pl-1 dark:bg-slate-800 md:w-96"
         >
-          <HStack
-            backgroundColor="back"
-            pl={4}
-            w="full"
-            alignItems="center"
-            pos="sticky"
-            pt={3}
-            top={0}
-            zIndex={2}
+          <div
+            // backgroundColor="back"
+            // pl={4}
+            // w="full"
+            // alignItems="center"
+            // pos="sticky"
+            // pt={3}
+            // top={0}
+            // zIndex={2}
+            className="sticky top-0 z-10 flex w-full items-center gap-2 bg-inherit pl-4 pt-3"
           >
             <IconButton
               aria-label="close sidebar"
@@ -92,7 +91,7 @@ export const CustomSideBar = (props: Props) => {
               color={unemph}
             />
 
-            <Text color={unemph}>Files</Text>
+            <p className="text-slate-300 dark:text-slate-700">Files</p>
             <SortButton {...{ sort, setSort, values: ['alpha', 'reverseAlpha'] }}>Aa</SortButton>
             <SortButton {...{ sort, setSort, values: ['created', 'reverseCreated'] }}>
               Created
@@ -100,8 +99,8 @@ export const CustomSideBar = (props: Props) => {
             <SortButton {...{ sort, setSort, values: ['modified', 'reverseModified'] }}>
               Modified
             </SortButton>
-          </HStack>
-          <VStack pl={4} alignItems="flex-start">
+          </div>
+          <div className="flex flex-col items-start gap-2 pl-4">
             {folderList?.children?.map((folderOrFile) => {
               if (folderOrFile.type === 'folder') {
                 return (
@@ -121,8 +120,8 @@ export const CustomSideBar = (props: Props) => {
                 />
               )
             })}
-          </VStack>
-        </VStack>
+          </div>
+        </div>
       </Collapse>
     </>
   )

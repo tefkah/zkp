@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import useSWR from 'swr'
-import makeGenericGraphQlRequest from '../queries/makeGenericGraphQLRequest'
+import { makeGenericGraphQlRequest } from '../queries/makeGenericGraphQLRequest'
 
 export const useGQL = (query: string) => {
   const { data, error } = useSWR('/api/auth/gha')

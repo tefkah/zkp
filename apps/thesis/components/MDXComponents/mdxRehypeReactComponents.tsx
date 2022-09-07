@@ -69,8 +69,8 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
       const { href, className, alias, children } = node
       if (href?.includes('http')) {
         return (
-          <Link href={href as string} passHref>
-            <a href={href}>{children as ReactNode}</a>
+          <Link href={href as string} shallow>
+            {children as ReactNode}
           </Link>
         )
       }
@@ -78,8 +78,8 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
       if (['footnum', 'footref'].includes(className as string)) {
         return (
           <span className="font-bold text-red-500">
-            <Link href={href as string}>
-              <a href="href">{children as ReactNode}</a>
+            <Link href={href as string} shallow>
+              {children as ReactNode}
             </Link>
           </span>
         )
@@ -96,19 +96,14 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
       )
     },
 
-    // ul: UnorderedList,
-    // ol: OrderedList,
-    // li: ListItem,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     blockquote: ({ children, ...quote }) => {
-      console.log(quote)
-      console.log(children)
       // @ts-expect-error idk what to tell you an it's an array
       const [, possibleCallout, ...restOfQuote] = children || []
 
       const [callout, ...restOfCallout] = possibleCallout?.props?.children || []
       if (callout && typeof callout === 'string' && callout.match(/\[!.*?\]/)) {
         const calloutType = callout.replace(/\[!(.*?)\]/, '$1')
-        console.log(restOfQuote)
         return (
           <blockquote
             className="my-8 mr-8 overflow-clip border-red-100 bg-red-50 p-4"
@@ -124,15 +119,11 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
               {restOfCallout && <p className="my-2 text-lg text-red-600">{restOfCallout}</p>}
             </div>
             <div className="bg-red-50 px-4 py-4">
-              {restOfQuote.map((thing, index) => {
+              {restOfQuote.map((thing) => {
                 if (thing === '\n') return null
                 if (thing?.type?.name === 'p') {
                   return (
-                    <p
-                      className="text-sm text-red-800"
-                      color="brand.900"
-                      key={thing?.props?.children?.join('') || index}
-                    >
+                    <p className="text-sm text-red-800" color="brand.900" key={thing.toString()}>
                       {thing.props.children}
                     </p>
                   )
@@ -185,7 +176,7 @@ export const createMdxRehypeReactCompents = (currentId: string): MDXComponents =
           width={500}
           height={500}
           alt={img.alt || 'An image without alt-text: sorry!'}
-          src={(img.src as string).replace(/\.+\/media\//, '/media/')}
+          src={`/media/${(img.src as string).replace(/\.+\/media\//, '')}`}
         />
       </span>
     ),

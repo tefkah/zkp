@@ -1,5 +1,4 @@
 import shallow from 'zustand/shallow'
-import { Container, HStack, LinkBox, LinkOverlay, Text, Tooltip } from '@chakra-ui/react'
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -23,28 +22,46 @@ export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
     (state) => [state.setHighlightedNote, state.unHighlightNotes],
     shallow,
   )
-  return (
-    <Tooltip placement="top" label={name} key={name} openDelay={600} borderWidth={2}>
-      <LinkBox
-        as={Container}
-        py={1}
-        borderRadius="sm"
-        backgroundColor={isActive ? 'brand.50' : undefined}
+  // TODO: Actually make this keyboard navigable
+  return slug ? (
+    <Link href={`/${slug}`} passHref>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a
         onMouseEnter={() => setHighlightedNote(name)}
         onMouseLeave={() => unHighlightNotes()}
-        role="group"
-        onClick={(event) => {
-          if (!event.altKey) {
-            return
-          }
-
-          event.preventDefault()
-        }}
+        className={`w-full py-[2px] hover:text-red-500 ${
+          isActive ? 'bg-red-50 font-bold' : 'font-light'
+        } truncate pl-8 text-sm capitalize transition-colors`}
       >
-        <p
+        {name}
+      </a>
+    </Link>
+  ) : (
+    <p>{name}</p>
+  )
+}
+
+/*
+    // <Tooltip placement="top" label={name} key={name} openDelay={600} borderWidth={2}>
+      // <div
+      //   className={`rounded-sm py-1 ${isActive ? 'red-50' : undefined}`}
+      //   // as={Container}
+      //   // py={1}
+      //   // borderRadius="sm"
+      //   // backgroundColor=
+      //   role="group"
+      //   // onClick={(event) => {
+      //   //   if (!event.altKey) {
+      //   //     return
+      //   //   }
+
+      //   //   event.preventDefault()
+      //   // }}
+      // >
+         <p
           className={`group-hover:text-red-500 ${
             isActive ? 'font-bold' : 'font-regular'
-          } transition-colors capitalize truncate pl-3 text-sm`}
+          } truncate pl-3 text-sm capitalize transition-colors`}
           //            _groupHover={{ color: 'primary' }}
           //           fontWeight={isActive ? '600' : '400'}
           // color={isActive ? currentColor : textColor}
@@ -55,19 +72,9 @@ export const SidebarLink = ({ slug, name }: SidebarLinkProps) => {
           //       noOfLines={1}
           //      pl={3}
         >
-          {slug ? (
-            <Link passHref href={`/${slug}`} key={name}>
-              <LinkOverlay href={`/${slug}`} tabIndex={0}>
-                <span tabIndex={0}>{name}</span>
-              </LinkOverlay>
-            </Link>
-          ) : (
-            <Text>{name}</Text>
-          )}
         </p>
-      </LinkBox>
-    </Tooltip>
-  )
-}
+       </div>
+     // </Tooltip>
+    */
 
 SidebarLink.defaultProps = { slug: undefined }

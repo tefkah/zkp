@@ -1,11 +1,10 @@
-import { Heading, VStack } from '@chakra-ui/react'
 import React, { ReactElement } from 'react'
 import process from 'process'
 import Head from 'next/head'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { getSession } from 'next-auth/react'
-import { Widget } from '../../components/Discussions/Widget'
+import { Widget } from '@zkp/discus'
 import { BasicLayout } from '../../components/Layouts'
 
 interface Props {
@@ -22,8 +21,9 @@ export const FilePage = (props: Props) => {
         <Head>
           <title>{`${title} | Thomas Thesis`}</title>
         </Head>
-        <VStack minH="100vh" px={{ base: 4, md: 16 }} alignItems="start" spacing={12} my={5}>
-          <Heading>{title}</Heading>
+        <div className="my-5 flex min-h-[100vh] flex-col items-start gap-12 px-4 md:px-16">
+          {/* // <VStack minH="100vh" px={{ base: 4, md: 16 }} alignItems="start" spacing={12} my={5}> */}
+          <h2 className="text-2xl font-bold">{title}</h2>
           <Widget
             full
             repo="ThomasFKJorna/thesis-discussions"
@@ -34,14 +34,7 @@ export const FilePage = (props: Props) => {
             categoryId=""
             description=""
           />
-          {/* <Giscus
-            repo={'ThomasFKJorna/thesis-discussions'}
-            repoId="R_kgDOGiFakw"
-            mapping="number"
-            term={number}
-            theme={useColorModeValue('light', 'dark')}
-          /> */}
-        </VStack>
+        </div>
       </>
     )
   )
@@ -55,11 +48,14 @@ export interface ServerSideProps {
 
 export const getServerSideProps = async (props: ServerSideProps) => {
   const session = await getSession({ req: props.req })
+
   if (!session) return { props: { access: false } }
+
   if (!process.env.ALLOWED_EMAILS?.split(',')?.includes(session?.user?.email as string))
     return {
       props: { access: false },
     }
+
   const title = props.params.discussions
   return { props: { access: true, token: session.accessToken, title } }
 }

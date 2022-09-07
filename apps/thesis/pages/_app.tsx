@@ -9,6 +9,7 @@ import { CookiesProvider } from 'react-cookie'
 import { fetcher } from '../utils/fetchers/fetcher'
 import theme from '../theme'
 import '../styles/globals.css'
+import 'katex/dist/katex.css'
 
 type NextPageWithLayoutAndAuth = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode

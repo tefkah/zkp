@@ -1,1 +1,1 @@
-export * from './lib/@zkp/scripts'
+export * from './lib/scripts'

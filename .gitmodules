@@ -1,6 +1,0 @@
-[submodule "note"]
-	path = apps/thesis/notes
-	url = https://github.com/thomasfkjorna/thesis-writings
-[submodule "notes"]
-	path = apps/thesis/notes
-	url = https://github.com/thomasfkjorna/thesis-writing

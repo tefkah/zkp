@@ -1,11 +1,16 @@
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { CommitPerDateLog } from '../api'
-import { NoteHeading } from '../notes'
+import { CommitPerDateLog } from '../api.js'
+import { NoteHeading } from '../notes.js'
 
 /**
  * Props for the file page
  */
 export type FilePageProps = {
+  meta?: {
+    tags: string[]
+    mtime: string | number
+    ctime: string | number
+  }
   /**
    * The source for the current page
    */

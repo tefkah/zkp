@@ -5,13 +5,12 @@ import Head from 'next/head'
 import { useMemo } from 'react'
 import { useCookies } from 'react-cookie'
 import { ChaoticOrbit } from '@uiball/loaders'
+import { DiscussionCard, NewDiscussion } from '@zkp/discus'
+import { CategoryData, DiscussionEdge } from '@zkp/types'
 import { ViewGithub } from '../../components/Buttons/ViewGithub'
-import { NewDiscussion } from '../../components/Discussions/NewDiscussion'
 import { BasicLayout } from '../../components/Layouts'
 import { useDiscussion } from '../../hooks/useDiscussion'
-import { CategoryData, CATEGORY_LIST_QUERY, DiscussionEdge } from '../../queries/getDiscussion'
-import makeGenericGraphQlRequest from '../../queries/makeGenericGraphQLRequest'
-import { DiscussionCard } from '../../components/Discussions/DiscussionCard'
+import { makeGenericGraphQlRequest, CATEGORY_LIST_QUERY } from '../../queries'
 
 export interface Discussions {
   title: string
@@ -28,7 +27,6 @@ interface Props {
 export const DiscussionsPage = (props: Props) => {
   const { access, token, discussionCategories } = props
 
-  console.log(token)
   // TODO: Create a version of useDiscussion which can have data loaded through getStatic/getServerSide props
   const { data, isLoading } = useDiscussion({
     first: 10,
@@ -37,6 +35,7 @@ export const DiscussionsPage = (props: Props) => {
     category: '',
     list: true,
   })
+  console.log(data)
 
   // TODO: Deny access using middleware instead of client side functions
   if (!access) {
@@ -46,7 +45,7 @@ export const DiscussionsPage = (props: Props) => {
   const [cookies, setCookie] = useCookies(['visit'])
   if (!cookies.visit) setCookie('visit', {})
 
-  const { lastVisit, commentCount, replyCount, totalCount } = cookies.visit
+  const { lastVisit, commentCount, replyCount, totalCount } = cookies?.visit || {}
 
   const discussionList = useMemo(
     () =>
@@ -60,6 +59,7 @@ export const DiscussionsPage = (props: Props) => {
       )),
     [data],
   )
+
   return (
     access && (
       <>

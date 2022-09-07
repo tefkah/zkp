@@ -1,7 +1,6 @@
 import { DataBy } from '@zkp/types'
 import { readFile } from 'fs/promises'
-import { Client } from 'redis-om'
-import { JsonRepository } from 'redis-om/dist/repository/repository'
+import { Client, Repository } from 'redis-om'
 import { catchPromise } from 'try-catch'
 import { connect, Note, NoteData, schema } from './redis'
 
@@ -16,7 +15,7 @@ export const syncRedis = async ({ url, token, notes }: Props) => {
 
   await connect(client, process.env.REDIS_URL)
 
-  const repo = new JsonRepository(schema, client)
+  const repo = new Repository(schema, client)
 
   const notePromises: Promise<Note>[] = []
 

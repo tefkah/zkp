@@ -5,7 +5,7 @@ import React, { useCallback, useMemo } from 'react'
 import { DateCommit, CommitDatum, CommitPerDateLog } from '@zkp/types'
 import { Tooltip } from './Tooltip'
 
-interface Props {
+export interface HistoryGraphProps {
   data: CommitPerDateLog
   diffs: { commit1: string; commit2: string } | undefined
   setDiffs: (diffs: { commit1: string; commit2: string }) => void
@@ -16,7 +16,7 @@ interface Props {
 //   import('@nivo/line').then((module) => module.ResponsiveLine),
 // )
 
-export const HistoryGraph = (props: Props) => {
+export const HistoryGraph = (props: HistoryGraphProps) => {
   const { data, diffs, setDiffs } = props
 
   const compareDiffs = (
@@ -99,4 +99,4 @@ export const HistoryGraph = (props: Props) => {
   )
 }
 
-export default HistoryGraph
+// export default HistoryGraph

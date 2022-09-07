@@ -1,0 +1,13 @@
+{
+  // this is just for tsx
+  "extends": "./tsconfig.base.json",
+  "include": [
+    "**/*.ts",
+    "apps/thesis/components/MDXComponents/types.tsx",
+    "libs/git/jest.config.js"
+  ],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
+  "compilerOptions": {
+    "baseUrl": "."
+  }
+}

@@ -2,27 +2,36 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { IError, IGiscussion, GRepositoryDiscussion } from '@zkp/types'
-import { getAppAccessToken } from '../../../queries/getAccessToken'
-import { createDiscussion } from '../../../services/github/createDiscussion'
-import { getDiscussion } from '../../../services/github/getDiscussion'
-import { adaptDiscussion } from '../../../utils/giscus/adapter'
+import {
+  adaptDiscussion,
+  createDiscussion,
+  getAppAccessToken,
+  getDiscussion,
+  filterDiscussionByCommentID,
+} from '@zkp/discus'
+// import { getAppAccessToken } from '../../../queries/getAccessToken'
+// import { createDiscussion } from '../../../services/github/createDiscussion'
+// import { getDiscussion } from '../../../services/github/getDiscussion'
+// import { adaptDiscussion } from '../../../utils/giscus/adapter'
 
 const get = async (req: NextApiRequest, res: NextApiResponse<IGiscussion | IError>) => {
   const params = {
     repo: req.query.repo as string,
     term: req.query.term as string,
-    number: +req.query.number,
+    number: Number(req?.query?.number) || undefined,
     category: req.query.category as string,
-    first: +req.query.first,
-    last: +req.query.last,
+    first: Number(req?.query?.first) || undefined,
+    last: Number(req?.query?.last) || undefined,
     after: req.query.after as string,
     before: req.query.before as string,
+    commentId: req.query.commentId as string,
   }
   if (!params.last && !params.first) {
     params.first = 20
   }
 
   const userToken = req.headers.authorization?.split('Bearer ')[1]
+
   let token = userToken
   if (!token) {
     try {
@@ -87,11 +96,16 @@ const get = async (req: NextApiRequest, res: NextApiResponse<IGiscussion | IErro
     return
   }
 
-  const adapted = adaptDiscussion({ viewer, discussion })
+  let adapted = adaptDiscussion({ viewer, discussion })
   if (!adapted.discussion) {
     res.status(500).json({ error: 'Something went wrong when formatting the disccusion' })
     return
   }
+
+  if (params.commentId) {
+    adapted = filterDiscussionByCommentID(adapted, params.commentId)
+  }
+
   res.status(200).json(adapted)
 }
 
