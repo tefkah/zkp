@@ -1,5 +1,5 @@
 import shallow from 'zustand/shallow'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import useSWR from 'swr'
 import { Waveform } from '@uiball/loaders'
 import dynamic from 'next/dynamic'
@@ -51,7 +51,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
     shallow,
   )
 
-  const removeNote = () => {
+  const removeNote = useCallback(() => {
     const basepath = router.asPath.replace(/(.*?)\?s.*/, '$1')
     if (typeof router.query.s === 'string') {
       router.push(basepath, { pathname: basepath, query: {} }, { shallow: true })
@@ -66,11 +66,12 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         shallow: true,
       },
     )
-  }
+  }, [id, router])
 
   // const { colorMode } = useColorMode()
   const stackData = getStackStateById(id)
-  const { data } = useSWR(`/data/dataBySlug.json`)
+  // const { data } = useSWR(`/data/dataBySlug.json`)
+  const { data } = useSWR(`/api/meta/bySlug/${id}`)
 
   // const obstructedStyle: CSSObject = stackData?.obstructed ? {} : {}
 

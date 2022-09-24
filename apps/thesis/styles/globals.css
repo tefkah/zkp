@@ -9,5 +9,21 @@
   .container-center {
     @apply flex flex-col align-middle;
   }
+  .backlinks > ul {
+    @apply grid gap-x-4 md:grid-cols-2;
+  }
+  .backlinks > ul,
+  .backlinks > ul > li > ul {
+    @apply list-none p-0;
+  }
+  .backlinks {
+    @apply rounded-md bg-red-50 p-4 text-slate-500 dark:bg-red-800;
+  }
+  .backlinks ul ul li {
+    @apply max-h-24 overflow-hidden text-ellipsis  text-sm;
+  }
+  .backlinks li {
+    @apply p-0;
+  }
   /* ... */
 }

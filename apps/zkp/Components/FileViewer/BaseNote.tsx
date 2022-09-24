@@ -1,5 +1,5 @@
 import shallow from 'zustand/shallow'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import useSWR from 'swr'
 import { Waveform } from '@uiball/loaders'
 import dynamic from 'next/dynamic'
@@ -51,7 +51,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
     shallow,
   )
 
-  const removeNote = () => {
+  const removeNote = useCallback(() => {
     const basepath = router.asPath.replace(/(.*?)\?s.*/, '$1')
     if (typeof router.query.s === 'string') {
       router.push(basepath, { pathname: basepath, query: {} }, { shallow: true })
@@ -66,7 +66,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
         shallow: true,
       },
     )
-  }
+  }, [id, router])
 
   // const { colorMode } = useColorMode()
   const stackData = getStackStateById(id)
@@ -83,13 +83,14 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
           stackData?.obstructed ? 'opacity-0' : 'opacity-1'
         }`}
       >
+        <h1>{data[id]?.name}</h1>
         {tags && (
-          <div className="my-2 flex gap-2">
+          <div className="my-1 flex gap-2">
             {!tags?.includes('chapter') &&
               tags?.map((tag: string) => (
                 <div
                   key={tag}
-                  className="rounded-full bg-slate-200 p-2 text-xs font-bold text-slate-600"
+                  className="rounded-full bg-slate-200 py-1 px-2 text-xs font-bold text-slate-600"
                 >
                   {tag}
                 </div>
@@ -144,9 +145,7 @@ export const BaseNote = React.forwardRef((props: NoteProps, ref: any) => {
     <div
       className={`sticky flex
       flex-grow overflow-y-scroll scroll-smooth p-4 transition-all
-      ${
-        stacked ? 'w-[55ch] flex-shrink-0 justify-start border-l-[1px]' : 'w-[90ch] justify-between'
-      }
+      ${stacked ? 'w-[55ch] flex-shrink-0 justify-start border-l-[1px]' : 'w-[90ch] '}
       h-full
        ${bgLight}
       dark:bg-black

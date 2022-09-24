@@ -37,12 +37,12 @@ export const flattenAndSlugifyNotes = async ({ notedir = NEXT_PUBLIC_NOTE_DIR })
       const backs = links
         .map(
           (bac) =>
-            `- [[${bac.slug}${bac.name ? `| ${bac.name}` : ''}]]\n  - ${bac?.sentences?.[0]}`,
+            `- [[${bac.name}${bac.name ? `| ${bac.name}` : ''}]]\n  - ${bac?.sentences?.[0]}`,
         )
         .join('\n')
 
       const path = join(notedir, slug)
-      return appendFile(path, '\n\n## Backlinks \n\n' + backs)
+      return appendFile(path, `<div className="backlinks">\n\n## Backlinks\n\n${backs}\n\n</div>`)
     }),
   )
   console.log('Done flattening and slugifying!')

@@ -43,6 +43,7 @@ export const getFreshDataBySlug = async (noteDir = NEXT_PUBLIC_NOTE_DIR) => {
 const mdxDataBySlug = async (
   dataDir = DATA_DIR,
   noteDir = NEXT_PUBLIC_NOTE_DIR,
+  write = true,
 ): Promise<DataBy> => {
   // if (process.env.NODE === 'development') {
   //   const data = await getFreshDataBySlug(noteDir)
@@ -50,7 +51,7 @@ const mdxDataBySlug = async (
   // }
   const datapath = join(dataDir, 'dataBySlug.json')
   const data = await getFreshDataBySlug(noteDir)
-  await writeFile(datapath, JSON.stringify(data))
+  write && (await writeFile(datapath, JSON.stringify(data)))
   return data
 }
 

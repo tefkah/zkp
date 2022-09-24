@@ -58,16 +58,17 @@ const setup = async ({
   })
 
   await getListOfCommitsWithStats('', '', notedir, gitdir, datadir)
-  const mdxData = await mdxDataBySlug(datadir, notedir)
+  const mdxData = await mdxDataBySlug(datadir, notedir, false)
   console.log('Done creating MDX data')
+
+  const backlinks = await findAllBacklinks({ directory: notedir })
+
   await flattenAndSlugifyNotes({ notedir })
 
   /**
    * Read the notedir once more and add to the mdxData the files that are not in the mdxData as a new entry but with empty stats
    * We infer the name of the file from the first wikilink in the file
    */
-
-  const backlinks = await findAllBacklinks({ directory: notedir })
 
   const files = fs.readdirSync(notedir)
   files.forEach((file) => {

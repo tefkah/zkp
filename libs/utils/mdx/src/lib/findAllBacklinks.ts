@@ -1,5 +1,5 @@
 import { slugify } from '@zkp/slugify'
-import { Backlinks } from '@zkp/types'
+import { Backlinks, DataBy } from '@zkp/types'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
 import readdirp from 'readdirp'
@@ -7,13 +7,16 @@ import { getAllLinkedTexts } from './getAllLinkedTexts'
 
 export const findAllBacklinks = async ({
   directory,
+  mdxData,
 }: {
   directory: string
+  mdxData: DataBy
 }): Promise<Backlinks> => {
-  const files = await readdirp.promise(directory, {
-    fileFilter: ['!*.*', '!.*', '!git*', '!.obsidian*'],
-    directoryFilter: ['!git', '!Archive', '!Components', '!.obsidian'],
-  })
+  // const files = await readdirp.promise(directory, {
+  //   fileFilter: ['!*.*', '!.*', '!git*', '!.obsidian*'],
+  //   directoryFilter: ['!git', '!Archive', '!Components', '!.obsidian'],
+  // })
+  const files = Object.values(mdxData)
 
   const linkRegex = /\[\[(.*?)(\|.*?)?\]\]/g
 
@@ -21,6 +24,7 @@ export const findAllBacklinks = async ({
     files.map(async (file) => {
       const { basename, path } = file
       const links = await getAllLinkedTexts(join(directory, path))
+
       return {
         slug: basename,
         links,
@@ -69,6 +73,7 @@ export const findAllBacklinks = async ({
       }),
     ),
   )
+  console.log(backlinks2)
 
   return backlinks2
 }
