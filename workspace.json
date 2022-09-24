@@ -9,6 +9,7 @@
     "redis": "libs/redis",
     "scripts": "libs/scripts",
     "thesis": "apps/thesis",
+    "frontend": "apps/frontend",
     "thesis-e2e": "apps/thesis-e2e",
     "types": "libs/types",
     "ui": "libs/ui",

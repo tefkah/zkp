@@ -1,0 +1,19 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "license": "GPL-3-0-or-later",
+  "repository": "https://github.com/tefkah/zkp",
+  "author": "Thomas F. K. Jorna <hello@tefkah.com>",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "ct3aMetadata": {
+    "initVersion": "5.13.0"
+  }
+}
