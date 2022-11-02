@@ -11,8 +11,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "dependencies": {},
-  "devDependencies": {},
   "ct3aMetadata": {
     "initVersion": "5.13.0"
   }
