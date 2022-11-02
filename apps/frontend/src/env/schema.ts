@@ -18,9 +18,12 @@ export const serverSchema = z.object({
   REPO_BASE_PATH: z.string().optional(),
   GITHUB_SECRET: z.string(),
   GITHUB_ID: z.string(),
+  GITHUB_ID_DEV: z.string().optional(),
   GITHUB_PAT: z.string(),
   UPSTASH_REDIS_REST_URL: z.string().url(),
   UPSTASH_REDIS_REST_TOKEN: z.string(),
+  ALLOWED_EMAILS: z.string().optional(),
+  GITHUB_SECRET_DEV: z.string().optional(),
 })
 
 /**

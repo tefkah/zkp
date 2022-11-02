@@ -22,6 +22,16 @@ export interface PopoverPropsBase {
   lazy?: boolean
   autoPlacement?: boolean
   portal?: boolean
+  closeDelay?: number
+  openDelay?: number
+  enter?: FloatProps['enter']
+  leave?: FloatProps['leave']
+  enterFrom?: FloatProps['enterFrom']
+  leaveTo?: FloatProps['leaveTo']
+  enterTo?: FloatProps['enterTo']
+  leaveFrom?: FloatProps['leaveFrom']
+  offset?: number
+  shift?: number
 }
 
 export interface PopoverPropsButton extends PopoverPropsBase {
@@ -51,6 +61,16 @@ export const Popover = (props: PopoverProps) => {
     children,
     arrow,
     lazy,
+    closeDelay,
+    openDelay,
+    enter,
+    leave,
+    enterFrom,
+    leaveTo,
+    enterTo,
+    leaveFrom,
+    offset,
+    shift,
   } = props
   const [show, setShow] = useState(false)
   // const [shouldRender, setShouldRender] = useState(!lazy)
@@ -77,12 +97,12 @@ export const Popover = (props: PopoverProps) => {
   const delayClose = () => {
     timer.current = setTimeout(() => {
       setShow(false)
-    }, 150)
+    }, closeDelay)
   }
   const delayOpen = () => {
     timer.current = setTimeout(() => {
       setShow(true)
-    }, 150)
+    }, openDelay)
   }
 
   const toggle = () => {
@@ -94,16 +114,16 @@ export const Popover = (props: PopoverProps) => {
     <Float
       as={Fragment}
       strategy="fixed"
-      enter="transition ease-out duration-200"
+      enter={enter ?? 'transition ease-out duration-200'}
       tailwindcssOriginClass
-      enterFrom="opacity-0 translate-y-2"
-      enterTo="opacity-100 translate-y-0"
-      leave="transition ease-in duration-75"
-      leaveFrom="opacity-100 translate-y-0"
-      leaveTo="opacity-0 translate-y-2"
+      enterFrom={enterFrom ?? 'opacity-0 translate-y-2'}
+      enterTo={enterTo ?? 'opacity-100 translate-y-0'}
+      leave={leave ?? 'transition ease-in duration-75'}
+      leaveFrom={leaveFrom ?? 'opacity-100 translate-y-0'}
+      leaveTo={leaveTo ?? 'opacity-0 translate-y-2'}
       placement={placement || 'bottom-start'}
-      offset={15}
-      shift={6}
+      offset={offset ?? 15}
+      shift={shift ?? 6}
       // flip={1}
       {...(autoPlacement ? { autoPlacement: true } : { flip: 1 })}
       // arrow={arrow}
@@ -138,20 +158,22 @@ export const Popover = (props: PopoverProps) => {
         <Link
           href={href ?? '#'}
           passHref
-          onMouseEnter={open}
-          onMouseLeave={close}
+          onMouseEnter={delayOpen}
+          onFocus={open}
+          onBlur={close}
+          onMouseLeave={delayClose}
           className={`${
             show ? '' : 'text-opacity-90'
-          } group inline-flex items-center rounded-md text-base font-medium  hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+          } group inline-flex items-center rounded-md font-bold  hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75`}
         >
           {title}
         </Link>
       )}
       <div
         onMouseEnter={open}
-        onMouseLeave={close}
+        onMouseLeave={delayClose}
         //  className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl"
-        className="relative z-50 max-h-lg max-h-80 max-w-sm overflow-y-scroll ring-1 ring-black ring-opacity-5"
+        className="relative z-50" // max-h-lg max-h-80 max-w-sm overflow-y-scroll ring-1 ring-black ring-opacity-5"
       >
         {/* {arrow && (
           <Float.Arrow /> //className="absolute h-5 w-5 rotate-45 border border-gray-200 bg-white " />

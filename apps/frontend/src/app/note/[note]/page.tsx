@@ -6,6 +6,7 @@ import { fileListReducer } from '@zkp/folders'
 import { DataBy } from '@zkp/types'
 import Note, { LinkObject } from './Note'
 import { env } from '../../../env/server'
+import { History } from './History'
 
 export const fetchNote = async ({
   repoOwner,
@@ -25,8 +26,7 @@ export const fetchNote = async ({
 }
 const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
 
-const makeURI = (path: string) =>
-  encodeURIComponent(path?.replace(/\.mdx?$/, '')).replace(/%2F/g, '/')
+const makeURI = (path: string) => encodeURIComponent(path?.replace(/\.mdx?$/, ''))
 
 // export const getStaticPaths: GetStaticPaths = async () => {
 //   let dir: {
@@ -148,7 +148,8 @@ export const getProps = async (params: { note: string | string[]; branch?: strin
 
   const currentBranch = branch ?? env.DEFAULT_BRANCH ?? 'main'
 
-  const currentNote = typeof note === 'string' ? note : note?.join('/') ?? 'index'
+  const currentNote =
+    typeof note === 'string' ? decodeURIComponent(note) : note?.join('/') ?? 'index'
 
   const rawNote = await fetchNote({
     repoOwner: env.REPO_OWNER,
@@ -172,11 +173,8 @@ export const getProps = async (params: { note: string | string[]; branch?: strin
       const actualLink = dir.find((file) =>
         new RegExp(`(^|/)${escapeRegExp(title)}\\.md`, 'i').test(file?.path ?? ''),
       )
-      console.log(actualLink)
       return { title, alias, path: actualLink?.path ?? `${title}.md` }
     }) ?? []
-
-  console.log(links)
 
   const linkTexts = (
     await Promise.all(
@@ -201,7 +199,6 @@ export const getProps = async (params: { note: string | string[]; branch?: strin
     )
   ).filter((link) => link.text)
 
-  console.log(linkTexts)
   const linkies = await Promise.all(
     linkTexts?.map(async (link) => {
       const { title, alias, text, path } = link
@@ -230,35 +227,35 @@ export const getProps = async (params: { note: string | string[]; branch?: strin
   const linkMapWithURL = linkies.map(([title, link]) => [`/note/${makeURI(link?.path)}`, link])
   console.log(linkies)
 
-  const fileListToBeReduced: DataBy[string][] = dir.map(
-    (file) =>
-      ({
-        basename: file?.path?.split('/').pop()?.replace('.md', '') ?? 'notes',
-        path: file?.path ?? '/',
-        stats: {
-          atimeMs: 0,
-          mtimeMs: 0,
-          ctimeMs: 0,
-          birthtimeMs: 0,
-          atime: new Date(),
-          mtime: new Date(),
-          ctime: new Date(),
-          birthtime: new Date(),
-        },
-        folders: file?.path?.split('/')?.slice(0, -1) ?? [],
-        slug: file?.path?.replace('.md', '') ?? 'notes',
-        fullPath: file?.path ?? '/',
-        name: file?.path?.split('/').pop()?.replace('.md', '') ?? 'notes',
-      } as DataBy[string]),
-  )
+  // const fileListToBeReduced: DataBy[string][] = dir.map(
+  //   (file) =>
+  //     ({
+  //       basename: file?.path?.split('/').pop()?.replace('.md', '') ?? 'notes',
+  //       path: file?.path ?? '/',
+  //       stats: {
+  //         atimeMs: 0,
+  //         mtimeMs: 0,
+  //         ctimeMs: 0,
+  //         birthtimeMs: 0,
+  //         atime: new Date(),
+  //         mtime: new Date(),
+  //         ctime: new Date(),
+  //         birthtime: new Date(),
+  //       },
+  //       folders: file?.path?.split('/')?.slice(0, -1) ?? [],
+  //       slug: file?.path?.replace('.md', '') ?? 'notes',
+  //       fullPath: file?.path ?? '/',
+  //       name: file?.path?.split('/').pop()?.replace('.md', '') ?? 'notes',
+  //     } as DataBy[string]),
+  // )
 
-  const recursiveDir = fileListReducer(fileListToBeReduced)
+  // const recursiveDir = fileListReducer(fileListToBeReduced)
 
   return {
     rawNote,
     linkies: Object.fromEntries(linkMapWithURL),
     mdx,
-    recursiveDir,
+    // recursiveDir,
   }
 }
 
@@ -275,21 +272,23 @@ const Page = async ({
 }) => {
   const { linkies, mdx } = await getProps({ note })
 
+  console.log(note)
   return (
     <>
       <div>{typeof note !== 'string' && note.slice(0, -1).join('/')}</div>
-      <h1>{note?.at(-1)?.replace(/.+\//, '')}</h1>
+      <h1>{decodeURIComponent(note)?.replace(/.+\//, '')}</h1>
       <div className="flex gap-4">
         {mdx?.frontMatter?.tags?.map((tag) => (
           <span
             key={tag}
-            className="transition-all  text-black border-2 text-sm hover:shadow-[4px_4px_0_#000] bg-white hover:-translate-x-1 hover:-translate-y-1 rounded-full border-black px-2 py-1"
+            className="transition-all  text-black border-2 text-sm hover:shadow-[4px_4px_0_#000] bg-white hover:-translate-x-1 hover:-translate-y-1 rounded-full  border-black px-2 py-1"
           >
             {tag}
           </span>
         ))}
       </div>
       <hr className="bg-black h-0.5" />
+      <History note={note} />
       <Note mdx={mdx} linkies={linkies} />
     </>
   )

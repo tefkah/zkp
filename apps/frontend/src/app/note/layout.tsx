@@ -4,7 +4,7 @@ import { DataBy, NextJSCompatibleStats } from '@zkp/types'
 import Link from 'next/link'
 
 import { env } from '../../env/server'
-import { fetchDir } from './[...note]/page'
+import { fetchDir } from './[note]/page'
 
 const fileListPreReducer = (
   dir: {
@@ -32,7 +32,7 @@ const fileListPreReducer = (
           birthtime: new Date(),
         } as unknown as NextJSCompatibleStats,
         folders: file?.path?.split('/')?.slice(0, -1) ?? [],
-        slug: file?.path?.replace('.md', '') ?? 'notes',
+        slug: encodeURIComponent(file?.path?.replace('.md', '') ?? 'notes'),
         fullPath: file?.path ?? '/',
         name: file?.path?.split('/').pop()?.replace('.md', '') ?? 'notes',
       } as DataBy[string]),
@@ -51,20 +51,20 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   const recursiveDir = fileListReducer(fileListPreReducer(dir))
   return (
     <main className="flex">
-      <nav className="w-64 border-r-2 bg-black text-white border-black h-screen text-sm overflow-y-scroll sticky top-0 p-4">
-        <ul className="w-full gap-2 flex flex-col">
+      <nav className="w-80 border-r bg-white text-black border-black h-screen text-sm overflow-y-scroll sticky top-14 p-4">
+        <ul className="w-full gap-3 flex flex-col">
           {recursiveDir?.children.map((dir) => (
             <li key={dir.name} className="w-full">
               {dir.type === 'folder' && dir?.children?.length > 0 ? (
                 <details>
-                  <summary>{dir?.name}</summary>
-                  <ul>
+                  <summary className="text-base cursor-pointer font-medium">{dir?.name}</summary>
+                  <ul className="px-4">
                     {dir?.children?.map((child) => (
-                      <li key={child?.path ?? child.name}>
+                      <li key={child.name}>
                         {child.type === 'folder' && child?.children?.length > 0 ? (
                           <ul>
                             {child?.children?.map((grandChild) => (
-                              <li key={grandChild?.path ?? grandChild.name}>
+                              <li key={grandChild.name}>
                                 <Link href={`/note/${grandChild?.slug}`}>{grandChild?.name}</Link>
                               </li>
                             ))}
