@@ -61,7 +61,7 @@ const setup = async ({
   const mdxData = await mdxDataBySlug(datadir, notedir, false)
   console.log('Done creating MDX data')
 
-  const backlinks = await findAllBacklinks({ directory: notedir })
+  const backlinks = await findAllBacklinks({ directory: notedir, mdxData })
 
   await flattenAndSlugifyNotes({ notedir })
 

@@ -5,6 +5,7 @@
   "repository": "https://github.com/tefkah/zkp",
   "author": "Thomas F. K. Jorna <hello@tefkah.com>",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

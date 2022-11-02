@@ -20,7 +20,7 @@
     "importHelpers": true,
     "target": "ESNext",
     "module": "ESNext",
-    "lib": ["es2021", "DOM"],
+    "lib": ["es2022", "DOM"],
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,

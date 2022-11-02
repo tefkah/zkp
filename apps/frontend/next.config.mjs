@@ -1,4 +1,4 @@
-import { env } from './src/env/server.mjs'
+import { env } from './src/env/server.ts/index.js'
 
 /**
  * Don't be scared of the generics here.
@@ -15,9 +15,13 @@ function defineNextConfig(config) {
 export default defineNextConfig({
   experimental: {
     newNextLinkBehavior: true,
+    appDir: true,
+    // transpilePackages: ['next-mdx-remote'],
+    esmExternals: true,
   },
   reactStrictMode: true,
   swcMinify: true,
+
   // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
   i18n: {
     locales: ['en'],

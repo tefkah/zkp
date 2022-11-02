@@ -5,7 +5,7 @@ import {
   InferGetServerSidePropsType,
 } from 'next'
 // eslint-disable-next-line import/extensions, import/order
-import { env } from '../env/server.mjs'
+import { env } from '../env/server.js'
 // import Link from 'next/link.js'
 import { MDXRemote, MDXRemoteProps, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { Octokit } from '@octokit/rest'

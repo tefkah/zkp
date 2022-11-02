@@ -135,38 +135,29 @@ export const Popover = (props: PopoverProps) => {
           {span.children}
         </span>
       ) : (
-        <span
+        <Link
+          href={href ?? '#'}
+          passHref
           onMouseEnter={open}
           onMouseLeave={close}
-          className={`
-                ${show ? '' : 'text-opacity-90'}
-                group inline-flex items-center rounded-md text-base font-medium  hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+          className={`${
+            show ? '' : 'text-opacity-90'
+          } group inline-flex items-center rounded-md text-base font-medium  hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
         >
-          <Link href={href ?? '#'} passHref>
-            <a>{title}</a>
-          </Link>
-          {/* {chevron && (
-            <ChevronDownIcon
-              className={`${show ? '' : 'text-opacity-70'}
-                  ml-2 h-5 w-5 text-orange-300 transition duration-150 ease-in-out group-hover:text-opacity-80`}
-              aria-hidden="true"
-            />
-          )} */}
-        </span>
+          {title}
+        </Link>
       )}
-      <span
+      <div
         onMouseEnter={open}
         onMouseLeave={close}
-        className="relative z-50"
         //  className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl"
+        className="relative z-50 max-h-lg max-h-80 max-w-sm overflow-y-scroll ring-1 ring-black ring-opacity-5"
       >
         {/* {arrow && (
           <Float.Arrow /> //className="absolute h-5 w-5 rotate-45 border border-gray-200 bg-white " />
         )} */}
-        <div className="max-h-lg max-h-80 max-w-sm overflow-y-scroll rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-          {children}
-        </div>
-      </span>
+        {children}
+      </div>
     </Float>
     // </span>
   )

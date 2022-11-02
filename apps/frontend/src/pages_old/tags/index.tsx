@@ -3,7 +3,7 @@ import { Redis } from '@upstash/redis'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import yauzl from 'yauzl'
 import { TypeOf } from 'zod'
-import { env } from '../../env/server.mjs'
+import { env } from '../../env/server.js'
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const octokit = new Octokit({

@@ -16,7 +16,12 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "**/*.ts",
@@ -26,7 +31,8 @@
     "**/[*].tsx",
     "**/[...*].tsx",
     "jest.config.js",
-    "../../libs/discus/src/lib/services/giscus/filterDiscussionsByCommentID.ts"
+    "../../libs/discus/src/lib/services/giscus/filterDiscussionsByCommentID.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
