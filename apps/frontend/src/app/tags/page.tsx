@@ -34,7 +34,6 @@ export const getProps = async () => {
     repo: env.REPO,
     ref: env.DEFAULT_BRANCH ?? 'main',
   })
-  console.log(repo)
 
   const tags: Promise<Record<string, string[]>> = new Promise((resolve, reject) => {
     yauzl.fromBuffer(
@@ -67,8 +66,6 @@ export const getProps = async () => {
                   ?.split(',')
                   .filter(Boolean)
 
-                console.log({ file })
-                console.log({ fileTags })
                 fileTags?.forEach((tag) => {
                   if (!tags[tag]) {
                     tags[tag] = []
@@ -95,7 +92,6 @@ export const getProps = async () => {
 
 const TagPage = async () => {
   const props = await getProps()
-  console.log(props)
   const tags = props
   return (
     <div className="prose">

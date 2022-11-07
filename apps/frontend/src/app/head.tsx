@@ -1,3 +1,5 @@
+import { env } from '../env/client'
+
 const Head = async ({
   params,
 }: {
@@ -8,7 +10,9 @@ const Head = async ({
   const title = 'A Thesis about Infinity, Allegedly'
   return (
     <>
-      <title>{title}</title>
+      <title>
+        {title} ⋅ {env.NEXT_PUBLIC_SITE_NAME}
+      </title>
       <meta property="og:title" content={title} />
       <meta property="og:type" content="website" />
       <meta

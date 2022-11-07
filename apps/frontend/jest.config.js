@@ -1,6 +1,6 @@
 const config = {
   displayName: 'thesis',
-  preset: '../../jest.preset.ts',
+  // preset: '../../jest.preset.ts',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -21,5 +21,5 @@ const config = {
   },
 }
 
-// export default config
-module.exports = config
+export default config
+// module.exports = config

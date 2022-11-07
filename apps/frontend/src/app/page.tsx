@@ -1,5 +1,7 @@
+import { HomeModernIcon, MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest'
 import { Redis } from '@upstash/redis'
+import Link from 'next/link'
 import { cache } from 'react'
 import { env } from '../env/server'
 import { fetchCommit, getMDStats } from './note/[note]/History'
@@ -61,42 +63,87 @@ const Page = async () => {
   // const text = await getMarkdown()
 
   const lastFiveCommits = await getLastFiveCommits()
-  console.log(lastFiveCommits)
+  console.dir(lastFiveCommits, { depth: null })
 
   return (
-    <main className="min-h-screen w-screen flex flex-col items-center ">
-      {lastFiveCommits.map((commit) => {
-        const { additions, deletions, filesChanged } = getMDStats(commit)
+    <main className="min-h-screen w-screen px-10">
+      <h1 className="text-4xl font-bold text-center">A Thesis</h1>
+      <div>
+        <h2>
+          <span className="text-2xl font-bold">Lastest updates</span>
+        </h2>
+        <div className="grid grid-cols-5 gap-2">
+          {lastFiveCommits.map((commit) => {
+            const { additions, deletions, filesChanged } = getMDStats(commit)
 
-        return (
-          <div key={commit.sha} className="w-1/2">
-            <h1 className="text-2xl font-bold">{commit.commit.message}</h1>
+            return (
+              <div key={commit.sha} className="border border-black h-full p-3">
+                <p className="text-sm text-stone-400">
+                  {new Date(commit.commit.author.date).toLocaleDateString()}
+                </p>
+                <h2 className="my-1 leading-5 ">{commit.commit.message}</h2>
 
-            <p className="text-sm text-gray-500">
-              {commit.commit.author.name} committed on{' '}
-              {new Date(commit.commit.author.date).toLocaleDateString()}
-            </p>
+                <p className="text-xs text-stone-500 flex items-center">
+                  {additions}
+                  <PlusCircleIcon className="h-4 w-4" /> {deletions}
+                  <MinusCircleIcon className="h-4 w-4" /> {filesChanged}
+                  <HomeModernIcon className="h-4 w-4" />
+                </p>
 
-            <p className="text-sm text-gray-500">
-              {additions} additions, {deletions} deletions, {filesChanged} files changed
-            </p>
-
-            <p className="text-sm">{commit.commit.author.name}</p>
-            <p className="text-sm">{commit.commit.author.date}</p>
-            {/* list three files with the most changes */}
-            <ul>
-              {commit?.files
-                ?.filter((file) => /\.mdx?/.test(file.filename))
-                .map((file) => (
-                  <li key={file.filename}>
-                    <p>{file.filename}</p>
-                    <p>{file.changes}</p>
-                  </li>
-                ))}
-            </ul>
-          </div>
-        )
-      })}
+                {/* list three files with the most changes */}
+                <ul className="mt-4 flex flex-col gap-2 h-full">
+                  {commit?.files
+                    ?.filter((file) => /\.mdx?/.test(file.filename))
+                    ?.sort((a, b) => b.changes - a.changes)
+                    ?.slice(0, 3)
+                    ?.map((file) => (
+                      <li key={file.filename}>
+                        <div className="flex gap-2 text-xs text-stone-400">
+                          {file.filename
+                            .split('/')
+                            .slice(0, -1)
+                            ?.map((dir) => (
+                              <span key={dir}>{dir}</span>
+                            ))}
+                        </div>
+                        <div className="flex w-full justify-between items-baseline">
+                          <h3 className="font-light text-xs text-stone-800">
+                            <Link
+                              href={`/note/${encodeURIComponent(
+                                file.filename.replace(/\.mdx?/, ''),
+                              )}`}
+                            >
+                              {' '}
+                              {file.filename
+                                ?.split('/')
+                                .pop()
+                                ?.replace(/\.mdx?/, '')}{' '}
+                            </Link>
+                          </h3>
+                          <div className="flex flex-col items-end text-xs">
+                            <div className="flex items-center gap-1">
+                              <span>{file.additions} </span>
+                              <PlusCircleIcon className="w-3 h-3" />
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <span>{file.deletions} </span>
+                              <MinusCircleIcon className="w-3 h-3" />
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  {commit?.files?.length > 3 && (
+                    <p className="justify-self-end text-sm">
+                      and {commit?.files?.length - 3} more files...
+                    </p>
+                  )}
+                </ul>
+              </div>
+            )
+          })}
+        </div>
+      </div>
     </main>
   )
 }

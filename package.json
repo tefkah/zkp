@@ -4,6 +4,7 @@
   "license": "GPL-3-0-or-later",
   "scripts": {
     "start": "nx serve",
+    "frontend": "NODE_OPTIONS='--inspect' nx serve frontend",
     "build": "pnpm run setup && pnpm nx build thesis --production --verbose",
     "test": "nx test",
     "scriptx": "TS_NODE_PROJECT=libs/scripts/tsconfig.json ts-node-esm --project=libs/scripts/tsconfig.json --swc",

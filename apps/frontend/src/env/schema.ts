@@ -33,6 +33,9 @@ export const serverSchema = z.object({
  */
 export const clientSchema = z.object({
   // NEXT_PUBLIC_BAR: z.string(),
+  NEXT_PUBLIC_SITE_NAME: z.string().optional(),
+  NEXT_PUBLIC_FILTERED_TAGS: z.string().array().optional(),
+  NEXT_PUBLIC_FILTERED_DIRECTORIES: z.string().array().optional(),
 })
 
 /**

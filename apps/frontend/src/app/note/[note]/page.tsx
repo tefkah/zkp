@@ -6,7 +6,8 @@ import { fileListReducer } from '@zkp/folders'
 import { DataBy } from '@zkp/types'
 import Note, { LinkObject } from './Note'
 import { env } from '../../../env/server'
-import { History } from './History'
+import { fetchCommitsForNote, History } from './History'
+import { PreviousVersions } from './PreviousVersions'
 
 export const fetchNote = async ({
   repoOwner,
@@ -185,8 +186,6 @@ export const getProps = async (params: { note: string | string[]; branch?: strin
           branch: currentBranch,
           note: encodeURIComponent(link.path.replace(/\.mdx?$/, '')),
         })
-        console.log(text)
-        // }) (
         //   await fetch(
         //     `https://raw.githubusercontent.com/${env.REPO_OWNER}/${
         //       env.REPO
@@ -225,7 +224,6 @@ export const getProps = async (params: { note: string | string[]; branch?: strin
   })
 
   const linkMapWithURL = linkies.map(([title, link]) => [`/note/${makeURI(link?.path)}`, link])
-  console.log(linkies)
 
   // const fileListToBeReduced: DataBy[string][] = dir.map(
   //   (file) =>
@@ -260,19 +258,17 @@ export const getProps = async (params: { note: string | string[]; branch?: strin
 }
 
 const Page = async ({
-  params: {
-    // rawNote,
-    // linkies,
-    // mdx,
-    note,
-    // recursiveDir,
-  },
+  params: { note },
+  searchParams,
 }: {
-  params: { note: string | string[] }
+  params: { note: string }
+  searchParams: {
+    history: string
+  }
 }) => {
   const { linkies, mdx } = await getProps({ note })
+  const { history } = searchParams
 
-  console.log(note)
   return (
     <>
       <div>{typeof note !== 'string' && note.slice(0, -1).join('/')}</div>
@@ -288,8 +284,13 @@ const Page = async ({
         ))}
       </div>
       <hr className="bg-black h-0.5" />
-      <History note={note} />
       <Note mdx={mdx} linkies={linkies} />
+      {history && (
+        <>
+          <History note={note} />
+          <PreviousVersions note={note} />
+        </>
+      )}
     </>
   )
 }

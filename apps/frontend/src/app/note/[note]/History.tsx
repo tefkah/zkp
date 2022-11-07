@@ -18,7 +18,7 @@ export const fetchCommitsForNote = cache(
     redisUrl: string
     redisToken: string
     note: string
-  }) => {
+  }): Promise<RestEndpointMethodTypes['repos']['listCommits']['response']['data']> => {
     // check redis for commits
     const redis = new Redis({
       url: redisUrl,
@@ -27,7 +27,9 @@ export const fetchCommitsForNote = cache(
 
     const redisCommits = await redis.get(`commits:${branch}:${note}`)
     if (redisCommits && redisCommits !== 'nil') {
-      return redisCommits
+      return redisCommits as Promise<
+        RestEndpointMethodTypes['repos']['listCommits']['response']['data']
+      >
     }
     // console.log(note)
 
