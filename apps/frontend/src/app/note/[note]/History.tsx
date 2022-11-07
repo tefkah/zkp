@@ -1,88 +1,112 @@
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest'
 import { Redis } from '@upstash/redis'
+import { cache } from 'react'
 import { env } from '../../../env/server'
 
-export const fetchCommitsForNote = async ({
-  repoOwner,
-  repoName,
-  branch,
-  redisUrl,
-  redisToken,
-  note,
-}: {
-  repoOwner: string
-  repoName: string
-  branch: string
-  redisUrl: string
-  redisToken: string
-  note: string
-}) => {
-  // check redis for commits
-  const redis = new Redis({
-    url: redisUrl,
-    token: redisToken,
-  })
+export const fetchCommitsForNote = cache(
+  async ({
+    repoOwner,
+    repoName,
+    branch,
+    redisUrl,
+    redisToken,
+    note,
+  }: {
+    repoOwner: string
+    repoName: string
+    branch: string
+    redisUrl: string
+    redisToken: string
+    note: string
+  }) => {
+    // check redis for commits
+    const redis = new Redis({
+      url: redisUrl,
+      token: redisToken,
+    })
 
-  const redisCommits = await redis.get(`commits:${branch}:${note}`)
-  if (redisCommits && redisCommits !== 'nil') {
-    return redisCommits
-  }
-  // console.log(note)
+    const redisCommits = await redis.get(`commits:${branch}:${note}`)
+    if (redisCommits && redisCommits !== 'nil') {
+      return redisCommits
+    }
+    // console.log(note)
 
-  const octokit = new Octokit({
-    auth: env.GITHUB_PAT,
-  })
+    const octokit = new Octokit({
+      auth: env.GITHUB_PAT,
+    })
 
-  const commits = await octokit.repos.listCommits({
-    owner: repoOwner,
-    repo: repoName,
-    sha: branch,
-    path: note,
-  })
+    const commits = await octokit.repos.listCommits({
+      owner: repoOwner,
+      repo: repoName,
+      sha: branch,
+      path: note,
+    })
 
-  // console.log(commits.data)
-  await redis.set(`commits:${branch}:${note}`, JSON.stringify(commits.data), {
-    ex: 60 * 60,
-  })
+    // console.log(commits.data)
+    await redis.set(`commits:${branch}:${note}`, JSON.stringify(commits.data), {
+      ex: 60 * 60,
+    })
 
-  return commits.data
-}
+    return commits.data
+  },
+)
 
-export const fetchCommit = async ({
-  repoOwner,
-  repoName,
-  redisUrl,
-  redisToken,
-  sha,
-}: {
-  repoOwner: string
-  repoName: string
-  redisUrl: string
-  redisToken: string
-  sha: string
-}): Promise<RestEndpointMethodTypes['repos']['getCommit']['response']['data']> => {
-  const redis = new Redis({
-    url: redisUrl,
-    token: redisToken,
-  })
+export const fetchCommit = cache(
+  async ({
+    repoOwner,
+    repoName,
+    redisUrl,
+    redisToken,
+    sha,
+  }: {
+    repoOwner: string
+    repoName: string
+    redisUrl: string
+    redisToken: string
+    sha: string
+  }): Promise<RestEndpointMethodTypes['repos']['getCommit']['response']['data']> => {
+    const redis = new Redis({
+      url: redisUrl,
+      token: redisToken,
+    })
 
-  const redisCommit = await redis.get(`commit:${sha}`)
-  if (redisCommit && redisCommit !== 'nil') {
-    return redisCommit as Promise<RestEndpointMethodTypes['repos']['getCommit']['response']['data']>
-  }
+    const redisCommit = await redis.get(`commit:${sha}`)
+    if (redisCommit && redisCommit !== 'nil') {
+      return redisCommit as Promise<
+        RestEndpointMethodTypes['repos']['getCommit']['response']['data']
+      >
+    }
 
-  const octokit = new Octokit({
-    auth: env.GITHUB_PAT,
-  })
+    const octokit = new Octokit({
+      auth: env.GITHUB_PAT,
+    })
 
-  const commit = await octokit.repos.getCommit({
-    owner: repoOwner,
-    repo: repoName,
-    ref: sha,
-  })
+    const commit = await octokit.repos.getCommit({
+      owner: repoOwner,
+      repo: repoName,
+      ref: sha,
+    })
 
-  await redis.set(`commit:${sha}`, JSON.stringify(commit.data))
-  return commit.data
+    await redis.set(`commit:${sha}`, JSON.stringify(commit.data))
+    return commit.data
+  },
+)
+
+export const getMDStats = (
+  commit: RestEndpointMethodTypes['repos']['getCommit']['response']['data'],
+) => {
+  const [additions, deletions, filesChanged] = commit.files?.reduce(
+    (acc, file) => {
+      if (!/\.mdx?$/.test(file.filename)) {
+        return acc
+      }
+
+      return [acc[0] + file.additions, acc[1] + file.deletions, acc[2] + 1]
+    },
+    [0, 0, 0],
+  ) ?? [0, 0, 0]
+
+  return { additions, deletions, filesChanged }
 }
 
 const CommitThing = async ({ sha }: { sha: string }) => {
@@ -95,9 +119,10 @@ const CommitThing = async ({ sha }: { sha: string }) => {
   })
 
   const date = new Date(commit.commit.author.date)
-  const additions = commit.stats.additions
-  const deletions = commit.stats.deletions
-  const filesChanged = commit.files.length
+
+  const { additions, deletions, filesChanged } = getMDStats(commit)
+  // const deletions = commit.stats.deletions
+  // const filesChanged = commit.files.length
 
   return (
     <li key={commit.sha} className="flex flex-col space-y-2">
