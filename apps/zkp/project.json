@@ -1,4 +1,5 @@
 {
+  "name": "zkp",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/zkp",
   "projectType": "application",

@@ -1,4 +1,4 @@
-import { withNx } from '@nrwl/next/plugins/with-nx'
+// import { withNx } from '@nrwl/next/plugins/with-nx'
 /**
  * Don't be scared of the generics here.
  * All they do is to give us autocompletion when using this.
@@ -11,21 +11,20 @@ function defineNextConfig(config) {
   return config
 }
 
-export default withNx(
-  defineNextConfig({
-    experimental: {
-      newNextLinkBehavior: true,
-      appDir: true,
-      // transpilePackages: ['next-mdx-remote'],
-      esmExternals: true,
-    },
-    reactStrictMode: true,
-    swcMinify: true,
+export default defineNextConfig({
+  experimental: {
+    newNextLinkBehavior: true,
+    appDir: true,
+    // transpilePackages: ['next-mdx-remote'],
+    esmExternals: true,
+  },
+  reactStrictMode: true,
+  swcMinify: true,
 
-    // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
-    i18n: {
-      locales: ['en'],
-      defaultLocale: 'en',
-    },
-  }),
-)
+  // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
+})
+// )

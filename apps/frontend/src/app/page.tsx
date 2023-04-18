@@ -1,4 +1,5 @@
 import { HomeModernIcon, MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
+import { createClient } from 'redis'
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest'
 import { Redis } from '@upstash/redis'
 import Link from 'next/link'
@@ -15,17 +16,27 @@ const getMarkdown = async () => {
 }
 
 const getLastFiveCommits = cache(async () => {
-  const redis = new Redis({
-    url: env.UPSTASH_REDIS_REST_URL,
-    token: env.UPSTASH_REDIS_REST_TOKEN,
+  // const redis = new Redis({
+  //   url: env.UPSTASH_REDIS_REST_URL,
+  //   token: env.UPSTASH_REDIS_REST_TOKEN,
+  // })
+
+  const redis = createClient({
+    url: env.REDIS_URL,
   })
 
+  redis.on('error', (err) => console.log('Redis Client Error', err))
+
+  await redis.connect()
+
   const cached = await redis.get(`lastFiveCommits:${env.DEFAULT_BRANCH}`)
-  let lastFiveCommits: RestEndpointMethodTypes['repos']['listCommits']['response']['data'] = []
+  console.log({ cached })
+  let lastFiveCommits: RestEndpointMethodTypes['repos']['listCommits']['response']['data'][] = []
 
   if (cached) {
-    lastFiveCommits =
-      cached as RestEndpointMethodTypes['repos']['listCommits']['response']['data'][]
+    lastFiveCommits = JSON.parse(
+      cached,
+    ) as RestEndpointMethodTypes['repos']['listCommits']['response']['data'][]
   }
 
   const octokit = new Octokit({
@@ -38,23 +49,28 @@ const getLastFiveCommits = cache(async () => {
     branch: env.DEFAULT_BRANCH,
     per_page: 5,
   })
+  // console.log(data)
 
-  await redis.set(`lastFiveCommits:${env.DEFAULT_BRANCH}`, data, {
-    ex: 60 * 60,
+  await redis.set(`lastFiveCommits:${env.DEFAULT_BRANCH}`, JSON.stringify(data), {
+    EX: 60 * 60,
   })
 
   const fullCommits = await Promise.all(
     data.map(async (commit) => {
-      const data = await fetchCommit({
+      const comm = await fetchCommit({
         repoOwner: env.REPO_OWNER,
         repoName: env.REPO,
         redisUrl: env.UPSTASH_REDIS_REST_URL,
         redisToken: env.UPSTASH_REDIS_REST_TOKEN,
         sha: commit.sha,
       })
-      return data
+      return comm
     }),
   )
+
+  console.log({ fullCommits })
+
+  await redis.disconnect()
 
   return fullCommits
 })
@@ -81,7 +97,9 @@ const Page = async () => {
                 <p className="text-sm text-stone-400">
                   {new Date(commit.commit.author.date).toLocaleDateString()}
                 </p>
-                <h2 className="my-1 leading-5 ">{commit.commit.message}</h2>
+                <h2 className="my-1 leading-5 ">
+                  <Link href={`/activity/${commit.sha}`}>{commit.commit.message}</Link>
+                </h2>
 
                 <p className="text-xs text-stone-500 flex items-center">
                   {additions}

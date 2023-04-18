@@ -55,5 +55,10 @@
       }
     }
   },
-  "defaultProject": "thesis"
+  "defaultProject": "thesis",
+  "targetDefaults": {
+    "lint": {
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+    }
+  }
 }

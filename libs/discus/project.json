@@ -1,18 +1,23 @@
 {
+  "name": "discus",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/discus/src",
   "projectType": "library",
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nrwl/web:rollup",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/discus",
         "tsConfig": "libs/discus/tsconfig.lib.json",
         "project": "libs/discus/package.json",
         "entryFile": "libs/discus/src/index.ts",
-        "external": ["react/jsx-runtime"],
+        "external": [
+          "react/jsx-runtime"
+        ],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
@@ -26,14 +31,20 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/discus/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/discus/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/discus"],
+      "outputs": [
+        "coverage/libs/discus"
+      ],
       "options": {
         "jestConfig": "libs/discus/jest.config.ts",
         "passWithNoTests": true
@@ -56,7 +67,9 @@
     },
     "build-storybook": {
       "executor": "@nrwl/storybook:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "uiFramework": "@storybook/react",
         "outputPath": "dist/storybook/discus",

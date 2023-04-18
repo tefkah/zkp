@@ -1,17 +1,23 @@
 {
+  "name": "zkp-editor",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/zkp-editor/src",
   "projectType": "library",
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nrwl/web:rollup",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/zkp-editor",
         "tsConfig": "libs/zkp-editor/tsconfig.lib.json",
         "project": "libs/zkp-editor/package.json",
         "entryFile": "libs/zkp-editor/src/index.ts",
-        "external": ["react/jsx-runtime"],
+        "external": [
+          "react/jsx-runtime"
+        ],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
         "compiler": "babel",
         "assets": [
@@ -25,14 +31,20 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/zkp-editor/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/zkp-editor/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/zkp-editor"],
+      "outputs": [
+        "coverage/libs/zkp-editor"
+      ],
       "options": {
         "jestConfig": "libs/zkp-editor/jest.config.ts",
         "passWithNoTests": true
@@ -55,7 +67,9 @@
     },
     "build-storybook": {
       "executor": "@nrwl/storybook:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "uiFramework": "@storybook/react",
         "outputPath": "dist/storybook/zkp-editor",

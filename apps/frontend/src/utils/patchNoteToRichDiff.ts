@@ -50,7 +50,12 @@ export const reversePatch = (patch: string) => {
   return [newHeader, ...newBody].join('\n')
 }
 
-export const patchAndNewTextToRichDiff = (patch: string, text: string, reversed = true) => {
+export const patchAndNewTextToRichDiff = (
+  patch: string,
+  text: string,
+  html = false,
+  reversed = true,
+) => {
   const reversedPatch = reversed ? reversePatch(patch) : patch
   console.log('reversedPatch', reversedPatch)
 
@@ -66,22 +71,34 @@ export const patchAndNewTextToRichDiff = (patch: string, text: string, reversed 
     .map((part) => {
       if (part.added) {
         if (!/\n/.test(part.value)) {
-          return `<ins className="text-emerald-500 bg-emerald-100">${part.value}</ins>`
+          return `<ins class${html ? '' : 'Name'}="text-emerald-500 bg-emerald-100">${
+            part.value
+          }</ins>`
         }
         return part.value
           ?.split('\n')
-          .map((piece) => `<div className="text-emerald-500 bg-emerald-100">\n${piece}\n</div>\n`)
+          .map(
+            (piece) =>
+              `<div class${
+                html ? '' : 'Name'
+              }="text-emerald-500 bg-emerald-100">\n${piece}\n</div>\n`,
+          )
           .join('\n')
       }
 
       if (part.removed) {
         if (!/\n/.test(part.value)) {
-          return `<del className="text-rose-500 bg-rose-100 line-through">${part.value}</del>`
+          return `<del class${html ? '' : 'Name'}="text-rose-500 bg-rose-100 line-through">${
+            part.value
+          }</del>`
         }
         return part.value
           ?.split('\n')
           .map(
-            (line) => `<div className="text-rose-500 bg-rose-100 line-through">\n${line}\n</div>`,
+            (line) =>
+              `<div class${
+                html ? '' : 'Name'
+              }="text-rose-500 bg-rose-100 line-through">\n${line}\n</div>`,
           )
           .join('\n')
       }

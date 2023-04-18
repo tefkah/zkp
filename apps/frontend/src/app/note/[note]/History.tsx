@@ -1,6 +1,7 @@
 import { Octokit, RestEndpointMethodTypes } from '@octokit/rest'
 import { Redis } from '@upstash/redis'
 import { cache } from 'react'
+import { createClient, RedisClientType } from 'redis'
 import { env } from '../../../env/server'
 
 export const fetchCommitsForNote = cache(
@@ -57,24 +58,35 @@ export const fetchCommit = cache(
   async ({
     repoOwner,
     repoName,
-    redisUrl,
-    redisToken,
+    // redisUrl,
+    // redisToken,
+    redisClient,
     sha,
   }: {
     repoOwner: string
     repoName: string
-    redisUrl: string
-    redisToken: string
+    // redisUrl: string
+    // redisToken: string
+    redisClient?: ReturnType<typeof createClient>
     sha: string
   }): Promise<RestEndpointMethodTypes['repos']['getCommit']['response']['data']> => {
-    const redis = new Redis({
-      url: redisUrl,
-      token: redisToken,
-    })
+    // const redis = new Redis({
+    //   url: redisUrl,
+    //   token: redisToken,
+    // })
 
-    const redisCommit = await redis.get(`commit:${sha}`)
-    if (redisCommit && redisCommit !== 'nil') {
-      return redisCommit as Promise<
+    if (!redisClient) {
+      redisClient = createClient({
+        url: env.REDIS_URL,
+      })
+
+      await redisClient.connect()
+    }
+
+    const redisCommitString = await redisClient.get(`commit:${sha}`)
+
+    if (redisCommitString && redisCommitString !== 'nil') {
+      return JSON.parse(redisCommitString) as Promise<
         RestEndpointMethodTypes['repos']['getCommit']['response']['data']
       >
     }
@@ -89,7 +101,7 @@ export const fetchCommit = cache(
       ref: sha,
     })
 
-    await redis.set(`commit:${sha}`, JSON.stringify(commit.data))
+    await redisClient.set(`commit:${sha}`, JSON.stringify(commit.data))
     return commit.data
   },
 )

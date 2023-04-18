@@ -24,6 +24,7 @@ export const serverSchema = z.object({
   UPSTASH_REDIS_REST_TOKEN: z.string(),
   ALLOWED_EMAILS: z.string().optional(),
   GITHUB_SECRET_DEV: z.string().optional(),
+  REDIS_URL: z.string(),
 })
 
 /**
